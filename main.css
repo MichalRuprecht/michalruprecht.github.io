@@ -1,0 +1,215 @@
+html {
+  background-color: #ffffff;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  color: #000;
+  margin-top: 20px;
+}
+
+h1 {
+  font-size: 65px;
+  color: #01265D;
+  font-weight: 400;
+  line-height: 65px;
+}
+
+h2 {
+  font-size: 30px;
+  color: #01265D;
+  font-weight: 400;
+  line-height: 25px;
+}
+
+h3 {
+  font-size: 15px;
+  color: #01265D;
+  line-height: 22px;
+}
+
+h3 a {
+  font-weight: normal;
+  color: #01265D;
+  text-decoration: none;
+}
+
+h3 a:hover {
+  font-weight: bold;
+  color: #01265D;
+}
+
+@media screen and (max-width: 480px){
+h1 {
+  text-align: center;
+  font-size: 34px;
+  line-height: 34px;
+}}
+
+@media screen and (max-width: 480px) {
+h2 {
+  text-align: center;
+  font-size: 25px;
+}}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1% 59% 1% 38% 1%;
+  grid-template-rows: auto;
+  grid-row-gap: 10px;
+  grid-template-areas:
+  ". photo photo photo ."
+  ". header header header ."
+  ". left left left ."
+  ". right right right ."
+  ". footer footer footer .";
+}
+
+.photo {
+  grid-area: photo;
+  align-self: center;
+}
+
+.header {
+  grid-area: header;
+  text-align: center;
+}
+
+.left {
+  grid-area: left;
+}
+
+.right {
+  grid-area: right;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+@media screen and (min-width: 600px) {
+  .grid {
+    display: grid;
+    grid-template-columns: 1% 20% 39% 1% 38% 1%;
+    grid-template-rows: auto;
+    grid-row-gap: 10px;
+    grid-template-areas:
+    ". photo header header header ."
+    ". left left . right ."
+    ". footer footer footer footer .";
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .header {
+    text-align: left;
+  }
+}
+
+.collegebutton {
+  background: #FED41C;
+  color: #01265D;
+  border: 2px solid #01265D;
+  border-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  margin-right: 10px;
+  text-decoration: none;
+  display: inline-block;
+  width: 43px;
+  height: 36px;
+}
+
+.collegebutton:hover {
+  background-color: #FFFFFF;
+  font-weight: bold;
+}
+
+.college {
+  background: #FED41C;
+  color: #01265D;
+  border: 3px solid #01265D;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: normal;
+}
+
+.college h2 {
+  font-size: 25px;
+  line-height: 25px;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.college h3 {
+  font-size: 15px;
+  line-height: 22px;
+  margin: 5px;
+  font-weight: normal;
+}
+
+.college a {
+  color: #007CE1;
+}
+
+.college a:hover {
+  color: #01265D;
+  font-weight: bold;
+}
+
+.news {
+  width: 40%;
+  text-align: center;
+  vertical-align: middle;
+  color: #FED41C;
+  background-color: #01265D;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.news a:hover {
+  color: #01265D;
+  font-weight: bold;
+}
+
+.news:hover {
+  font-weight: 600;
+  color: #01265D;
+  background-color: #FFFFFF;
+}
+
+.collapsible {
+  color: #FED41C;
+  background-color: #01265D;
+  cursor: pointer;
+  border: 1px solid #01265D;
+  border-radius: 8px;
+  text-align: left;
+  outline: none;
+  font-size: 14px;
+}
+
+.collapsible:hover {
+  color: #01265D;
+  font-weight: bold;
+  background-color: #FFFFFF;
+}
+
+.active {
+  background-color: #01265D;
+}
+
+.collapsible:after {
+  content: "Show more";
+}
+
+.active:after {
+  content: "Show less";
+}
+
+.content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}

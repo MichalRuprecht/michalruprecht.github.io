@@ -1,0 +1,30 @@
+url: "https://michalruprecht.com"
+baseurl: ""
+
+title: Michal Ruprecht Official Website
+
+description: Michal T. Ruprecht Official Website
+
+author:
+  name: Michal T. Ruprecht
+
+url-pretty: "michalruprecht.com"
+
+gtag: "'config', 'UA-141229929-1'"
+
+google_analytics: "UA-141229929-1"
+
+exclude:
+  - CHANGELOG.md
+  - CNAME
+  - Dockerfile
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - Vagrantfile
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-paginate
+  - jekyll-sitemap

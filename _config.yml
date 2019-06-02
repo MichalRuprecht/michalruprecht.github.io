@@ -23,8 +23,6 @@ exclude:
   - LICENSE
   - README.md
   - Vagrantfile
-  - main.css
-  - script.js
 
 plugins:
   - jekyll-seo-tag

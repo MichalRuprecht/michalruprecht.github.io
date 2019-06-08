@@ -1,3 +1,7 @@
+---
+layout: default
+title: Michal T. Ruprecht Official Website
+---
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -5,39 +9,48 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="Michal T. Ruprecht Official Website" name="description">
     <meta content="Michal T. Ruprecht" name="author">
-    <link rel="stylesheet" href="main.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" async href="assets/favicon.ico"/>
-    <style media="screen"></style>
-    <script src="script.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh" content="10; url=https://michalruprecht.com" />
+    <link rel="stylesheet" href="main.css">
+    <link rel="shortcut icon" async href="assets/favicon.ico"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>404 Error - Page Not Found</title>
+    <style media="screen"></style>
+    <script src="script.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141229929-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-141229929-1');
+    </script>
   </head>
+
   <body>
     <center><h1>404 Error - Page Not Found​</h1></center>
     <div class="college">
       <h3>
       Click the link below or you will automatically be redirected to ​www.michalruprecht.com in 10 seconds.
       <center><a href="https://michalruprecht.com">Click here to be redirected to the homepage.</a></center>
-    </div>
-  <div class="college">
-    <h3>
-      <center><big>
-        <big>
-          <a href="http://undergrad.michalruprecht.com/">Undergraduate Portfolio</a>｜
-          <a href="https://mruprecht.weebly.com/journalism-portfolio.html">Journalism Portfolio</a>｜
-          <a href="https://mruprecht.weebly.com/english.html" target="_blank">High School Portfolio</a></big>
-        <br /><br />
-          <a class="collegebutton" href="mailto:me@michalruprecht.com" target="_blank"><img src="assets/icons/mail.svg" alt="EMail" style="width:32px;"></a>
-          <a class="collegebutton" href="http://contact.michalruprecht.com/" target="_blank"><img src="assets/icons/contact.svg" alt="Contact" style="width:32px;"></a>
-          <a class="collegebutton" href="https://www.linkedin.com/in/michalruprecht" target="_blank"><img src="assets/icons/linkedin.svg" alt="LinkedIn" style="width:32px;"></a>
-          <a class="collegebutton" href="https://twitter.com/michalruprecht" target="_blank"><img src="assets/icons/twitter.svg" alt="Twitter" style="width:32px;"></a>
-        <br /><br /><hr width="20%" size="2" color="#01265D"></hr>
-        <br />Copyright © 2019 - <script>document.write(new Date().getFullYear())</script> Michal T. Ruprecht. All Rights Reserved.
-      </big></center>
-    </h3>
-  </div>
+    </div></center></h3>
+  <footer>
+  </footer>
+  <script>
+  var coll = document.getElementsByClassName("collapsible");
+  var i;
+
+  for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var content = this.nextElementSibling;
+      if (content.style.maxHeight){
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+    });
+  }
+  </script>
   </body>
 </html>

@@ -7,6 +7,9 @@ site.title: Michal Ruprecht Official Website
 
 description: Michal T. Ruprecht Official Website
 
+name: Michal T. Ruprecht Official Website
+markdown: kramdown
+
 author:
   name: Michal T. Ruprecht
 

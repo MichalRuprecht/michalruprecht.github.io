@@ -127,22 +127,19 @@ h2 {
 }
 
 .collegebuttonsocial {
-  background: #FED41C;
-  color: #01265D;
-  border: 2px solid #01265D;
-  border-radius: 15px;
-  padding-top: 5px;
-  padding-bottom: 2px;
-  margin-right: 10px;
-  text-decoration: none;
-  display: inline-block;
-  width: 43px;
-  height: 36px;
+  width: 40%;
+  text-align: center;
+  vertical-align: middle;
+  color: #FED41C;
+  background-color: #01265D;
+  border-radius: 8px;
+  margin: 10px;
 }
 
 .collegebuttonsocial:hover {
   background-color: #FFFFFF;
-  font-weight: bold;
+  font-weight: 600;
+  color: #01265D;
 }
 
 .collegebuttonsocial a:hover {

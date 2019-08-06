@@ -126,27 +126,69 @@ h2 {
   font-weight: bold;
 }
 
-.collegebuttonsocial {
+.news {
   width: 40%;
   text-align: center;
   vertical-align: middle;
   color: #01265D;
   background-color: #FED41C;
-  border-radius: 8px;
-  border-color: #01265D;
+  border: 8px solid #01265D;
   margin: 10px;
   text-decoration: none;
 }
 
-.collegebuttonsocial:hover {
+.news:hover {
   background-color: #FFFFFF;
   font-weight: 600;
   color: #01265D;
 }
 
-.collegebuttonsocial a:hover {
+.news a:hover {
   color: #01265D;
   font-weight: bold;
+}
+
+
+.collegebuttonsocial
+{
+  display: inline-block;
+  width: 40%;
+    border: 3px solid #01265D;
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-weight: 400;
+  background-color: #01265D;
+  border-radius: 8px;
+  color: #FED41C !important;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 5px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.collegebuttonsocial a
+{
+  color: #FED41C;
+}
+
+.collegebuttonsocial a:hover
+{
+  color: #01265D !important;
+  font-weight: bold;
+}
+
+.collegebuttonsocial:hover
+{
+  text-align: center !important;
+  font-weight: 600;
+  background-color: #ffffff;
+  border-radius: 8px;
+  color: #01265D !important;
 }
 
 .college {

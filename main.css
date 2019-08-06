@@ -126,34 +126,11 @@ h2 {
   font-weight: bold;
 }
 
-.news {
-  width: 40%;
-  text-align: center;
-  vertical-align: middle;
-  color: #01265D;
-  background-color: #FED41C;
-  border: 8px solid #01265D;
-  margin: 10px;
-  text-decoration: none;
-}
-
-.news:hover {
-  background-color: #FFFFFF;
-  font-weight: 600;
-  color: #01265D;
-}
-
-.news a:hover {
-  color: #01265D;
-  font-weight: bold;
-}
-
-
 .collegebuttonsocial
 {
   display: inline-block;
   width: 40%;
-    border: 3px solid #01265D;
+  border: 3px solid #01265D;
   text-align: center !important;
   vertical-align: middle !important;
   font-weight: 400;
@@ -169,6 +146,7 @@ h2 {
   transition-duration: 0.4s;
   overflow-x: auto;
   overflow-y: hidden;
+  text-decoration: none;
 }
 
 .collegebuttonsocial a

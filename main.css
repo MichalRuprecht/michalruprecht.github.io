@@ -253,7 +253,7 @@ h2 {
   font-weight: 900;
   line-height: 50px;
   padding-left: 6px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif !important!;
 }
 
 @media screen and (max-width: 600px) {

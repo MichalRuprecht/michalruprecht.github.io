@@ -242,28 +242,13 @@ h2 {
   font-weight: 900;
   line-height: 50px;
   padding-left: 6px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 @media screen and (max-width: 600px) {
   .title {
     font-size: 40px;
     line-height: 29px;
-  }
-}
-
-.emphasis {
-  font-size: 50px;
-  color: #FF0000;
-  font-weight: 900;
-  line-height: 35px;
-  padding-left: 6px;
-  text-transform: uppercase;
-}
-
-@media screen and (max-width: 600px) {
-  .emphasis {
-    font-size: 20px;
-    line-height: 18px;
   }
 }
 
@@ -283,51 +268,6 @@ h2 {
 
 .textjp {
   grid-area: text;
-}
-
-.myform .entry {
-  background: #FFCB05;
-  color: #00274c;
-  border: 3px solid #00274c;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  height: 30px;
-  width: 300px;
-  font-size: 20px;
-  padding-left: 2px;
-}
-
-.myform .entry:hover {
-  background: #FFFFFF;
-  font-weight: 700;
-}
-
-.myform .submit {
-  background: #FFCB05;
-  color: #00274c;
-  border: 3px solid #00274c;
-  border-radius: 8px;
-  height: 30px;
-  width: 100px;
-  font-size: 20px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  outline: none;
-  text-align: center;
-}
-
-.myform .submit:hover {
-  background: #FFFFFF;
-  font-weight: 700;
-}
-
-.grecaptcha-badge {
-  visibility: hidden;
-}
-
-.smalltext {
-  font-size: 9px;
-  line-height: 9px;
 }
 
 .containerjp {

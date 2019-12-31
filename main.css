@@ -255,7 +255,7 @@ h2 {
 .gridjp {
   display: grid;
   grid-template-columns: 2% 10% 76% 10% 2%;
-  width: 100%;
+  width: auto;
   grid-template-rows: auto;
   grid-row-gap: 10px;
   grid-template-areas:

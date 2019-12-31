@@ -235,3 +235,142 @@ h2 {
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
+
+.title {
+  font-size: 70px;
+  color: #00274c;
+  font-weight: 900;
+  line-height: 50px;
+  padding-left: 6px;
+}
+
+@media screen and (max-width: 600px) {
+  .title {
+    font-size: 40px;
+    line-height: 29px;
+  }
+}
+
+.emphasis {
+  font-size: 50px;
+  color: #FF0000;
+  font-weight: 900;
+  line-height: 35px;
+  padding-left: 6px;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+  .emphasis {
+    font-size: 20px;
+    line-height: 18px;
+  }
+}
+
+.container {
+  background: #FFCB05;
+  color: #00274c;
+  border: 4px solid #00274c;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: normal;
+}
+
+.container h3 {
+  font-size: 15px;
+  line-height: 22px;
+  margin: 5px;
+  font-weight: 500;
+  font-weight: normal;
+}
+
+.container a {
+  color: #007CE1;
+}
+
+.container a:hover {
+  color: #01265D;
+  font-weight: bold;
+}
+
+.containerbutton {
+  background: #FFCB05;
+  color: #00274c;
+  border: 2px solid #00274c;
+  border-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  margin-right: 10px;
+  text-decoration: none;
+  display: inline-block !important;
+  width: 43px;
+  height: 36px;
+}
+
+.containerbutton:hover {
+  background-color: #FFFFFF;
+  font-weight: bold;
+}
+
+.gridjp {
+  display: grid;
+  grid-template-columns: 2% 10% 76% 10% 2%;
+  grid-template-rows: auto;
+  grid-row-gap: 10px;
+  grid-template-areas:
+  ". . photojp . ."
+  ". textjp textjp textjp ."
+}
+
+.photojp {
+  grid-area: photo;
+}
+
+.textjp {
+  grid-area: text;
+}
+
+.myform .entry {
+  background: #FFCB05;
+  color: #00274c;
+  border: 3px solid #00274c;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  height: 30px;
+  width: 300px;
+  font-size: 20px;
+  padding-left: 2px;
+}
+
+.myform .entry:hover {
+  background: #FFFFFF;
+  font-weight: 700;
+}
+
+.myform .submit {
+  background: #FFCB05;
+  color: #00274c;
+  border: 3px solid #00274c;
+  border-radius: 8px;
+  height: 30px;
+  width: 100px;
+  font-size: 20px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+}
+
+.myform .submit:hover {
+  background: #FFFFFF;
+  font-weight: 700;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.smalltext {
+  font-size: 9px;
+  line-height: 9px;
+}

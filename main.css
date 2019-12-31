@@ -259,7 +259,7 @@ h2 {
   grid-row-gap: 10px;
   grid-template-areas:
   ". . photojp . ."
-  ". textjp textjp textjp .";
+  ". textjp textjp textjp ."
 }
 
 .photojp {

@@ -260,7 +260,7 @@ h2 {
   grid-template-areas:
   ". . photojp . ."
   ". textjp textjp textjp ."
-  ". footer footer footer footer .";
+  ". footer footer footer .";
 }
 
 .photojp {

@@ -63,8 +63,6 @@ h2 {
   ". header header header ."
   ". left left left ."
   ". right right right ."
-  ". photojp photojp photojp ."
-  ". textjp textjp textjp ."
   ". footer footer footer .";
 }
 
@@ -90,14 +88,6 @@ h2 {
   grid-area: footer;
 }
 
-.photojp {
-  grid-area: photo;
-}
-
-.textjp {
-  grid-area: text;
-}
-
 @media screen and (min-width: 600px) {
   .grid {
     display: grid;
@@ -107,10 +97,9 @@ h2 {
     grid-template-areas:
     ". photo header header header ."
     ". left left . right ."
-    ". photojp photojp photojp photojp ."
-    ". textjp textjp textjp textjp ."
     ". footer footer footer footer .";
   }
+}
 
 @media screen and (min-width: 600px) {
   .header {
@@ -245,21 +234,4 @@ h2 {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
-}
-
-.title {
-  font-size: 70px;
-  color: #00274c;
-  font-weight: 900;
-  line-height: 50px;
-  padding-left: 6px;
-  font-family: 'Montserrat', sans-serif !important;
-}
-
-@media screen and (max-width: 600px) {
-  .title {
-    font-size: 40px;
-    line-height: 29px;
-    font-family: 'Montserrat', sans-serif !important;
-  }
 }

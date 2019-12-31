@@ -68,7 +68,8 @@ h2 {
 
 .photo {
   grid-area: photo;
-  align-self: center;
+  align-self: center !important;
+  align-content: center !important;
 }
 
 .header {

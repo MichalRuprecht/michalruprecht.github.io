@@ -63,6 +63,8 @@ h2 {
   ". header header header ."
   ". left left left ."
   ". right right right ."
+  ". photojp photojp photojp ."
+  ". textjp textjp textjp ."
   ". footer footer footer .";
 }
 
@@ -88,6 +90,14 @@ h2 {
   grid-area: footer;
 }
 
+.photojp {
+  grid-area: photo;
+}
+
+.textjp {
+  grid-area: text;
+}
+
 @media screen and (min-width: 600px) {
   .grid {
     display: grid;
@@ -97,9 +107,10 @@ h2 {
     grid-template-areas:
     ". photo header header header ."
     ". left left . right ."
-    ". footer footer footer footer .";
+    ". footer footer footer footer ."
+    ". photojp photojp photojp photojp ."
+    ". textjp textjp textjp textjp .";
   }
-}
 
 @media screen and (min-width: 600px) {
   .header {
@@ -250,22 +261,4 @@ h2 {
     font-size: 40px;
     line-height: 29px;
   }
-}
-
-.gridjp {
-  display: grid;
-  grid-template-columns: 2% 10% 76% 10% 2%;
-  grid-template-rows: auto;
-  grid-row-gap: 10px;
-  grid-template-areas:
-  ". . photojp . ."
-  ". textjp textjp textjp .";
-}
-
-.photojp {
-  grid-area: photo;
-}
-
-.textjp {
-  grid-area: text;
 }

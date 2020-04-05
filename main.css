@@ -59,10 +59,10 @@ h2 {
   grid-template-rows: auto;
   grid-row-gap: 10px;
   grid-template-areas:
-  ". photo photo photo ."
   ". header header header ."
   ". left left left ."
   ". right right right ."
+  ". photo photo photo ."
   ". footer footer footer .";
 }
 

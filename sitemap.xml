@@ -25,10 +25,15 @@
   <priority>1</priority>
 </url>
 <url>
+  <loc>https://scholar.google.pl/citations?user=BTPISPEAAAAJ&hl=pl&oi=ao</loc>
+  <changefreq>weekly</changefreq>
+  <priority>1</priority>
+</url>
+<url>
   <loc>https://www.researchgate.net/profile/Michal-Ruprecht</loc>
   <changefreq>weekly</changefreq>
   <priority>0.6</priority>
-</url>  
+</url>
 <url>
   <loc>https://pubmed.ncbi.nlm.nih.gov/33492991/</loc>
   <changefreq>weekly</changefreq>

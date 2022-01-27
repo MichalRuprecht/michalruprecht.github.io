@@ -109,7 +109,7 @@ h2 {
 }
 
 .collegebutton {
-  background: #f0f0af;
+  background: #FED41C;
   color: #01265D;
   border: 2px solid #01265D;
   border-radius: 15px;
@@ -137,7 +137,7 @@ h2 {
   font-weight: 400;
   background-color: #01265D;
   border-radius: 8px;
-  color: #f0f0af !important;
+  color: #FED41C !important;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -152,7 +152,7 @@ h2 {
 
 .collegebuttonsocial a
 {
-  color: #f0f0af;
+  color: #FED41C;
 }
 
 .collegebuttonsocial a:hover
@@ -171,7 +171,7 @@ h2 {
 }
 
 .college {
-  background: #f0f0af;
+  background: #FED41C;
   color: #01265D;
   border: 3px solid #01265D;
   border-radius: 8px;
@@ -203,7 +203,7 @@ h2 {
 }
 
 .collapsible {
-  color: #f0f0af;
+  color: #FED41C;
   background-color: #01265D;
   cursor: pointer;
   border: 1px solid #01265D;

@@ -170,6 +170,15 @@ h2 {
   color: #01265D !important;
 }
 
+.archive {
+  background: #fffff;
+  color: #01265D;
+  border: 3px solid #ff0000;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: normal;
+}
+
 .college {
   background: #FED41C;
   color: #01265D;

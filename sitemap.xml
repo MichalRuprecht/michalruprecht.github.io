@@ -20,7 +20,22 @@
   <priority>1</priority>
 </url>
 <url>
+  <loc>http://www.publichealthnewswire.org/?author=michal-ruprecht</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
   <loc>https://scholar.google.pl/citations?user=BTPISPEAAAAJ&hl=pl&oi=ao</loc>
+  <changefreq>weekly</changefreq>
+  <priority>1</priority>
+</url>
+<url>
+  <loc>https://www.ncbi.nlm.nih.gov/myncbi/1tYFkrQ2AuxcDR/bibliography/public/</loc>
+  <changefreq>weekly</changefreq>
+  <priority>1</priority>
+</url>
+<url>
+  <loc>https://orcid.org/0000-0002-2787-1119?lang=en</loc>
   <changefreq>weekly</changefreq>
   <priority>1</priority>
 </url>

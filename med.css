@@ -125,6 +125,8 @@ h2 {
 .collegebutton:hover {
   background-color: #000000;
   font-weight: bold;
+}
+.collegebutton:hover img{
   -webkit-filter: invert(100%); /* Safari/Chrome */
   filter: invert(100%);
 }

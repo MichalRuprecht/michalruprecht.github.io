@@ -123,8 +123,10 @@ h2 {
 }
 
 .collegebutton:hover {
-  background-color: #FFFFFF;
+  background-color: #000000;
   font-weight: bold;
+  -webkit-filter: invert(100%); /* Safari/Chrome */
+  filter: invert(100%);
 }
 
 .collegebuttonsocial

@@ -11,33 +11,33 @@ body {
 
 h1 {
   font-size: 65px;
-  color: #01265D;
+  color: #000000;
   font-weight: 400;
   line-height: 65px;
 }
 
 h2 {
   font-size: 30px;
-  color: #01265D;
+  color: #000000;
   font-weight: 400;
   line-height: 25px;
 }
 
 h3 {
   font-size: 15px;
-  color: #01265D;
+  color: #000000;
   line-height: 22px;
 }
 
 h3 a {
   font-weight: normal;
-  color: #01265D;
+  color: #000000;
   text-decoration: none;
 }
 
 h3 a:hover {
   font-weight: bold;
-  color: #01265D;
+  color: #000000;
 }
 
 @media screen and (max-width: 480px){
@@ -109,9 +109,9 @@ h2 {
 }
 
 .collegebutton {
-  background: #FED41C;
-  color: #01265D;
-  border: 2px solid #01265D;
+  background: #FFFFFF;
+  color: #000000;
+  border: 2px solid #000000;
   border-radius: 15px;
   padding-top: 5px;
   padding-bottom: 2px;
@@ -131,13 +131,13 @@ h2 {
 {
   display: inline-block;
   width: 40%;
-  border: 3px solid #01265D;
+  border: 3px solid #000000;
   text-align: center !important;
   vertical-align: middle !important;
   font-weight: 400;
-  background-color: #01265D;
+  background-color: #000000;
   border-radius: 8px;
-  color: #FED41C !important;
+  color: #FFFFFF !important;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -152,12 +152,12 @@ h2 {
 
 .collegebuttonsocial a
 {
-  color: #FED41C;
+  color: #FFFFFF;
 }
 
 .collegebuttonsocial a:hover
 {
-  color: #01265D !important;
+  color: #000000 !important;
   font-weight: bold;
 }
 
@@ -167,13 +167,13 @@ h2 {
   font-weight: 600;
   background-color: #ffffff;
   border-radius: 8px;
-  color: #01265D !important;
+  color: #000000 !important;
 }
 
 .college {
-  background: #FED41C;
-  color: #01265D;
-  border: 3px solid #01265D;
+  background: #FFFFFF;
+  color: #000000;
+  border: 3px solid #000000;
   border-radius: 8px;
   margin-bottom: 15px;
   font-weight: normal;
@@ -198,15 +198,15 @@ h2 {
 }
 
 .college a:hover {
-  color: #01265D;
+  color: #000000;
   font-weight: bold;
 }
 
 .collapsible {
-  color: #FED41C;
-  background-color: #01265D;
+  color: #FFFFFF;
+  background-color: #000000;
   cursor: pointer;
-  border: 1px solid #01265D;
+  border: 1px solid #000000;
   border-radius: 8px;
   text-align: left;
   outline: none;
@@ -214,13 +214,13 @@ h2 {
 }
 
 .collapsible:hover {
-  color: #01265D;
+  color: #000000;
   font-weight: bold;
   background-color: #FFFFFF;
 }
 
 .active {
-  background-color: #01265D;
+  background-color: #000000;
 }
 
 .collapsible:after {

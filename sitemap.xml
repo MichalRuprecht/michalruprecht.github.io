@@ -25,6 +25,11 @@
   <priority>0.7</priority>
 </url>
 <url>
+  <loc>https://www.thenationshealth.org/search/author1%3AMichal%2BRuprecht%2B</loc>
+  <changefreq>daily</changefreq>
+  <priority>0.7</priority>
+</url>
+<url>
   <loc>https://scholar.google.pl/citations?user=BTPISPEAAAAJ&hl=pl&oi=ao</loc>
   <changefreq>weekly</changefreq>
   <priority>1</priority>

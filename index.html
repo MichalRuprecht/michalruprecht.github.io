@@ -13,7 +13,7 @@ title: Home - Michal Ruprecht
         </div>
         <div class="college">
           <h3><img src="https://michalruprecht.com/assets/profile.svg" width="150" style="float:left;margin:5px 5px;border-radius:8px;filter: grayscale(0%)">
-            My name is Michal Ruprecht. I am a metro Detroit-based <b>health</b> and <b>science journalist</b> finishing my B.S. in neuroscience at the <b>University of Michigan</b>.
+            My name is Michal Ruprecht <a class="playSound" ><img src="https://michalruprecht.com/assets/sound.svg" height="16px"></a>. I am a metro Detroit-based <b>health</b> and <b>science journalist</b> finishing my B.S. in neuroscience at the <b>University of Michigan</b>.
 
             <br><br>I am the son of immigrants who fled an oppressive political system, where the freedom of the press was nonexistent. I grew up in the borough of Queens, N.Y., a community that oftentimes avoided the doctor’s office because of historical injustices.
 
@@ -75,21 +75,5 @@ title: Home - Michal Ruprecht
 
     <footer>
     </footer>
-
-    <script>
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight){
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + "px";
-        }
-      });
-    }
-    </script>
   </body>
 </html>

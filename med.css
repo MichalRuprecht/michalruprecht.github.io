@@ -268,16 +268,15 @@ h2 {
 }
 
 figure {
-    display: flex;
-    border: 1px #ffffff solid;
-    flex-flow: column;
-    padding: 5px;
-    margin: auto;
+  border: 1px #cccccc solid;
+  padding: 4px;
+  margin: auto;
 }
 
 figcaption {
-    background-color: #000000;
-    color: #ffffff;
-    padding: 3px;
-    text-align: center;
+  background-color: black;
+  color: white;
+  font-style: italic;
+  padding: 2px;
+  text-align: center;
 }

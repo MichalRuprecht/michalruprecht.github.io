@@ -269,10 +269,10 @@ h2 {
 
 figure {
     display: flex;
+    border: 1px #ffffff solid;
     flex-flow: column;
     padding: 5px;
     margin: auto;
-    width: auto;
 }
 
 figcaption {

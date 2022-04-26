@@ -272,6 +272,7 @@ figure {
     flex-flow: column;
     padding: 5px;
     margin: auto;
+    width: auto;
 }
 
 figcaption {

@@ -266,3 +266,17 @@ h2 {
   align-content: center;
   width: 100%;
 }
+
+figure {
+    display: flex;
+    flex-flow: column;
+    padding: 5px;
+    margin: auto;
+}
+
+figcaption {
+    background-color: #222;
+    color: #000000;
+    padding: 3px;
+    text-align: center;
+}

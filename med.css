@@ -268,15 +268,14 @@ h2 {
 }
 
 figure {
-  border: 1px #cccccc solid;
-  padding: 4px;
-  margin: auto;
+    display: inline-block;
+    border: 1px white;
+    margin: 20px; /* adjust as needed */
 }
-
-figcaption {
-  background-color: black;
-  color: white;
-  font-style: italic;
-  padding: 2px;
-  text-align: center;
+figure img {
+    vertical-align: top;
+}
+figure figcaption {
+    border: 1px white;
+    text-align: left;
 }

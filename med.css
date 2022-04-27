@@ -1,281 +1,58 @@
-html {
-  background-color: #ffffff;
-}
+<!DOCTYPE html>
+	<html>
+		<head>
+			<title>{{ page.title }}</title>
+			<!-- link to main stylesheet -->
+			<meta charset="utf-8">
+	    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+	    <meta content="Michal T. Ruprecht Official Website" name="description">
+	    <meta name="keywords" content="Michal T. Ruprecht, Michal Ruprecht">
+	    <meta content="Michal T. Ruprecht" name="author">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+			<style> @import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+			@import url('https://fonts.googleapis.com/css?family=Merriweather:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+			</style>
+	    <link rel="stylesheet" type="text/css" href="https://michalruprecht.github.io/med.css">
+	    <link rel="shortcut icon" async href="https://michalruprecht.github.io/assets/favicon.ico"/>
+	    <style media="screen"></style>
+	    <script src="https://michalruprecht.github.io/script.js"></script>
+	    <!-- Global site tag (gtag.js) - Google Analytics -->
+	    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141229929-1"></script>
+	    <script>
+	      window.dataLayer = window.dataLayer || [];
+	      function gtag(){dataLayer.push(arguments);}
+	      gtag('js', new Date());
+	      gtag('config', 'UA-141229929-1');
+	    </script>
+		</head>
+		<body>
+			<div class="container">
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  font-weight: 300;
-  color: #000;
-  margin-top: 20px;
-}
+			{{ content }}
 
-h1 {
-  font-size: 65px;
-  color: #000000;
-  font-weight: 400;
-  line-height: 65px;
-}
-
-h2 {
-  font-size: 30px;
-  color: #000000;
-  font-weight: 400;
-  line-height: 25px;
-}
-
-h3 {
-  font-size: 15px;
-  color: #000000;
-  line-height: 22px;
-}
-
-h3 a {
-  font-weight: normal;
-  color: #000000;
-  text-decoration: none;
-}
-
-h3 a:hover {
-  font-weight: bold;
-  color: #000000;
-}
-
-@media screen and (max-width: 480px){
-h1 {
-  text-align: center;
-  font-size: 34px;
-  line-height: 34px;
-}}
-
-@media screen and (max-width: 480px) {
-h2 {
-  text-align: center;
-  font-size: 25px;
-}}
-
-.grid {
-  display: grid;
-  grid-template-columns: 1% 59% 1% 38% 1%;
-  grid-template-rows: auto;
-  grid-row-gap: 10px;
-  grid-template-areas:
-  ". header header header ."
-  ". left left left ."
-  ". right right right ."
-  ". photo photo photo ."
-  ". footer footer footer .";
-}
-
-.photo {
-  grid-area: photo;
-  align-self: center !important;
-  align-content: center !important;
-}
-
-.header {
-  grid-area: header;
-  text-align: center;
-}
-
-.left {
-  grid-area: left;
-}
-
-.right {
-  grid-area: right;
-}
-
-.footer {
-  grid-area: footer;
-}
-
-@media screen and (min-width: 600px) {
-  .grid {
-    display: grid;
-    grid-template-columns: 1% 20% 39% 1% 38% 1%;
-    grid-template-rows: auto;
-    grid-row-gap: 10px;
-    grid-template-areas:
-    ". photo header header header ."
-    ". left left . right ."
-    ". footer footer footer footer .";
-  }
-}
-
-@media screen and (min-width: 600px) {
-  .header {
-    text-align: left;
-  }
-}
-
-.collegebutton {
-  background: #FFFFFF;
-  color: #000000;
-  border: 2px solid #000000;
-  border-radius: 15px;
-  padding-top: 5px;
-  padding-bottom: 2px;
-  margin-right: 10px;
-  text-decoration: none;
-  display: inline-block;
-  width: 43px;
-  height: 36px;
-}
-
-.collegebutton:hover {
-  background-color: #000000;
-  font-weight: bold;
-}
-.collegebutton:hover img{
-  -webkit-filter: invert(100%); /* Safari/Chrome */
-  filter: invert(100%);
-}
-
-.collegebuttonsocial
-{
-  display: inline-block;
-  width: 40%;
-  border: 3px solid #000000;
-  text-align: center !important;
-  vertical-align: middle !important;
-  font-weight: 400;
-  background-color: #000000;
-  border-radius: 8px;
-  color: #FFFFFF !important;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 5px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  overflow-x: auto;
-  overflow-y: hidden;
-  text-decoration: none;
-}
-
-.collegebuttonsocial a
-{
-  color: #FFFFFF;
-}
-
-.collegebuttonsocial a:hover
-{
-  color: #000000 !important;
-  font-weight: bold;
-}
-
-.collegebuttonsocial:hover
-{
-  text-align: center !important;
-  font-weight: 600;
-  background-color: #ffffff;
-  border-radius: 8px;
-  color: #000000 !important;
-}
-
-.college {
-  background: #FFFFFF;
-  color: #000000;
-  border: 3px solid #000000;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  font-weight: normal;
-  overflow: auto;
-  height:auto;
-}
-
-.college h2 {
-  font-size: 25px;
-  line-height: 25px;
-  margin: 5px;
-  font-weight: bold;
-}
-
-.college h3 {
-  font-size: 15px;
-  line-height: 22px;
-  margin: 5px;
-  font-weight: normal;
-}
-
-.college a {
-  color: #007CE1;
-}
-
-.college a:hover {
-  color: #000000;
-  font-weight: bold;
-}
-
-.collapsible {
-  color: #FFFFFF;
-  background-color: #000000;
-  cursor: pointer;
-  border: 1px solid #000000;
-  border-radius: 8px;
-  text-align: left;
-  outline: none;
-  font-size: 14px;
-}
-
-.collapsible:hover {
-  color: #000000;
-  font-weight: bold;
-  background-color: #FFFFFF;
-}
-
-.active {
-  background-color: #000000;
-}
-
-.collapsible:after {
-  content: "Show more";
-}
-
-.active:after {
-  content: "Show less";
-}
-
-.content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
-}
-
-.title {
-  font-size: 70px;
-  color: #000000;
-  font-weight: 900;
-  line-height: 50px;
-  padding-left: 6px;
-  font-family: 'Montserrat', sans-serif !important;
-}
-
-@media screen and (max-width: 600px) {
-  .title {
-    font-size: 40px;
-    line-height: 29px;
-  }
-}
-
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  align-content: center;
-  width: 100%;
-}
-
-figure {
-    display: inline-block;
-    border: 1px white;
-    margin: 20px; /* adjust as needed */
-}
-figure img {
-    vertical-align: top;
-}
-figure figcaption {
-    border: 1px white;
-    text-align: left;
-}
+			</div><!-- /.container -->
+		</body>
+			<footer>
+        <div class="footer">
+          <div class="college">
+            <h3>
+              <center>
+                <big>
+                  <a href="http://michalruprecht.com/">Portfolio</a>｜
+									<a href="https://michalruprecht.com/pages/undergrad/ceramics">Ceramics portfolio</a>｜
+									<a href="http://resume.michalruprecht.com/" target="_blank">Resume</a>｜
+									<a href="http://cv.michalruprecht.com/" target="_blank">CV</a>
+                <br /><br />
+                  <a class="collegebutton" href="mailto:me@michalruprecht.com" target="_blank"><img src="https://michalruprecht.github.io/assets/icons/mail.svg" alt="EMail" style="width:32px;"></a>
+									<a class="collegebutton" href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank"><img src="https://michalruprecht.github.io/assets/icons/scholar.svg" alt="Google Scholar" style="width:32px;"></a>
+                  <a class="collegebutton" href="https://www.linkedin.com/in/michalruprecht" target="_blank"><img src="https://michalruprecht.github.io/assets/icons/linkedin.svg" alt="LinkedIn" style="width:32px;"></a>
+                  <a class="collegebutton" href="https://twitter.com/michalruprecht" target="_blank"><img src="https://michalruprecht.github.io/assets/icons/twitter.svg" alt="Twitter" style="width:32px;"></a>
+                <br /><br />
+                <br />Copyright © 2019 - <script>document.write(new Date().getFullYear())</script> Michal T. Ruprecht. All rights reserved.
+              </big></center>
+            </h3>
+          </div>
+        </div>
+			</footer>
+		</body>
+	</html>

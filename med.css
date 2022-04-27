@@ -279,3 +279,8 @@ figure figcaption {
     border: 1px white;
     text-align: left;
 }
+
+.entry figure {
+    display: table;
+    width: 1px;
+}

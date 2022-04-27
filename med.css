@@ -267,3 +267,15 @@ h2 {
   width: 100%;
 }
 
+figure {
+    display: inline-block;
+    border: 1px white;
+    margin: 20px; /* adjust as needed */
+}
+figure img {
+    vertical-align: top;
+}
+figure figcaption {
+    border: 1px white;
+    text-align: left;
+}

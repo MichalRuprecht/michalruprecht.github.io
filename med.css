@@ -268,8 +268,7 @@ h2 {
 }
 
 figure {
-    display: table;
-    white-space: nowrap;
+    display: inline-block;
     border: 1px white;
     margin: 10px; /* adjust as needed */
 }

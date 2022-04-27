@@ -268,14 +268,18 @@ h2 {
 }
 
 figure {
-    display: inline-block;
+    display: table;
     border: 1px white;
     margin: 10px; /* adjust as needed */
 }
 figure img {
     vertical-align: top;
+   display: block;
+   max-width: 100%;
 }
 figure figcaption {
     border: 1px white;
     text-align: left;
+    display: table-caption;
+   caption-side: bottom;
 }

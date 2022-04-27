@@ -274,12 +274,8 @@ figure {
 }
 figure img {
     vertical-align: top;
-    display: block;
-    max-width: 100%;
 }
 figure figcaption {
     border: 1px white;
     text-align: left;
-    display: table-caption;
-    caption-side: bottom;
 }

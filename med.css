@@ -281,8 +281,3 @@ figure figcaption {
     display: table-caption;
     caption-side: bottom;
 }
-
-.entry figure {
-    display: table;
-    width: 1px;
-}

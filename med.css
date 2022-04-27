@@ -269,6 +269,7 @@ h2 {
 
 figure {
     display: table;
+    white-space: nowrap;
     border: 1px white;
     margin: 10px; /* adjust as needed */
 }

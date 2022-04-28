@@ -272,7 +272,6 @@ figure {
     display: flex;
     flex-flow: row wrap;
     padding: 5px;
-    max-width: 250px;
     margin: auto;
 }
 

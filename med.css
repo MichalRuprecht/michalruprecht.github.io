@@ -270,6 +270,7 @@ h2 {
 .image-list-small {
   margin: 0 auto;
   padding: 0;
+  vertical-align: middle;
 }
 
 .image-list-small li {
@@ -284,7 +285,6 @@ h2 {
   background-size: cover;
   background-repeat: no-repeat;
   height: 137px;
-  vertical-align: middle;
   margin: 0;
   padding: 0;
 }

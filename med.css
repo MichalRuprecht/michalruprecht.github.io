@@ -276,7 +276,7 @@ h2 {
 .image-list-small li {
   display: inline-block;
   width: 200px;
-  margin: 15px 15px 15px;
+  margin: 15px 15px 15px 15px;
 }
 
 .image-list-small li > a {

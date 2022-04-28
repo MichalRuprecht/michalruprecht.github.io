@@ -272,12 +272,11 @@ figure {
     display: flex;
     flex-flow: row wrap;
     padding: 5px;
-    max-height: 250px;
+    max-width: 250px;
     margin: auto;
 }
 
 figure img {
-    max-height: 250px;
     display: flex;
     justify-content: center;
     align-items: center;

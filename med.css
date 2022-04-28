@@ -270,15 +270,13 @@ h2 {
 figure {
     border: thin white solid;
     display: flex;
-    flex-flow: row wrap;
+    flex-wrap: wrap;
     padding: 5px;
     margin: auto;
 }
 
 figure img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex: 1 1 160px;
 }
 
 figcaption {

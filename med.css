@@ -272,7 +272,7 @@ figure {
     display: flex;
     flex-flow: column;
     padding: 5px;
-    max-width: 220px;
+    max-height: 250px;
     margin: auto;
 }
 

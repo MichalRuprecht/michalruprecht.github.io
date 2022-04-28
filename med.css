@@ -270,7 +270,7 @@ h2 {
 .image-list-small {
   margin: 0 auto;
   padding: 0;
-  vertical-align: middle;
+  vertical-align: middle !important;
   align: center;
 }
 

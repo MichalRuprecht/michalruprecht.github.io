@@ -280,6 +280,7 @@ h2 {
   margin: 10px 10px 10px 10px;
   vertical-align: middle !important;
   align: center !important;
+  align-content: center !important;
 }
 
 .image-list-small li > a {

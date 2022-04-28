@@ -279,7 +279,7 @@ h2 {
   width: 200px;
   margin: 10px 10px 10px 10px;
   vertical-align: middle !important;
-  align: center;
+  align: center !important;
 }
 
 .image-list-small li > a {

@@ -268,7 +268,6 @@ h2 {
 }
 
 figure {
-    border: thin white solid;
     display: flex;
     flex-wrap: wrap;
     padding: 5px;
@@ -280,7 +279,6 @@ figure img {
 }
 
 figcaption {
-    background-color: white;
     color: #000000;
     padding: 3px;
     text-align: left;

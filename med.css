@@ -301,7 +301,7 @@ h2 {
 .image-list-small .details h3 {
   display: block;
   margin: 0 0 3px 0;
-  white-space: nowrap;
+  white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
 }

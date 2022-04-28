@@ -268,18 +268,21 @@ h2 {
 }
 
 figure {
-    display: table;
-    border: 1px white;
-    margin: 10px; /* adjust as needed */
+    border: thin white solid;
+    display: flex;
+    flex-flow: column;
+    padding: 5px;
+    max-width: 220px;
+    margin: auto;
 }
-figure img {
-    vertical-align: top;
-   display: block;
-   max-width: 100%;
+
+img {
+    max-height: 250px;
 }
-figure figcaption {
-    border: 1px white;
+
+figcaption {
+    background-color: white;
+    color: #000000;
+    padding: 3px;
     text-align: left;
-    display: table-caption;
-   caption-side: bottom;
 }

@@ -274,7 +274,7 @@ h2 {
 
 .image-list-small li {
   display: inline-block;
-  width: 181px;
+  width: 250px;
   margin: 10 10px 10px;
 }
 
@@ -284,6 +284,7 @@ h2 {
   background-size: cover;
   background-repeat: no-repeat;
   height: 137px;
+  vertical-align: middle;
   margin: 0;
   padding: 0;
 }

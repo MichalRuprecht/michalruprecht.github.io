@@ -139,9 +139,9 @@ h2 {
   text-align: center !important;
   vertical-align: middle !important;
   font-weight: 400;
-  background-color: #ffffff;
+  background-color: #000000;
   border-radius: 8px;
-  color: #000000 !important;
+  color: #ffffff !important;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
@@ -156,12 +156,12 @@ h2 {
 
 .collegebuttonsocial a
 {
-  color: #000000;
+  color: #ffffff;
 }
 
 .collegebuttonsocial a:hover
 {
-  color: #ffffff !important;
+  color: #000000 !important;
   font-weight: bold;
 }
 
@@ -169,9 +169,9 @@ h2 {
 {
   text-align: center !important;
   font-weight: 600;
-  background-color: #000000;
+  background-color: #ffffff;
   border-radius: 8px;
-  color: #ffffff !important;
+  color: #000000 !important;
 }
 
 .college {

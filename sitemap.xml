@@ -10,7 +10,7 @@
   <priority>0.8</priority>
 </url>
 <url>
-  <loc>https://michalruprecht.com/pages/archive.html</loc>
+  <loc>https://michalruprecht.com/pages/ceramics.html</loc>
   <changefreq>monthly</changefreq>
   <priority>0.5</priority>
 </url>
@@ -73,40 +73,5 @@
   <loc>https://twitter.com/michalruprecht</loc>
   <changefreq>daily</changefreq>
   <priority>0.7</priority>
-</url>
-<url>
-  <loc>https://michalruprecht.com/pages/travel.html</loc>
-  <changefreq>weekly</changefreq>
-  <priority>0.1</priority>
-</url>
-<url>
-  <loc>https://michalruprecht.com/assets/news/michal_ruprecht_2017_acs_ciba_award_in_green_chemistry_michal_ruprecht_.pdf</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.1</priority>
-</url>
-<url>
-  <loc>https://michalruprecht.com/assets/news/michal_ruprecht_american_chemical_society_ciba_travel_award_winner_first_high_schooler_reciepient_michael_ruprecht.pdf</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.1</priority>
-</url>
-<url>
-  <loc>https://michalruprecht.com/assets/news/michal_ruprecht_grosse_pointe_north_north_pointe_chemistry_club_research.pdf</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.1</priority>
-</url>
-<url>
-  <loc>https://michalruprecht.com/assets/news/north_pointe_michal_ruprecht_american_chemistry_society_ciba_travel_award_in_green_chemistry_2017.pdf</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.1</priority>
-</url>
-<url>
-  <loc>https://michalruprecht.com/assets/news/northpointe_oct_31_2014.pdf</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.1</priority>
-</url>
-<url>
-  <loc>https://michalruprecht.com/assets/poster/flint_paper.pdf</loc>
-  <changefreq>monthly</changefreq>
-  <priority>0.1</priority>
 </url>
 </urlset>

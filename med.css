@@ -11,6 +11,10 @@ body {
   width: 100%;
 }
 
+container {
+  width: 100%;
+}
+
 h1 {
   font-size: 65px;
   color: #000000;

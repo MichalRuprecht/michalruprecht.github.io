@@ -351,8 +351,8 @@ h2 {
 }
 
 .myform .entry:hover {
-  background: #000000;
-  color: #FFFFFF;
+  background: #FFFFFF;
+  color: #000000;
   font-weight: 700;
 }
 
@@ -371,8 +371,8 @@ h2 {
 }
 
 .myform .submit:hover {
-  background: #000000;
-  color: #FFFFFF;
+  background: #FFFFFF;
+  color: #000000;
   font-weight: 700;
 }
 
@@ -389,8 +389,8 @@ h2 {
 }
 
 .myformre .entryre:hover {
-  background: #000000;
-  color: #FFFFFF;
+  background: #FFFFFF;
+  color: #000000;
   font-weight: 700;
 }
 
@@ -409,8 +409,8 @@ h2 {
 }
 
 .myformre .submitre:hover {
-  background: #000000;
-  color: #FFFFFF;
+  background: #FFFFFF;
+  color: #000000;
   font-weight: 700;
 }
 

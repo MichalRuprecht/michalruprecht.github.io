@@ -19,6 +19,11 @@
   <changefreq>weekly</changefreq>
   <priority>1</priority>
 </url>
+  <url>
+  <loc>https://www.goodmorningamerica.com/author/Michal_Ruprecht</loc>
+  <changefreq>weekly</changefreq>
+  <priority>1</priority>
+</url>
 <url>
   <loc>https://scholar.google.com/citations?user=BTPISPEAAAAJ</loc>
   <changefreq>weekly</changefreq>

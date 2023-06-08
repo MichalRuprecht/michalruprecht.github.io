@@ -414,3 +414,8 @@ h2 {
 .grecaptcha-badge {
   visibility: hidden;
 }
+
+mark {
+  background-color: #000000;
+  color: #FFFFFF;
+}

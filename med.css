@@ -2,6 +2,30 @@ html {
   background-color: #ffffff;
 }
 
+.css-61ww0h {
+padding: 0;
+margin: 0;
+display: block;
+font-size: min( 13.334362666666669vw, 100.00772px );
+font-family: Outline;
+font-style: normal;
+font-weight: 700;
+text-decoration-line: none;
+color: rgba(235,234,230,1);
+line-height: 0.7em;
+letter-spacing: -0.1em;
+list-style-type: none;
+overflow: visible;
+max-height: 100%;
+position: relative;
+top: 0.08649999999999998em;
+padding-top: 0px;
+padding-bottom: 7.900609880000001px;
+margin-top: calc(min(100vw, 750px) / 375*0.20001543999999957);
+margin-bottom: calc(min(100vw, 750px) / 375*0);
+overflow-wrap: break-word;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;

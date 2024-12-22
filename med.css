@@ -115,6 +115,7 @@ h2 {
   width: 100%; /* Ensures grid doesn't exceed viewport width */
   margin: 0 auto; /* Centers the grid horizontally */
   box-sizing: border-box; /* Prevents unwanted overflow */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 .left, .right {
@@ -134,20 +135,17 @@ h2 {
 
 .left {
   grid-area: left;
-  margin-left: 10px; /* Left margin for left column */
 }
 
 .right {
   grid-area: right;
-  margin-right: 10px; /* Right margin for right column */
-  padding-right: 10px; /* Padding for better spacing */
+  margin-right: 10px; /* Adds margin to the right side */
   overflow: auto; /* Prevents content from getting cropped */
+  padding-right: 10px; /* Add padding to avoid content touching the edge */
 }
 
 .footer {
   grid-area: footer;
-  margin-left: 10px; /* Left margin for footer */
-  margin-right: 10px; /* Right margin for footer */
 }
 
 /* For screens 768px and larger */
@@ -176,16 +174,28 @@ h2 {
       "left"
       "right"
       "footer";
+    gap: 10px; /* Adds a gap between elements */
   }
+
+  /* Ensure left div has margin on the right */
   .left {
-    margin-right: 10px; /* Adds margin to the right side of left div on mobile */
+    margin-right: 10px; /* Adds margin to the right of the left div on mobile */
   }
+
   .right {
-    margin-right: 0; /* No margin for right div on mobile */
+    margin-right: 0; /* Remove margin on the right div */
   }
+
+  /* Footer margins */
   .footer {
-    margin-left: 10px; /* Add left margin for footer */
-    margin-right: 10px; /* Add right margin for footer */
+    margin-left: 10px; /* Left margin for footer */
+    margin-right: 10px; /* Right margin for footer */
+  }
+
+  /* Prevent horizontal overflow */
+  .grid {
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    width: 100%; /* Ensures the grid doesn't exceed the viewport width */
   }
 }
 

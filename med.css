@@ -363,52 +363,46 @@ h2 {
 .image-list-clip {
   margin: 0 auto;
   padding: 0;
-  vertical-align: middle !important;
-  align: center;
+  display: flex;
+  flex-wrap: wrap; /* Ensures items wrap to the next row */
+  justify-content: center; /* Centers the grid */
 }
 
 .image-list-clip li {
-  display: inline-block;
+  display: flex;
+  flex-direction: column; /* Ensures image and caption are stacked */
+  align-items: center; /* Centers content within each item */
   width: 400px;
-  margin: 10px 10px 10px 10px;
-  vertical-align: middle !important;
-  align: center !important;
-  align-content: center !important;
+  margin: 10px;
 }
 
 .image-list-clip li > a {
   display: block;
   text-decoration: none;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 137px;
-  margin: 0;
-  padding: 0;
 }
 
-.image-list-clip li img{
-    width: 100%; /* To make the images responsive */
-    height: auto;
+.image-list-clip li img {
+  width: 100%; /* Makes the images responsive */
+  height: auto;
 }
 
 .image-list-clip .details {
+  text-align: center; /* Centers the text below the image */
+  margin-top: 10px; /* Adds spacing between the image and the caption */
 }
 
 .image-list-clip .details h3 {
   display: block;
-  margin: 0 0 3px 0;
+  margin: 0;
   white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-@media only screen and (max-wdith: 640px){
-.image-list-clip{
-   max-width: 100%;
- }
-.image-list-clip li > a {
-   width: 30%;
- }
+@media only screen and (max-width: 640px) {
+  .image-list-clip li {
+    width: 100%; /* Makes items take the full width on smaller screens */
+  }
 }
 
 

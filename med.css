@@ -143,10 +143,11 @@ h2 {
   grid-area: footer;
 }
 
-@media screen and (min-width: 600px) {
+/* For screens 768px and larger */
+@media screen and (min-width: 768px) {
   .grid {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* Adjust column widths for better spacing */
+    grid-template-columns: 1fr 2fr; /* Two-column layout for larger screens */
     grid-template-areas:
       "photo header"
       "left right"
@@ -161,8 +162,7 @@ h2 {
   }
 }
 
-
-
+/* For screens smaller than 768px */
 @media screen and (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr; /* Single column layout for smaller screens */
@@ -172,6 +172,9 @@ h2 {
       "left"
       "right"
       "footer";
+  }
+  .right {
+    margin-right: 0; /* Remove margin on smaller screens */
   }
 }
 

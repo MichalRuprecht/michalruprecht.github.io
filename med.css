@@ -579,116 +579,118 @@ mark {
 }
 
 
-/* Apply NYT fonts to the article */
-
 @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Times+New+Roman:wght@400;700&display=swap');
 
 article {
   font-family: 'Georgia', serif;
-    padding: 0 20px;
-
+  padding: 0 20px;
+  margin: 0 auto; /* Centers the content */
+  max-width: 70%; /* Adds 25% margin on both sides */
 }
 
 /* Title */
 .nyt-title {
   font-family: 'Times New Roman', serif;
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    color: #000;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: #000;
+  word-spacing: normal; /* Adjusts excessive word spacing */
 }
 
 /* Image */
 .nyt-image {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-    border-radius: 8px;
+  width: 60%; /* Reduces image size */
+  height: auto;
+  margin: 0 auto 15px;
+  display: block;
+  border-radius: 8px;
 }
 
 /* Image Caption */
 .nyt-caption {
-    font-family: 'NYT Imperial', serif;
-    font-size: 14px;
-    color: #6d6d6d;
-    font-style: italic;
-    margin-bottom: 15px;
+  font-family: 'NYT Imperial', serif;
+  font-size: 14px;
+  color: #6d6d6d;
+  font-style: italic;
+  margin-bottom: 15px;
 }
 
 /* Image Attribution */
 .nyt-attribution {
-    font-family: 'NYT Imperial', serif;
-    font-size: 12px;
-    color: #6d6d6d;
-    margin-bottom: 25px;
+  font-family: 'NYT Imperial', serif;
+  font-size: 12px;
+  color: #6d6d6d;
+  margin-bottom: 25px;
 }
 
 /* Byline */
 .nyt-byline {
-    font-family: 'NYT Imperial', serif;
-    font-size: 16px;
-    font-weight: 400;
-    color: #2e2e2e;
-    margin-bottom: 15px;
+  font-family: 'NYT Imperial', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #2e2e2e;
+  margin-bottom: 15px;
 }
 
 /* Publish Date */
 .nyt-publish-date {
-    font-family: 'NYT Imperial', serif;
-    font-size: 14px;
-    color: #6d6d6d;
-    margin-bottom: 30px;
+  font-family: 'NYT Imperial', serif;
+  font-size: 14px;
+  color: #6d6d6d;
+  margin-bottom: 30px;
 }
 
 /* Story Text */
 .nyt-story-text {
-    font-family: 'NYT Imperial', serif;
-    font-size: 18px;
-    line-height: 1.7;
-    color: #333;
-    margin-bottom: 30px;
+  font-family: 'NYT Imperial', serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 30px;
+  word-spacing: normal; /* Reduces excessive word spacing */
 }
 
 /* Paragraphs */
 .nyt-story-text p {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 /* Links */
 .nyt-story-text a {
-    color: #0066cc;
-    text-decoration: none;
+  color: #0066cc;
+  text-decoration: none;
 }
 
 .nyt-story-text a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* Adjustments for small screens */
 @media (max-width: 768px) {
-    .nyt-title {
-        font-size: 36px;
-    }
+  .nyt-title {
+    font-size: 36px;
+  }
 
-    .nyt-byline {
-        font-size: 14px;
-    }
+  .nyt-byline {
+    font-size: 14px;
+  }
 
-    .nyt-publish-date {
-        font-size: 12px;
-    }
+  .nyt-publish-date {
+    font-size: 12px;
+  }
 
-    .nyt-story-text {
-        font-size: 16px;
-    }
+  .nyt-story-text {
+    font-size: 16px;
+  }
 }
 
 /* Author Bio */
 .nyt-bio {
   font-size: 14px;
   line-height: 1.5;
-  color: #6c757d; /* Gray text */
+  color: #000; /* Standard text color */
   margin-top: 20px;
+  margin-bottom: 20px;
 }

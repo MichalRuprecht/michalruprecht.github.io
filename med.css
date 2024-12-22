@@ -580,13 +580,18 @@ mark {
 
 
 /* Apply NYT fonts to the article */
+
+@import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Times+New+Roman:wght@400;700&display=swap');
+
 article {
-    font-family: 'NYT Imperial', serif;
+  font-family: 'Georgia', serif;
+    padding: 0 20px;
+
 }
 
 /* Title */
 .nyt-title {
-    font-family: 'NYT Cheltenham', serif;
+  font-family: 'Times New Roman', serif;
     font-size: 48px;
     font-weight: 700;
     line-height: 1.2;
@@ -682,11 +687,8 @@ article {
 
 /* Author Bio */
 .nyt-bio {
-    font-family: 'NYT Imperial', serif;
-    font-size: 0.875rem; /* 14px */
-    line-height: 1.5;
-    color: #6c757d; /* Gray text */
-    margin-top: 2rem;
-    border-top: 1px solid #e9ecef; /* Light gray border */
-    padding-top: 1rem;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6c757d; /* Gray text */
+  margin-top: 20px;
 }

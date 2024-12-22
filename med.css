@@ -161,8 +161,9 @@ h2 {
 
 .footer {
   grid-area: footer;
-  width: 100%;
-  max-width: 100%; /* Prevent footer from causing overflow */
+  margin: 0 10px; /* Adds 10px margin to both left and right */
+  padding: 20px; /* Adjust padding as needed */
+  width: calc(100% - 20px); /* Ensures the footer width accounts for the margins */
 }
 
 /* For screens 768px and larger */
@@ -185,6 +186,10 @@ h2 {
   }
   .left, .right {
     width: 100%; /* Ensure left and right divs take full width */
+  }
+  .footer {
+    margin: 0 5px; /* Smaller margins on mobile */
+    width: calc(100% - 10px); /* Adjust width for mobile */
   }
 }
 

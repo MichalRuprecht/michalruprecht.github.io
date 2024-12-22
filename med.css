@@ -2,6 +2,10 @@ html {
   background-color: #ffffff;
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
 .css-61ww0h {
 padding: 0;
 margin: 0;

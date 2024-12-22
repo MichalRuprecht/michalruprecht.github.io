@@ -227,20 +227,26 @@ h2 {
   color: #000000;
   border: 2px solid #000000;
   border-radius: 15px;
-  padding-top: 5px;
-  padding-bottom: 2px;
+  padding: 0; /* Remove padding to better fit the content */
   margin-right: 10px;
   text-decoration: none;
   display: inline-block;
-  width: 43px;
-  height: 36px;
+  width: 100px; /* Adjust the width as necessary */
+  height: 100px; /* Adjust the height as necessary */
+  text-align: center; /* Center the content */
+  overflow: hidden; /* Prevent overflow */
+}
+
+.collegebutton img {
+  max-width: 100%; /* Ensures the image scales to fit the button */
+  height: auto; /* Maintain the aspect ratio of the image */
 }
 
 .collegebutton:hover {
   background-color: #000000;
   font-weight: bold;
 }
-.collegebutton:hover img{
+.collegebutton:hover img {
   -webkit-filter: invert(100%); /* Safari/Chrome */
   filter: invert(100%);
 }

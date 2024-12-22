@@ -692,3 +692,13 @@ article {
     font-size: 14px; /* Slightly smaller for mobile */
   }
 }
+
+article a {
+  text-decoration: none; /* Removes underline */
+  color: #007CE1; /* Default link color */
+}
+
+article a:hover {
+  font-weight: bold; /* Bold on hover */
+  color: #000000; /* Black on hover */
+}

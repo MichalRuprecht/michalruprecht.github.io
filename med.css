@@ -4,6 +4,7 @@ html {
 
 html, body {
   overflow-x: hidden;
+    max-width: 100vw;
 }
 
 .css-61ww0h {

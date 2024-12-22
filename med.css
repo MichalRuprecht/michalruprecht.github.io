@@ -246,7 +246,7 @@ h2 {
   object-fit: contain;  /* Ensures the image resizes without being cropped */
   max-width: 100%;  /* Prevents overflow beyond button boundaries */
   max-height: 100%;  /* Prevents image from exceeding the button's height */
-  margin: 5px;  /* Adds 5px margin around the image */
+  margin: 5px; /* Adds 5px margin around the image */
 }
 
 .collegebutton:hover {

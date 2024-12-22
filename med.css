@@ -3,25 +3,12 @@ html {
 }
 
 html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;  /* Prevent horizontal scrolling */
-}
-
-.container {
-  width: 100%;
-  max-width: 100%;  /* Ensure the container doesn't overflow */
-  box-sizing: border-box;  /* Include padding and border in width calculation */
+  overflow-x: hidden; /* Keep this */
+  /* Remove the max-width: 100vw */
 }
 
 *, *::before, *::after {
   box-sizing: border-box;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
 }
 
 
@@ -113,8 +100,16 @@ h2 {
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr; /* Adjust grid layout for mobile */
-  gap: 20px;
+  grid-template-columns: 1fr 2fr; /* 2/3 left and 1/3 right for desktops */
+  grid-template-areas:
+    "photo header"
+    "left right"
+    "footer footer";
+  gap: 10px;
+  width: 100%; /* Ensures grid doesn't exceed viewport width */
+  margin: 0 auto; /* Centers the grid horizontally */
+  box-sizing: border-box; /* Prevents unwanted overflow */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 .left, .right {
@@ -139,8 +134,8 @@ h2 {
   padding-right: 10px;
 }
 .left {
-  margin: 0 auto;
-  padding: 0 15px;  /* Padding to avoid content touching screen edges */
+  margin-right: 10px;
+  overflow-x: hidden;  /* Ensure left also doesn't cause horizontal scroll */
 }
 
 .footer {
@@ -276,8 +271,14 @@ h2 {
 }
 
 .college {
-  font-size: 1.2rem;
-  line-height: 1.6;
+  background: #FFFFFF;
+  color: #000000;
+  border: 3px solid #000000;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: normal;
+  overflow: auto;
+  height:auto;
 }
 
 .college h2 {
@@ -339,18 +340,18 @@ h2 {
 }
 
 .title {
-  font-size: 2rem;
-  text-align: center;
+  font-size: 70px;
+  color: #000000;
+  font-weight: 900;
+  line-height: 50px;
+  padding-left: 6px;
+  font-family: 'Montserrat', sans-serif !important;
 }
 
-/* Adjust other content styling as necessary for mobile */
-@media (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .title {
-    font-size: 1.8rem;
-  }
-  
-  .college {
-    font-size: 1rem;
+    font-size: 40px;
+    line-height: 29px;
   }
 }
 

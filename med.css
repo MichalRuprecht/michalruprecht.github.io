@@ -382,8 +382,10 @@ h2 {
 }
 
 .image-list-clip li img {
-  width: 100%; /* Makes the images responsive */
-  height: auto;
+  width: 100%; /* Ensures the image fits the container width */
+  height: 200px; /* Set a fixed height for consistency */
+  object-fit: cover; /* Crops the image equally from all sides */
+  object-position: center; /* Centers the cropped image */
 }
 
 .image-list-clip .details {

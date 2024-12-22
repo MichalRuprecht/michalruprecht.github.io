@@ -227,13 +227,13 @@ h2 {
   color: #000000;
   border: 2px solid #000000;
   border-radius: 15px;
-  padding: 0; /* Remove padding to better fit the content */
+  padding: 0;  /* Remove padding to ensure exact fit */
   margin-right: 10px;
   text-decoration: none;
   display: inline-block;
-  width: 100px; /* Adjust the width as necessary */
-  height: 100px; /* Adjust the height as necessary */
-  text-align: center; /* Center the content */
+  width: auto;  /* Auto width to fit image */
+  height: auto; /* Auto height to fit image */
+  text-align: center;
   overflow: hidden; /* Prevent overflow */
 }
 

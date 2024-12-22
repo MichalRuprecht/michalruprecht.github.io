@@ -645,7 +645,7 @@ article {
 /* Bio Section */
 .nyt-bio {
   font-family: 'Open Sans', sans-serif !important; /* Ensures the font is applied */
-  font-size: 10px; /* Slightly smaller than main text */
+  font-size: 10px !important; /* Forces the smaller font size */
   line-height: 1.4;
   color: #000;
   margin-top: 20px;

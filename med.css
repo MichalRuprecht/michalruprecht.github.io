@@ -582,9 +582,9 @@ mark {
 
 article {
   font-family: 'Georgia', serif;
-  padding: 0 20%; /* Increased margin on both sides to 40% (20% left and right) */
+  padding: 0 10%; /* Reduced margin on both sides to 10% */
   margin: 0 auto;
-  max-width: 60%; /* Ensure a centered layout */
+  max-width: 80%; /* Ensure a centered layout */
 }
 
 /* Title */
@@ -644,7 +644,7 @@ article {
 
 /* Bio Section */
 .nyt-bio {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif; /* Ensuring correct font */
   font-size: 16px; /* Slightly smaller than main text */
   line-height: 1.4;
   color: #000;

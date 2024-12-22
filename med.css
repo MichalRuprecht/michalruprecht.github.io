@@ -227,35 +227,24 @@ h2 {
   color: #000000;
   border: 2px solid #000000;
   border-radius: 15px;
+  padding: 5px;  /* Adds 5px padding inside the button around the image */
   text-decoration: none;
   display: inline-block;
-  text-align: center;
-  position: relative;
   width: auto;  /* Auto width to fit image */
   height: auto; /* Auto height to fit image */
-}
-
-.collegebutton::before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  bottom: 5px;
-  border-radius: 50%;
-  border: 2px solid #000000; /* Same as the button's border */
-  pointer-events: none; /* Ensures it doesn't interfere with other elements */
+  text-align: center;
+  overflow: hidden; /* Prevent overflow */
+  position: relative;
 }
 
 .collegebutton img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 50%; /* Makes the image circular */
-  object-fit: cover;  /* Ensures the image covers the area without distortion */
-  max-width: 100%;
-  max-height: 100%;
-  padding: 5px; /* Adds 5px padding inside the button around the image */
+  border-radius: 8px;
+  object-fit: contain;  /* Ensures the image resizes without being cropped */
+  max-width: 100%;  /* Prevents overflow beyond button boundaries */
+  max-height: 100%;  /* Prevents image from exceeding the button's height */
 }
 
 .collegebutton:hover {

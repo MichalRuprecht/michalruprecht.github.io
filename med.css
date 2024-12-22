@@ -155,12 +155,19 @@ h2 {
 }
 
 
-@media screen and (max-width: 480px) {
-  body, .grid {
-    width: 100%;
-    max-width: 100vw; /* Prevents content from exceeding screen width */
-    margin: 0;
-    padding: 0;
+@media screen and (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr; /* Single column layout */
+    grid-template-areas:
+      "header"
+      "left"
+      "right"
+      "photo"
+      "footer";
+  }
+
+  .left, .right {
+    width: 100%; /* Ensure both divs take full width */
   }
 }
 

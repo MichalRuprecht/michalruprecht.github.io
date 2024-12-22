@@ -106,7 +106,7 @@ h2 {
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 2fr; /* Two-column layout for desktops */
+  grid-template-columns: 1fr 2fr; /* 2/3 left and 1/3 right for desktops */
   grid-template-areas:
     "photo header"
     "left right"
@@ -115,6 +115,10 @@ h2 {
   width: 100%; /* Ensures grid doesn't exceed viewport width */
   margin: 0 auto; /* Centers the grid horizontally */
   box-sizing: border-box; /* Prevents unwanted overflow */
+}
+
+.left, .right {
+  padding: 0 10px; /* Adds left and right margin */
 }
 
 .photo {
@@ -130,24 +134,27 @@ h2 {
 
 .left {
   grid-area: left;
+  margin-left: 10px; /* Left margin for left column */
 }
 
 .right {
   grid-area: right;
-  margin-right: 10px; /* Adds margin to the right side */
+  margin-right: 10px; /* Right margin for right column */
+  padding-right: 10px; /* Padding for better spacing */
   overflow: auto; /* Prevents content from getting cropped */
-  padding-right: 10px; /* Add padding to avoid content touching the edge */
 }
 
 .footer {
   grid-area: footer;
+  margin-left: 10px; /* Left margin for footer */
+  margin-right: 10px; /* Right margin for footer */
 }
 
 /* For screens 768px and larger */
 @media screen and (min-width: 768px) {
   .grid {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* Two-column layout for larger screens */
+    grid-template-columns: 2fr 1fr; /* 2/3 left and 1/3 right for larger screens */
     grid-template-areas:
       "photo header"
       "left right"
@@ -156,9 +163,6 @@ h2 {
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
-  }
-  .right {
-    margin-right: 20px; /* Adds space on the right side for larger screens */
   }
 }
 
@@ -173,14 +177,21 @@ h2 {
       "right"
       "footer";
   }
+  .left {
+    margin-right: 10px; /* Adds margin to the right side of left div on mobile */
+  }
   .right {
-    margin-right: 0; /* Remove margin on smaller screens */
+    margin-right: 0; /* No margin for right div on mobile */
+  }
+  .footer {
+    margin-left: 10px; /* Add left margin for footer */
+    margin-right: 10px; /* Add right margin for footer */
   }
 }
 
-  .left, .right {
-    width: 100%; /* Ensure both divs take full width */
-  }
+/* Ensures both left and right divs take full width on all screen sizes */
+.left, .right {
+  width: 100%;
 }
 
 @media screen and (min-width: 600px) {

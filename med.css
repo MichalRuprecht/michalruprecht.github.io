@@ -582,25 +582,25 @@ mark {
 
 article {
   font-family: 'Georgia', serif;
-  padding: 0 10%; /* Scrunches the text to 10% margin on mobile */
+  padding: 0 5%; /* Reduces margin, makes text more scrunched on both desktop and mobile */
   margin: 0 auto;
-  max-width: 80%; /* Adjusts width for better readability */
+  max-width: 70%; /* Increased margin on desktop */
 }
 
 /* Title */
 .nyt-title {
   font-family: 'Times New Roman', serif;
-  font-size: 56px; /* Larger font for title */
+  font-size: 48px; /* Reduced size for compact layout */
   font-weight: 700;
   line-height: 1.2;
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Reduced space after title */
   color: #000;
   word-spacing: normal; 
 }
 
 /* Image */
 .nyt-image {
-  width: 70%; /* Reduces image size on desktop */
+  width: 100%; /* Full-width on mobile and desktop */
   height: auto;
   margin: 0 auto 10px; /* Reduced space between the image and caption */
   display: block;
@@ -608,109 +608,82 @@ article {
 }
 
 /* Image Caption */
-.nyt-caption {
-  font-family: 'NYT Imperial', serif;
-  font-size: 16px;
-  color: #6d6d6d;
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-/* Image Attribution */
-.nyt-attribution {
+.nyt-image-attribution {
   font-family: 'NYT Imperial', serif;
   font-size: 14px;
   color: #6d6d6d;
-  margin-bottom: 10px;
+  font-style: italic;
+  margin-top: 5px; /* Reduced space between image and attribution */
 }
 
 /* Byline */
 .nyt-byline {
   font-family: 'NYT Imperial', serif;
-  font-size: 18px;
+  font-size: 16px; /* Reduced size */
   font-weight: 400;
   color: #2e2e2e;
-  margin-bottom: 5px;
+  margin-bottom: 5px; /* Reduced space */
 }
 
 /* Publish Date */
 .nyt-publish-date {
   font-family: 'NYT Imperial', serif;
-  font-size: 16px;
+  font-size: 14px; /* Reduced size */
   color: #6d6d6d;
-  margin-bottom: 30px;
+  margin-bottom: 10px; /* Less space */
 }
 
 /* Story Text */
-.nyt-story-text {
+.nyt-body p {
   font-family: 'NYT Imperial', serif;
-  font-size: 22px;
-  line-height: 1.8;
+  font-size: 20px;
+  line-height: 1.6; /* Adjusted line height for better compactness */
   color: #333;
-  margin-bottom: 40px;
+  margin-bottom: 20px; /* Reduced space between paragraphs */
   word-spacing: normal;
-}
-
-/* Paragraphs */
-.nyt-story-text p {
-  margin-bottom: 25px;
-}
-
-/* Links */
-.nyt-story-text a {
-  color: #0066cc;
-  text-decoration: none;
-}
-
-.nyt-story-text a:hover {
-  text-decoration: underline;
 }
 
 /* Adjustments for mobile screens */
 @media (max-width: 768px) {
   article {
-    padding: 0 5%; /* Reduces side margins to 5% for better fit on small screens */
-    max-width: 90%;
+    padding: 0 5%; /* Tight margin for mobile */
+    max-width: 90%; /* Even smaller width on mobile */
   }
 
   .nyt-title {
-    font-size: 36px; /* Smaller title on mobile */
-    margin-bottom: 20px; /* Less space after the title */
+    font-size: 36px; /* Smaller title */
+    margin-bottom: 15px; /* Less space after title */
   }
 
   .nyt-byline {
-    font-size: 16px; /* Slightly smaller byline */
+    font-size: 14px; /* Smaller byline */
+    margin-bottom: 5px; /* Less space */
   }
 
   .nyt-publish-date {
-    font-size: 14px; /* Smaller publish date */
-    margin-bottom: 15px; /* Less space between date and text */
+    font-size: 12px; /* Smaller date */
+    margin-bottom: 10px; /* Less space */
   }
 
-  .nyt-story-text {
-    font-size: 18px; /* Adjust text size for mobile */
-    line-height: 1.6; /* Adjust line height for better mobile readability */
+  .nyt-body {
+    font-size: 18px; /* Smaller text on mobile */
+    line-height: 1.5; /* More compact line spacing */
   }
 
   .nyt-image {
-    width: 100%; /* Full-width image for mobile */
-    margin-bottom: 10px; /* Reduced space after image */
+    width: 100%; /* Image still full-width on mobile */
+    margin-bottom: 10px; /* Less space below image */
   }
 
-  .nyt-caption {
-    font-size: 14px; /* Smaller caption font */
-  }
-
-  .nyt-attribution {
-    font-size: 12px; /* Smaller attribution font */
+  .nyt-image-attribution {
+    font-size: 12px; /* Smaller attribution text */
   }
 }
 
-/* Author Bio */
 .nyt-bio {
   font-size: 16px;
   line-height: 1.4;
   color: #000;
   margin-top: 25px;
-  margin-bottom: 30px;
+  margin-bottom: 25px; /* Reduced space between bio and last text */
 }

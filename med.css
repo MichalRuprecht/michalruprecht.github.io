@@ -3,12 +3,19 @@ html {
 }
 
 html, body {
+  margin: 0;
+  padding: 0;
   width: 100%;
+  overflow-x: hidden; /* Disable horizontal scrolling */
 }
 
 body {
   overflow-x: hidden;
   margin: 0; /* Prevents any unintended margin causing the overflow */
+}
+
+body, .content {
+  overflow-x: hidden; /* Prevent horizontal scrolling in body or content */
 }
 
 body, html {
@@ -20,6 +27,10 @@ body, html {
   box-sizing: border-box;
 }
 
+img {
+  max-width: 100%; /* Prevent images from overflowing */
+  height: auto;
+}
 
 .css-61ww0h {
 padding: 0;
@@ -109,21 +120,22 @@ h2 {
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 2fr; /* 2/3 left and 1/3 right for desktops */
+  grid-template-columns: 1fr 2fr;
   grid-template-areas:
     "photo header"
     "left right"
     "footer footer";
   gap: 10px;
-  width: 100%; /* Ensures grid doesn't exceed viewport width */
-  margin: 0 auto; /* Centers the grid horizontally */
-  box-sizing: border-box; /* Prevents unwanted overflow */
-  overflow-x: hidden; /* Prevents horizontal scrolling */
+  width: 100%;
+  max-width: 100%; /* Ensure grid does not exceed screen width */
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .left, .right {
-  padding: 0 10px; /* Adds left and right margin */
-    overflow-x: hidden; /* Add overflow hidden for all containers */
+  padding: 0 10px;
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 .photo {
@@ -149,39 +161,32 @@ h2 {
 
 .footer {
   grid-area: footer;
-  margin-right: 0; /* Remove any right margin */
-  padding: 20px; /* Adjust padding as needed */
-  width: 100%; /* Ensure it spans the full width */
+  width: 100%;
+  max-width: 100%; /* Prevent footer from causing overflow */
 }
 
 /* For screens 768px and larger */
 @media screen and (min-width: 768px) {
-  .grid {
-    display: grid;
+   .grid {
     grid-template-columns: 2fr 1fr; /* 2/3 left and 1/3 right for larger screens */
-    grid-template-areas:
-      "photo header"
-      "left right"
-      "footer footer";
-    gap: 10px;
-    margin: 0 auto;
-    width: 100%;
-    box-sizing: border-box;
   }
 }
 
 /* For screens smaller than 768px */
 @media screen and (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr; /* Single column layout for smaller screens */
+ .grid {
+    grid-template-columns: 1fr;
     grid-template-areas:
       "header"
       "photo"
       "left"
       "right"
       "footer";
-    gap: 10px; /* Adds a gap between elements */
   }
+  .left, .right {
+    width: 100%; /* Ensure left and right divs take full width */
+  }
+}
 
   /* Ensure left div has margin on the right */
   .left {

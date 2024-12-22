@@ -245,6 +245,7 @@ h2 {
     height: auto;
     border-radius: 8px;
     margin: 5px;  /* Adds 5px margin around the image itself */
+    object-fit: contain;  /* Ensures the image resizes while maintaining aspect ratio */
 }
 
 .collegebutton:hover {

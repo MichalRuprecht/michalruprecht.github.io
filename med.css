@@ -582,38 +582,37 @@ mark {
 
 article {
   font-family: 'Georgia', serif;
-  padding: 0 5%; /* Reduces margin, makes text more scrunched on both desktop and mobile */
+  padding: 0 10%; /* Increased margin on both sides (10%) for a larger layout */
   margin: 0 auto;
-  max-width: 70%; /* Increased margin on desktop */
+  max-width: 80%; /* Larger margins on desktop */
 }
 
 /* Title */
 .nyt-title {
   font-family: 'Times New Roman', serif;
-  font-size: 48px; /* Reduced size for compact layout */
+  font-size: 48px; /* Large title */
   font-weight: 700;
   line-height: 1.2;
-  margin-bottom: 20px; /* Reduced space after title */
+  margin-bottom: 10px; /* Reduced space after title */
   color: #000;
-  word-spacing: normal; 
 }
 
 /* Image */
 .nyt-image {
-  width: 100%; /* Full-width on mobile and desktop */
+  width: 100%;
   height: auto;
-  margin: 0 auto 10px; /* Reduced space between the image and caption */
+  margin: 0 auto 10px; /* Reduced space below the image */
   display: block;
   border-radius: 8px;
 }
 
-/* Image Caption */
+/* Image Attribution */
 .nyt-image-attribution {
   font-family: 'NYT Imperial', serif;
   font-size: 14px;
   color: #6d6d6d;
   font-style: italic;
-  margin-top: 5px; /* Reduced space between image and attribution */
+  margin-top: 5px;
 }
 
 /* Byline */
@@ -622,25 +621,25 @@ article {
   font-size: 16px; /* Reduced size */
   font-weight: 400;
   color: #2e2e2e;
-  margin-bottom: 5px; /* Reduced space */
+  margin-bottom: 5px; /* Reduced space between byline and publish date */
 }
 
 /* Publish Date */
 .nyt-publish-date {
   font-family: 'NYT Imperial', serif;
-  font-size: 14px; /* Reduced size */
+  font-size: 14px;
   color: #6d6d6d;
-  margin-bottom: 10px; /* Less space */
+  margin-top: 0; /* No extra space above publish date */
+  margin-bottom: 10px; /* Reduced space between publish date and content */
 }
 
 /* Story Text */
 .nyt-body p {
   font-family: 'NYT Imperial', serif;
   font-size: 20px;
-  line-height: 1.6; /* Adjusted line height for better compactness */
+  line-height: 1.4; /* Adjusted line height for more compact text */
   color: #333;
-  margin-bottom: 20px; /* Reduced space between paragraphs */
-  word-spacing: normal;
+  margin-bottom: 12px; /* Reduced space between paragraphs */
 }
 
 /* Adjustments for mobile screens */
@@ -651,28 +650,28 @@ article {
   }
 
   .nyt-title {
-    font-size: 36px; /* Smaller title */
-    margin-bottom: 15px; /* Less space after title */
+    font-size: 36px; /* Smaller title on mobile */
+    margin-bottom: 10px; /* Less space after title */
   }
 
   .nyt-byline {
     font-size: 14px; /* Smaller byline */
-    margin-bottom: 5px; /* Less space */
+    margin-bottom: 3px; /* Reduced space */
   }
 
   .nyt-publish-date {
     font-size: 12px; /* Smaller date */
-    margin-bottom: 10px; /* Less space */
+    margin-bottom: 8px; /* Less space */
   }
 
   .nyt-body {
     font-size: 18px; /* Smaller text on mobile */
-    line-height: 1.5; /* More compact line spacing */
+    line-height: 1.4; /* More compact line spacing */
   }
 
   .nyt-image {
     width: 100%; /* Image still full-width on mobile */
-    margin-bottom: 10px; /* Less space below image */
+    margin-bottom: 8px; /* Less space below image */
   }
 
   .nyt-image-attribution {
@@ -685,5 +684,5 @@ article {
   line-height: 1.4;
   color: #000;
   margin-top: 25px;
-  margin-bottom: 25px; /* Reduced space between bio and last text */
+  margin-bottom: 25px;
 }

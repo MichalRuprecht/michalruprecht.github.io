@@ -3,15 +3,20 @@ html {
 }
 
 html, body {
-  overflow-x: hidden; /* Keep this */
-  /* Remove the max-width: 100vw */
+  width: 100%;
 }
 
 body {
   overflow-x: hidden;
+  margin: 0; /* Prevents any unintended margin causing the overflow */
 }
 
-*, *::before, *::after {
+body, html {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
   box-sizing: border-box;
 }
 
@@ -144,6 +149,9 @@ h2 {
 
 .footer {
   grid-area: footer;
+  margin-right: 0; /* Remove any right margin */
+  padding: 20px; /* Adjust padding as needed */
+  width: 100%; /* Ensure it spans the full width */
 }
 
 /* For screens 768px and larger */
@@ -184,11 +192,7 @@ h2 {
     margin-right: 0; /* Remove margin on the right div */
   }
 
-  /* Footer margins */
-  .footer {
-    margin-left: 10px; /* Left margin for footer */
-    margin-right: 10px; /* Right margin for footer */
-  }
+
 
   /* Prevent horizontal overflow */
   .grid {

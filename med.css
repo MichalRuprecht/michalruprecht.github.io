@@ -3,8 +3,8 @@ html {
 }
 
 html, body {
-  overflow-x: hidden;
-    max-width: 100vw;
+  overflow-x: hidden; /* Keep this */
+  /* Remove the max-width: 100vw */
 }
 
 *, *::before, *::after {
@@ -67,12 +67,6 @@ h3 {
   line-height: 22px;
 }
 
-h3 {
-  font-size: 16px;
-  color: #000000;
-  line-height: 22px;
-}
-
 h4 {
   font-size: 8px;
   font-weight: 400;
@@ -120,6 +114,7 @@ h2 {
 
 .left, .right {
   padding: 0 10px; /* Adds left and right margin */
+    overflow-x: hidden; /* Add overflow hidden for all containers */
 }
 
 .photo {
@@ -133,15 +128,14 @@ h2 {
   text-align: center;
 }
 
-.left {
-  grid-area: left;
-}
-
 .right {
-  grid-area: right;
-  margin-right: 10px; /* Adds margin to the right side */
-  overflow: auto; /* Prevents content from getting cropped */
-  padding-right: 10px; /* Add padding to avoid content touching the edge */
+  margin-right: 10px;
+  overflow-x: hidden;  /* Change from 'auto' to 'hidden' */
+  padding-right: 10px;
+}
+.left {
+  margin-right: 10px;
+  overflow-x: hidden;  /* Ensure left also doesn't cause horizontal scroll */
 }
 
 .footer {
@@ -411,13 +405,13 @@ h2 {
   text-overflow: ellipsis;
 }
 
-@media only screen and (max-wdith: 640px){
-.image-list-small{
-   max-width: 100%;
- }
-.image-list-small li > a {
-   width: 30%;
- }
+@media only screen and (max-width: 640px) {
+  .image-list-small {
+    max-width: 100%;
+  }
+  .image-list-small li > a {
+    width: 100%; /* Ensure each image takes full width */
+  }
 }
 
 

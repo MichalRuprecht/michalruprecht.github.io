@@ -386,7 +386,7 @@ h2 {
   height: 250px; /* Set a fixed height slightly larger than before */
   object-fit: cover; /* Crops equally from all sides */
   object-position: center; /* Centers the cropped area */
-  border: 0.5px solid black; /* Adds a black border with 0.5px thickness */
+  border: 1px solid black; /* Adds a black border with 0.5px thickness */
 }
 
 .image-list-clip .details {

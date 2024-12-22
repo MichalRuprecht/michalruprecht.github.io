@@ -227,8 +227,7 @@ h2 {
   color: #000000;
   border: 2px solid #000000;
   border-radius: 15px;
-  padding: 0;  /* Remove padding to ensure exact fit */
-    margin: 5px;  /* Adds 5px margin around the button */
+    padding: 5px;  /* Adds 5px padding inside the button around the image */
   text-decoration: none;
   display: inline-block;
   width: auto;  /* Auto width to fit image */
@@ -244,8 +243,7 @@ h2 {
     width: 100%;
     height: auto;
     border-radius: 8px;
-    margin: 5px;  /* Adds 5px margin around the image itself */
-    object-fit: contain;  /* Ensures the image resizes while maintaining aspect ratio */
+    object-fit: contain;  /* Ensures the image resizes without being cropped */
 }
 
 .collegebutton:hover {

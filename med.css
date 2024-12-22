@@ -582,9 +582,9 @@ mark {
 
 article {
   font-family: 'Georgia', serif;
-  padding: 0 10%; /* Reduced margin on both sides to 10% */
+  padding: 0 15%; /* Increased desktop margins to 15% on both sides */
   margin: 0 auto;
-  max-width: 80%; /* Ensure a centered layout */
+  max-width: 70%; /* Ensures content remains centered */
 }
 
 /* Title */

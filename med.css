@@ -359,6 +359,60 @@ h2 {
  }
 }
 
+
+.image-list-clip {
+  margin: 0 auto;
+  padding: 0;
+  vertical-align: middle !important;
+  align: center;
+}
+
+.image-list-clip li {
+  display: inline-block;
+  width: 400px;
+  margin: 10px 10px 10px 10px;
+  vertical-align: middle !important;
+  align: center !important;
+  align-content: center !important;
+}
+
+.image-list-clip li > a {
+  display: block;
+  text-decoration: none;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 137px;
+  margin: 0;
+  padding: 0;
+}
+
+.image-list-clip li img{
+    width: 100%; /* To make the images responsive */
+    height: auto;
+}
+
+.image-list-clip .details {
+}
+
+.image-list-clip .details h3 {
+  display: block;
+  margin: 0 0 3px 0;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-wdith: 640px){
+.image-list-clip{
+   max-width: 100%;
+ }
+.image-list-clip li > a {
+   width: 30%;
+ }
+}
+
+
+
 .myform .entry {
   background: #FFFFFF;
   color: #000000;

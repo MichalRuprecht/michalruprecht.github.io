@@ -628,7 +628,7 @@ article {
   font-family: 'NYT Imperial', serif;
   font-size: 16px;
   font-weight: 400;
-  color: #2e2e2e;
+  color: #333;
   margin-bottom: 5px; /* Reduced space between byline and publish date */
 }
 
@@ -636,7 +636,7 @@ article {
 .nyt-publish-date {
   font-family: 'NYT Imperial', serif;
   font-size: 14px;
-  color: #6d6d6d;
+  color: #333;
   margin-top: 0;
   margin-bottom: 10px; /* Reduced space between publish date and content */
 }

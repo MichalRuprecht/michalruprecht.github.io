@@ -607,13 +607,21 @@ article {
   border-radius: 8px;
 }
 
-/* Image Attribution */
+/* Image Caption and Attribution */
+.nyt-image-caption {
+  font-family: 'NYT Imperial', serif;
+  font-size: 16px;
+  color: #6d6d6d; /* Grey color */
+  display: inline; /* Keep on the same line */
+}
+
 .nyt-image-attribution {
   font-family: 'NYT Imperial', serif;
-  font-size: 14px;
-  color: #6d6d6d;
+  font-size: 16px;
+  color: #6d6d6d; /* Grey color */
   font-style: italic;
-  margin-top: 5px;
+  margin-left: 10px; /* Space between caption and attribution */
+  display: inline; /* Keep on the same line */
 }
 
 /* Byline */

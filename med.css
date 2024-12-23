@@ -493,6 +493,64 @@ h2 {
 
 
 
+.image-list-tiny {
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap; /* Ensures items wrap to the next row */
+  justify-content: center; /* Centers the grid */
+}
+
+.image-list-tiny li {
+  display: flex;
+  flex-direction: column; /* Ensures image and caption are stacked */
+  align-items: center; /* Centers content within each item */
+  width: 426px; /* Set the width for desktop */
+  margin: 10px;
+}
+
+.image-list-tiny li > a {
+  display: block;
+  text-decoration: none;
+}
+
+.image-list-tiny li img {
+  width: 426px; /* Set width for desktop */
+  height: 236px; /* Set height for desktop */
+  object-fit: cover; /* Crops equally from all sides */
+  object-position: center; /* Centers the cropped area */
+  border: 1px solid black; /* Adds a black border */
+}
+
+.image-list-tiny .details {
+  text-align: center; /* Centers the text below the image */
+  margin-top: 10px; /* Adds spacing between the image and the caption */
+}
+
+.image-list-tiny .details h3 {
+  font-size: 18px; /* Set default text size */
+  margin: 0;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 640px) {
+  .image-list-tiny li {
+    width: 100%; /* Makes items take full width on smaller screens */
+  }
+
+  .image-list-tiny li img {
+    width: 100%; /* Adjusts image width to fit the container */
+    height: auto; /* Adjust height automatically */
+  }
+
+  .image-list-tiny .details h3 {
+    font-size: 16px; /* Adjust font size for mobile */
+  }
+}
+
+
 .myform .entry {
   background: #FFFFFF;
   color: #000000;

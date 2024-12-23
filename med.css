@@ -538,6 +538,8 @@ h2 {
 @media only screen and (max-width: 640px) {
   .image-list-tiny li {
     width: 100%; /* Makes items take full width on smaller screens */
+    text-align: center; /* Centers the text */
+    align-items: center; /* Centers the content within each item */
   }
 
   .image-list-tiny li img {
@@ -547,6 +549,7 @@ h2 {
 
   .image-list-tiny .details h3 {
     font-size: 18px; /* Adjust font size for mobile */
+    text-align: center; /* Centers the text below the image */
   }
 }
 

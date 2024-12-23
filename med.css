@@ -515,8 +515,9 @@ h2 {
 }
 
 .image-list-tiny li img {
-  width: 426px; /* Set width for desktop */
-  height: 236px; /* Set height for desktop */
+  width: 100%; /* Ensures the image scales down to fit within the container */
+  max-width: 426px; /* Prevents the image from growing beyond the container's width */
+  height: 236px; /* Ensures the height stays constant */
   object-fit: cover; /* Crops equally from all sides */
   object-position: center; /* Centers the cropped area */
   border: 1px solid black; /* Adds a black border */
@@ -528,7 +529,7 @@ h2 {
 }
 
 .image-list-tiny .details h3 {
-  font-size: 18px; /* Set default text size */
+  font-size: 20px; /* Set text size */
   margin: 0;
   white-space: normal;
   overflow: hidden;
@@ -542,11 +543,11 @@ h2 {
 
   .image-list-tiny li img {
     width: 100%; /* Adjusts image width to fit the container */
-    height: auto; /* Adjust height automatically */
+    height: auto; /* Adjust height automatically while keeping aspect ratio */
   }
 
   .image-list-tiny .details h3 {
-    font-size: 16px; /* Adjust font size for mobile */
+    font-size: 18px; /* Adjust font size for mobile */
   }
 }
 

@@ -595,6 +595,7 @@ article {
   line-height: 1.2;
   margin-bottom: 10px; /* Reduced space after title */
   color: #000;
+  text-align: left; /* Align title to the left */
 }
 
 /* Image */
@@ -660,8 +661,9 @@ article {
   }
 
   .nyt-title {
-    font-size: 36px;
+    font-size: 28px; /* Smaller font size on mobile */
     margin-bottom: 10px; /* Less space after title */
+    text-align: left; /* Left align title on mobile */
   }
 
   .nyt-byline {

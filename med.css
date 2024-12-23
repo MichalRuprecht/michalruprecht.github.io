@@ -612,9 +612,10 @@ article {
 .nyt-image {
   width: 100%;
   height: auto;
-  margin: 0 auto 10px;
-  display: block;
+  margin: 0 auto 10px; /* Horizontally center the image */
+  display: block; /* Ensures block-level behavior for centering */
   border-radius: 8px;
+  max-width: 100%; /* Prevents overflow and ensures the image doesn't stretch beyond its container */
 }
 
 /* Image Caption and Attribution */

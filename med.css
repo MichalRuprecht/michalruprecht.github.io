@@ -617,9 +617,8 @@ article {
 
 .nyt-image-attribution {
   font-family: 'NYT Imperial', serif;
-  font-size: 16px;
+  font-size: 14px; /* Smaller font size for attribution */
   color: #6d6d6d; /* Grey color */
-  font-style: italic;
   margin-left: 10px; /* Space between caption and attribution */
   display: inline; /* Keep on the same line */
 }

@@ -619,7 +619,7 @@ article {
   font-family: 'NYT Imperial', serif;
   font-size: 14px; /* Smaller font size for attribution */
   color: #6d6d6d; /* Grey color */
-  margin-left: 10px; /* Space between caption and attribution */
+  white-space: nowrap; /* Prevent extra space between caption and attribution */
   display: inline; /* Keep on the same line */
 }
 

@@ -498,13 +498,13 @@ h2 {
   padding: 0;
   display: flex;
   flex-wrap: wrap; /* Ensures items wrap to the next row */
-  justify-content: center; /* Centers the grid */
+  justify-content: flex-start; /* Aligns items to the left */
 }
 
 .image-list-tiny li {
   display: flex;
   flex-direction: column; /* Ensures image and caption are stacked */
-  align-items: center; /* Centers content within each item */
+  align-items: flex-start; /* Aligns content within each item to the left */
   width: 213px !important; /* Set the width for desktop and enforce with !important */
   margin: 10px;
 }

@@ -523,8 +523,8 @@ h2 {
 }
 
 .image-list-tiny .details {
-  text-align: center; /* Centers the text below the image */
-  margin-top: 10px; /* Adds spacing between the image and the caption */
+  text-align: left; /* Aligns text to the left */
+  margin-top: 5px; /* Reduces the space between image and text */
 }
 
 .image-list-tiny .details h3 {

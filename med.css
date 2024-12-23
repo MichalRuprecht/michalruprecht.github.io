@@ -598,6 +598,16 @@ article {
   text-align: left; /* Align title to the left */
 }
 
+/* Subtitle Style */
+.nyt-subtitle {
+  font-family: 'Times New Roman', serif;
+  font-size: 20px; /* Adjust the font size as needed */
+  font-weight: 400; /* Regular weight for subtitle */
+  color: #555; /* Lighter grey color for the subtitle */
+  margin-bottom: 15px; /* Space below the subtitle */
+  line-height: 1.4; /* Line height for readability */
+}
+
 /* Image */
 .nyt-image {
   width: 100%;

@@ -505,7 +505,7 @@ h2 {
   display: flex;
   flex-direction: column; /* Ensures image and caption are stacked */
   align-items: center; /* Centers content within each item */
-  width: 426px !important; /* Set the width for desktop and enforce with !important */
+  width: 213px !important; /* Set the width for desktop and enforce with !important */
   margin: 10px;
 }
 
@@ -515,8 +515,8 @@ h2 {
 }
 
 .image-list-tiny li img {
-  width: 426px !important; /* Set width to 426px for desktop and enforce with !important */
-  height: 236px !important; /* Set height to 236px for desktop and enforce with !important */
+  width: 213px !important; /* Set width to 213px for desktop and enforce with !important */
+  height: 118px !important; /* Set height to 118px for desktop and enforce with !important */
   object-fit: cover; /* Crops equally from all sides */
   object-position: center; /* Centers the cropped area */
   border: 1px solid black; /* Adds a black border */
@@ -549,7 +549,6 @@ h2 {
     font-size: 18px; /* Adjust font size for mobile */
   }
 }
-
 
 .myform .entry {
   background: #FFFFFF;

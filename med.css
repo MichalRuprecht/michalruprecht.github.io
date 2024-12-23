@@ -593,9 +593,8 @@ article {
   font-size: 48px;
   font-weight: 700;
   line-height: 1.2;
-  margin-bottom: 10px; /* Reduced space after title */
+  margin-bottom: 5px; /* Reduced space after title */
   color: #000;
-  text-align: left; /* Align title to the left */
 }
 
 /* Subtitle Style */
@@ -604,6 +603,7 @@ article {
   font-size: 20px; /* Adjust the font size as needed */
   font-weight: 400; /* Regular weight for subtitle */
   color: #555; /* Lighter grey color for the subtitle */
+  margin-top: 0; /* Remove space above the subtitle */
   margin-bottom: 15px; /* Space below the subtitle */
   line-height: 1.4; /* Line height for readability */
 }

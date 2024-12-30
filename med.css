@@ -706,7 +706,7 @@ article {
 /* Publish Date */
 .nyt-publish-date {
   font-family: 'NYT Imperial', serif;
-  font-size: 14px;
+  font-size: 15px;
   color: #333;
   margin-top: 0;
   margin-bottom: 10px; /* Reduced space between publish date and content */
@@ -750,7 +750,7 @@ article {
   }
 
   .nyt-publish-date {
-    font-size: 12px;
+    font-size: 13px;
     margin-bottom: 8px; /* Less space */
   }
 

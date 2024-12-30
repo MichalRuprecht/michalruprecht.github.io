@@ -227,21 +227,22 @@ h2 {
   color: #000000;
   border: 2px solid #000000;
   border-radius: 15px;
-  padding: 0; /* Remove internal padding */
+  padding: 5px; /* Add padding for spacing */
   text-decoration: none;
-  display: inline-flex; /* Use flexbox for proper alignment */
-  align-items: center; /* Center content vertically */
-  justify-content: center; /* Center content horizontally */
-  width: auto; /* Automatically adjust width to fit content */
-  height: auto; /* Automatically adjust height to fit content */
-  overflow: visible; /* Allow the image to fully display */
+  display: inline-flex; /* Flexbox for proper alignment */
+  align-items: center; /* Vertical alignment */
+  justify-content: center; /* Horizontal alignment */
+  width: 48px; /* Consistent button size */
+  height: 48px; /* Consistent button size */
+  overflow: hidden; /* Crop overflow if needed */
   position: relative;
 }
 
 .collegebutton img {
-  max-width: 32px; /* Limit image width */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Prevent inline spacing issues */
+  max-width: 32px; /* Restrict image width */
+  max-height: 32px; /* Restrict image height */
+  display: block; /* Ensure no inline spacing issues */
+  margin: auto; /* Center within the button */
 }
 
 .collegebutton:hover {

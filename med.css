@@ -118,6 +118,19 @@ h2 {
   font-size: 25px;
 }}
 
+
+ul {
+  margin-top: 0.2em;
+  margin-bottom: 0.5em;
+  padding-left: 1.5em;
+  list-style-type: disc;
+}
+
+ul li {
+  margin-bottom: 0.2em;
+  line-height: 1.5;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -331,17 +344,6 @@ h2 {
   font-weight: bold;
 }
 
-.college ul {
-  margin-top: 0.2em;
-  margin-bottom: 0.5em;
-  padding-left: 1.5em;
-  list-style-type: disc;
-}
-
-.college ul li {
-  margin-bottom: 0.2em;
-  line-height: 1.5;
-}
 
 .collapsible {
   color: #FFFFFF;

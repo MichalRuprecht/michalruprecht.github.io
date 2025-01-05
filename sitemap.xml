@@ -9,6 +9,31 @@
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
 </url>
+  <url>
+  <loc>https://michalruprecht.com/pages/pubs.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.5</priority>
+</url>
+  <url>
+ <loc>https://michalruprecht.github.io/assets/pubs/1.pdf</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.1</priority>
+</url>
+<url>
+ <loc>https://michalruprecht.github.io/assets/pubs/2.pdf</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.1</priority>
+</url>
+<url>
+ <loc>https://michalruprecht.github.io/assets/pubs/3.pdf</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.1</priority>
+</url>
+<url>
+ <loc>https://michalruprecht.github.io/assets/pubs/4.pdf</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.1</priority>
+</url>
 <url>
   <loc>https://michalruprecht.com/pages/ceramics.html</loc>
   <changefreq>monthly</changefreq>

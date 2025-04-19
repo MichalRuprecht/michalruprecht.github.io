@@ -828,36 +828,48 @@ title: Clips - Michal Ruprecht
 
 </body>
 
- <script>
+<script>
 document.addEventListener('DOMContentLoaded', () => {
-  const buttons = document.querySelectorAll('.filter-btn');
+  const buttons = document.querySelectorAll('#filter-buttons .filter-btn');
   const items   = document.querySelectorAll('.image-list-clip li');
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const src = btn.dataset.source.toLowerCase();
+  function doFilter(src) {
+    buttons.forEach(b => b.classList.remove('active'));
+    const btn = Array.from(buttons).find(b => b.dataset.source.toLowerCase() === src.toLowerCase());
+    if (btn) btn.classList.add('active');
 
-      items.forEach(li => {
-        if (src === 'all') {
-          li.style.display = 'flex';
-        } else {
-          const publisherEl = li.querySelector('.publisher');
-          // normalize curly apostrophes → straight before matching
-          const pubText = publisherEl
-            ? publisherEl.innerText
-                .toLowerCase()
-                .replace(/\u2019/g, "'")
-                .trim()
-            : '';
-          li.style.display = pubText.includes(src)
-            ? 'flex'
-            : 'none';
-        }
-      });
+    items.forEach(li => {
+      if (src === 'all') {
+        li.style.display = 'flex';
+      } else {
+        const pubEl = li.querySelector('.publisher');
+        const pubText = pubEl
+          ? pubEl.innerText.toLowerCase().replace(/\u2019/g, "'").trim()
+          : '';
+        li.style.display = pubText.includes(src.toLowerCase())
+          ? 'flex' : 'none';
+      }
+    });
+  }
+
+  // Hook clicks: set hash, run filter
+  buttons.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const hash = btn.dataset.hash;
+      history.replaceState(null, '', '#' + hash);
+      doFilter(btn.dataset.source);
     });
   });
+
+  // On load, check window.location.hash
+  const initial = window.location.hash.slice(1) || 'all';
+  const initialBtn = Array.from(buttons).find(b => b.dataset.hash === initial);
+  if (initialBtn) {
+    doFilter(initialBtn.dataset.source);
+  } else {
+    doFilter('all');
+  }
 });
 </script>
   

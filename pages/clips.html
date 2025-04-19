@@ -15,12 +15,12 @@ title: Clips - Michal Ruprecht
         </div>
 
     <!-- Filter buttons -->
-    <div id="filter-buttons">
-  <a class="filter-btn" href="#all"            data-source="all"                data-hash="all">All</a>
-  <a class="filter-btn" href="#abc-news"       data-source="ABC News"          data-hash="abc-news">ABC News</a>
-  <a class="filter-btn" href="#medpage-today"  data-source="MedPage Today"      data-hash="medpage-today">MedPage Today</a>
-  <a class="filter-btn" href="#michigan-daily" data-source="The Michigan Daily" data-hash="michigan-daily">The Michigan Daily</a>
-  <a class="filter-btn" href="#nations-health" data-source="The Nation's Health" data-hash="nations-health">The Nation's Health</a>
+<div id="filter-buttons">
+  <a class="filter-btn" href="/pages/clips?filter=all"                data-source="all"                data-filter="all">All</a>
+  <a class="filter-btn" href="/pages/clips?filter=abc-news"         data-source="ABC News"          data-filter="abc-news">ABC News</a>
+  <a class="filter-btn" href="/pages/clips?filter=medpage-today"    data-source="MedPage Today"      data-filter="medpage-today">MedPage Today</a>
+  <a class="filter-btn" href="/pages/clips?filter=michigan-daily"   data-source="The Michigan Daily" data-filter="michigan-daily">The Michigan Daily</a>
+  <a class="filter-btn" href="/pages/clips?filter=nations-health"   data-source="The Nation's Health" data-filter="nations-health">The Nation's Health</a>
 </div>
     <!-- end filter buttons -->
 
@@ -835,7 +835,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function doFilter(src) {
     buttons.forEach(b => b.classList.remove('active'));
-    const btn = Array.from(buttons).find(b => b.dataset.source.toLowerCase() === src.toLowerCase());
+    const btn = Array.from(buttons)
+                     .find(b => b.dataset.source.toLowerCase() === src.toLowerCase());
     if (btn) btn.classList.add('active');
 
     items.forEach(li => {
@@ -847,29 +848,26 @@ document.addEventListener('DOMContentLoaded', () => {
           ? pubEl.innerText.toLowerCase().replace(/\u2019/g, "'").trim()
           : '';
         li.style.display = pubText.includes(src.toLowerCase())
-          ? 'flex' : 'none';
+          ? 'flex'
+          : 'none';
       }
     });
   }
 
-  // Hook clicks: set hash, run filter
+  // helper: get ?filter=xyz from URL
+  const params = new URLSearchParams(window.location.search);
+  const initial = params.get('filter') || 'all';
+  doFilter(initial);
+
+  // hook click events to update URL without reload
   buttons.forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
-      const hash = btn.dataset.hash;
-      history.replaceState(null, '', '#' + hash);
+      const filter = btn.dataset.filter;
+      history.replaceState(null, '', '?filter=' + filter);
       doFilter(btn.dataset.source);
     });
   });
-
-  // On load, check window.location.hash
-  const initial = window.location.hash.slice(1) || 'all';
-  const initialBtn = Array.from(buttons).find(b => b.dataset.hash === initial);
-  if (initialBtn) {
-    doFilter(initialBtn.dataset.source);
-  } else {
-    doFilter('all');
-  }
 });
 </script>
   

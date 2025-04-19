@@ -844,12 +844,16 @@ document.addEventListener('DOMContentLoaded', () => {
           li.style.display = 'flex';
         } else {
           const publisherEl = li.querySelector('.publisher');
-          const pubText     = publisherEl
-                                ? publisherEl.innerText.toLowerCase()
-                                : '';
+          // normalize curly apostrophes → straight before matching
+          const pubText = publisherEl
+            ? publisherEl.innerText
+                .toLowerCase()
+                .replace(/\u2019/g, "'")
+                .trim()
+            : '';
           li.style.display = pubText.includes(src)
-                             ? 'flex'
-                             : 'none';
+            ? 'flex'
+            : 'none';
         }
       });
     });

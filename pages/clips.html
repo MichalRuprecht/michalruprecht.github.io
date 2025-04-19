@@ -833,39 +833,46 @@ document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('#filter-buttons .filter-btn');
   const items   = document.querySelectorAll('.image-list-clip li');
 
-  function doFilter(src) {
+  function doFilterBySlug(slug) {
+    // clear previous
     buttons.forEach(b => b.classList.remove('active'));
-    const btn = Array.from(buttons)
-                     .find(b => b.dataset.source.toLowerCase() === src.toLowerCase());
-    if (btn) btn.classList.add('active');
-
+    // find the button via its data-filter
+    const btn = Array.from(buttons).find(b => b.dataset.filter === slug);
+    // if none, show all and exit
+    if (!btn) {
+      items.forEach(li => li.style.display = 'flex');
+      return;
+    }
+    btn.classList.add('active');
+    // get the human-readable source
+    const source = btn.dataset.source.toLowerCase();
     items.forEach(li => {
-      if (src === 'all') {
+      if (slug === 'all') {
         li.style.display = 'flex';
       } else {
         const pubEl = li.querySelector('.publisher');
         const pubText = pubEl
           ? pubEl.innerText.toLowerCase().replace(/\u2019/g, "'").trim()
           : '';
-        li.style.display = pubText.includes(src.toLowerCase())
+        li.style.display = pubText.includes(source)
           ? 'flex'
           : 'none';
       }
     });
   }
 
-  // helper: get ?filter=xyz from URL
+  // On load: read ?filter=slug
   const params = new URLSearchParams(window.location.search);
   const initial = params.get('filter') || 'all';
-  doFilter(initial);
+  doFilterBySlug(initial);
 
-  // hook click events to update URL without reload
+  // On click: update URL and re-filter
   buttons.forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault();
-      const filter = btn.dataset.filter;
-      history.replaceState(null, '', '?filter=' + filter);
-      doFilter(btn.dataset.source);
+      const slug = btn.dataset.filter;
+      history.replaceState(null, '', '?filter=' + slug);
+      doFilterBySlug(slug);
     });
   });
 });

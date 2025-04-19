@@ -810,3 +810,15 @@ article a:hover {
   background: #000;
   color: #fff;
 }
+
+
+/* Make filter text bold on hover and when active/selected */
+.filter-btn:hover,
+.filter-btn.active {
+  font-weight: bold;
+}
+
+/* Prevent the “Show less” pseudo‑content on filter buttons */
+.filter-btn.active:after {
+  content: "";
+}

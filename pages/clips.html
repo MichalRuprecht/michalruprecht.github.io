@@ -985,26 +985,31 @@ title: Clips - Michal Ruprecht
 
     </body>
 
-  <script>
+ <script>
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('.filter-btn');
   const items   = document.querySelectorAll('.image-list-clip li');
 
-  buttons.forEach(btn =>
+  buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       buttons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const src = btn.dataset.source;
+      const src = btn.dataset.source.toLowerCase();
       items.forEach(li => {
         if (src === 'all') {
           li.style.display = 'flex';
         } else {
-          const text = li.querySelector('.details').innerText;
-          li.style.display = text.includes(src) ? 'flex' : 'none';
+          // split the .details text into lines and grab the publisher
+          const lines = li.querySelector('.details').innerText
+            .split('\n')
+            .map(l => l.trim())
+            .filter(l => l);
+          const publisher = (lines[1] || '').toLowerCase();
+          li.style.display = publisher.includes(src) ? 'flex' : 'none';
         }
       });
-    })
-  );
+    });
+  });
 });
 </script>
   

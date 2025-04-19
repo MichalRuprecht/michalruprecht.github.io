@@ -984,5 +984,29 @@ title: Clips - Michal Ruprecht
 
 
     </body>
+
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('.filter-btn');
+  const items   = document.querySelectorAll('.image-list-clip li');
+
+  buttons.forEach(btn =>
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const src = btn.dataset.source;
+      items.forEach(li => {
+        if (src === 'all') {
+          li.style.display = 'flex';
+        } else {
+          const text = li.querySelector('.details').innerText;
+          li.style.display = text.includes(src) ? 'flex' : 'none';
+        }
+      });
+    })
+  );
+});
+</script>
+  
 </html>
 

@@ -46,8 +46,10 @@ title: Social
   name="entry.139445516"
   placeholder="example@example.com"
   required
-  pattern="[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}"
-  title="Please enter a valid email (e.g. user@example.com)"
+  pattern="^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$"
+  title="Enter a valid email (e.g. user@example.com)"
+  oninvalid="this.setCustomValidity('Please enter a valid email.')"
+  oninput="this.setCustomValidity('')"
 />
                 <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
                 <br /><input class="submit" type="submit" value="Submit"/></big></h3>

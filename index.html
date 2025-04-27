@@ -389,24 +389,30 @@ title: Michal Ruprecht
 </h3>
                 </div>
       
-      
-          <div class="college">
-  <script>var submitted=false;</script>
-  <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"
-          onload="if(submitted){window.location='https://michalruprecht.com/';}">
-  </iframe>
-  <form class="myform"
-        action="https://docs.google.com/forms/d/e/1FAIpQLSfsH-HksdsGnwGeYc60Y1XB3Vc8xDe2z_sCeWN2E6pSq2icig/formResponse"
-        method="post"
-        target="hidden_iframe"
-        onsubmit="return validateEmail(this);"
-        onkeydown="return event.key!='Enter';">
 
+      
+<div class="college">
+  <script>var submitted = false;</script>
+  <iframe
+    name="hidden_iframe"
+    id="hidden_iframe"
+    style="display:none;"
+    onload="if(submitted) handleSuccess();"
+  ></iframe>
+
+  <form
+    class="myform"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSfsH-HksdsGnwGeYc60Y1XB3Vc8xDe2z_sCeWN2E6pSq2icig/formResponse"
+    method="post"
+    target="hidden_iframe"
+    onsubmit="return validateEmail(this);"
+    onkeydown="return event.key!='Enter';"
+  >
     <center>
       <h3>
         <big>
           Receive my stories in your inbox. Subscribe to my newsletter below.
-          <br/>
+          <br />
           <input
             class="entry"
             type="email"
@@ -414,25 +420,46 @@ title: Michal Ruprecht
             placeholder="example@example.com"
             required
           />
-          <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-          <br/>
-          <input class="submit" type="submit" value="Submit"/>
+          <input type="hidden" name="recaptcha_response" id="recaptchaResponse" />
+          <br />
+          <input class="submit" type="submit" value="Submit" />
         </big>
       </h3>
     </center>
   </form>
+
+  <div
+    id="successMessage"
+    style="display:none; text-align:center; margin-top:1em;"
+  >
+    <h3>Your response has been recorded.</h3>
+    <a href="#" onclick="resetForm(); return false;">Submit another response</a>
+  </div>
 </div>
 
 <script>
   function validateEmail(form) {
     var email = form['entry.139445516'].value.trim();
-    var re    = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/;
+    var re = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/;
     if (!re.test(email)) {
       alert('Please enter a valid email');
       return false;
     }
     submitted = true;
     return true;
+  }
+
+  function handleSuccess() {
+    document.querySelector('.myform').style.display = 'none';
+    document.getElementById('successMessage').style.display = 'block';
+  }
+
+  function resetForm() {
+    document.getElementById('successMessage').style.display = 'none';
+    var form = document.querySelector('.myform');
+    form.reset();
+    form.style.display = 'block';
+    submitted = false;
   }
 </script>
       

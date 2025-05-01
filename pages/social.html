@@ -107,7 +107,31 @@ title: Social
     submitted = false;
   }
 </script>
-        
+
+        <script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
+<script>
+  (function(){
+    var form = document.querySelector('.myform');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      // run your existing email check first
+      if (!validateEmail(this)) return;
+
+      // then get a recaptcha token
+      grecaptcha.ready(function(){
+        grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', {action: 'newsletter'})
+          .then(function(token){
+            // stick token in the hidden field
+            document.getElementById('recaptchaResponse').value = token;
+            // preserve your iframe logic
+            submitted = true;
+            // finally submit the form
+            form.submit();
+          });
+      });
+    });
+  })();
+</script>
         
     </h3>
             </div>

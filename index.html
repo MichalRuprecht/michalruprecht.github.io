@@ -441,7 +441,6 @@ title: Michal Ruprecht
   </div>
 </div>
 
-<script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
 <script>
   const form = document.querySelector('.myform');
   form.addEventListener('submit', function(e) {
@@ -458,9 +457,29 @@ title: Michal Ruprecht
   });
 
   // your existing helpers stay below unchanged:
-  function validateEmail(form) { … }
-  function handleSuccess() { … }
-  function resetForm() { … }
+  function validateEmail(form) {
+  var email = form['entry.139445516'].value.trim();
+  var re = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/;
+  if (!re.test(email)) {
+    alert('Please enter a valid email');
+    return false;
+  }
+  submitted = true;
+  return true;
+}
+
+function handleSuccess() {
+  document.querySelector('.myform').style.display = 'none';
+  document.getElementById('successMessage').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('successMessage').style.display = 'none';
+  var form = document.querySelector('.myform');
+  form.reset();
+  form.style.display = 'block';
+  submitted = false;
+}
 </script>
       
 </div>

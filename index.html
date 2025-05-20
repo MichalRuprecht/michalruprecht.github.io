@@ -7,6 +7,7 @@ title: Michal Ruprecht
   <meta name="description" content="Michal Ruprecht is a fourth-year medical student at Wayne State University School of Medicine. He is an AAAS Mass Media Fellow at NPR and the Stanford University School of Medicine Global Health Media Fellow.">
   <head>
     <title>Michal Ruprecht</title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
   </head>
   <body>
     <div class="grid">
@@ -405,7 +406,6 @@ title: Michal Ruprecht
     action="https://docs.google.com/forms/d/e/1FAIpQLSfsH-HksdsGnwGeYc60Y1XB3Vc8xDe2z_sCeWN2E6pSq2icig/formResponse"
     method="post"
     target="hidden_iframe"
-    onsubmit="return validateEmail(this);"
     onkeydown="return event.key!='Enter';"
   >
     <center>
@@ -420,7 +420,7 @@ title: Michal Ruprecht
             placeholder="example@example.com"
             required
           />
-          <input type="hidden" name="recaptcha_response" id="recaptchaResponse" />
+    <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
           <br />
           <input class="submit" type="submit" value="Submit" />
         </big>
@@ -478,8 +478,8 @@ title: Michal Ruprecht
 
       // then get a recaptcha token
       grecaptcha.ready(function(){
-        grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', {action: 'newsletter'})
-          .then(function(token){
+grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', { action: 'newsletter' })
+  .then(function(token){
             // stick token in the hidden field
             document.getElementById('recaptchaResponse').value = token;
             // preserve your iframe logic
@@ -490,6 +490,14 @@ title: Michal Ruprecht
       });
     });
   })();
+</script>
+      <script>
+  grecaptcha.ready(function() {
+    grecaptcha.execute(6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt, { action: 'newsletter' })
+      .then(function(token) {
+        document.getElementById('recaptchaResponse').value = token;
+      });
+  });
 </script>
       
 </div>

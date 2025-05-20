@@ -401,32 +401,32 @@ title: Michal Ruprecht
     onload="if(submitted) handleSuccess();"
   ></iframe>
 
-  <form
-    class="myform"
-    action="https://docs.google.com/forms/d/e/1FAIpQLSfsH-HksdsGnwGeYc60Y1XB3Vc8xDe2z_sCeWN2E6pSq2icig/formResponse"
-    method="post"
-    target="hidden_iframe"
-    onkeydown="return event.key!='Enter';"
-  >
-    <center>
-      <h3>
-        <big>
-          Receive my stories in your inbox. Subscribe to my newsletter below.
-          <br />
-          <input
-            class="entry"
-            type="email"
-            name="entry.139445516"
-            placeholder="example@example.com"
-            required
-          />
-    <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-          <br />
-          <input class="submit" type="submit" value="Submit" />
-        </big>
-      </h3>
-    </center>
-  </form>
+<form
+  class="myform"
+  action="https://script.google.com/macros/s/AKfycbyuEkk3pReEHJ0JJl7hYYakWNycBGETJhy_8k6Pci7bb_h9lILGrG-_qQV0lBI94msp/exec"
+  method="post"
+  target="hidden_iframe"
+  onkeydown="return event.key!='Enter';"
+>
+  <center>
+    <h3>
+      <big>
+        Receive my stories in your inbox. Subscribe to my newsletter below.
+        <br />
+        <input
+          class="entry"
+          type="email"
+          name="entry.139445516"
+          placeholder="example@example.com"
+          required
+        />
+        <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+        <br />
+        <input class="submit" type="submit" value="Submit" />
+      </big>
+    </h3>
+  </center>
+</form>
 
   <div id="successMessage" style="display:none;">
     <center>
@@ -440,6 +440,20 @@ title: Michal Ruprecht
     </center>
   </div>
 </div>
+
+<script>
+  const form = document.querySelector('.myform');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    grecaptcha.ready(() => {
+      grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', { action: 'newsletter' })
+        .then(token => {
+          document.getElementById('recaptchaResponse').value = token;
+          form.submit();
+        });
+    });
+  });
+</script>
 
 <script>
   function validateEmail(form) {
@@ -468,37 +482,6 @@ title: Michal Ruprecht
 </script>
 
       <script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
-<script>
-  (function(){
-    var form = document.querySelector('.myform');
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      // run your existing email check first
-      if (!validateEmail(this)) return;
-
-      // then get a recaptcha token
-      grecaptcha.ready(function(){
-grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', { action: 'newsletter' })
-  .then(function(token){
-            // stick token in the hidden field
-            document.getElementById('recaptchaResponse').value = token;
-            // preserve your iframe logic
-            submitted = true;
-            // finally submit the form
-            form.submit();
-          });
-      });
-    });
-  })();
-</script>
-      <script>
-  grecaptcha.ready(function() {
-    grecaptcha.execute(6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt, { action: 'newsletter' })
-      .then(function(token) {
-        document.getElementById('recaptchaResponse').value = token;
-      });
-  });
-</script>
       
 </div>
 

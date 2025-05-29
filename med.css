@@ -833,3 +833,36 @@ article a:hover {
 .filter-btn.active:after {
   content: "";
 }
+
+
+
+.contact-card {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.contact-card h1 {
+  margin-bottom: 0.5rem;
+}
+.contact-card p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap: 1rem 2rem;
+}
+.contact-grid a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+}
+.contact-grid img {
+  width: 20px;
+  margin-right: 0.5rem;
+}

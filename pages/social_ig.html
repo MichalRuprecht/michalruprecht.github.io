@@ -1,0 +1,167 @@
+---
+layout: med
+title: Social
+---
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>Social</title>
+  </head>
+  <body>
+    <div class="grid">
+      <div class="footer">
+    <div class="title">
+      HELLO!
+    </div>
+
+
+<div class="college">
+      <h3>My name is <mark>&nbsp;<b>Michal Ruprecht</b>&nbsp;</mark>. I’m the AAAS Mass Media Fellow at <mark>&nbsp;<b>NPR</b>&nbsp;</mark> and the incoming Global Health Media Fellow at <mark>&nbsp;<b>Stanford University School of Medicine</b>&nbsp;</mark>. I deliver disruptive medical journalism that leads to improved scientific and medical understanding.
+        
+        <br /><br />I am a fourth-year MD student and I previously interned at <mark>&nbsp;<b>ABC News</b>&nbsp;</mark>, <mark>&nbsp;<b>MedPage Today</b>&nbsp;</mark> and the <mark>&nbsp;<b>American Public Health Association</b>&nbsp;</mark>. Prior to that, I was a reporter for <mark>&nbsp;<b><i>The Michigan Daily</i></b>&nbsp;</mark>. Find more information about my work below.
+            
+            <br /><br />
+           
+<big>Contact me</big>
+                    <br /><img src="https://michalruprecht.com/assets/icons/mail.svg" alt="mail" style="width:16px;"><a href="mailto:mruprecht@umich.edu" target="_blank"> mruprecht@umich.edu</a> or <a href="mailto:mrup.01@proton.me" target="_blank">mrup.01@proton.me</a>
+            <br /><img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone" style="width:16px;"> +1 (707) 412-8684
+            <br /><img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone" style="width:16px;"> Signal encrypted messaging: <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank">@mrup.01</a>
+<br /><br /><big>Connect with me</big><br />
+          <img src="https://michalruprecht.com/assets/icons/link.svg" alt="resume" style="width:16px;"><a href="https://michalruprecht.com/" target="_blank"> Journalism portfolio</a>
+                    <br /><img src="https://michalruprecht.com/assets/icons/link.svg" alt="resume" style="width:16px;"><a href="http://michalruprecht.com/pages/clips" target="_blank"> Clips</a>
+                            <br /><img src="https://michalruprecht.com/assets/icons/linkedin.svg" alt="linkedin" style="width:16px;"><a href="https://www.linkedin.com/in/michalruprecht" target="_blank"> LinkedIn</a>
+                    <br /><img src="https://michalruprecht.com/assets/icons/bluesky.svg" alt="bluesky" style="width:16px;"><a href="https://bsky.app/profile/michalruprecht.com" target="_blank"> @michalruprecht.com</a>
+                            <br /><img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="instagram" style="width:16px;"><a href="https://instagram.com/mrup.01" target="_blank"> @mrup.01</a>
+                    <br /><img src="https://michalruprecht.com/assets/icons/tiktok.svg" alt="tiktok" style="width:16px;"><a href="https://www.tiktok.com/@michalruprecht" target="_blank"> @michalruprecht</a>
+            <br /><img src="https://michalruprecht.com/assets/icons/scholar.svg" alt="scholar" style="width:16px;"><a href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank"> Google Scholar</a>
+
+
+</div>
+
+        
+    
+    <div class="title">NEWSLETTER</div>
+<div class="college">
+  <script>var submitted = false;</script>
+  <iframe
+    name="hidden_iframe"
+    id="hidden_iframe"
+    style="display:none;"
+    onload="if(submitted) handleSuccess();"
+  ></iframe>
+
+  <form
+    class="myform"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSfsH-HksdsGnwGeYc60Y1XB3Vc8xDe2z_sCeWN2E6pSq2icig/formResponse"
+    method="post"
+    target="hidden_iframe"
+    onsubmit="return validateEmail(this);"
+    onkeydown="return event.key!='Enter';"
+  >
+    <center>
+      <h3>
+        <big>
+          Receive my stories in your inbox. Subscribe to my newsletter below.
+          <br />
+          <input
+            class="entry"
+            type="email"
+            name="entry.139445516"
+            placeholder="example@example.com"
+            required
+          />
+          <input type="hidden" name="recaptcha_response" id="recaptchaResponse" />
+          <br />
+          <input class="submit" type="submit" value="Submit" />
+        </big>
+      </h3>
+    </center>
+  </form>
+
+  <div id="successMessage" style="display:none;">
+    <center>
+      <h3>
+        <big>
+          Your response has been recorded.
+          <br />
+          <a href="#" onclick="resetForm(); return false;">Submit another response</a>
+        </big>
+      </h3>
+    </center>
+  </div>
+</div>
+
+<script>
+  function validateEmail(form) {
+    var email = form['entry.139445516'].value.trim();
+    var re = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/;
+    if (!re.test(email)) {
+      alert('Please enter a valid email');
+      return false;
+    }
+    submitted = true;
+    return true;
+  }
+
+  function handleSuccess() {
+    document.querySelector('.myform').style.display = 'none';
+    document.getElementById('successMessage').style.display = 'block';
+  }
+
+  function resetForm() {
+    document.getElementById('successMessage').style.display = 'none';
+    var form = document.querySelector('.myform');
+    form.reset();
+    form.style.display = 'block';
+    submitted = false;
+  }
+</script>
+
+        <script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
+<script>
+  (function(){
+    var form = document.querySelector('.myform');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      // run your existing email check first
+      if (!validateEmail(this)) return;
+
+      // then get a recaptcha token
+      grecaptcha.ready(function(){
+        grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', {action: 'newsletter'})
+          .then(function(token){
+            // stick token in the hidden field
+            document.getElementById('recaptchaResponse').value = token;
+            // preserve your iframe logic
+            submitted = true;
+            // finally submit the form
+            form.submit();
+          });
+      });
+    });
+  })();
+</script>
+        
+    </h3>
+            </div>
+            </div>
+      <footer>
+    </footer>
+    <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }
+      });
+    }
+    </script>
+  </body>
+</html>

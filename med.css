@@ -882,9 +882,9 @@ article a:hover {
   padding: 0;
   margin: 20px 0; /* Adds some space above and below the grid */
   display: grid;
-  /* This creates responsive columns that are at least 200px wide */
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px; /* This sets the space between your images */
+  /* CHANGE: Reduced min-width to 150px to allow 2 columns on mobile */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px; /* Reduced gap slightly for mobile */
 }
 
 .image-grid-instagram li {

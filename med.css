@@ -882,22 +882,24 @@ article a:hover {
   padding: 0;
   margin: 20px 0; /* Adds some space above and below the grid */
   display: grid;
-  /* CHANGE: Reduced min-width to 150px to allow 2 columns on mobile */
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 10px; /* Reduced gap slightly for mobile */
+  /* CHANGE: Set to a 3-column grid to match the desired layout */
+  grid-template-columns: repeat(3, 1fr);
+  /* CHANGE: Increased gap to better match the reference image */
+  gap: 15px;
 }
 
 .image-grid-instagram li {
-  overflow: hidden; /* Ensures content fits within rounded corners */
-  border-radius: 8px; /* Optional: adds rounded corners */
+  overflow: hidden; /* Ensures content fits within the element */
+  /* CHANGE: Removed border-radius for sharp corners like the example */
 }
 
 .image-grid-instagram img {
   width: 100%;
-  height: 100%;
+  /* CHANGE: Set height to auto to allow variable heights based on image content */
+  height: auto;
   display: block; /* Removes any bottom spacing on the image */
   object-fit: cover; /* Ensures the image covers the grid area without distortion */
-  aspect-ratio: 1 / 1; /* Makes the grid items perfectly square */
+  /* CHANGE: Removed aspect-ratio to stop forcing images to be square */
   transition: transform 0.3s ease; /* Smooth transition for a hover effect */
 }
 

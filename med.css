@@ -877,14 +877,13 @@ article a:hover {
 }
 
 
-/* Default: show all items */
 .image-grid-instagram {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 4px;
+  grid-template-columns: repeat(5, 1fr); /* default desktop layout */
 }
 
 .image-grid-instagram li {
@@ -904,26 +903,16 @@ article a:hover {
   transform: scale(1.02);
 }
 
-/* Only show 6 images (2 rows of 3) on mobile */
+/* On tablet */
+@media (max-width: 1023px) {
+  .image-grid-instagram {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* On mobile */
 @media (max-width: 767px) {
-  .image-grid-instagram li:nth-child(n+7) {
-    display: none;
-  }
-}
-
-/* More columns and all images on larger screens */
-@media (min-width: 768px) {
   .image-grid-instagram {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .image-grid-instagram li {
-    display: block; /* Reset hidden items */
-  }
-}
-
-@media (min-width: 1024px) {
-  .image-grid-instagram {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* Only 2 images per row */
   }
 }

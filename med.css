@@ -875,3 +875,33 @@ article a:hover {
   width: 16px;
   margin-right: 0.5rem;
 }
+
+
+.image-grid-instagram {
+  list-style: none; /* Removes bullet points from the list */
+  padding: 0;
+  margin: 20px 0; /* Adds some space above and below the grid */
+  display: grid;
+  /* This creates responsive columns that are at least 200px wide */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px; /* This sets the space between your images */
+}
+
+.image-grid-instagram li {
+  overflow: hidden; /* Ensures content fits within rounded corners */
+  border-radius: 8px; /* Optional: adds rounded corners */
+}
+
+.image-grid-instagram img {
+  width: 100%;
+  height: 100%;
+  display: block; /* Removes any bottom spacing on the image */
+  object-fit: cover; /* Ensures the image covers the grid area without distortion */
+  aspect-ratio: 1 / 1; /* Makes the grid items perfectly square */
+  transition: transform 0.3s ease; /* Smooth transition for a hover effect */
+}
+
+/* Optional: Add a slight zoom effect when you hover over an image */
+.image-grid-instagram a:hover img {
+  transform: scale(1.05);
+}

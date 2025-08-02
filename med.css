@@ -880,25 +880,25 @@ article a:hover {
 .image-grid-instagram {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Smaller width columns */
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Large columns */
+  gap: 4px; /* Minimal spacing */
 }
 
 .image-grid-instagram li {
   overflow: hidden;
-  aspect-ratio: 3 / 4; /* Portrait-style aspect ratio */
+  aspect-ratio: 3 / 4; /* Portrait-style */
 }
 
 .image-grid-instagram img {
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: cover;
+  display: block;
   transition: transform 0.3s ease;
 }
 
 .image-grid-instagram a:hover img {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }

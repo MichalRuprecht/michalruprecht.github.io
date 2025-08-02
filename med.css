@@ -902,6 +902,7 @@ article a:hover {
 
 .image-grid-instagram a:hover img {
   transform: scale(1.02);
+  filter: brightness(0.85); /* Slightly dims the image */
 }
 
 /* Tablet */

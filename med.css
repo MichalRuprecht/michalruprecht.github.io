@@ -882,13 +882,13 @@ article a:hover {
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Large columns */
-  gap: 4px; /* Minimal spacing */
+  grid-template-columns: repeat(3, 1fr); /* Default: 3 columns (mobile) */
+  gap: 4px;
 }
 
 .image-grid-instagram li {
   overflow: hidden;
-  aspect-ratio: 3 / 4; /* Portrait-style */
+  aspect-ratio: 3 / 4;
 }
 
 .image-grid-instagram img {
@@ -901,4 +901,17 @@ article a:hover {
 
 .image-grid-instagram a:hover img {
   transform: scale(1.02);
+}
+
+/* Optional: increase column size on larger screens */
+@media (min-width: 768px) {
+  .image-grid-instagram {
+    grid-template-columns: repeat(4, 1fr); /* More columns on tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .image-grid-instagram {
+    grid-template-columns: repeat(5, 1fr); /* Even more columns on desktop */
+  }
 }

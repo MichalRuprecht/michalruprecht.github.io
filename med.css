@@ -882,17 +882,18 @@ article a:hover {
   padding: 0;
   margin: 20px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Responsive layout */
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Smaller width columns */
   gap: 15px;
 }
 
 .image-grid-instagram li {
   overflow: hidden;
+  aspect-ratio: 3 / 4; /* Portrait-style aspect ratio */
 }
 
 .image-grid-instagram img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   object-fit: cover;
   transition: transform 0.3s ease;

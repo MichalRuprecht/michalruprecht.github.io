@@ -882,13 +882,14 @@ article a:hover {
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 4px;
-  grid-template-columns: repeat(5, 1fr); /* default desktop layout */
+  gap: 4px; /* This sets equal vertical & horizontal spacing */
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .image-grid-instagram li {
   overflow: hidden;
   aspect-ratio: 3 / 4;
+  margin: 0; /* Remove any default spacing */
 }
 
 .image-grid-instagram img {
@@ -903,16 +904,16 @@ article a:hover {
   transform: scale(1.02);
 }
 
-/* On tablet */
+/* Tablet */
 @media (max-width: 1023px) {
   .image-grid-instagram {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* On mobile */
+/* Mobile */
 @media (max-width: 767px) {
   .image-grid-instagram {
-    grid-template-columns: repeat(2, 1fr); /* Only 2 images per row */
+    grid-template-columns: repeat(2, 1fr);
   }
 }

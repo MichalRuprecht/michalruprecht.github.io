@@ -882,8 +882,16 @@ article a:hover {
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Default: 3 columns (mobile) */
+  grid-template-columns: repeat(3, 1fr);
   gap: 4px;
+  overflow: hidden;
+}
+
+/* Each li = portrait (3:4), so 2 rows ≈ 2 * (100vw / 3) * 4 / 3 */
+@media (max-width: 767px) {
+  .image-grid-instagram {
+    max-height: calc((100vw / 3) * 4/3 * 2); /* Height of 2 portrait rows */
+  }
 }
 
 .image-grid-instagram li {
@@ -903,15 +911,16 @@ article a:hover {
   transform: scale(1.02);
 }
 
-/* Optional: increase column size on larger screens */
+/* More columns on bigger screens */
 @media (min-width: 768px) {
   .image-grid-instagram {
-    grid-template-columns: repeat(4, 1fr); /* More columns on tablet */
+    grid-template-columns: repeat(4, 1fr);
+    max-height: none; /* Remove height limit */
   }
 }
 
 @media (min-width: 1024px) {
   .image-grid-instagram {
-    grid-template-columns: repeat(5, 1fr); /* Even more columns on desktop */
+    grid-template-columns: repeat(5, 1fr);
   }
 }

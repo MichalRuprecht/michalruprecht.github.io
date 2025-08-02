@@ -877,6 +877,7 @@ article a:hover {
 }
 
 
+/* Default: show all items */
 .image-grid-instagram {
   list-style: none;
   padding: 0;
@@ -884,14 +885,6 @@ article a:hover {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 4px;
-  overflow: hidden;
-}
-
-/* Each li = portrait (3:4), so 2 rows ≈ 2 * (100vw / 3) * 4 / 3 */
-@media (max-width: 767px) {
-  .image-grid-instagram {
-    max-height: calc((100vw / 3) * 4/3 * 2); /* Height of 2 portrait rows */
-  }
 }
 
 .image-grid-instagram li {
@@ -911,11 +904,21 @@ article a:hover {
   transform: scale(1.02);
 }
 
-/* More columns on bigger screens */
+/* Only show 6 images (2 rows of 3) on mobile */
+@media (max-width: 767px) {
+  .image-grid-instagram li:nth-child(n+7) {
+    display: none;
+  }
+}
+
+/* More columns and all images on larger screens */
 @media (min-width: 768px) {
   .image-grid-instagram {
     grid-template-columns: repeat(4, 1fr);
-    max-height: none; /* Remove height limit */
+  }
+
+  .image-grid-instagram li {
+    display: block; /* Reset hidden items */
   }
 }
 

@@ -878,32 +878,26 @@ article a:hover {
 
 
 .image-grid-instagram {
-  list-style: none; /* Removes bullet points from the list */
+  list-style: none;
   padding: 0;
-  margin: 20px 0; /* Adds some space above and below the grid */
+  margin: 20px 0;
   display: grid;
-  /* CHANGE: Set to a 3-column grid to match the desired layout */
-  grid-template-columns: repeat(3, 1fr);
-  /* CHANGE: Increased gap to better match the reference image */
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Responsive layout */
   gap: 15px;
 }
 
 .image-grid-instagram li {
-  overflow: hidden; /* Ensures content fits within the element */
-  /* CHANGE: Removed border-radius for sharp corners like the example */
+  overflow: hidden;
 }
 
 .image-grid-instagram img {
   width: 100%;
-  /* CHANGE: Set height to auto to allow variable heights based on image content */
   height: auto;
-  display: block; /* Removes any bottom spacing on the image */
-  object-fit: cover; /* Ensures the image covers the grid area without distortion */
-  /* CHANGE: Removed aspect-ratio to stop forcing images to be square */
-  transition: transform 0.3s ease; /* Smooth transition for a hover effect */
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-/* Optional: Add a slight zoom effect when you hover over an image */
 .image-grid-instagram a:hover img {
   transform: scale(1.05);
 }

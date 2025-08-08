@@ -212,26 +212,84 @@
                     
                     // ** FIX: More resilient photo credit extraction logic **
                     let photoCredit = 'Not Found in source. Please copy manually.';
-                    const mainImageMetaUrl = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
 
-                    if (mainImageMetaUrl) {
-                        // Use a partial URL match to find the image, as the URL in the img tag may differ slightly
-                        const partialImageUrl = mainImageMetaUrl.split('?')[0]; 
-                        const imageElement = doc.querySelector(`img[src*="${partialImageUrl}"]`);
+                    // ** FIX: More resilient photo credit extraction logic (REPLACED) **
+                    function extractPhotoCredit(doc) {
+                        const selectors = [
+                            'figure figcaption', '.image-credit', '.photo-credit', '.credit-byline', '.credit-text',
+                            '.caption-source', '.credit', '.caption', '.caption__credit', '.credit-line', '.photo-byline',
+                            '.byline-photo', '[itemprop="copyrightHolder"]', '.wp-caption-text'
+                        ];
 
-                        if (imageElement) {
-                            // Traverse up the DOM to find a container element for the image
-                            const creditContainer = imageElement.closest('figure, .image-container, .image-wrapper');
-                            
-                            if (creditContainer) {
-                                // Search within that container for any element with a credit-related class
-                                const creditElement = creditContainer.querySelector('.image-credit, .photo-credit, .credit-byline, .credit-text, .caption-source, .credit');
-                                if (creditElement && creditElement.textContent.trim()) {
-                                    photoCredit = creditElement.textContent.trim();
+                        const candidates = new Set();
+
+                        // gather elements matching common selectors
+                        selectors.forEach(sel => {
+                            doc.querySelectorAll(sel).forEach(el => candidates.add(el));
+                        });
+
+                        // also find anything with a class or id that contains credit/caption
+                        doc.querySelectorAll('[class], [id]').forEach(el => {
+                            const attr = (el.className || '') + ' ' + (el.id || '');
+                            if (/credit|caption|photo/i.test(attr)) candidates.add(el);
+                        });
+
+                        // find figcaption text and anything near images
+                        doc.querySelectorAll('figure, picture, .image, .media, .media__figure, .image-wrapper').forEach(container => {
+                            if (!container) return;
+                            Array.from(container.querySelectorAll('*')).forEach(ch => {
+                                const txt = (ch.textContent || '').trim();
+                                if (!txt) return;
+                                if (/via|Getty|AP|Reuters|Anadolu|Alamy|AFP|EPA|Image credit|Photo credit/i.test(txt) || /credit|caption/i.test(ch.className || '')) {
+                                    candidates.add(ch);
                                 }
+                            });
+                        });
+
+                        const scored = [];
+                        candidates.forEach(el => {
+                            try {
+                                let text = (el.textContent || '').trim().replace(/\s+/g, ' ');
+                                if (!text) return;
+                                // strip leading labels
+                                text = text.replace(/^(Image credit[:\s-]*|Photo credit[:\s-]*|Image Credit[:\s-]*|Photo Credit[:\s-]*)/i, '').trim();
+                                let score = 0;
+                                if (/Getty|AP|Reuters|Anadolu|Alamy|AFP|EPA/i.test(text)) score += 20;
+                                if (text.includes('/')) score += 8;
+                                if (/via/i.test(text)) score += 6;
+                                if (/Image credit|Photo credit|credit/i.test(el.className || '')) score += 4;
+                                if (el.closest && el.closest('figure, picture, .image')) score += 3;
+                                if (text.length > 3 && text.length < 220) score += 2;
+                                // penalize very long or tiny strings
+                                if (text.length < 3 || text.length > 300) score -= 5;
+                                scored.push({el, text, score});
+                            } catch (e) { /* ignore bad nodes */ }
+                        });
+
+                        // Also scan whole text for common 'via Getty Images' pattern
+                        try {
+                            const bodyText = (doc && doc.body && doc.body.innerText) ? doc.body.innerText : (doc.documentElement && doc.documentElement.innerText ? doc.documentElement.innerText : '');
+                            const m = bodyText.match(/([A-Za-z\'\-\.\s]+\/[A-Za-z\'\-\.\s]+(?:\/[A-Za-z\'\-\.\s]+)?\s*\/\s*via\s+Getty Images)/i);
+                            if (m && m[0]) {
+                                scored.push({el:null, text:m[0].trim(), score:25});
                             }
-                        }
+                            // fallback match for 'via Getty Images' with preceding few words
+                            const m2 = bodyText.match(/([A-Za-z\'\-\.\s]{1,80}\s+via\s+Getty Images)/i);
+                            if (m2 && m2[0]) scored.push({el:null, text:m2[0].trim(), score:20});
+                        } catch(e){}
+
+                        scored.sort((a,b)=>b.score - a.score);
+                        if (scored.length) return scored[0].text;
+                        return null;
                     }
+
+                    // try extract
+                    const _extractedCredit = extractPhotoCredit(doc);
+                    if (_extractedCredit) {
+                        photoCredit = _extractedCredit;
+                    }
+
+                    // end FIX: photo credit
 
                     let teaserWithAuthor = "Not Found";
                     if (teaser && author) {

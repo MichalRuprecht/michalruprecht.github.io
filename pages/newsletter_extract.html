@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>Newsletter Item Extractor//</h1>
+        <h1>Newsletter Item Extractor</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -214,56 +214,66 @@
                         photo = photo.replace(/\/format\/\w+/, '/format/png');
                     }
 
-                    // Improved photo credit extraction:
-                    // Find the main story image first (prefer images inside #storytext/.storytext/.imagewrap).
-                    // Then choose the first .credit[aria-label="Image credit"] that occurs AFTER that image in document order.
-                    // If that fails, fall back to the first credit found anywhere.
+                    // Photo credit extraction: prefer credit inside #storytext
                     let photoCredit = 'Not Found in source. Please copy manually.';
 
-                    // Try to find the main image within the story body
-                    let mainImg = doc.querySelector('#storytext img, .storytext img, .imagewrap img, article img');
+                    // Look for the story body container first
+                    const storytextEl = doc.getElementById('storytext') || doc.querySelector('.storytext.storylocation, .storytext');
+                    if (storytextEl) {
+                        // Find the first credit element within the storytext subtree
+                        const creditInStory = storytextEl.querySelector('.credit[aria-label="Image credit"]');
+                        if (creditInStory && creditInStory.textContent && creditInStory.textContent.trim()) {
+                            photoCredit = creditInStory.textContent.trim();
+                        }
+                    }
 
-                    // If we couldn't find a clear main image, try to locate an image that matches the og:image filename
-                    if (!mainImg) {
-                        const ogImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
-                        if (ogImage) {
-                            try {
-                                const filename = ogImage.split('/').pop().split('?')[0];
-                                mainImg = Array.from(doc.querySelectorAll('img, source')).find(el => {
-                                    const src = el.getAttribute('src') || '';
-                                    const srcset = el.getAttribute('srcset') || '';
-                                    const dataOriginal = el.getAttribute('data-original') || '';
-                                    const dataTemplate = el.getAttribute('data-template') || '';
-                                    return src.includes(filename) || srcset.includes(filename) || dataOriginal.includes(filename) || dataTemplate.includes(filename);
-                                }) || null;
-                            } catch (e) {
-                                mainImg = null;
+                    // Fallback: if no credit found inside #storytext, use previous best-effort logic
+                    if (photoCredit === 'Not Found in source. Please copy manually.') {
+                        // Try to find the main image within the story body
+                        let mainImg = doc.querySelector('#storytext img, .storytext img, .imagewrap img, article img');
+
+                        // If we couldn't find a clear main image, try to locate an image that matches the og:image filename
+                        if (!mainImg) {
+                            const ogImage = doc.querySelector('meta[property=\"og:image\"]')?.getAttribute('content');
+                            if (ogImage) {
+                                try {
+                                    const filename = ogImage.split('/').pop().split('?')[0];
+                                    mainImg = Array.from(doc.querySelectorAll('img, source')).find(el => {
+                                        const src = el.getAttribute('src') || '';
+                                        const srcset = el.getAttribute('srcset') || '';
+                                        const dataOriginal = el.getAttribute('data-original') || '';
+                                        const dataTemplate = el.getAttribute('data-template') || '';
+                                        return src.includes(filename) || srcset.includes(filename) || dataOriginal.includes(filename) || dataTemplate.includes(filename);
+                                    }) || null;
+                                } catch (e) {
+                                    mainImg = null;
+                                }
+                            }
+                        }
+
+                        // Collect all credit elements in document order
+                        const creditEls = Array.from(doc.querySelectorAll('.credit[aria-label=\"Image credit\"]'));
+
+                        // If we have a main image and credit elements, pick the first credit that comes after the image
+                        if (mainImg && creditEls.length > 0 && typeof mainImg.compareDocumentPosition === 'function') {
+                            const creditAfter = creditEls.find(el => {
+                                return (mainImg.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) === Node.DOCUMENT_POSITION_FOLLOWING;
+                            });
+                            if (creditAfter && creditAfter.textContent && creditAfter.textContent.trim()) {
+                                photoCredit = creditAfter.textContent.trim();
+                            }
+                        }
+
+                        // Fallback: if still not found, use the first credit element anywhere
+                        if (photoCredit === 'Not Found in source. Please copy manually.' && creditEls.length > 0) {
+                            const firstCredit = creditEls[0];
+                            if (firstCredit && firstCredit.textContent && firstCredit.textContent.trim()) {
+                                photoCredit = firstCredit.textContent.trim();
                             }
                         }
                     }
 
-                    // Collect all credit elements in document order
-                    const creditEls = Array.from(doc.querySelectorAll('.credit[aria-label="Image credit"]'));
-
-                    // If we have a main image and credit elements, pick the first credit that comes after the image
-                    if (mainImg && creditEls.length > 0 && typeof mainImg.compareDocumentPosition === 'function') {
-                        const creditAfter = creditEls.find(el => {
-                            return (mainImg.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) === Node.DOCUMENT_POSITION_FOLLOWING;
-                        });
-                        if (creditAfter && creditAfter.textContent && creditAfter.textContent.trim()) {
-                            photoCredit = creditAfter.textContent.trim();
-                        }
-                    }
-
-                    // Fallback: if still not found, use the first credit element anywhere
-                    if (photoCredit === 'Not Found in source. Please copy manually.' && creditEls.length > 0) {
-                        const firstCredit = creditEls[0];
-                        if (firstCredit && firstCredit.textContent && firstCredit.textContent.trim()) {
-                            photoCredit = firstCredit.textContent.trim();
-                        }
-                    }
-
-                    let teaserWithAuthor = "Not Found";
+                    let teaserWithAuthor = \"Not Found\";
                     if (typeof authorsArray === "undefined" || !Array.isArray(authorsArray)) {
                         authorsArray = [];
                     }

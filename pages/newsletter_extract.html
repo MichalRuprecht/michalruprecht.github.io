@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>Newsletter Item Extractor</h1>
+        <h1>NPR Story Extractor 🚀</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -236,10 +236,39 @@ if (authorEls && authorEls.length > 0) {
                         photoCredit = creditEl.textContent.trim();
                     }
 let teaserWithAuthor = "Not Found";
-if (teaser && author) {
-                        teaserWithAuthor = `${teaser} ${author} reports for NPR.`;
-                    } else if (teaser) {
-                        teaserWithAuthor = teaser;
+                    // Build teaser + author string using the parsed authorsArray (if available).
+                    // Authors are taken from p.byline__name.byline__name--block a[rel="author"] elements.
+                    if (typeof authorsArray === "undefined" || !Array.isArray(authorsArray)) {
+                        authorsArray = [];
+                    }
+
+                    if (teaser) {
+                        if (authorsArray && authorsArray.length > 0) {
+                            let authorStr = "";
+                            if (authorsArray.length === 1) {
+                                authorStr = authorsArray[0] + " reports for NPR";
+                            } else if (authorsArray.length === 2) {
+                                // Two authors: "A and B report for NPR" (no Oxford comma)
+                                authorStr = authorsArray[0] + " and " + authorsArray[1] + " report for NPR";
+                            } else {
+                                // Three or more: "A, B, C and D report for NPR" (no Oxford comma before 'and')
+                                authorStr = authorsArray.slice(0, -1).join(", ") + " and " + authorsArray[authorsArray.length - 1] + " report for NPR";
+                            }
+                            teaserWithAuthor = teaser + " " + authorStr;
+                        } else {
+                            teaserWithAuthor = teaser;
+                        }
+                    } else if (authorsArray && authorsArray.length > 0) {
+                        // No teaser but we have authors — show authors-only line.
+                        if (authorsArray.length === 1) {
+                            teaserWithAuthor = authorsArray[0] + " reports for NPR";
+                        } else if (authorsArray.length === 2) {
+                            teaserWithAuthor = authorsArray[0] + " and " + authorsArray[1] + " report for NPR";
+                        } else {
+                            teaserWithAuthor = authorsArray.slice(0, -1).join(", ") + " and " + authorsArray[authorsArray.length - 1] + " report for NPR";
+                        }
+                    } else {
+                        teaserWithAuthor = "Not Found";
                     }
 
                     const extractedData = [

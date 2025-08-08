@@ -31,18 +31,14 @@
             text-align: center;
             color: #555;
             margin-bottom: 25px;
-            font-style: italic;
         }
-        #source-code {
+        #story-url {
             width: 100%;
-            height: 150px;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 14px;
+            font-size: 16px;
             box-sizing: border-box;
-            resize: vertical;
         }
         #extract-btn {
             display: block;
@@ -58,31 +54,37 @@
             margin-top: 15px;
             transition: background-color 0.3s;
         }
-        #extract-btn:hover {
+        #extract-btn:hover:not(:disabled) {
             background-color: #2a5aab;
+        }
+        #extract-btn:disabled {
+            background-color: #999;
+            cursor: not-allowed;
         }
         #results {
             margin-top: 30px;
             border-top: 2px solid #eee;
             padding-top: 20px;
+            text-align: center;
         }
         .result-item {
             margin-bottom: 20px;
             display: flex;
-            align-items: stretch; /* Make items in the flex container same height */
+            text-align: left;
+            align-items: stretch;
             gap: 10px;
         }
         .result-item label {
             font-weight: bold;
             color: #444;
-            flex-basis: 150px; /* Give labels a fixed width */
+            flex-basis: 150px;
             flex-shrink: 0;
-            padding-top: 8px; /* Align with textarea content */
+            padding-top: 8px;
         }
         .result-item .content-wrapper {
             flex-grow: 1;
             display: flex;
-            align-items: center; /* Vertically center content */
+            align-items: center;
         }
         .result-item textarea {
             width: 100%;
@@ -93,8 +95,8 @@
             font-family: inherit;
             font-size: 15px;
             box-sizing: border-box;
-            resize: none; /* Disable manual resizing */
-            overflow: hidden; /* Hide scrollbars until needed */
+            resize: none;
+            overflow: hidden;
         }
         .result-item .copy-btn {
             padding: 8px 15px;
@@ -105,27 +107,40 @@
             cursor: pointer;
             transition: background-color 0.3s;
             font-weight: bold;
-            white-space: nowrap; /* Prevent text wrapping */
+            white-space: nowrap;
         }
         .result-item .copy-btn:hover {
             background-color: #218838;
         }
         .result-item .copy-btn.copied {
-            background-color: #6c757d; /* Gray for copied state */
+            background-color: #6c757d;
         }
         .error-message {
-            color: red;
-            font-style: italic;
+            color: #d62021;
+            font-weight: bold;
+        }
+        .loader { /* Loading spinner styles */
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3d79d8;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>NPR Story Extractor 📝</h1>
-        <p id="instructions">With the story open, right-click and select "View Page Source.” Select all the code and paste it below.</p>
+        <h1>NPR Story Extractor 🚀</h1>
+        <p id="instructions">Paste a link to the story below.</p>
         
-        <textarea id="source-code" placeholder="Paste the page source code here..."></textarea>
+        <input type="url" id="story-url" placeholder="https://www.npr.org/...">
         <button id="extract-btn">Extract Information</button>
         
         <div id="results">
@@ -135,13 +150,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const extractBtn = document.getElementById('extract-btn');
-            const sourceCodeInput = document.getElementById('source-code');
+            const urlInput = document.getElementById('story-url');
             const resultsDiv = document.getElementById('results');
 
             /**
              * Decodes HTML entities (e.g., &#039;) into their character equivalents.
-             * @param {string} html The string containing HTML entities.
-             * @returns {string} The decoded string.
              */
             const decodeHtml = (html) => {
                 const txt = document.createElement("textarea");
@@ -151,76 +164,90 @@
             
             /**
              * Dynamically adjusts the height of a textarea to fit its content.
-             * @param {HTMLElement} textarea The textarea element to resize.
              */
             const autoResizeTextarea = (textarea) => {
                 textarea.style.height = 'auto'; // Reset height
                 textarea.style.height = textarea.scrollHeight + 'px'; // Set to content height
             };
 
-            extractBtn.addEventListener('click', () => {
-                const sourceCode = sourceCodeInput.value;
-                if (!sourceCode.trim()) {
-                    resultsDiv.innerHTML = '<p class="error-message">Please paste the source code first.</p>';
+            extractBtn.addEventListener('click', async () => {
+                const nprUrl = urlInput.value.trim();
+                if (!nprUrl.startsWith('https://www.npr.org')) {
+                    resultsDiv.innerHTML = '<p class="error-message">Please enter a valid NPR story URL starting with "https://www.npr.org".</p>';
                     return;
                 }
 
-                // Use the DOMParser to turn the source string into a searchable document
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(sourceCode, 'text/html');
+                // Disable button and show loader
+                extractBtn.disabled = true;
+                extractBtn.textContent = 'Fetching...';
+                resultsDiv.innerHTML = '<div class="loader"></div><p>Getting story from NPR...</p>';
 
-                // --- Extraction Logic ---
-                // Find elements using query selectors on the parsed document
-                const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
-                const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
-                const photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
-                const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content');
-                const author = doc.querySelector('meta[name="cXenseParse:author"]')?.getAttribute('content');
-                
-                // Construct the teaser with author credit
-                let teaserWithAuthor = "Not Found";
-                if (teaser && author) {
-                    teaserWithAuthor = `${teaser} ${author} reports for NPR.`;
-                } else if (teaser) {
-                    teaserWithAuthor = teaser;
-                }
+                try {
+                    // Use a CORS proxy to fetch the story content from the client-side
+                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(nprUrl)}`;
+                    const response = await fetch(proxyUrl);
 
-                // --- Data to Display ---
-                const extractedData = [
-                    { label: 'Headline', id: 'headline', value: headline },
-                    { label: 'Link to story', id: 'link', value: storyLink },
-                    { label: 'Photo', id: 'photo', value: photo },
-                    { label: 'Photo credit', id: 'credit', value: 'Not found in source. Please copy manually.' },
-                    { label: 'Teaser with author', id: 'teaser', value: teaserWithAuthor }
-                ];
+                    if (!response.ok) {
+                        throw new Error(`Network response was not OK. Status: ${response.status}`);
+                    }
 
-                // Clear previous results and build the new output
-                resultsDiv.innerHTML = ''; 
-
-                if (!headline && !storyLink) {
-                    resultsDiv.innerHTML = '<p class="error-message">Could not find NPR story data. Please ensure you copied the full page source.</p>';
-                    return;
-                }
-                
-                extractedData.forEach(item => {
-                    const cleanValue = item.value ? decodeHtml(item.value) : 'Not Found';
+                    const sourceCode = await response.text();
                     
-                    const resultItem = document.createElement('div');
-                    resultItem.className = 'result-item';
+                    // Use the DOMParser to turn the source string into a searchable document
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(sourceCode, 'text/html');
 
-                    resultItem.innerHTML = `
-                        <label for="${item.id}-output">${item.label}:</label>
-                        <div class="content-wrapper">
-                            <textarea id="${item.id}-output" readonly>${cleanValue}</textarea>
-                        </div>
-                        <button class="copy-btn" data-target="${item.id}-output">Copy</button>
-                    `;
-                    resultsDiv.appendChild(resultItem);
+                    // --- Extraction Logic ---
+                    const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
+                    const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
+                    const photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
+                    const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content');
+                    const author = doc.querySelector('meta[name="cXenseParse:author"]')?.getAttribute('content');
                     
-                    // Adjust textarea height after populating it
-                    const textarea = resultItem.querySelector('textarea');
-                    autoResizeTextarea(textarea);
-                });
+                    let teaserWithAuthor = "Not Found";
+                    if (teaser && author) {
+                        teaserWithAuthor = `${teaser} ${author} reports for NPR.`;
+                    } else if (teaser) {
+                        teaserWithAuthor = teaser;
+                    }
+
+                    const extractedData = [
+                        { label: 'Headline', id: 'headline', value: headline },
+                        { label: 'Link to story', id: 'link', value: storyLink },
+                        { label: 'Photo', id: 'photo', value: photo },
+                        { label: 'Photo credit', id: 'credit', value: 'Not found in source. Please copy manually.' },
+                        { label: 'Teaser with author', id: 'teaser', value: teaserWithAuthor }
+                    ];
+
+                    resultsDiv.innerHTML = ''; // Clear loader
+                    if (!headline && !storyLink) {
+                        throw new Error("Could not find NPR story data. The link might be incorrect or the page structure has changed.");
+                    }
+                    
+                    extractedData.forEach(item => {
+                        const cleanValue = item.value ? decodeHtml(item.value) : 'Not Found';
+                        
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'result-item';
+                        resultItem.innerHTML = `
+                            <label for="${item.id}-output">${item.label}:</label>
+                            <div class="content-wrapper">
+                                <textarea id="${item.id}-output" readonly>${cleanValue}</textarea>
+                            </div>
+                            <button class="copy-btn" data-target="${item.id}-output">Copy</button>
+                        `;
+                        resultsDiv.appendChild(resultItem);
+                        autoResizeTextarea(resultItem.querySelector('textarea'));
+                    });
+
+                } catch (error) {
+                    console.error('Fetch Error:', error);
+                    resultsDiv.innerHTML = `<p class="error-message">Failed to fetch the story. The proxy service may be down or the link is incorrect. Please try again later.<br><small>${error.message}</small></p>`;
+                } finally {
+                    // Re-enable button
+                    extractBtn.disabled = false;
+                    extractBtn.textContent = 'Extract Information';
+                }
             });
 
             // --- Event Delegation for Copy Buttons ---
@@ -232,13 +259,10 @@
 
                     if (textareaToCopy && navigator.clipboard) {
                         navigator.clipboard.writeText(textareaToCopy.value).then(() => {
-                            const originalText = button.textContent;
                             button.textContent = 'Copied!';
                             button.classList.add('copied');
-
-                            // Revert the button text after 2 seconds
                             setTimeout(() => {
-                                button.textContent = originalText;
+                                button.textContent = 'Copy';
                                 button.classList.remove('copied');
                             }, 2000);
                         }).catch(err => {

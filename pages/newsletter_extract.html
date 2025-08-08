@@ -193,16 +193,21 @@
 
                     const sourceCode = await response.text();
                     
-                    // Use the DOMParser to turn the source string into a searchable document
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(sourceCode, 'text/html');
 
                     // --- Extraction Logic ---
                     const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
                     const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
-                    const photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
+                    let photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
                     const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content');
                     const author = doc.querySelector('meta[name="cXenseParse:author"]')?.getAttribute('content');
+                    
+                    // ** NEW: Modify photo URL to be 600px wide and PNG format **
+                    if (photo) {
+                        photo = photo.replace(/\/resize\/\d+/, '/resize/600');
+                        photo = photo.replace(/\/format\/\w+/, '/format/png');
+                    }
                     
                     let teaserWithAuthor = "Not Found";
                     if (teaser && author) {

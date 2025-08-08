@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>NPR Story Extractor 🚀</h1>
+        <h1>Newsletter Item Extractor</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -210,8 +210,23 @@
                         photo = photo.replace(/\/format\/\w+/, '/format/png');
                     }
                     
-                    // ** FIX: Dynamically extract photo credit **
-                    const photoCredit = doc.querySelector('div.image-caption-credit')?.textContent.trim() || 'Not Found';
+                    // ** FIX: Dynamically extract photo credit with multiple selectors **
+                    let photoCredit = 'Not Found in source. Please copy manually.';
+                    // Array of possible selectors to try
+                    const creditSelectors = [
+                        '.image-credit',
+                        '.photo-credit',
+                        '.credit-byline',
+                        '.caption-credit' // Keep the old one as a fallback
+                    ];
+                    
+                    for (const selector of creditSelectors) {
+                        const creditElement = doc.querySelector(selector);
+                        if (creditElement && creditElement.textContent.trim()) {
+                            photoCredit = creditElement.textContent.trim();
+                            break; // Stop after finding the first one
+                        }
+                    }
 
                     let teaserWithAuthor = "Not Found";
                     if (teaser && author) {

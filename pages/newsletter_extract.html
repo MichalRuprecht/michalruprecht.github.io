@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>NPR Story Extractor</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPR Story Extractor</title>
+    <style>
         /* CSS for styling the page */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -136,15 +135,19 @@
     </style>
 </head>
 <body>
-<div class="container">
-<h1>Newsletter Item Extractor///</h1>
-<p id="instructions">Paste a link to the story below.</p>
-<input id="story-url" placeholder="https://www.npr.org/..." type="url"/>
-<button id="extract-btn">Extract Information</button>
-<div id="results">
-</div>
-</div>
-<script>
+
+    <div class="container">
+        <h1>Newsletter Item Extractor</h1>
+        <p id="instructions">Paste a link to the story below.</p>
+        
+        <input type="url" id="story-url" placeholder="https://www.npr.org/...">
+        <button id="extract-btn">Extract Information</button>
+        
+        <div id="results">
+            </div>
+    </div>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const extractBtn = document.getElementById('extract-btn');
             const urlInput = document.getElementById('story-url');
@@ -211,27 +214,73 @@
                         photo = photo.replace(/\/format\/\w+/, '/format/png');
                     }
 
-                    
-                    // Updated photo credit extraction to look for the first `.credit[aria-label="Image credit"]`
-                    // that occurs AFTER the first photo in the document
+                    // Updated photo credit extraction to allow both <b> and <span>
                     let photoCredit = 'Not Found in source. Please copy manually.';
-                    if (photo) {
-                        const firstPhotoEl = doc.querySelector('picture img, picture source');
-                        if (firstPhotoEl) {
-                            let foundCredit = null;
-                            const allCredits = doc.querySelectorAll('.credit[aria-label="Image credit"]');
-                            for (const creditEl of allCredits) {
-                                if (firstPhotoEl.compareDocumentPosition(creditEl) & Node.DOCUMENT_POSITION_FOLLOWING) {
-                                    foundCredit = creditEl.textContent.trim();
-                                    break;
+                    (function(){
+                        try {
+                            // Helper: extract filename from URL
+                            function filenameFromUrl(url) {
+                                try {
+                                    return (new URL(url)).pathname.split('/').pop().split('?')[0];
+                                } catch(e) {
+                                    if (!url) return null;
+                                    var parts = url.split('/');
+                                    return parts[parts.length-1].split('?')[0];
                                 }
                             }
+
+                            var foundCredit = null;
+                            var photoEl = null;
+
+                            if (photo) {
+                                var photoFile = filenameFromUrl(photo) || photo;
+                                var candidates = Array.from(doc.querySelectorAll('img, source, picture'));
+                                for (var i=0; i<candidates.length; i++) {
+                                    var el = candidates[i];
+                                    var attrs = ['src','data-original','data-template','srcset'];
+                                    for (var j=0; j<attrs.length; j++) {
+                                        var a = attrs[j];
+                                        if (el.hasAttribute && el.hasAttribute(a)) {
+                                            var val = el.getAttribute(a) || '';
+                                            if ((photo && val.indexOf(photo) !== -1) || (photoFile && val.indexOf(photoFile) !== -1)) {
+                                                photoEl = el;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (photoEl) break;
+                                }
+                            }
+
+                            // fallback: first picture img/source or first img in doc
+                            if (!photoEl) {
+                                photoEl = doc.querySelector('picture img, picture source, img');
+                            }
+
+                            if (photoEl) {
+                                var allCredits = doc.querySelectorAll('.credit[aria-label=\"Image credit\"]');
+                                for (var k=0; k<allCredits.length; k++) {
+                                    var cred = allCredits[k];
+                                    if (!cred || !cred.compareDocumentPosition) continue;
+                                    // check if this credit appears after the photo element in document order
+                                    if (photoEl.compareDocumentPosition(cred) & Node.DOCUMENT_POSITION_FOLLOWING) {
+                                        var txt = (cred.textContent || '').trim();
+                                        if (txt) { foundCredit = txt; break; }
+                                    }
+                                }
+                            } else {
+                                // if we couldn't find a photo element, fall back to the first credit we see
+                                var firstCredit = doc.querySelector('.credit[aria-label=\"Image credit\"]');
+                                if (firstCredit && firstCredit.textContent) foundCredit = firstCredit.textContent.trim();
+                            }
+
                             if (foundCredit) {
                                 photoCredit = foundCredit;
                             }
+                        } catch(e) {
+                            // swallow errors and keep default
                         }
-                    }
-    
+                    })();
                     let teaserWithAuthor = "Not Found";
                     if (typeof authorsArray === "undefined" || !Array.isArray(authorsArray)) {
                         authorsArray = [];

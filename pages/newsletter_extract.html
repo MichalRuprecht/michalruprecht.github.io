@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>Newsletter Item Extractor//</h1>
+        <h1>Newsletter Item Extractor</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -390,7 +390,26 @@
                 }
             });
         });
-    </script>
+    
+    // Auto-clear, paste from clipboard, and auto-extract on focus
+    const urlInput = document.getElementById('urlInput');
+    if (urlInput) {
+        urlInput.addEventListener('focus', async () => {
+            try {
+                urlInput.value = ''; // clear old value
+                // Try to read from clipboard
+                const clipText = await navigator.clipboard.readText();
+                if (clipText && clipText.trim()) {
+                    urlInput.value = clipText.trim();
+                    extractInfo(); // call the main extraction function
+                }
+            } catch (err) {
+                console.warn('Clipboard read failed:', err);
+            }
+        });
+    }
+
+</script>
 
 </body>
 </html>

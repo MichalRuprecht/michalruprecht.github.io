@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPR Story Extractor</title>
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NPR Story Extractor</title>
+<style>
         /* CSS for styling the page */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -135,19 +136,15 @@
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <h1>Newsletter Item Extractor//</h1>
-        <p id="instructions">Paste a link to the story below.</p>
-        
-        <input type="url" id="story-url" placeholder="https://www.npr.org/...">
-        <button id="extract-btn">Extract Information</button>
-        
-        <div id="results">
-            </div>
-    </div>
-
-    <script>
+<div class="container">
+<h1>Newsletter Item Extractor</h1>
+<p id="instructions">Paste a link to the story below.</p>
+<input id="story-url" placeholder="https://www.npr.org/..." type="url"/>
+<button id="extract-btn">Extract Information</button>
+<div id="results">
+</div>
+</div>
+<script>
         document.addEventListener('DOMContentLoaded', () => {
             const extractBtn = document.getElementById('extract-btn');
             const urlInput = document.getElementById('story-url');
@@ -192,7 +189,25 @@
                     // Basic metadata
                     const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content')?.trim() || doc.querySelector('h1')?.textContent?.trim() || 'Not Found';
                     const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href') || nprUrl;
-                    let photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+                    
+        let photo = '';
+        const storytextTarget = doc.querySelector('#storytext.storytext.storylocation.linkLocation');
+        if (storytextTarget) {
+            const firstPicture = storytextTarget.querySelector('picture');
+            if (firstPicture) {
+                const imgSource = firstPicture.querySelector('source')?.getAttribute('srcset') || firstPicture.querySelector('img')?.getAttribute('src');
+                if (imgSource) {
+                    photo = imgSource.replace(/\/resize\/\d+/, '/resize/600').replace(/\/format\/\w+/, '/format/png');
+                }
+            }
+        }
+        if (!photo) {
+            photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+            if (photo) {
+                photo = photo.replace(/\/resize\/\d+/, '/resize/600').replace(/\/format\/\w+/, '/format/png');
+            }
+        }
+        
                     const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
 
                     // Authors
@@ -391,6 +406,5 @@
             });
         });
     </script>
-
 </body>
 </html>

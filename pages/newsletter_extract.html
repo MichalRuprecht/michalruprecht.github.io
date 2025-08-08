@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>NPR Story Extractor 🚀</h1>
+        <h1>NPR Story Extractor</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -237,16 +237,21 @@
                                 authorStr = authorsArray.slice(0, -1).join(", ") + " and " + authorsArray[authorsArray.length - 1] + " report for NPR";
                             }
                             teaserWithAuthor = teaser + " " + authorStr;
+                            if (!teaserWithAuthor.trim().endsWith(".")) { teaserWithAuthor += "."; }
                         } else {
                             teaserWithAuthor = teaser;
+                            if (!teaserWithAuthor.trim().endsWith(".")) { teaserWithAuthor += "."; }
                         }
                     } else if (authorsArray && authorsArray.length > 0) {
                         if (authorsArray.length === 1) {
                             teaserWithAuthor = authorsArray[0] + " reports for NPR";
+                            if (!teaserWithAuthor.trim().endsWith(".")) { teaserWithAuthor += "."; }
                         } else if (authorsArray.length === 2) {
                             teaserWithAuthor = authorsArray[0] + " and " + authorsArray[1] + " report for NPR";
+                            if (!teaserWithAuthor.trim().endsWith(".")) { teaserWithAuthor += "."; }
                         } else {
                             teaserWithAuthor = authorsArray.slice(0, -1).join(", ") + " and " + authorsArray[authorsArray.length - 1] + " report for NPR";
+                            if (!teaserWithAuthor.trim().endsWith(".")) { teaserWithAuthor += "."; }
                         }
                     } else {
                         teaserWithAuthor = "Not Found";

@@ -183,8 +183,10 @@
                 resultsDiv.innerHTML = '<div class="loader"></div><p>Getting story from NPR...</p>';
 
                 try {
-                    // Use a CORS proxy to fetch the story content from the client-side
-                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(nprUrl)}`;
+                    // Use a more reliable CORS proxy to fetch the story content from the client-side
+                    // **CHANGED** from `https://api.allorigins.win/raw?url=`
+                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(nprUrl)}`;
+                    
                     const response = await fetch(proxyUrl);
 
                     if (!response.ok) {

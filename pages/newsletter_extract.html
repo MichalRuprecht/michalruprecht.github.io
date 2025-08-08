@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>Newsletter Item Extractor</h1>
+        <h1>NPR Story Extractor 🚀</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -210,21 +210,26 @@
                         photo = photo.replace(/\/format\/\w+/, '/format/png');
                     }
                     
-                    // ** FIX: Dynamically extract photo credit with multiple selectors **
+                    // ** FIX: More resilient photo credit extraction logic **
                     let photoCredit = 'Not Found in source. Please copy manually.';
-                    // Array of possible selectors to try
-                    const creditSelectors = [
-                        '.image-credit',
-                        '.photo-credit',
-                        '.credit-byline',
-                        '.caption-credit' // Keep the old one as a fallback
-                    ];
-                    
-                    for (const selector of creditSelectors) {
-                        const creditElement = doc.querySelector(selector);
-                        if (creditElement && creditElement.textContent.trim()) {
-                            photoCredit = creditElement.textContent.trim();
-                            break; // Stop after finding the first one
+                    const mainImageMetaUrl = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
+
+                    if (mainImageMetaUrl) {
+                        // Use a partial URL match to find the image, as the URL in the img tag may differ slightly
+                        const partialImageUrl = mainImageMetaUrl.split('?')[0]; 
+                        const imageElement = doc.querySelector(`img[src*="${partialImageUrl}"]`);
+
+                        if (imageElement) {
+                            // Traverse up the DOM to find a container element for the image
+                            const creditContainer = imageElement.closest('figure, .image-container, .image-wrapper');
+                            
+                            if (creditContainer) {
+                                // Search within that container for any element with a credit-related class
+                                const creditElement = creditContainer.querySelector('.image-credit, .photo-credit, .credit-byline, .credit-text, .caption-source');
+                                if (creditElement && creditElement.textContent.trim()) {
+                                    photoCredit = creditElement.textContent.trim();
+                                }
+                            }
                         }
                     }
 

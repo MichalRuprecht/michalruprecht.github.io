@@ -391,10 +391,10 @@
             });
         });
     
-    // Auto-clear, paste from clipboard, and auto-extract on focus
+    // Auto-clear, paste from clipboard, and auto-extract on click
     const urlInput = document.getElementById('urlInput');
     if (urlInput) {
-        urlInput.addEventListener('focus', async () => {
+        urlInput.addEventListener('click', async () => {
             try {
                 urlInput.value = ''; // clear old value
                 // Try to read from clipboard

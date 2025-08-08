@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPR Story Extractor</title>
+    <style>
+        /* CSS for styling the page */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #d62021; /* NPR Red */
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        p#instructions {
+            text-align: center;
+            color: #555;
+            margin-bottom: 25px;
+        }
+        #story-url {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        #extract-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #3d79d8; /* NPR Blue */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        #extract-btn:hover:not(:disabled) {
+            background-color: #2a5aab;
+        }
+        #extract-btn:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+        #results {
+            margin-top: 30px;
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .result-item {
+            margin-bottom: 20px;
+            display: flex;
+            text-align: left;
+            align-items: stretch;
+            gap: 10px;
+        }
+        .result-item label {
+            font-weight: bold;
+            color: #444;
+            flex-basis: 150px;
+            flex-shrink: 0;
+            padding-top: 8px;
+        }
+        .result-item .content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+        .result-item textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            font-family: inherit;
+            font-size: 15px;
+            box-sizing: border-box;
+            resize: none;
+            overflow: hidden;
+        }
+        .result-item .copy-btn {
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        .result-item .copy-btn:hover {
+            background-color: #218838;
+        }
+        .result-item .copy-btn.copied {
+            background-color: #6c757d;
+        }
+        .error-message {
+            color: #d62021;
+            font-weight: bold;
+        }
+        .loader { /* Loading spinner styles */
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3d79d8;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>NPR Story Extractor 🚀</h1>
+        <p id="instructions">Paste a link to the story below.</p>
+        
+        <input type="url" id="story-url" placeholder="https://www.npr.org/...">
+        <button id="extract-btn">Extract Information</button>
+        
+        <div id="results">
+            </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const extractBtn = document.getElementById('extract-btn');
+            const urlInput = document.getElementById('story-url');
+            const resultsDiv = document.getElementById('results');
+
+            /**
+             * Decodes HTML entities (e.g., &#039;) into their character equivalents.
+             */
+            const decodeHtml = (html) => {
+                const txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value;
+            };
+            
+            /**
+             * Dynamically adjusts the height of a textarea to fit its content.
+             */
+            const autoResizeTextarea = (textarea) => {
+                textarea.style.height = 'auto'; // Reset height
+                textarea.style.height = textarea.scrollHeight + 'px'; // Set to content height
+            };
+
+            extractBtn.addEventListener('click', async () => {
+                const nprUrl = urlInput.value.trim();
+                if (!nprUrl.startsWith('https://www.npr.org')) {
+                    resultsDiv.innerHTML = '<p class="error-message">Please enter a valid NPR story URL starting with "https://www.npr.org".</p>';
+                    return;
+                }
+
+                // Disable button and show loader
+                extractBtn.disabled = true;
+                extractBtn.textContent = 'Fetching...';
+                resultsDiv.innerHTML = '<div class="loader"></div><p>Getting story from NPR...</p>';
+
+                try {
+                    // Use a more reliable CORS proxy to fetch the story content from the client-side
+                    const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(nprUrl)}`;
+                    
+                    const response = await fetch(proxyUrl);
+
+                    if (!response.ok) {
+                        throw new Error(`Network response was not OK. Status: ${response.status}`);
+                    }
+
+                    const sourceCode = await response.text();
+                    
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(sourceCode, 'text/html');
+
+                    // --- Extraction Logic ---
+                    const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
+                    const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
+                    let photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
+                    const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content');
+                    const author = doc.querySelector('meta[name="cXenseParse:author"]')?.getAttribute('content');
+                    
+                    // ** NEW: Modify photo URL to be 600px wide and PNG format **
+                    if (photo) {
+                        photo = photo.replace(/\/resize\/\d+/, '/resize/600');
+                        photo = photo.replace(/\/format\/\w+/, '/format/png');
+                    }
+                    
+                    // ** FIX v2: Robust hero photo & credit extraction logic **
+                    let photoCredit = 'Not Found in source. Please copy manually.';
+                    // Try to pick the *hero* image (the top/OG image). Prefer JSON-LD image[0], then og:image.
+                    let mainImageUrl = null;
+
+                    // Try JSON-LD first (structured data often has the canonical hero image)
+                    const ldScripts = Array.from(doc.querySelectorAll('script[type="application/ld+json"]'));
+                    for (const s of ldScripts) {
+                        try {
+                            const j = JSON.parse(s.textContent || s.innerText || '{}');
+                            if (j) {
+                                if (Array.isArray(j.image) && j.image.length) {
+                                    const firstImage = j.image[0];
+                                    mainImageUrl = (typeof firstImage === 'string') ? firstImage : (firstImage && firstImage.url) || mainImageUrl;
+                                } else if (j.image && typeof j.image === 'object') {
+                                    mainImageUrl = j.image.url || mainImageUrl;
+                                }
+                            }
+                        } catch (err) {
+                            // ignore parse errors
+                        }
+                        if (mainImageUrl) break;
+                    }
+
+                    // Fall back to og:image meta if not yet found
+                    if (!mainImageUrl) {
+                        mainImageUrl = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || null;
+                    }
+
+                    // Helper: extract filename from a URL (handles encoded urls)
+                    const extractFilename = (url) => {
+                        if (!url) return null;
+                        try {
+                            const part = url.split('?')[0];
+                            const decoded = decodeURIComponent(part);
+                            const m = decoded.match(/\/([^\/?#]+\.(?:jpe?g|png|webp|gif))/i);
+                            return m ? m[1] : null;
+                        } catch (e) { return null; }
+                    };
+
+                    // Helper: sanitize credit string
+                    const cleanCreditText = (txt) => {
+                        if (!txt) return txt;
+                        let out = txt.replace(/[\r\n]+/g,' ').replace(/\s+/g,' ').trim();
+                        out = out.replace(/^(Image credit[:\s-]*)/i,'').trim();
+                        // Remove common trailing site tags like "for NPR"
+                        out = out.replace(/\s+for\s+NPR$/i, '').trim();
+                        out = out.replace(/^\u201c|\u201d/g, '').trim();
+                        return out;
+                    };
+
+                    if (mainImageUrl) {
+                        const filename = extractFilename(mainImageUrl);
+                        let matchedEl = null;
+
+                        // Try a set of sensible selectors (src, srcset, data-template, data-src, style, href)
+                        const trySelectors = [];
+                        if (filename) {
+                            trySelectors.push(`img[src*="${filename}"]`);
+                            trySelectors.push(`img[srcset*="${filename}"]`);
+                            trySelectors.push(`source[srcset*="${filename}"]`);
+                            trySelectors.push(`picture img[src*="${filename}"]`);
+                            trySelectors.push(`picture source[srcset*="${filename}"]`);
+                            trySelectors.push(`[data-template*="${filename}"]`);
+                            trySelectors.push(`[style*="${filename}"]`);
+                            trySelectors.push(`[data-src*="${filename}"]`);
+                            trySelectors.push(`a[href*="${filename}"]`);
+                        }
+
+                        // First-pass: querySelector for the above selectors
+                        for (const s of trySelectors) {
+                            try {
+                                const el = doc.querySelector(s);
+                                if (el) { matchedEl = el; break; }
+                            } catch (e) { /* ignore bad selectors */ }
+                        }
+
+                        // Second-pass: scan all elements and look for attributes that contain the filename (earliest in DOM order wins)
+                        if (!matchedEl && filename) {
+                            const allNodes = Array.from(doc.querySelectorAll('*'));
+                            for (const node of allNodes) {
+                                for (const attr of ['src','srcset','data-template','style','data-src','href']) {
+                                    const val = node.getAttribute && node.getAttribute(attr);
+                                    if (val && val.indexOf(filename) !== -1) {
+                                        matchedEl = node;
+                                        break;
+                                    }
+                                }
+                                if (matchedEl) break;
+                            }
+                        }
+
+                        // If we found an element for the hero image, search its nearest image container for a credit/caption
+                        if (matchedEl) {
+                            const container = matchedEl.closest('figure, .imagewrap, .image, .image-container, .bucketwrap, .media, .gallery, .figure') || matchedEl.parentElement;
+                            if (container) {
+                                // Look for many common credit/caption selectors
+                                const creditSelectors = '.credit, .photo-credit, .image-credit, .credit-byline, .credit-text, .caption-source, figcaption, .caption, p.caption, span.credit, b.credit, .caption__credit';
+                                const creditEl = container.querySelector(creditSelectors);
+                                if (creditEl && creditEl.textContent && creditEl.textContent.trim()) {
+                                    photoCredit = cleanCreditText(creditEl.textContent);
+                                }
+                            }
+
+                            // If we still don't have a credit, look globally for any credit-like elements and pick the one closest in DOM order
+                            if (photoCredit === 'Not Found in source. Please copy manually.') {
+                                const allCredits = Array.from(doc.querySelectorAll('.credit, .photo-credit, .image-credit, .credit-byline, .caption, figcaption, p.caption, span.credit, b.credit, .caption__credit'));
+                                if (allCredits.length) {
+                                    // Map all nodes to their document index
+                                    const nodes = Array.from(doc.querySelectorAll('*'));
+                                    const indexMap = new Map(nodes.map((n,i) => [n,i]));
+                                    const matchedIdx = indexMap.get(matchedEl) || 0;
+                                    let best = null, bestDist = Infinity;
+                                    for (const c of allCredits) {
+                                        const ci = indexMap.get(c) || 0;
+                                        const dist = Math.abs(ci - matchedIdx);
+                                        if (dist < bestDist) { bestDist = dist; best = c; }
+                                    }
+                                    if (best && best.textContent) {
+                                        photoCredit = cleanCreditText(best.textContent);
+                                    }
+                                }
+                            }
+                        } else {
+                            // No DOM element matched the hero filename. As a fallback,
+                            // search for known credit phrases (e.g., "for NPR", "via Getty Images") that are near the top of the article.
+                            const creditRegex = /([A-Z][A-Za-z0-9 .\/-]{2,}?(?:via [A-Za-z ]+|for NPR|\/Anadolu|via Getty Images|AFP|AP|Reuters|Getty Images))/g;
+                            const bodyText = doc.body ? doc.body.innerText || doc.body.textContent : '';
+                            const matches = bodyText.match(creditRegex);
+                            if (matches && matches.length) {
+                                photoCredit = cleanCreditText(matches[0]);
+                            }
+                        }
+                    } else {
+                        // No main image URL found at all; leave default message
+                    }
+
+                    // Final sanitize
+                    if (photoCredit && photoCredit !== 'Not Found in source. Please copy manually.') {
+                        photoCredit = photoCredit.replace(/\s+/g,' ').trim();
+                    }
+let teaserWithAuthor = "Not Found";
+                    if (teaser && author) {
+                        teaserWithAuthor = `${teaser} ${author} reports for NPR.`;
+                    } else if (teaser) {
+                        teaserWithAuthor = teaser;
+                    }
+
+                    const extractedData = [
+                        { label: 'Headline', id: 'headline', value: headline },
+                        { label: 'Link to story', id: 'link', value: storyLink },
+                        { label: 'Photo', id: 'photo', value: photo },
+                        { label: 'Photo credit', id: 'credit', value: photoCredit }, // Use the extracted photoCredit here
+                        { label: 'Teaser with author', id: 'teaser', value: teaserWithAuthor }
+                    ];
+
+                    resultsDiv.innerHTML = ''; // Clear loader
+                    if (!headline && !storyLink) {
+                        throw new Error("Could not find NPR story data. The link might be incorrect or the page structure has changed.");
+                    }
+                    
+                    extractedData.forEach(item => {
+                        const cleanValue = item.value ? decodeHtml(item.value) : 'Not Found';
+                        
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'result-item';
+                        resultItem.innerHTML = `
+                            <label for="${item.id}-output">${item.label}:</label>
+                            <div class="content-wrapper">
+                                <textarea id="${item.id}-output" readonly>${cleanValue}</textarea>
+                            </div>
+                            <button class="copy-btn" data-target="${item.id}-output">Copy</button>
+                        `;
+                        resultsDiv.appendChild(resultItem);
+                        autoResizeTextarea(resultItem.querySelector('textarea'));
+                    });
+
+                } catch (error) {
+                    console.error('Fetch Error:', error);
+                    resultsDiv.innerHTML = `<p class="error-message">Failed to fetch the story. The proxy service may be down or the link is incorrect. Please try again later.<br><small>${error.message}</small></p>`;
+                } finally {
+                    // Re-enable button
+                    extractBtn.disabled = false;
+                    extractBtn.textContent = 'Extract Information';
+                }
+            });
+
+            // --- Event Delegation for Copy Buttons ---
+            resultsDiv.addEventListener('click', (e) => {
+                if (e.target.classList.contains('copy-btn')) {
+                    const button = e.target;
+                    const targetId = button.dataset.target;
+                    const textareaToCopy = document.getElementById(targetId);
+
+                    if (textareaToCopy && navigator.clipboard) {
+                        navigator.clipboard.writeText(textareaToCopy.value).then(() => {
+                            button.textContent = 'Copied!';
+                            button.classList.add('copied');
+                            setTimeout(() => {
+                                button.textContent = 'Copy';
+                                button.classList.remove('copied');
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
+                            alert('Failed to copy text.');
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

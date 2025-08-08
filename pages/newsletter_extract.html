@@ -153,18 +153,19 @@
             const urlInput = document.getElementById('story-url');
             const resultsDiv = document.getElementById('results');
 
-            const decodeHtml = (html) => {
+            const decodeHtml = (htmlStr) => {
                 const txt = document.createElement("textarea");
-                txt.innerHTML = html;
+                txt.innerHTML = htmlStr;
                 return txt.value;
             };
-            
+
             const autoResizeTextarea = (textarea) => {
                 textarea.style.height = 'auto';
                 textarea.style.height = textarea.scrollHeight + 'px';
             };
 
-            extractBtn.addEventListener('click', async () => {
+            // Core extraction function
+            const doExtract = async () => {
                 const nprUrl = urlInput.value.trim();
                 if (!nprUrl.startsWith('https://www.npr.org')) {
                     resultsDiv.innerHTML = '<p class="error-message">Please enter a valid NPR story URL starting with "https://www.npr.org".</p>';
@@ -172,6 +173,7 @@
                 }
 
                 extractBtn.disabled = true;
+                extractBtn.dataset.orig = extractBtn.textContent;
                 extractBtn.textContent = 'Fetching...';
                 resultsDiv.innerHTML = '<div class="loader"></div><p>Getting story from NPR...</p>';
 
@@ -187,12 +189,13 @@
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(sourceCode, 'text/html');
 
-                    const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
-                    const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
-                    let photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
-                    const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content');
-                    
-                    let author = null;
+                    // Basic metadata
+                    const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content')?.trim() || doc.querySelector('h1')?.textContent?.trim() || 'Not Found';
+                    const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href') || nprUrl;
+                    let photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+                    const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+
+                    // Authors
                     let authorsArray = [];
                     const authorEls = doc.querySelectorAll('p.byline__name.byline__name--block a[rel="author"], .byline__name.byline__name--block a[rel="author"]');
                     if (authorEls && authorEls.length > 0) {
@@ -200,12 +203,10 @@
                             const name = el.textContent.trim();
                             if (name) authorsArray.push(name);
                         });
-                        author = authorsArray.join('|');
                     } else {
                         const metaAuthor = doc.querySelector('meta[name="cXenseParse:author"]')?.getAttribute('content');
                         if (metaAuthor) {
-                            author = metaAuthor;
-                            authorsArray = author.split('|').map(a => a.trim()).filter(a => a);
+                            authorsArray = metaAuthor.split('|').map(a => a.trim()).filter(a => a);
                         }
                     }
 
@@ -214,27 +215,24 @@
                         photo = photo.replace(/\/format\/\w+/, '/format/png');
                     }
 
-                    // Photo credit extraction: prefer credit inside #storytext
+                    // PHOTO CREDIT RULE: look inside #storytext first (exactly as requested)
                     let photoCredit = 'Not Found in source. Please copy manually.';
-
-                    // Look for the story body container first
                     const storytextEl = doc.getElementById('storytext') || doc.querySelector('.storytext.storylocation, .storytext');
                     if (storytextEl) {
-                        // Find the first credit element within the storytext subtree
-                        const creditInStory = storytextEl.querySelector('.credit[aria-label="Image credit"]');
+                        const creditInStory = storytextEl.querySelector('.credit[aria-label="Image credit"], b.credit[aria-label="Image credit"], span.credit[aria-label="Image credit"]');
                         if (creditInStory && creditInStory.textContent && creditInStory.textContent.trim()) {
                             photoCredit = creditInStory.textContent.trim();
                         }
                     }
 
-                    // Fallback: if no credit found inside #storytext, use previous best-effort logic
+                    // If not found inside #storytext, fallback to previous logic (match main image and doc order)
                     if (photoCredit === 'Not Found in source. Please copy manually.') {
                         // Try to find the main image within the story body
                         let mainImg = doc.querySelector('#storytext img, .storytext img, .imagewrap img, article img');
 
                         // If we couldn't find a clear main image, try to locate an image that matches the og:image filename
                         if (!mainImg) {
-                            const ogImage = doc.querySelector('meta[property=\"og:image\"]')?.getAttribute('content');
+                            const ogImage = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
                             if (ogImage) {
                                 try {
                                     const filename = ogImage.split('/').pop().split('?')[0];
@@ -243,7 +241,7 @@
                                         const srcset = el.getAttribute('srcset') || '';
                                         const dataOriginal = el.getAttribute('data-original') || '';
                                         const dataTemplate = el.getAttribute('data-template') || '';
-                                        return src.includes(filename) || srcset.includes(filename) || dataOriginal.includes(filename) || dataTemplate.includes(filename);
+                                        return (src && src.indexOf(filename) !== -1) || (srcset && srcset.indexOf(filename) !== -1) || (dataOriginal && dataOriginal.indexOf(filename) !== -1) || (dataTemplate && dataTemplate.indexOf(filename) !== -1);
                                     }) || null;
                                 } catch (e) {
                                     mainImg = null;
@@ -252,7 +250,7 @@
                         }
 
                         // Collect all credit elements in document order
-                        const creditEls = Array.from(doc.querySelectorAll('.credit[aria-label=\"Image credit\"]'));
+                        const creditEls = Array.from(doc.querySelectorAll('.credit[aria-label="Image credit"]'));
 
                         // If we have a main image and credit elements, pick the first credit that comes after the image
                         if (mainImg && creditEls.length > 0 && typeof mainImg.compareDocumentPosition === 'function') {
@@ -273,13 +271,12 @@
                         }
                     }
 
-                    let teaserWithAuthor = \"Not Found\";
-                    if (typeof authorsArray === "undefined" || !Array.isArray(authorsArray)) {
-                        authorsArray = [];
-                    }
+                    // Build teaser with author text
+                    let teaserWithAuthor = "Not Found";
+                    if (!Array.isArray(authorsArray)) authorsArray = [];
 
                     if (teaser) {
-                        if (authorsArray && authorsArray.length > 0) {
+                        if (authorsArray.length > 0) {
                             let authorStr = "";
                             if (authorsArray.length === 1) {
                                 authorStr = authorsArray[0] + " reports for NPR";
@@ -294,7 +291,7 @@
                             teaserWithAuthor = teaser;
                             if (!teaserWithAuthor.trim().endsWith(".")) { teaserWithAuthor += "."; }
                         }
-                    } else if (authorsArray && authorsArray.length > 0) {
+                    } else if (authorsArray.length > 0) {
                         if (authorsArray.length === 1) {
                             teaserWithAuthor = authorsArray[0] + " reports for NPR";
                             if (!teaserWithAuthor.trim().endsWith(".")) { teaserWithAuthor += "."; }
@@ -317,14 +314,15 @@
                         { label: 'Teaser with author', id: 'teaser', value: teaserWithAuthor }
                     ];
 
+                    // Render results
                     resultsDiv.innerHTML = '';
                     if (!headline && !storyLink) {
                         throw new Error("Could not find NPR story data. The link might be incorrect or the page structure has changed.");
                     }
-                    
+
                     extractedData.forEach(item => {
                         const cleanValue = item.value ? decodeHtml(item.value) : 'Not Found';
-                        
+
                         const resultItem = document.createElement('div');
                         resultItem.className = 'result-item';
                         resultItem.innerHTML = `
@@ -343,10 +341,33 @@
                     resultsDiv.innerHTML = `<p class="error-message">Failed to fetch the story. The proxy service may be down or the link is incorrect. Please try again later.<br><small>${error.message}</small></p>`;
                 } finally {
                     extractBtn.disabled = false;
-                    extractBtn.textContent = 'Extract Information';
+                    extractBtn.textContent = extractBtn.dataset.orig || 'Extract Information';
+                }
+            }; // end doExtract
+
+            // Wire up click AND Enter key
+            extractBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                doExtract();
+            });
+
+            // Allow pressing Enter while focused in the URL input to trigger extraction.
+            urlInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    doExtract();
                 }
             });
 
+            // Also allow Ctrl+Enter as an alternative anywhere on the page
+            document.addEventListener('keydown', (e) => {
+                if ((e.key === 'Enter' && (e.ctrlKey || e.metaKey))) {
+                    e.preventDefault();
+                    doExtract();
+                }
+            });
+
+            // Copy buttons
             resultsDiv.addEventListener('click', (e) => {
                 if (e.target.classList.contains('copy-btn')) {
                     const button = e.target;
@@ -370,5 +391,6 @@
             });
         });
     </script>
+
 </body>
 </html>

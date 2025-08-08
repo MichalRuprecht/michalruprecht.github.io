@@ -137,7 +137,7 @@
 </head>
 <body>
 <div class="container">
-<h1>Newsletter Item Extractor</h1>
+<h1>Newsletter Item Extractor//</h1>
 <p id="instructions">Paste a link to the story below.</p>
 <input id="story-url" placeholder="https://www.npr.org/..." type="url"/>
 <button id="extract-btn">Extract Information</button>
@@ -189,26 +189,42 @@
                     // Basic metadata
                     const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content')?.trim() || doc.querySelector('h1')?.textContent?.trim() || 'Not Found';
                     const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href') || nprUrl;
-                    
-        let photo = '';
-        const storytextTarget = doc.querySelector('#storytext.storytext.storylocation.linkLocation');
-        if (storytextTarget) {
-            const firstPicture = storytextTarget.querySelector('picture');
-            if (firstPicture) {
-                const imgSource = firstPicture.querySelector('source')?.getAttribute('srcset') || firstPicture.querySelector('img')?.getAttribute('src');
-                if (imgSource) {
-                    photo = imgSource.replace(/\/resize\/\d+/, '/resize/600').replace(/\/format\/\w+/, '/format/png');
-                }
-            }
-        }
-        if (!photo) {
-            photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
-            if (photo) {
-                photo = photo.replace(/\/resize\/\d+/, '/resize/600').replace(/\/format\/\w+/, '/format/png');
-            }
-        }
-        
-                    const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
+                    let photo = '';
+                    // First, try to find the exact element the user requested:
+                    // look for id="storytext" with classes "storytext storylocation linkLocation", then the first <picture>
+                    try {
+                        const storytextTarget = doc.querySelector('#storytext.storytext.storylocation.linkLocation') || doc.getElementById('storytext');
+                        if (storytextTarget) {
+                            const firstPicture = storytextTarget.querySelector('picture');
+                            if (firstPicture) {
+                                // Prefer a <source> with srcset, otherwise <img src>.
+                                let candidate = firstPicture.querySelector('source')?.getAttribute('srcset') || firstPicture.querySelector('img')?.getAttribute('src') || '';
+                                if (candidate) {
+                                    // If it's a srcset, it may contain multiple comma-separated entries like "url 400w, url2 800w".
+                                    // Take the first entry and strip any width descriptor to get only the URL.
+                                    candidate = candidate.split(',')[0].trim().split(/\s+/)[0];
+                                    // Normalize to the requested sizing/format: resize/600, quality/85, format/png
+                                    candidate = candidate.replace(/\/resize\/\d+/, '/resize/600');
+                                    candidate = candidate.replace(/\/quality\/\d+/, '/quality/85');
+                                    candidate = candidate.replace(/\/format\/\w+/, '/format/png');
+                                    photo = candidate;
+                                }
+                            }
+                        }
+                    } catch(e) {
+                        // if anything goes wrong in the specific extraction above, fall back to og:image below
+                        photo = '';
+                    }
+
+                    // Fallback to og:image if we couldn't extract a clean picture URL above
+                    if (!photo) {
+                        photo = doc.querySelector('meta[property=\"og:image\"]')?.getAttribute('content') || '';
+                        if (photo) {
+                            photo = photo.replace(/\/resize\/\d+/, '/resize/600');
+                            photo = photo.replace(/\/quality\/\d+/, '/quality/85');
+                            photo = photo.replace(/\/format\/\w+/, '/format/png');
+                        }
+                    }const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content') || '';
 
                     // Authors
                     let authorsArray = [];

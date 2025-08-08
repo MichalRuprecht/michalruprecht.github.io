@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>Newsletter Item Extractor</h1>
+        <h1>NPR Story Extractor 🚀</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -184,7 +184,6 @@
 
                 try {
                     // Use a more reliable CORS proxy to fetch the story content from the client-side
-                    // **CHANGED** from `https://api.allorigins.win/raw?url=`
                     const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(nprUrl)}`;
                     
                     const response = await fetch(proxyUrl);
@@ -211,6 +210,9 @@
                         photo = photo.replace(/\/format\/\w+/, '/format/png');
                     }
                     
+                    // ** FIX: Dynamically extract photo credit **
+                    const photoCredit = doc.querySelector('div.image-caption-credit')?.textContent.trim() || 'Not Found';
+
                     let teaserWithAuthor = "Not Found";
                     if (teaser && author) {
                         teaserWithAuthor = `${teaser} ${author} reports for NPR.`;
@@ -222,7 +224,7 @@
                         { label: 'Headline', id: 'headline', value: headline },
                         { label: 'Link to story', id: 'link', value: storyLink },
                         { label: 'Photo', id: 'photo', value: photo },
-                        { label: 'Photo credit', id: 'credit', value: 'Not found in source. Please copy manually.' },
+                        { label: 'Photo credit', id: 'credit', value: photoCredit }, // Use the extracted photoCredit here
                         { label: 'Teaser with author', id: 'teaser', value: teaserWithAuthor }
                     ];
 

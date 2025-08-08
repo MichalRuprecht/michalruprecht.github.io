@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>NPR Story Extractor</h1>
+        <h1>NPR Story Extractor 🚀</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -210,197 +210,25 @@
                         photo = photo.replace(/\/format\/\w+/, '/format/png');
                     }
                     
-                    // ** FIX v3: Pick the actual hero image element and its nearest credit/caption **
+                    // ** FIX v4: Simplified photo credit extraction based on first <b class="credit" aria-label="Image credit"> **
                     let photoCredit = 'Not Found in source. Please copy manually.';
-
-                    const cleanCreditText = (txt) => {
-                        if (!txt) return txt;
-                        let out = txt.replace(/[\r\n]+/g,' ').replace(/\s+/g,' ').trim();
-                        out = out.replace(/^(Image credit[:\s-]*|Photo credit[:\s-]*)/i,'').trim();
-                        out = out.replace(/\s+for\s+NPR$/i, '').trim();
-                        out = out.replace(/^\u201c|\u201d/g, '').trim();
-                        return out;
-                    };
-
-                    const extractFilename = (url) => {
-                        if (!url) return null;
-                        try {
-                            const part = url.split('?')[0];
-                            const decoded = decodeURIComponent(part);
-                            const m = decoded.match(/\/([^\/?#]+\.(?:jpe?g|png|webp|gif))/i);
-                            return m ? m[1] : null;
-                        } catch (e) { return null; }
-                    };
-
-                    // Try to find the hero image element within the article/header first
-                    function findHeroImageElement(doc) {
-                        const heroSelectors = [
-                            'article .lead-media img', 'article .lead-image img', 'article .story-hero img',
-                            '.story-hero img', '.story__hero img', '.lead-figure img', 'figure.lead img',
-                            'figure.hero img', '.top-figure img', '.post-hero img', '.article__hero img',
-                            '.header-image img', '.lead-media img', '.primary-media img', '.hero img',
-                            '.kicker img', '.module__image img', '.gallery img'
-                        ];
-                        for (const sel of heroSelectors) {
-                            try {
-                                const el = doc.querySelector(sel);
-                                if (el) return el;
-                            } catch(e){}
-                        }
-
-                        // Try 'main' or article containers and get the first image inside (top-most)
-                        const main = doc.querySelector('article, [role=\"main\"], #story, .story-content, .article-content, .main-content, .story');
-                        if (main) {
-                            // prefer images that are visible/in the DOM order early
-                            const imgs = Array.from(main.querySelectorAll('img'));
-                            if (imgs.length) return imgs[0];
-                        }
-
-                        // As a fallback, scan all images and prefer one that appears near the top of the document (smallest y offset if layout exists)
-                        const allImgs = Array.from(doc.querySelectorAll('img'));
-                        if (allImgs.length) return allImgs[0];
-
-                        // No image element found
-                        return null;
-                    }
-
-                    function findElementByFilename(doc, filename) {
-                        if (!filename) return null;
-                        // Try direct selectors
-                        const selList = [
-                            `img[src*=\"${filename}\"]`,
-                            `img[srcset*=\"${filename}\"]`,
-                            `source[srcset*=\"${filename}\"]`,
-                            `picture img[src*=\"${filename}\"]`,
-                            `picture source[srcset*=\"${filename}\"]`,
-                            `[data-template*=\"${filename}\"]`,
-                            `[data-src*=\"${filename}\"]`,
-                            `[data-image*=\"${filename}\"]`,
-                            `[style*=\"${filename}\"]`,
-                            `a[href*=\"${filename}\"]`
-                        ];
-                        for (const s of selList) {
-                            try {
-                                const el = doc.querySelector(s);
-                                if (el) return el;
-                            } catch(e){}
-                        }
-                        // brute-force search attributes
-                        const nodes = Array.from(doc.querySelectorAll('*'));
-                        for (const node of nodes) {
-                            try {
-                                for (const attr of ['src','srcset','data-template','data-src','data-image','style','href','data-media']) {
-                                    const val = node.getAttribute && node.getAttribute(attr);
-                                    if (val && val.indexOf(filename) !== -1) return node;
-                                }
-                            } catch(e){}
-                        }
-                        return null;
-                    }
-
-                    // Main logic: try to get a hero element; if that fails, attempt to pick an image by matching og:image/json-ld filenames to DOM nodes
-                    let matchedEl = findHeroImageElement(doc);
-                    // If hero image didn't yield a credit or hero element, attempt to match the first JSON-LD / og:image by finding DOM node referencing its filename
-                    function tryFindCreditForElement(el) {
-                        if (!el) return null;
-                        const container = el.closest && el.closest('figure, picture, .imagewrap, .image, .image-container, .bucketwrap, .media, .gallery, .figure') || el.parentElement;
-                        if (container) {
-                            const creditSelectors = 'figcaption, .credit, .photo-credit, .image-credit, .credit-byline, .credit-text, .caption-source, .caption, p.caption, span.credit, .caption__credit, .credit-line, .photo-byline';
-                            const creditEl = container.querySelector(creditSelectors);
-                            if (creditEl && creditEl.textContent && creditEl.textContent.trim()) return cleanCreditText(creditEl.textContent);
-                            // sometimes credit is a sibling
-                            const sib = container.nextElementSibling;
-                            if (sib) {
-                                const sibCredit = sib.querySelector && sib.querySelector(creditSelectors);
-                                if (sibCredit && sibCredit.textContent && sibCredit.textContent.trim()) return cleanCreditText(sibCredit.textContent);
-                            }
-                        }
-                        return null;
-                    }
-
-                    if (matchedEl) {
-                        const creditText = tryFindCreditForElement(matchedEl);
-                        if (creditText) {
-                            photoCredit = creditText;
-                        } else {
-                            // try to find closest credit-like node in DOM order
-                            const creditCandidates = Array.from(doc.querySelectorAll('figcaption, .credit, .photo-credit, .image-credit, .credit-byline, .caption, p.caption, span.credit, .caption__credit'));
-                            if (creditCandidates.length) {
-                                // map node order index
-                                const nodes = Array.from(doc.querySelectorAll('*'));
-                                const indexMap = new Map(nodes.map((n,i)=>[n,i]));
-                                const midx = indexMap.get(matchedEl) || 0;
-                                let best = null, bestDist = Infinity;
-                                for (const c of creditCandidates) {
-                                    const ci = indexMap.get(c) || 0;
-                                    const dist = Math.abs(ci - midx);
-                                    if (dist < bestDist) { bestDist = dist; best = c; }
-                                }
-                                if (best && best.textContent) photoCredit = cleanCreditText(best.textContent);
-                            }
-                        }
-                    }
-
-                    // If we still don't have a credit, try matching filenames from JSON-LD or og:image to DOM and use that element
-                    if (photoCredit === 'Not Found in source. Please copy manually.') {
-                        // collect candidate image URLs from JSON-LD and meta tags
-                        const candidates = [];
-                        // JSON-LD images
-                        Array.from(doc.querySelectorAll('script[type=\"application/ld+json\"]')).forEach(s => {
-                            try {
-                                const j = JSON.parse(s.textContent || s.innerText || '{}');
-                                if (j) {
-                                    if (Array.isArray(j.image)) j.image.forEach(im => { if (typeof im === 'string') candidates.push(im); else if (im && im.url) candidates.push(im.url); });
-                                    else if (j.image && typeof j.image === 'string') candidates.push(j.image);
-                                    else if (j.image && j.image.url) candidates.push(j.image.url);
-                                }
-                            } catch(e){}
-                        });
-                        // og:image meta tags (all of them)
-                        Array.from(doc.querySelectorAll('meta[property=\"og:image\"]')).forEach(m => { const c = m.getAttribute('content'); if (c) candidates.push(c); });
-                        // twitter image
-                        const timg = doc.querySelector('meta[name=\"twitter:image:src\"]')?.getAttribute('content');
-                        if (timg) candidates.push(timg);
-
-                        // iterate candidate URLs, try find DOM node by filename and get credit
-                        for (const url of candidates) {
-                            if (!url) continue;
-                            const fname = extractFilename(url);
-                            if (!fname) continue;
-                            const el = findElementByFilename(doc, fname);
-                            if (el) {
-                                const creditTry = tryFindCreditForElement(el);
-                                if (creditTry) { photoCredit = creditTry; break; }
-                                // else use closest credit candidate
-                                const creditCandidates = Array.from(doc.querySelectorAll('figcaption, .credit, .photo-credit, .image-credit, .credit-byline, .caption, p.caption, span.credit'));
-                                if (creditCandidates.length) {
-                                    // find nearest by DOM order
-                                    const nodes = Array.from(doc.querySelectorAll('*'));
-                                    const indexMap = new Map(nodes.map((n,i)=>[n,i]));
-                                    const midx = indexMap.get(el) || 0;
-                                    let best = null, bestDist = Infinity;
-                                    for (const c of creditCandidates) {
-                                        const ci = indexMap.get(c) || 0;
-                                        const dist = Math.abs(ci - midx);
-                                        if (dist < bestDist) { bestDist = dist; best = c; }
-                                    }
-                                    if (best && best.textContent) { photoCredit = cleanCreditText(best.textContent); break; }
-                                }
-                            }
-                        }
-                    }
-
-                    // Final sanitize and ensure we return a readable short credit (prefer short photographer-like strings)
-                    if (photoCredit && photoCredit !== 'Not Found in source. Please copy manually.') {
-                        photoCredit = photoCredit.replace(/\s+/g,' ').trim();
-                        // prefer short credits (likely photographer names)
-                        if (photoCredit.length > 150) {
-                            // crop at first 'for' or '—' or '–' or '|' if exists
-                            const cut = photoCredit.split(/\s+for\s+|—|–|\|/i)[0];
-                            photoCredit = cut.trim();
-                        }
+                    const creditEl = doc.querySelector('b.credit[aria-label="Image credit"]');
+                    if (creditEl && creditEl.textContent && creditEl.textContent.trim()) {
+                        photoCredit = creditEl.textContent.trim();
                     }
 let teaserWithAuthor = "Not Found";
+                    if (storyTeaser !== "Not Found" && author !== "Not Found") {
+                        let authorsArray = author.split("|").map(a => a.trim()).filter(a => a);
+                        let authorStr = "";
+                        if (authorsArray.length === 1) {
+                            authorStr = authorsArray[0] + " reports for NPR";
+                        } else if (authorsArray.length === 2) {
+                            authorStr = authorsArray[0] + " and " + authorsArray[1] + " report for NPR";
+                        } else if (authorsArray.length > 2) {
+                            authorStr = authorsArray.slice(0, -1).join(", ") + " and " + authorsArray[authorsArray.length - 1] + " report for NPR";
+                        }
+                        teaserWithAuthor = storyTeaser + " " + authorStr;
+                    }
                     if (teaser && author) {
                         teaserWithAuthor = `${teaser} ${author} reports for NPR.`;
                     } else if (teaser) {

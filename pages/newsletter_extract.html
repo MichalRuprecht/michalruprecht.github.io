@@ -1,1 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPR Story Extractor</title>
+    <style>
+        /* CSS for styling the page */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #d62021; /* NPR Red */
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        p#instructions {
+            text-align: center;
+            color: #555;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        #source-code {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        #extract-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #3d79d8; /* NPR Blue */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        #extract-btn:hover {
+            background-color: #2a5aab;
+        }
+        #results {
+            margin-top: 30px;
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+        }
+        .result-item {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: stretch; /* Make items in the flex container same height */
+            gap: 10px;
+        }
+        .result-item label {
+            font-weight: bold;
+            color: #444;
+            flex-basis: 150px; /* Give labels a fixed width */
+            flex-shrink: 0;
+            padding-top: 8px; /* Align with textarea content */
+        }
+        .result-item .content-wrapper {
+            flex-grow: 1;
+            display: flex;
+            align-items: center; /* Vertically center content */
+        }
+        .result-item textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            font-family: inherit;
+            font-size: 15px;
+            box-sizing: border-box;
+            resize: none; /* Disable manual resizing */
+            overflow: hidden; /* Hide scrollbars until needed */
+        }
+        .result-item .copy-btn {
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+        .result-item .copy-btn:hover {
+            background-color: #218838;
+        }
+        .result-item .copy-btn.copied {
+            background-color: #6c757d; /* Gray for copied state */
+        }
+        .error-message {
+            color: red;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
 
+    <div class="container">
+        <h1>NPR Story Extractor 📝</h1>
+        <p id="instructions">With the story open, right-click and select "View Page Source.” Select all the code and paste it below.</p>
+        
+        <textarea id="source-code" placeholder="Paste the page source code here..."></textarea>
+        <button id="extract-btn">Extract Information</button>
+        
+        <div id="results">
+            </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const extractBtn = document.getElementById('extract-btn');
+            const sourceCodeInput = document.getElementById('source-code');
+            const resultsDiv = document.getElementById('results');
+
+            /**
+             * Decodes HTML entities (e.g., &#039;) into their character equivalents.
+             * @param {string} html The string containing HTML entities.
+             * @returns {string} The decoded string.
+             */
+            const decodeHtml = (html) => {
+                const txt = document.createElement("textarea");
+                txt.innerHTML = html;
+                return txt.value;
+            };
+            
+            /**
+             * Dynamically adjusts the height of a textarea to fit its content.
+             * @param {HTMLElement} textarea The textarea element to resize.
+             */
+            const autoResizeTextarea = (textarea) => {
+                textarea.style.height = 'auto'; // Reset height
+                textarea.style.height = textarea.scrollHeight + 'px'; // Set to content height
+            };
+
+            extractBtn.addEventListener('click', () => {
+                const sourceCode = sourceCodeInput.value;
+                if (!sourceCode.trim()) {
+                    resultsDiv.innerHTML = '<p class="error-message">Please paste the source code first.</p>';
+                    return;
+                }
+
+                // Use the DOMParser to turn the source string into a searchable document
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(sourceCode, 'text/html');
+
+                // --- Extraction Logic ---
+                // Find elements using query selectors on the parsed document
+                const headline = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
+                const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
+                const photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
+                const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content');
+                const author = doc.querySelector('meta[name="cXenseParse:author"]')?.getAttribute('content');
+                
+                // Construct the teaser with author credit
+                let teaserWithAuthor = "Not Found";
+                if (teaser && author) {
+                    teaserWithAuthor = `${teaser} ${author} reports for NPR.`;
+                } else if (teaser) {
+                    teaserWithAuthor = teaser;
+                }
+
+                // --- Data to Display ---
+                const extractedData = [
+                    { label: 'Headline', id: 'headline', value: headline },
+                    { label: 'Link to story', id: 'link', value: storyLink },
+                    { label: 'Photo', id: 'photo', value: photo },
+                    { label: 'Photo credit', id: 'credit', value: 'Not found in source. Please copy manually.' },
+                    { label: 'Teaser with author', id: 'teaser', value: teaserWithAuthor }
+                ];
+
+                // Clear previous results and build the new output
+                resultsDiv.innerHTML = ''; 
+
+                if (!headline && !storyLink) {
+                    resultsDiv.innerHTML = '<p class="error-message">Could not find NPR story data. Please ensure you copied the full page source.</p>';
+                    return;
+                }
+                
+                extractedData.forEach(item => {
+                    const cleanValue = item.value ? decodeHtml(item.value) : 'Not Found';
+                    
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+
+                    resultItem.innerHTML = `
+                        <label for="${item.id}-output">${item.label}:</label>
+                        <div class="content-wrapper">
+                            <textarea id="${item.id}-output" readonly>${cleanValue}</textarea>
+                        </div>
+                        <button class="copy-btn" data-target="${item.id}-output">Copy</button>
+                    `;
+                    resultsDiv.appendChild(resultItem);
+                    
+                    // Adjust textarea height after populating it
+                    const textarea = resultItem.querySelector('textarea');
+                    autoResizeTextarea(textarea);
+                });
+            });
+
+            // --- Event Delegation for Copy Buttons ---
+            resultsDiv.addEventListener('click', (e) => {
+                if (e.target.classList.contains('copy-btn')) {
+                    const button = e.target;
+                    const targetId = button.dataset.target;
+                    const textareaToCopy = document.getElementById(targetId);
+
+                    if (textareaToCopy && navigator.clipboard) {
+                        navigator.clipboard.writeText(textareaToCopy.value).then(() => {
+                            const originalText = button.textContent;
+                            button.textContent = 'Copied!';
+                            button.classList.add('copied');
+
+                            // Revert the button text after 2 seconds
+                            setTimeout(() => {
+                                button.textContent = originalText;
+                                button.classList.remove('copied');
+                            }, 2000);
+                        }).catch(err => {
+                            console.error('Failed to copy text: ', err);
+                            alert('Failed to copy text.');
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

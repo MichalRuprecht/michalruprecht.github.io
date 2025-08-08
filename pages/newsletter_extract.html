@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>NPR Story Extrac</h1>
+        <h1>NPR Story Extractor 🚀</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -202,7 +202,26 @@
                     const storyLink = doc.querySelector('link[rel="canonical"]')?.getAttribute('href');
                     let photo = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
                     const teaser = doc.querySelector('meta[name="description"]')?.getAttribute('content');
-                    const author = doc.querySelector('meta[name="cXenseParse:author"]')?.getAttribute('content');
+                    let author = null;
+let authorsArray = [];
+// Try to extract authors from the byline blocks (handles 1 or more authors)
+const authorEls = doc.querySelectorAll('p.byline__name.byline__name--block a[rel="author"], .byline__name.byline__name--block a[rel="author"]');
+if (authorEls && authorEls.length > 0) {
+    authorEls.forEach(el => {
+        const name = el.textContent.trim();
+        if (name) authorsArray.push(name);
+    });
+    // Keep a legacy string version for any existing logic that expects `author` as a string
+    author = authorsArray.join('|');
+} else {
+    // Fallback to meta tag used previously
+    const metaAuthor = doc.querySelector('meta[name="cXenseParse:author"]')?.getAttribute('content');
+    if (metaAuthor) {
+        author = metaAuthor;
+        authorsArray = author.split('|').map(a => a.trim()).filter(a => a);
+    }
+}
+
                     
                     // ** NEW: Modify photo URL to be 600px wide and PNG format **
                     if (photo) {

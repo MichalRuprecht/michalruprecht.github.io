@@ -137,7 +137,7 @@
 <body>
 
     <div class="container">
-        <h1>NPR Story Extractor 🚀</h1>
+        <h1>NPR Story Extractor</h1>
         <p id="instructions">Paste a link to the story below.</p>
         
         <input type="url" id="story-url" placeholder="https://www.npr.org/...">
@@ -217,19 +217,7 @@
                         photoCredit = creditEl.textContent.trim();
                     }
 let teaserWithAuthor = "Not Found";
-                    if (storyTeaser !== "Not Found" && author !== "Not Found") {
-                        let authorsArray = author.split("|").map(a => a.trim()).filter(a => a);
-                        let authorStr = "";
-                        if (authorsArray.length === 1) {
-                            authorStr = authorsArray[0] + " reports for NPR";
-                        } else if (authorsArray.length === 2) {
-                            authorStr = authorsArray[0] + " and " + authorsArray[1] + " report for NPR";
-                        } else if (authorsArray.length > 2) {
-                            authorStr = authorsArray.slice(0, -1).join(", ") + " and " + authorsArray[authorsArray.length - 1] + " report for NPR";
-                        }
-                        teaserWithAuthor = storyTeaser + " " + authorStr;
-                    }
-                    if (teaser && author) {
+if (teaser && author) {
                         teaserWithAuthor = `${teaser} ${author} reports for NPR.`;
                     } else if (teaser) {
                         teaserWithAuthor = teaser;

@@ -651,23 +651,24 @@ mark{
   color: #fff;
   font-weight: 700;
 
-  /* scales correctly for large text */
   padding: 0.18em 0.28em;
   border-radius: 0.2em;
 
-  /* makes wrapped lines each get their own background + padding */
+  /* critical for multi-line safety */
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 
-  /* allow natural line wrapping */
-  display: inline;
-  white-space: normal;
+  /* THIS prevents vertical bleeding */
+  display: inline-block;
+  margin: 0.12em 0;
 
-  /* prevents top/bottom squish, especially for big text */
+  white-space: normal;
   line-height: 1.35;
+
+  /* keeps alignment clean in paragraphs */
+  vertical-align: baseline;
 }
 
-/* OPTIONAL: replace <big> with this */
 mark.mark-big{
   font-size: 1.25em;
 }

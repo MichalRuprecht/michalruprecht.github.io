@@ -651,23 +651,20 @@ mark{
   color: #fff;
   font-weight: 700;
 
-  padding: 0.18em 0.28em;
+  /* keep horizontal breathing room, shrink vertical so it won't touch next line */
+  padding: 0.06em 0.28em;
+
   border-radius: 0.2em;
 
-  /* keeps padding/background on wrapped lines */
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 
-  /* keep the original inline look */
   display: inline;
   white-space: normal;
 
-  /* prevents top/bottom squish */
-  line-height: 1.35;
-
-  /* prevents "bleeding" into adjacent-line marks without changing layout */
-  outline: 0.12em solid #fff;     /* set this to your background color */
-  outline-offset: -0.06em;         /* pulls the outline inward so it doesn't look boxy */
+  /* make the mark not inflate into adjacent lines */
+  line-height: 1.0;
+  vertical-align: baseline;
 }
 
 mark.mark-big{

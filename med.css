@@ -668,7 +668,7 @@ mark{
 }
 
 /* OPTIONAL: replace <big> with this */
-.mark-big{
+mark.mark-big{
   font-size: 1.25em;
 }
 

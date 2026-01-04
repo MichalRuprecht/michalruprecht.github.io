@@ -646,9 +646,20 @@ ul li {
   visibility: hidden;
 }
 
-mark {
-  background-color: #000000;
-  color: #FFFFFF;
+mark{
+  background: #000;
+  color: #fff;
+
+  font-weight: 700; /* auto-bold */
+
+  padding: 0.08em 0.25em;
+  border-radius: 0.18em;
+
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+
+  display: inline-block;
+  line-height: 1.15;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Times+New+Roman:wght@400;700&family=Open+Sans:wght@400;700&display=swap');

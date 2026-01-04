@@ -651,19 +651,25 @@ mark{
   color: #fff;
   font-weight: 700;
 
-  padding: 0.08em 0.25em;
-  border-radius: 0.18em;
+  /* scales correctly for large text */
+  padding: 0.18em 0.28em;
+  border-radius: 0.2em;
 
-  /* THIS is what makes each wrapped line get its own left/right “border” */
+  /* makes wrapped lines each get their own background + padding */
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 
-  /* allow wrapping normally */
+  /* allow natural line wrapping */
   display: inline;
   white-space: normal;
 
-  /* helps the top/bottom look right on big text */
-  line-height: 1.2;
+  /* prevents top/bottom squish, especially for big text */
+  line-height: 1.35;
+}
+
+/* OPTIONAL: replace <big> with this */
+.mark-big{
+  font-size: 1.25em;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Times+New+Roman:wght@400;700&family=Open+Sans:wght@400;700&display=swap');

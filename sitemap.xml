@@ -9,6 +9,11 @@
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
 </url>
+<url>
+  <loc>https://michalruprecht.com/pages/newsletter_extract.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.2</priority>
+</url>
   <url>
   <loc>https://ghhs.med.wayne.edu/profile/hl4969</loc>
   <changefreq>weekly</changefreq>

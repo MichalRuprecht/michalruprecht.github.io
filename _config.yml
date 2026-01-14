@@ -2,12 +2,12 @@ url: "https://michalruprecht.com"
 baseurl: ""
 
 title: Michal Ruprecht Official Website
-
 site.title: Michal Ruprecht Official Website
 
-description: Michal T. Ruprecht Official Website
+description: Michal Ruprecht is a health journalist and medical student.
 
 name: Michal T. Ruprecht Official Website
+
 markdown: kramdown
 
 author:
@@ -16,8 +16,10 @@ author:
 url-pretty: "michalruprecht.com"
 
 gtag: "'config', 'UA-141229929-1'"
-
 google_analytics: "UA-141229929-1"
+
+# Make sure Jekyll looks in your _layouts folder
+layouts_dir: _layouts
 
 exclude:
   - CHANGELOG.md
@@ -28,6 +30,8 @@ exclude:
   - LICENSE
   - README.md
   - Vagrantfile
+  - node_modules
+  - vendor
 
 plugins:
   - jekyll-seo-tag

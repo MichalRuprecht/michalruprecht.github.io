@@ -96,6 +96,12 @@
             {% endif %}
           </div>
 
+			{% if page.embed_html %}
+  <div class="clip-embed">
+    {{ page.embed_html }}
+  </div>
+{% endif %}
+
           <!-- Story text -->
           <div class="clip-body">
             {{ content }}

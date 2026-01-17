@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>{{ page.title }}</title>
-    <meta charset="utf-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta name="keywords" content="Michal T. Ruprecht, Michal Ruprecht">
-    <meta content="Michal T. Ruprecht" name="author">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
-      @import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
-      @import url('https://fonts.googleapis.com/css?family=Merriweather:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
-    </style>
+    <link rel="stylesheet" type="text/css" href="https://michalruprecht.com/med.css">
+    <link rel="shortcut icon" async href="https://michalruprecht.com/assets/favicon.ico"/>
+    <script src="https://michalruprecht.com/script.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="https://michalruprecht.github.io/med.css">
-    <link rel="shortcut icon" async href="https://michalruprecht.github.io/assets/favicon.ico"/>
-    <script src="https://michalruprecht.github.io/script.js"></script>
-
+    <!-- Google Analytics (kept as you had it in other layouts) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141229929-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -27,112 +22,107 @@
   </head>
 
   <body>
-    <div class="container">
-      <!-- IMPORTANT: use article (not class="article") so your existing article CSS applies -->
-      <article class="clip-article">
-        <section class="nyt-body">
+    <article class="clip-article">
+      <section class="nyt-body">
 
-          <!-- Top utility row: left "Published on X", right buttons -->
-          <div class="clip-topbar">
-            <div class="clip-published">
-              {% if page.publisher %}
-                Published on <span class="clip-publisher">{{ page.publisher }}</span>
-              {% endif %}
-            </div>
+        <!-- Top bar -->
+        <div class="clip-topbar">
+          <div class="clip-published">
+            Published on <span class="clip-publisher">{{ page.publisher }}</span>
+          </div>
 
-            <div class="clip-actions">
-              {% if page.publisher_url %}
-                <a class="filter-btn clip-action-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">
-                  {% if page.publisher_link_label %}{{ page.publisher_link_label }}{% else %}Link to article{% endif %}
-                </a>
-              {% endif %}
+          <div class="clip-actions">
+            {% if page.publisher_url %}
+              <a class="clip-action-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">Link to article</a>
+            {% endif %}
 
-              {% if page.pdf != false and page.clip_id %}
+            {% if page.pdf != false %}
+              {% if page.clip_id %}
                 {% assign cid = page.clip_id | to_s %}
                 {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
-                <a class="filter-btn clip-action-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">
-                  PDF
-                </a>
+                <a class="clip-action-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF</a>
               {% endif %}
-            </div>
-          </div>
-
-          <hr class="clip-divider">
-
-          <!-- Headline -->
-          <h1 class="nyt-title">{{ page.title }}</h1>
-
-          <!-- Media (embed wins; otherwise auto image from clip_id) -->
-          {% if page.embed_html %}
-            <div class="clip-embed">
-              {{ page.embed_html }}
-            </div>
-          {% else %}
-            {% if page.clip_id %}
-              {% assign cid = page.clip_id | to_s %}
-              {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
-              <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
             {% endif %}
-          {% endif %}
-
-          <!-- Caption then credit (same-line behavior from your CSS) -->
-          {% if page.caption_html or page.photo_credit %}
-            <div class="clip-captionline">
-              {% if page.caption_html %}
-                <span class="nyt-image-caption">{{ page.caption_html }}</span>
-              {% endif %}
-              {% if page.photo_credit %}
-                <span class="nyt-image-attribution"> {{ page.photo_credit }}</span>
-              {% endif %}
-            </div>
-          {% endif %}
-
-          <div class="clip-meta">
-            {% if page.byline %}
-              <p class="nyt-byline">{{ page.byline }}</p>
-            {% endif %}
-            {% if page.date_display %}
-              <p class="nyt-publish-date">{{ page.date_display }}</p>
-            {% endif %}
-          </div>
-
-			{% if page.embed_html %}
-  <div class="clip-embed">
-    {{ page.embed_html }}
-  </div>
-{% endif %}
-
-          <!-- Story text -->
-          <div class="clip-body">
-            {{ content }}
-          </div>
-
-          <div class="clip-bottom">
-            <a href="https://michalruprecht.com/pages/clips" class="clip-return">Return to clips</a>
-          </div>
-
-        </section>
-      </article>
-    </div>
-  </body>
-  			<footer>
-        <div class="footer">
-          <div class="college">
-            <h3>
-              <center>
-                <big>
-                  <a href="http://michalruprecht.com/">Journalism portfolio</a>｜<a href="http://michalruprecht.com/pages/clips">Clips</a>｜
-									<a href="https://michalruprecht.com/pages/ceramics">Ceramics portfolio</a>
-                <br /><br />
-                  <a class="collegebutton" href="mailto:mruprecht@umich.edu" target="_blank"><img src="https://michalruprecht.github.io/assets/icons/mail.svg" alt="EMail"></a>
-									<a class="collegebutton" href="https://instagram.com/mrup.01" target="_blank"><img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="Instagram"></a>
-                  <a class="collegebutton" href="https://www.linkedin.com/in/michalruprecht" target="_blank"><img src="https://michalruprecht.github.io/assets/icons/linkedin.svg" alt="LinkedIn"></a>
-                  <a class="collegebutton" href="https://bsky.app/profile/michalruprecht.com" target="_blank"><img src="https://michalruprecht.github.io/assets/icons/bluesky.svg" alt="bluesky"></a>
-                <br /><br /><h3>Copyright © 2019 - <script>document.write(new Date().getFullYear())</script> Michal T. Ruprecht. All rights reserved.
-              </big></center>
-            </h3>
-		  <h3><small>This website is provided for educational and informational purposes only and does not constitute providing medical advice or professional services. The information provided should not be used for diagnosing or treating a health problem or disease, and those seeking personal medical advice should consult with a licensed physician. Always seek the advice of your doctor or other qualified health provider regarding a medical condition. [Never disregard professional medical advice or delay in seeking it because of something you have read on this website.] No physician-patient relationship is created by this website. Science and medicine are constantly evolving fields, and changes may impact the information contained herein. Neither Michal Ruprecht nor any contributor to this website makes any representations, express or implied, with respect to the information provided, and assumes no obligation to update any of the information stated herein.</small></h3>
           </div>
         </div>
-			</footer>
+
+        <hr class="clip-divider" />
+
+        <!-- Title -->
+        <h1 class="nyt-title">{{ page.title }}</h1>
+
+        <!-- Image (ALWAYS show if clip_id exists) -->
+        {% if page.clip_id %}
+          {% assign cid = page.clip_id | to_s %}
+          {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
+          <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
+        {% endif %}
+
+        <!-- Caption + credit (same line) -->
+        {% if page.caption_html or page.photo_credit %}
+          <div class="clip-caption">
+            {% if page.caption_html %}
+              <span class="nyt-image-caption">{{ page.caption_html }}</span>
+            {% endif %}
+            {% if page.photo_credit %}
+              <span class="nyt-image-attribution"> {{ page.photo_credit }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <!-- Byline + date -->
+        <div class="clip-meta">
+          {% if page.byline %}
+            <p class="nyt-byline">{{ page.byline }}</p>
+          {% endif %}
+          {% if page.date_display %}
+            <p class="nyt-publish-date">{{ page.date_display }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Embed (ONLY if present) — appears AFTER date line, BEFORE story -->
+        {% if page.embed_html %}
+          <div class="clip-embed">
+            {{ page.embed_html }}
+          </div>
+        {% endif %}
+
+        <!-- Story -->
+        <div class="clip-body">
+          {{ content }}
+        </div>
+
+        <!-- Bottom return button -->
+        <div class="clip-bottom">
+          <a href="https://michalruprecht.com/pages/clips" class="clip-return">Return to clips</a>
+        </div>
+
+      </section>
+    </article>
+
+    <footer>
+      <div class="footer">
+        <div class="college">
+          <h3>
+            <center>
+              <big>
+                <a href="http://michalruprecht.com/">Journalism portfolio</a>｜<a href="http://michalruprecht.com/pages/clips">Clips</a>｜
+                <a href="https://michalruprecht.com/pages/ceramics">Ceramics portfolio</a>
+                <br /><br />
+                <a class="collegebutton" href="mailto:mruprecht@umich.edu" target="_blank"><img src="https://michalruprecht.com/assets/icons/mail.svg" alt="EMail"></a>
+                <a class="collegebutton" href="https://instagram.com/mrup.01" target="_blank"><img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="Instagram"></a>
+                <a class="collegebutton" href="https://www.linkedin.com/in/michalruprecht" target="_blank"><img src="https://michalruprecht.com/assets/icons/linkedin.svg" alt="LinkedIn"></a>
+                <a class="collegebutton" href="https://bsky.app/profile/michalruprecht.com" target="_blank"><img src="https://michalruprecht.com/assets/icons/bluesky.svg" alt="bluesky"></a>
+                <br /><br />
+                <h3>Copyright © 2019 -
+                  <script>document.write(new Date().getFullYear())</script>
+                  Michal T. Ruprecht. All rights reserved.
+                </h3>
+              </big>
+            </center>
+          </h3>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

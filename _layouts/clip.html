@@ -28,59 +28,56 @@
 
   <body>
     <div class="container">
-      <article class="article">
+      <!-- IMPORTANT: use article (not class="article") so your existing article CSS applies -->
+      <article class="clip-article">
         <section class="nyt-body">
 
-          <!-- Back link (no arrow) -->
-          <center><span style="font-size: 18px;">
-            <a href="https://michalruprecht.com/pages/clips" class="back-to-clips">Back to clips</a>
-          </span></center>
-          <br>
+          <!-- Top utility row: left "Published on X", right buttons -->
+          <div class="clip-topbar">
+            <div class="clip-published">
+              {% if page.publisher %}
+                Published on <span class="clip-publisher">{{ page.publisher }}</span>
+              {% endif %}
+            </div>
 
-          <!-- Published on X (explicit wording) -->
-          {% if page.publisher %}
-            <center>
-  <span style="font-size: 18px;">
-    Published on <span style="font-weight: 700;">{{ page.publisher }}</span>
-  </span>
-</center>
-            <br>
-          {% endif %}
+            <div class="clip-actions">
+              {% if page.publisher_url %}
+                <a class="filter-btn clip-action-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">
+                  {% if page.publisher_link_label %}{{ page.publisher_link_label }}{% else %}Link to the original article{% endif %}
+                </a>
+              {% endif %}
 
-          <!-- Buttons (use your existing button class; if you want a different class name, tell me what it is) -->
-          <center>
-            {% if page.publisher_url %}
-              <a class="filter-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">
-                {% if page.publisher_link_label %}{{ page.publisher_link_label }}{% else %}Link to article{% endif %}
-              </a>
-            {% endif %}
+              {% if page.pdf != false and page.clip_id %}
+                {% assign cid = page.clip_id | to_s %}
+                {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
+                <a class="filter-btn clip-action-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">
+                  PDF version of the article
+                </a>
+              {% endif %}
+            </div>
+          </div>
 
-            {% if page.pdf != false and page.clip_id %}
-              {% assign cid = page.clip_id | to_s %}
-              {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
-              <a class="filter-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF</a>
-            {% endif %}
-          </center>
-
-          <br>
+          <hr class="clip-divider">
 
           <!-- Headline -->
           <h1 class="nyt-title">{{ page.title }}</h1>
 
           <!-- Media (embed wins; otherwise auto image from clip_id) -->
           {% if page.embed_html %}
-            {{ page.embed_html }}
+            <div class="clip-embed">
+              {{ page.embed_html }}
+            </div>
           {% else %}
             {% if page.clip_id %}
               {% assign cid = page.clip_id | to_s %}
               {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
-              <img class="nyt-image" src="{{ img_path }}" alt="">
+              <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
             {% endif %}
           {% endif %}
 
           <!-- Caption then credit (same-line behavior from your CSS) -->
           {% if page.caption_html or page.photo_credit %}
-            <div>
+            <div class="clip-captionline">
               {% if page.caption_html %}
                 <span class="nyt-image-caption">{{ page.caption_html }}</span>
               {% endif %}
@@ -90,23 +87,23 @@
             </div>
           {% endif %}
 
-          <br>
+          <div class="clip-meta">
+            {% if page.byline %}
+              <p class="nyt-byline">{{ page.byline }}</p>
+            {% endif %}
+            {% if page.date_display %}
+              <p class="nyt-publish-date">{{ page.date_display }}</p>
+            {% endif %}
+          </div>
 
-          <!-- Byline then pub date (your requested order) -->
-          {% if page.byline %}
-            <p class="nyt-byline">{{ page.byline }}</p>
-          {% endif %}
-          {% if page.date_display %}
-            <p class="nyt-publish-date">{{ page.date_display }}</p>
-          {% endif %}
+          <!-- Story text -->
+          <div class="clip-body">
+            {{ content }}
+          </div>
 
-          <!-- Story text (Markdown -> p tags automatically; your CSS targets .nyt-body p) -->
-          {{ content }}
-
-          <center>
-            <br>
-            <a href="https://michalruprecht.com/pages/clips"><big>Return to clips</big></a>
-          </center>
+          <div class="clip-bottom">
+            <a href="https://michalruprecht.com/pages/clips" class="clip-return">Return to clips</a>
+          </div>
 
         </section>
       </article>

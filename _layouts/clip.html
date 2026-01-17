@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>{{ page.title }}</title>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="keywords" content="Michal T. Ruprecht, Michal Ruprecht">
+    <meta content="Michal T. Ruprecht" name="author">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="https://michalruprecht.com/med.css">
-    <link rel="shortcut icon" async href="https://michalruprecht.com/assets/favicon.ico"/>
-    <script src="https://michalruprecht.com/script.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+      @import url('https://fonts.googleapis.com/css?family=Merriweather:400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+    </style>
 
-    <!-- Google Analytics (kept as you had it in other layouts) -->
+    <link rel="stylesheet" type="text/css" href="https://michalruprecht.github.io/med.css">
+    <link rel="shortcut icon" async href="https://michalruprecht.github.io/assets/favicon.ico"/>
+    <script src="https://michalruprecht.github.io/script.js"></script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-141229929-1"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -22,107 +27,132 @@
   </head>
 
   <body>
-    <article class="clip-article">
-      <section class="nyt-body">
+    <div class="container">
+      <article class="clip-article">
+        <section class="nyt-body">
 
-        <!-- Top bar -->
-        <div class="clip-topbar">
-          <div class="clip-published">
-            Published on <span class="clip-publisher">{{ page.publisher }}</span>
-          </div>
+          <!-- Top utility row -->
+          <div class="clip-topbar">
+            <div class="clip-published">
+              {% if page.publisher %}
+                Published on <span class="clip-publisher">{{ page.publisher }}</span>
+              {% endif %}
+            </div>
 
-          <div class="clip-actions">
-            {% if page.publisher_url %}
-              <a class="filter-btn clip-action-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">Link to article</a>
-            {% endif %}
+            <div class="clip-actions">
+              {% if page.publisher_url %}
+                <a class="filter-btn clip-action-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">
+                  Link to article
+                </a>
+              {% endif %}
 
-            {% if page.pdf != false %}
-              {% if page.clip_id %}
+              {% if page.pdf != false and page.clip_id %}
                 {% assign cid = page.clip_id | to_s %}
                 {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
-                <a class="filter-btn clip-action-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF</a>
+                <a class="filter-btn clip-action-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">
+                  PDF
+                </a>
               {% endif %}
-            {% endif %}
+            </div>
           </div>
-        </div>
 
-        <hr class="clip-divider" />
+          <hr class="clip-divider">
 
-        <!-- Title -->
-        <h1 class="nyt-title">{{ page.title }}</h1>
+          <!-- Headline -->
+          <h1 class="nyt-title">{{ page.title }}</h1>
 
-        <!-- Image (ALWAYS show if clip_id exists) -->
-        {% if page.clip_id %}
+          <!-- MEDIA -->
           {% assign cid = page.clip_id | to_s %}
-          {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
-          <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
-        {% endif %}
 
-        <!-- Caption + credit (same line) -->
-        {% if page.caption_html or page.photo_credit %}
-          <div class="clip-caption">
-            {% if page.caption_html %}
-              <span class="nyt-image-caption">{{ page.caption_html }}</span>
+          {% if page.photo_story == true %}
+            {%- comment -%}
+              Photo story mode:
+              - you provide photo_total (e.g., 6)
+              - filenames are: 87.jpg, 87b.jpg, 87c.jpg...
+              - captions + credits come from arrays: photo_captions_html, photo_credits
+            {%- endcomment -%}
+
+            {% assign letters = "b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z" | split: "," %}
+            {% assign total = page.photo_total | default: 1 %}
+
+            <div class="clip-photo-story">
+              {% for i in (0..50) %}
+                {% if i >= total %}{% break %}{% endif %}
+
+                {% if i == 0 %}
+                  {% assign suffix = "" %}
+                {% else %}
+                  {% assign idx = i | minus: 1 %}
+                  {% assign suffix = letters[idx] %}
+                {% endif %}
+
+                {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: suffix | append: '.jpg' %}
+
+                <div class="clip-photo-block">
+                  <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
+                  {% assign cap = page.photo_captions_html[i] %}
+                  {% assign cred = page.photo_credits[i] %}
+                  {% if cap or cred %}
+                    <div class="clip-captionline">
+                      {% if cap %}
+                        <span class="nyt-image-caption">{{ cap }}</span>
+                      {% endif %}
+                      {% if cred %}
+                        <span class="nyt-image-attribution"> {{ cred }}</span>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+
+          {% else %}
+            <!-- Normal clip: ALWAYS show single image -->
+            {% if page.clip_id %}
+              {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
+              <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
             {% endif %}
-            {% if page.photo_credit %}
-              <span class="nyt-image-attribution"> {{ page.photo_credit }}</span>
+
+            {% if page.caption_html or page.photo_credit %}
+              <div class="clip-captionline">
+                {% if page.caption_html %}
+                  <span class="nyt-image-caption">{{ page.caption_html }}</span>
+                {% endif %}
+                {% if page.photo_credit %}
+                  <span class="nyt-image-attribution"> {{ page.photo_credit }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <!-- Byline + date -->
+          <div class="clip-meta">
+            {% if page.byline %}
+              <p class="nyt-byline">{{ page.byline }}</p>
+            {% endif %}
+            {% if page.date_display %}
+              <p class="nyt-publish-date">{{ page.date_display }}</p>
             {% endif %}
           </div>
-        {% endif %}
 
-        <!-- Byline + date -->
-        <div class="clip-meta">
-          {% if page.byline %}
-            <p class="nyt-byline">{{ page.byline }}</p>
+          <!-- Embed (if present) ALWAYS goes here: after date, before story -->
+          {% if page.embed_html %}
+            <div class="clip-embed">
+              {{ page.embed_html }}
+            </div>
           {% endif %}
-          {% if page.date_display %}
-            <p class="nyt-publish-date">{{ page.date_display }}</p>
-          {% endif %}
-        </div>
 
-        <!-- Embed (ONLY if present) — appears AFTER date line, BEFORE story -->
-        {% if page.embed_html %}
-          <div class="clip-embed">
-            {{ page.embed_html }}
+          <!-- Story -->
+          <div class="clip-body">
+            {{ content }}
           </div>
-        {% endif %}
 
-        <!-- Story -->
-        <div class="clip-body">
-          {{ content }}
-        </div>
+          <div class="clip-bottom">
+            <a href="https://michalruprecht.com/pages/clips" class="clip-return filter-btn">Return to clips</a>
+          </div>
 
-        <!-- Bottom return button -->
-        <div class="clip-bottom">
-          <a href="https://michalruprecht.com/pages/clips" class="clip-return">Return to clips</a>
-        </div>
-
-      </section>
-    </article>
-
-    <footer>
-      <div class="footer">
-        <div class="college">
-          <h3>
-            <center>
-              <big>
-                <a href="http://michalruprecht.com/">Journalism portfolio</a>｜<a href="http://michalruprecht.com/pages/clips">Clips</a>｜
-                <a href="https://michalruprecht.com/pages/ceramics">Ceramics portfolio</a>
-                <br /><br />
-                <a class="collegebutton" href="mailto:mruprecht@umich.edu" target="_blank"><img src="https://michalruprecht.com/assets/icons/mail.svg" alt="EMail"></a>
-                <a class="collegebutton" href="https://instagram.com/mrup.01" target="_blank"><img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="Instagram"></a>
-                <a class="collegebutton" href="https://www.linkedin.com/in/michalruprecht" target="_blank"><img src="https://michalruprecht.com/assets/icons/linkedin.svg" alt="LinkedIn"></a>
-                <a class="collegebutton" href="https://bsky.app/profile/michalruprecht.com" target="_blank"><img src="https://michalruprecht.com/assets/icons/bluesky.svg" alt="bluesky"></a>
-                <br /><br />
-                <h3>Copyright © 2019 -
-                  <script>document.write(new Date().getFullYear())</script>
-                  Michal T. Ruprecht. All rights reserved.
-                </h3>
-              </big>
-            </center>
-          </h3>
-        </div>
-      </div>
-    </footer>
+        </section>
+      </article>
+    </div>
   </body>
 </html>

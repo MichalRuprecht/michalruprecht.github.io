@@ -689,9 +689,48 @@ mark.mark-big{
 
 article {
   font-family: 'Georgia', serif;
-  padding: 0 15%; /* Increased desktop margins to 15% on both sides */
+  padding: 0 15%;
   margin: 0 auto;
-  max-width: 70%; /* Ensures content remains centered */
+  max-width: 70%;
+}
+
+/* Clip page top bar (NYT-ish utility row) */
+.clip-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.clip-published {
+  font-family: 'NYT Imperial', serif;
+  font-size: 16px;
+  color: #000;
+}
+
+.clip-publisher {
+  font-weight: 700;
+}
+
+.clip-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Make buttons sit nicely without changing your base .filter-btn styling */
+.clip-action-btn {
+  font-size: 1em;
+  padding: 7px 14px;
+}
+
+.clip-divider {
+  border: 0;
+  border-top: 1px solid #e2e2e2;
+  margin: 14px 0 18px 0;
 }
 
 /* Title */
@@ -700,50 +739,50 @@ article {
   font-size: 48px;
   font-weight: 700;
   line-height: 1.2;
-  margin-bottom: 5px; /* Reduced space after title */
+  margin-bottom: 5px;
   color: #000;
 }
 
 /* Subtitle Style */
 .nyt-subtitle {
   font-family: 'Times New Roman', serif;
-  font-size: 20px; /* Adjust the font size as needed */
-  font-weight: 400; /* Regular weight for subtitle */
-  color: #555; /* Lighter grey color for the subtitle */
-  margin-top: 0; /* Remove space above the subtitle */
-  margin-bottom: 15px; /* Space below the subtitle */
-  line-height: 1.4; /* Line height for readability */
+  font-size: 20px;
+  font-weight: 400;
+  color: #555;
+  margin-top: 0;
+  margin-bottom: 15px;
+  line-height: 1.4;
 }
 
-/* Image */
-.nyt-image {
+/* Image (clip pages: square corners) */
+.nyt-image.clip-image {
   width: 100%;
   height: auto;
-  margin: 0 auto 10px; /* Horizontally center the image */
-  display: block; /* Ensures block-level behavior for centering */
-  border-radius: 8px;
-  max-width: 100%; /* Prevents overflow and ensures the image doesn't stretch beyond its container */
+  margin: 0 auto 10px;
+  display: block;
+  border-radius: 0;      /* FIX: no curved corners */
+  max-width: 100%;
 }
 
-/* Clip pages: keep story images square */
-.clip-article .nyt-image.clip-image {
-  border-radius: 0 !important;
+.clip-meta {
+  margin-top: 10px;
+  margin-bottom: 8px;
 }
 
-/* Image Caption and Attribution */
+/* Caption and Attribution */
 .nyt-image-caption {
   font-family: 'NYT Imperial', serif;
   font-size: 16px;
-  color: #6d6d6d; /* Grey color */
-  display: inline; /* Keep on the same line */
+  color: #6d6d6d;
+  display: inline;
 }
 
 .nyt-image-attribution {
   font-family: 'NYT Imperial', serif;
-  font-size: 14px; /* Smaller font size for attribution */
-  color: #6d6d6d; /* Grey color */
-  white-space: nowrap; /* Prevent extra space between caption and attribution */
-  display: inline; /* Keep on the same line */
+  font-size: 14px;
+  color: #6d6d6d;
+  white-space: nowrap;
+  display: inline;
 }
 
 /* Byline */
@@ -752,7 +791,8 @@ article {
   font-size: 16px;
   font-weight: 400;
   color: #333;
-  margin-bottom: 5px; /* Reduced space between byline and publish date */
+  margin-bottom: 5px;
+  margin-left: 0;
 }
 
 /* Publish Date */
@@ -761,54 +801,69 @@ article {
   font-size: 15px;
   color: #333;
   margin-top: 0;
-  margin-bottom: 10px; /* Reduced space between publish date and content */
+  margin-bottom: 10px;
+  margin-left: 0;
 }
 
 /* Story Text */
 .nyt-body p {
   font-family: 'NYT Imperial', serif;
   font-size: 20px;
-  line-height: 1.4; /* Compact line height */
+  line-height: 1.4;
   color: #333;
-  margin-bottom: 12px; /* Reduced paragraph spacing */
+  margin-bottom: 12px;
 }
 
 /* Bio Section */
 .nyt-bio {
-  font-family: 'Open Sans', sans-serif !important; /* Ensures the font is applied */
-  font-size: 14px !important; /* Forces the smaller font size */
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 14px !important;
   line-height: 1.4;
   color: #000;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-/* Adjustments for mobile screens */
+/* Bottom return link */
+.clip-bottom {
+  margin: 26px 0 10px 0;
+}
+
+.clip-return {
+  font-family: 'NYT Imperial', serif;
+  font-size: 16px;
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   article {
-    padding: 0 5%; /* Minimal margins for mobile */
-    max-width: 90%; /* Wider text area for small screens */
+    padding: 0 5%;
+    max-width: 90%;
+  }
+
+  .clip-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .clip-actions {
+    justify-content: flex-start;
   }
 
   .nyt-title {
-    font-size: 28px; /* Smaller font size on mobile */
-    margin-bottom: 10px; /* Less space after title */
-    text-align: left; /* Left align title on mobile */
+    font-size: 28px;
+    margin-bottom: 10px;
+    text-align: left;
   }
 
   .nyt-byline {
     font-size: 14px;
-    margin-bottom: 3px; /* Reduced space */
+    margin-bottom: 3px;
   }
 
   .nyt-publish-date {
     font-size: 13px;
-    margin-bottom: 8px; /* Less space */
-  }
-
-  .nyt-body {
-    font-size: 18px;
-    line-height: 1.4; /* Compact spacing */
+    margin-bottom: 8px;
   }
 
   .nyt-image {
@@ -821,18 +876,18 @@ article {
   }
 
   .nyt-bio {
-    font-size: 14px; /* Slightly smaller for mobile */
+    font-size: 14px;
   }
 }
 
 article a {
-  text-decoration: none; /* Removes underline */
-  color: #007CE1; /* Default link color */
+  text-decoration: none;
+  color: #007CE1;
 }
 
 article a:hover {
-  font-weight: bold; /* Bold on hover */
-  color: #000000; /* Black on hover */
+  font-weight: bold;
+  color: #000000;
 }
 
 /* Filter buttons container */

@@ -801,16 +801,16 @@ article.clip-article .nyt-body{
 }
 
 /* Byline + dateline: NYT-ish (smaller + calmer) */
-.nyt-byline{
+/* Byline + dateline: force override vs any paragraph rules */
+article.clip-article p.nyt-byline{
   font-family: 'NYT Imperial', serif;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   color: #121212;
-  margin: 0 0 4px 0;
-  letter-spacing: 0.01em;
+  margin: 0 0 2px 0;
 }
 
-.nyt-publish-date{
+article.clip-article p.nyt-publish-date{
   font-family: 'NYT Imperial', serif;
   font-size: 12.5px;
   font-weight: 400;
@@ -819,7 +819,8 @@ article.clip-article .nyt-body{
 }
 
 /* Body text */
-.nyt-body p {
+/* Story Text (ONLY the story body, not byline/date) */
+.clip-body p{
   font-family: 'NYT Imperial', serif;
   font-size: 20px;
   line-height: 1.45;

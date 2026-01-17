@@ -786,8 +786,8 @@ article.clip-article {
 }
 
 /* Byline + date (NYT-ish spacing) */
-.clip-meta {
-  margin: 8px 0 14px 0;
+.clip-meta{
+  margin: 10px 0 16px 0;
 }
 
 .nyt-byline{

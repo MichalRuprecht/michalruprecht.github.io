@@ -815,7 +815,7 @@ article.clip-article p.nyt-byline{
 /* Dateline — lighter, calmer, clearly secondary */
 article.clip-article p.nyt-publish-date{
   font-family: 'NYT Imperial', serif;
-  font-size: 13.5px;      /* ↑ slightly */
+  font-size: 15px;      /* ↑ slightly */
   font-weight: 400;
   line-height: 1.25;
   color: #6f6f6f;

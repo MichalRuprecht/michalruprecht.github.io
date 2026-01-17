@@ -832,11 +832,11 @@ article.clip-article p.nyt-publish-date{
   margin: 0 0 12px 0;
 }
 
-/* Bottom return link (NYT-ish utility row) */
+/* Bottom return button (matches top buttons, centered) */
 .clip-bottom{
-  margin: 28px 0 16px 0;
-  padding-top: 14px;
-  border-top: 1px solid #000;   /* matches your top divider */
+  margin: 32px 0 20px 0;
+  padding-top: 16px;
+  border-top: 1px solid #000;      /* consistent with top divider */
   display: flex;
   justify-content: center;
 }
@@ -844,8 +844,10 @@ article.clip-article p.nyt-publish-date{
 .clip-return{
   font-family: 'NYT Imperial', serif;
   font-size: 14px;
-  color: #007CE1;               /* your link color */
-  letter-spacing: 0.02em;
+  padding: 7px 14px;
+  border: 1px solid #000;
+  border-radius: 3px;
+  color: #000;
 }
 
 /* Mobile */

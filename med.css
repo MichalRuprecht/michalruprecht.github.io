@@ -504,11 +504,12 @@ ul li {
   }
 }
 
-.image-list-clip .clip-title {
-  font-size: 22px;
-  font-weight: 600;
-}
+/* Title size + hover bold behavior */
+.image-list-clip .clip-title { font-size: 18px; font-weight: 400; }
+.image-list-clip .clip-link:hover .clip-title { font-weight: 700; }
 
+/* Optional: tighten spacing */
+.image-list-clip .details { line-height: 1.25; }
 
 
 .image-list-tiny {
@@ -571,10 +572,10 @@ ul li {
   }
 }
 
-.image-list-tiny .clip-title {
-  font-size: 16px;
-  font-weight: 600;
-}
+
+.image-list-tiny .clip-title { font-size: 15px; font-weight: 400; }
+.image-list-tiny .clip-link:hover .clip-title { font-weight: 700; }
+
 
 .myform .entry {
   background: #FFFFFF;

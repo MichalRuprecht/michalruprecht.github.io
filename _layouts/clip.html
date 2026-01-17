@@ -33,14 +33,14 @@
 
           <div class="clip-actions">
             {% if page.publisher_url %}
-              <a class="clip-action-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">Link to article</a>
+              <a class="filter-btn clip-action-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">Link to article</a>
             {% endif %}
 
             {% if page.pdf != false %}
               {% if page.clip_id %}
                 {% assign cid = page.clip_id | to_s %}
                 {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
-                <a class="clip-action-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF</a>
+                <a class="filter-btn clip-action-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF</a>
               {% endif %}
             {% endif %}
           </div>

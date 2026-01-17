@@ -504,6 +504,11 @@ ul li {
   }
 }
 
+.image-list-clip .clip-title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
 
 
 .image-list-tiny {
@@ -564,6 +569,11 @@ ul li {
     font-size: 18px; /* Adjust font size for mobile */
     text-align: center; /* Centers the text below the image */
   }
+}
+
+.image-list-tiny .clip-title {
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .myform .entry {

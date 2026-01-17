@@ -28,24 +28,25 @@
 
   <body>
     <div class="container">
-      <article>
+      <article class="clip-article">
         <section class="nyt-body">
 
-          <!-- Return link (no arrow) -->
-          <div class="clip-top-nav">
+          <!-- Back link (no arrow) -->
+          <center>
             <a href="https://michalruprecht.com/pages/clips" class="back-to-clips">Back to clips</a>
-          </div>
-
-          <!-- Published on X -->
-          {% if page.publisher %}
-            <center><big>Published on <b>{{ page.publisher }}</b></big></center>
-          {% endif %}
+          </center>
           <br>
 
-          <!-- Buttons (use your existing button look by reusing filter-btn) -->
-          <div class="clip-buttons">
+          <!-- Published on X (explicit wording) -->
+          {% if page.publisher %}
+            <center><big>Published on <b>{{ page.publisher }}</b></big></center>
+            <br>
+          {% endif %}
+
+          <!-- Buttons (use your existing button class; if you want a different class name, tell me what it is) -->
+          <center>
             {% if page.publisher_url %}
-              <a class="filter-btn clip-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">
+              <a class="filter-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">
                 {% if page.publisher_link_label %}{{ page.publisher_link_label }}{% else %}Link to the original article{% endif %}
               </a>
             {% endif %}
@@ -53,35 +54,41 @@
             {% if page.pdf != false and page.clip_id %}
               {% assign cid = page.clip_id | to_s %}
               {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
-              <a class="filter-btn clip-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF version of the article</a>
+              <a class="filter-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF version of the article</a>
             {% endif %}
-          </div>
+          </center>
+
+          <br><br>
 
           <!-- Headline -->
           <h1 class="nyt-title">{{ page.title }}</h1>
 
-          <!-- Media: embed takes precedence; otherwise auto image from clip_id -->
+          <!-- Media (embed wins; otherwise auto image from clip_id) -->
           {% if page.embed_html %}
-            <div class="clip-embed">
-              {{ page.embed_html }}
-            </div>
+            {{ page.embed_html }}
           {% else %}
             {% if page.clip_id %}
               {% assign cid = page.clip_id | to_s %}
               {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
-              <img class="nyt-image" src="{{ img_path }}" alt="">
+              <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
             {% endif %}
           {% endif %}
 
-          <!-- Caption then credit (only if provided) -->
-          {% if page.caption_html %}
-            <div class="nyt-image-caption">{{ page.caption_html }}</div>
-          {% endif %}
-          {% if page.photo_credit %}
-            <div class="nyt-image-attribution">{{ page.photo_credit }}</div>
+          <!-- Caption then credit (same-line behavior from your CSS) -->
+          {% if page.caption_html or page.photo_credit %}
+            <div>
+              {% if page.caption_html %}
+                <span class="nyt-image-caption">{{ page.caption_html }}</span>
+              {% endif %}
+              {% if page.photo_credit %}
+                <span class="nyt-image-attribution"> {{ page.photo_credit }}</span>
+              {% endif %}
+            </div>
           {% endif %}
 
-          <!-- Byline then date (your preferred order) -->
+          <br>
+
+          <!-- Byline then pub date (your requested order) -->
           {% if page.byline %}
             <p class="nyt-byline">{{ page.byline }}</p>
           {% endif %}
@@ -89,10 +96,8 @@
             <p class="nyt-publish-date">{{ page.date_display }}</p>
           {% endif %}
 
-          <!-- Story text -->
-          <div class="clip-body">
-            {{ content }}
-          </div>
+          <!-- Story text (Markdown -> p tags automatically; your CSS targets .nyt-body p) -->
+          {{ content }}
 
           <center>
             <br>

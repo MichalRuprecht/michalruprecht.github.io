@@ -687,25 +687,29 @@ mark.mark-big{
 
 @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Times+New+Roman:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
 
-article {
+/* ===== Clip / NYT-style article pages ===== */
+
+article.clip-article {
   font-family: 'Georgia', serif;
   padding: 0 15%;
   margin: 0 auto;
   max-width: 70%;
 }
 
-/* Clip page top bar (NYT-ish utility row) */
+/* Top utility row */
 .clip-topbar {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
+/* Make "Published on NPR" more prominent */
 .clip-published {
   font-family: 'NYT Imperial', serif;
-  font-size: 16px;
+  font-size: 18px;          /* bigger than before */
+  line-height: 1.15;
   color: #000;
 }
 
@@ -713,23 +717,31 @@ article {
   font-weight: 700;
 }
 
+/* Right-aligned buttons, touching */
 .clip-actions {
   display: flex;
-  gap: 10px;
   align-items: center;
   justify-content: flex-end;
-  flex-wrap: wrap;
+  gap: 0;                   /* touching */
 }
 
-/* Make buttons sit nicely without changing your base .filter-btn styling */
-.clip-action-btn {
-  font-size: 1em;
-  padding: 7px 14px;
+/* Use your existing .filter-btn but shrink it ONLY on clip pages */
+.clip-actions .filter-btn.clip-action-btn {
+  font-size: 0.95em;        /* smaller text */
+  padding: 6px 10px;        /* smaller button */
+  border-radius: 3px;
+  margin: 0;
 }
 
+/* Create the “touching pills” look */
+.clip-actions .filter-btn.clip-action-btn + .filter-btn.clip-action-btn {
+  margin-left: 6px;         /* tiny separation; set to 0 if you literally want them flush */
+}
+
+/* Stronger divider */
 .clip-divider {
   border: 0;
-  border-top: 1px solid #e2e2e2;
+  border-top: 1px solid #bdbdbd;  /* darker */
   margin: 14px 0 18px 0;
 }
 
@@ -738,38 +750,26 @@ article {
   font-family: 'Times New Roman', serif;
   font-size: 48px;
   font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 5px;
+  line-height: 1.15;
+  margin: 0 0 10px 0;
   color: #000;
 }
 
-/* Subtitle Style */
-.nyt-subtitle {
-  font-family: 'Times New Roman', serif;
-  font-size: 20px;
-  font-weight: 400;
-  color: #555;
-  margin-top: 0;
-  margin-bottom: 15px;
-  line-height: 1.4;
-}
-
-/* Image (clip pages: square corners) */
+/* Image (square corners) */
 .nyt-image.clip-image {
   width: 100%;
   height: auto;
-  margin: 0 auto 10px;
   display: block;
-  border-radius: 0;      /* FIX: no curved corners */
+  margin: 0 auto 10px;
+  border-radius: 0;
   max-width: 100%;
 }
 
-.clip-meta {
-  margin-top: 10px;
-  margin-bottom: 8px;
+/* Caption + credit */
+.clip-captionline {
+  margin: 2px 0 14px 0;
 }
 
-/* Caption and Attribution */
 .nyt-image-caption {
   font-family: 'NYT Imperial', serif;
   font-size: 16px;
@@ -785,43 +785,33 @@ article {
   display: inline;
 }
 
-/* Byline */
+/* Byline + date (NYT-ish spacing) */
+.clip-meta {
+  margin: 8px 0 14px 0;
+}
+
 .nyt-byline {
   font-family: 'NYT Imperial', serif;
   font-size: 16px;
   font-weight: 400;
   color: #333;
-  margin-bottom: 5px;
-  margin-left: 0;
+  margin: 0 0 4px 0;
 }
 
-/* Publish Date */
 .nyt-publish-date {
   font-family: 'NYT Imperial', serif;
   font-size: 15px;
   color: #333;
-  margin-top: 0;
-  margin-bottom: 10px;
-  margin-left: 0;
+  margin: 0;
 }
 
-/* Story Text */
+/* Body text */
 .nyt-body p {
   font-family: 'NYT Imperial', serif;
   font-size: 20px;
-  line-height: 1.4;
+  line-height: 1.45;
   color: #333;
-  margin-bottom: 12px;
-}
-
-/* Bio Section */
-.nyt-bio {
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 14px !important;
-  line-height: 1.4;
-  color: #000;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 0 0 12px 0;
 }
 
 /* Bottom return link */
@@ -836,7 +826,7 @@ article {
 
 /* Mobile */
 @media (max-width: 768px) {
-  article {
+  article.clip-article {
     padding: 0 5%;
     max-width: 90%;
   }
@@ -852,43 +842,9 @@ article {
 
   .nyt-title {
     font-size: 28px;
-    margin-bottom: 10px;
-    text-align: left;
-  }
-
-  .nyt-byline {
-    font-size: 14px;
-    margin-bottom: 3px;
-  }
-
-  .nyt-publish-date {
-    font-size: 13px;
-    margin-bottom: 8px;
-  }
-
-  .nyt-image {
-    width: 100%;
-    margin-bottom: 8px;
-  }
-
-  .nyt-image-attribution {
-    font-size: 12px;
-  }
-
-  .nyt-bio {
-    font-size: 14px;
   }
 }
 
-article a {
-  text-decoration: none;
-  color: #007CE1;
-}
-
-article a:hover {
-  font-weight: bold;
-  color: #000000;
-}
 
 /* Filter buttons container */
 #filter-buttons {

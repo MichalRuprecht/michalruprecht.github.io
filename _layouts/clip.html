@@ -39,7 +39,11 @@
 
           <!-- Published on X (explicit wording) -->
           {% if page.publisher %}
-            <center><big>Published on <b>{{ page.publisher }}</b></big></center>
+            <center>
+  <span style="font-size: 18px;">
+    Published on <span style="font-weight: 700;">{{ page.publisher }}</span>
+  </span>
+</center>
             <br>
           {% endif %}
 

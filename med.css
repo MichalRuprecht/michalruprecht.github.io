@@ -696,6 +696,16 @@ article.clip-article {
   max-width: 70%;
 }
 
+/* Make clip pages ignore the site's global top-margin + font */
+article.clip-article {
+  margin-top: 0;
+}
+
+article.clip-article,
+article.clip-article .nyt-body{
+  font-family: 'NYT Imperial', serif;
+}
+
 /* Top utility row */
 .clip-topbar{
   display:flex;
@@ -787,22 +797,24 @@ article.clip-article {
 
 /* Byline + date (NYT-ish spacing) */
 .clip-meta{
-  margin: 10px 0 16px 0;
+  margin: 10px 0 14px 0;
 }
 
+/* Byline + dateline: NYT-ish (smaller + calmer) */
 .nyt-byline{
   font-family: 'NYT Imperial', serif;
-  font-size: 16px;
-  font-weight: 600;     /* stronger like NYT */
+  font-size: 14px;
+  font-weight: 600;
   color: #121212;
-  margin: 0 0 6px 0;
+  margin: 0 0 4px 0;
+  letter-spacing: 0.01em;
 }
 
 .nyt-publish-date{
   font-family: 'NYT Imperial', serif;
-  font-size: 14px;      /* a touch smaller */
+  font-size: 12.5px;
   font-weight: 400;
-  color: #5a5a5a;       /* lighter like NYT */
+  color: #6f6f6f;
   margin: 0;
 }
 

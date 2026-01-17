@@ -28,7 +28,7 @@
 
   <body>
     <div class="container">
-      <article class="clip-article">
+      <article class="article">
         <section class="nyt-body">
 
           <!-- Back link (no arrow) -->
@@ -47,14 +47,14 @@
           <center>
             {% if page.publisher_url %}
               <a class="filter-btn" href="{{ page.publisher_url }}" target="_blank" rel="noopener">
-                {% if page.publisher_link_label %}{{ page.publisher_link_label }}{% else %}Link to the original article{% endif %}
+                {% if page.publisher_link_label %}{{ page.publisher_link_label }}{% else %}Link to article{% endif %}
               </a>
             {% endif %}
 
             {% if page.pdf != false and page.clip_id %}
               {% assign cid = page.clip_id | to_s %}
               {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
-              <a class="filter-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF version of the article</a>
+              <a class="filter-btn" href="{{ pdf_path }}" target="_blank" rel="noopener">PDF</a>
             {% endif %}
           </center>
 
@@ -70,7 +70,7 @@
             {% if page.clip_id %}
               {% assign cid = page.clip_id | to_s %}
               {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
-              <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
+              <img class="nyt-image" src="{{ img_path }}" alt="">
             {% endif %}
           {% endif %}
 

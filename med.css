@@ -832,6 +832,13 @@ article.clip-article p.nyt-publish-date{
   margin: 0 0 12px 0;
 }
 
+/* Photo story blocks */
+.clip-photo-story { margin-top: 10px; }
+.clip-photo-block { margin-bottom: 18px; }
+
+/* Embed spacing */
+.clip-embed { margin: 12px 0 18px 0; }
+
 /* Bottom return button — primary, centered */
 .clip-bottom{
   margin: 36px 0 24px 0;

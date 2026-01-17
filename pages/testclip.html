@@ -41,14 +41,14 @@ title: Clips - Michal Ruprecht
   {% for p in clip_pages %}
     <li>
       <a href="{{ p.url | relative_url }}">
-        <img src="{{ p.clip_image | relative_url }}">
+        <img src="{{ p.image | relative_url }}">
       </a>
       <div class="details">
-        <a href="{{ p.url | relative_url }}">
+        <a class="clip-link" href="{{ p.url | relative_url }}">
           <span class="clip-title">{{ p.title }}</span>
         </a>
-        <br><span class="publisher">{{ p.clip_publisher }}</span>
-        <br><span class="pub-date">{{ p.clip_date_display }}</span>
+        <br><span class="publisher">{{ p.publisher }}</span>
+        <br><span class="pub-date">{{ p.date_display }}</span>
       </div>
     </li>
   {% endfor %}

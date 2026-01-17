@@ -697,12 +697,12 @@ article.clip-article {
 }
 
 /* Top utility row */
-.clip-topbar {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 4px;
+.clip-topbar{
+  display:flex;
+  align-items:center;   /* was flex-start */
+  justify-content:space-between;
+  gap:12px;
+  margin-top:4px;
 }
 
 /* Make "Published on NPR" more prominent */
@@ -739,10 +739,10 @@ article.clip-article {
 }
 
 /* Stronger divider */
-.clip-divider {
-  border: 0;
-  border-top: 1px solid #bdbdbd;  /* darker */
-  margin: 14px 0 18px 0;
+.clip-divider{
+  border:0;
+  border-top:1px solid #000;   /* black */
+  margin:14px 0 18px 0;
 }
 
 /* Title */
@@ -790,18 +790,19 @@ article.clip-article {
   margin: 8px 0 14px 0;
 }
 
-.nyt-byline {
+.nyt-byline{
   font-family: 'NYT Imperial', serif;
   font-size: 16px;
-  font-weight: 400;
-  color: #333;
-  margin: 0 0 4px 0;
+  font-weight: 600;     /* stronger like NYT */
+  color: #121212;
+  margin: 0 0 6px 0;
 }
 
-.nyt-publish-date {
+.nyt-publish-date{
   font-family: 'NYT Imperial', serif;
-  font-size: 15px;
-  color: #333;
+  font-size: 14px;      /* a touch smaller */
+  font-weight: 400;
+  color: #5a5a5a;       /* lighter like NYT */
   margin: 0;
 }
 

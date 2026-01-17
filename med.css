@@ -844,7 +844,7 @@ article.clip-article p.nyt-publish-date{
 /* Button itself */
 .clip-return{
   font-family: 'NYT Imperial', serif;
-  font-size: 16px;              /* BIGGER than top buttons */
+  font-size: 19px;              /* BIGGER than top buttons */
   padding: 10px 22px;
   border: 1px solid #000;
   border-radius: 4px;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ page.title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ '/med.css' | relative_url }}">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="clip-nav">
+        <a class="back-to-clips" href="{{ '/pages/clips/' | relative_url }}">← Back to clips</a>
+      </div>
+
+      <div class="nyt-publisher">{{ page.publisher }}</div>
+      <h1 class="nyt-title">{{ page.title }}</h1>
+      <div class="nyt-publish-date">{{ page.date_display }}</div>
+      {% if page.byline %}<div class="nyt-byline">{{ page.byline }}</div>{% endif %}
+
+      {% if page.image %}
+        <img src="{{ page.image | relative_url }}" alt="" style="max-width: 100%; height: auto;">
+      {% endif %}
+      {% if page.caption_html %}<div class="caption">{{ page.caption_html }}</div>{% endif %}
+      {% if page.photo_credit %}<div class="credit">{{ page.photo_credit }}</div>{% endif %}
+
+      <div class="clip-links">
+        {% if page.publisher_url %}<a href="{{ page.publisher_url }}" target="_blank" rel="noopener">Link to the original article</a>{% endif %}
+        {% if page.pdf %}<br><a href="{{ page.pdf | relative_url }}" target="_blank" rel="noopener">PDF version of the article</a>{% endif %}
+      </div>
+
+      <div class="clip-body">
+        {{ content }}
+      </div>
+
+      <div class="clip-footer">
+        <a href="{{ '/pages/clips/' | relative_url }}">← Back to clips</a>
+      </div>
+    </div>
+  </body>
+</html>

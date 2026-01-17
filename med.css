@@ -118,6 +118,9 @@ h2 {
   font-size: 25px;
 }}
 
+.clip-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.clip-btn { text-decoration: none; }
+.clip-top-nav { margin-bottom: 8px; }
 
 ul {
   margin-top: 0.2em;

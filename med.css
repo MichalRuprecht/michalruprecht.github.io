@@ -832,22 +832,33 @@ article.clip-article p.nyt-publish-date{
   margin: 0 0 12px 0;
 }
 
-/* Bottom return button (matches top buttons, centered) */
+/* Bottom return button — primary, centered */
 .clip-bottom{
-  margin: 32px 0 20px 0;
-  padding-top: 16px;
-  border-top: 1px solid #000;      /* consistent with top divider */
+  margin: 36px 0 24px 0;
+  padding-top: 18px;
+  border-top: 1px solid #000;
   display: flex;
   justify-content: center;
 }
 
+/* Button itself */
 .clip-return{
   font-family: 'NYT Imperial', serif;
-  font-size: 14px;
-  padding: 7px 14px;
+  font-size: 16px;              /* BIGGER than top buttons */
+  padding: 10px 22px;
   border: 1px solid #000;
-  border-radius: 3px;
+  border-radius: 4px;
   color: #000;
+  text-decoration: none;        /* kill underline */
+  transition: all 0.15s ease;   /* smooth hover */
+}
+
+/* Hover / focus state */
+.clip-return:hover,
+.clip-return:focus{
+  background-color: #000;
+  color: #fff;
+  font-weight: 600;             /* intentional, not jumpy */
 }
 
 /* Mobile */

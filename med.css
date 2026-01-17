@@ -805,7 +805,7 @@ article.clip-article .clip-body{
 /* Byline — NYT style: smaller than body, heavier */
 article.clip-article p.nyt-byline{
   font-family: 'NYT Imperial', serif;
-  font-size: 15px;        /* ↑ slightly */
+  font-size: 16px;        /* ↑ slightly */
   font-weight: 600;
   line-height: 1.3;
   color: #121212;

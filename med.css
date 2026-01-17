@@ -832,14 +832,20 @@ article.clip-article p.nyt-publish-date{
   margin: 0 0 12px 0;
 }
 
-/* Bottom return link */
-.clip-bottom {
-  margin: 26px 0 10px 0;
+/* Bottom return link (NYT-ish utility row) */
+.clip-bottom{
+  margin: 28px 0 16px 0;
+  padding-top: 14px;
+  border-top: 1px solid #000;   /* matches your top divider */
+  display: flex;
+  justify-content: center;
 }
 
-.clip-return {
+.clip-return{
   font-family: 'NYT Imperial', serif;
-  font-size: 16px;
+  font-size: 14px;
+  color: #007CE1;               /* your link color */
+  letter-spacing: 0.02em;
 }
 
 /* Mobile */

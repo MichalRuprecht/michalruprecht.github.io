@@ -30,7 +30,7 @@ title: Clips - Michal Ruprecht
     
       <h3>
         <center>
-       <ul class="image-list-clip">
+          <ul class="image-list-clip">
   {% assign clip_pages = site.pages
     | where_exp: "p", "p.clip == true"
     | sort: "clip_id"
@@ -38,10 +38,11 @@ title: Clips - Michal Ruprecht
   %}
 
   {% for p in clip_pages %}
+    {% assign cid = p.clip_id | to_s %}
     <li>
       <a href="{{ p.url | relative_url }}">
-{% assign cid = p.clip_id | to_s %}
-<img src="https://michalruprecht.com/pages/clips/assets/photo/{{ cid }}.jpg" alt="">      </a>
+        <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ cid }}.jpg" alt="">
+      </a>
       <div class="details">
         <a class="clip-link" href="{{ p.url | relative_url }}">
           <span class="clip-title">{{ p.title }}</span>

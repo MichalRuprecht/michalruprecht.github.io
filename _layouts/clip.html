@@ -73,55 +73,11 @@
           <!-- Headline -->
           <h1 class="nyt-title">{{ page.title }}</h1>
 
-          <!-- MEDIA -->
-          {% assign cid = page.clip_id | to_s %}
-
-          {% if page.photo_story == true %}
-            {%- comment -%}
-              Photo story mode:
-              - you provide photo_total (e.g., 6)
-              - filenames are: 87.jpg, 87b.jpg, 87c.jpg...
-              - captions + credits come from arrays: photo_captions_html, photo_credits
-            {%- endcomment -%}
-
-            {% assign letters = "b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z" | split: "," %}
-            {% assign total = page.photo_total | default: 1 %}
-
-            <div class="clip-photo-story">
-              {% for i in (0..50) %}
-                {% if i >= total %}{% break %}{% endif %}
-
-                {% if i == 0 %}
-                  {% assign suffix = "" %}
-                {% else %}
-                  {% assign idx = i | minus: 1 %}
-                  {% assign suffix = letters[idx] %}
-                {% endif %}
-
-                {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: suffix | append: '.jpg' %}
-
-                <div class="clip-photo-block">
-                  <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
-                  {% assign cap = page.photo_captions_html[i] %}
-                  {% assign cred = page.photo_credits[i] %}
-                  {% if cap or cred %}
-                    <div class="clip-captionline">
-                      {% if cap %}
-                        <span class="nyt-image-caption">{{ cap }}</span>
-                      {% endif %}
-                      {% if cred %}
-                        <span class="nyt-image-attribution"> {{ cred }}</span>
-                      {% endif %}
-                    </div>
-                  {% endif %}
-                </div>
-              {% endfor %}
-            </div>
-
-{% else %}
-  <!-- Normal clip: show image+caption UNLESS this is a video -->
+<!-- MEDIA (single image for non–photo stories) -->
+{% unless page.photo_story %}
   {% unless page.video %}
     {% if page.clip_id %}
+      {% assign cid = page.clip_id | to_s %}
       {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
       <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
     {% endif %}
@@ -137,7 +93,7 @@
       </div>
     {% endif %}
   {% endunless %}
-{% endif %}
+{% endunless %}
 
           <!-- Byline + date -->
           <div class="clip-meta">
@@ -160,6 +116,44 @@
           <div class="clip-body">
             {{ content }}
           </div>
+
+			{% if page.photo_story == true %}
+  {% assign cid = page.clip_id | to_s %}
+  {% assign letters = "b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z" | split: "," %}
+  {% assign total = page.photo_total | default: 1 %}
+
+  <div class="clip-photo-story">
+    {% for i in (0..50) %}
+      {% if i >= total %}{% break %}{% endif %}
+
+      {% if i == 0 %}
+        {% assign suffix = "" %}
+      {% else %}
+        {% assign idx = i | minus: 1 %}
+        {% assign suffix = letters[idx] %}
+      {% endif %}
+
+      {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: suffix | append: '.jpg' %}
+
+      <div class="clip-photo-block">
+        <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
+
+        {% assign cap = page.photo_captions_html[i] %}
+        {% assign cred = page.photo_credits[i] %}
+        {% if cap or cred %}
+          <div class="clip-captionline">
+            {% if cap %}
+              <span class="nyt-image-caption">{{ cap }}</span>
+            {% endif %}
+            {% if cred %}
+              <span class="nyt-image-attribution"> {{ cred }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 
           <div class="clip-bottom">
             <a href="https://michalruprecht.com/pages/clips" class="clip-return filter-btn">Return to clips</a>

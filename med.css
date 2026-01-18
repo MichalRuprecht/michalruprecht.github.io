@@ -912,6 +912,7 @@ article.clip-article p.nyt-publish-date{
 
   .nyt-title {
     font-size: 28px;
+  text-align: left;
   }
 }
 

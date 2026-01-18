@@ -17,105 +17,27 @@ title: Social Instagram
 <h3>
        
         <center>
-        <ul class="image-grid-instagram">
+{% assign ig_clips = "96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81" | split: "," %}
+<ul class="image-grid-instagram">
+  {% assign clip_pages = site.pages | where_exp: "p", "p.clip == true" %}
 
+  {% for id in ig_clips %}
+    {% assign pid = id | strip %}
 
-          <li>
-    <a href="https://www.npr.org/2026/01/14/nx-s1-5671789/bigorexia-dysmorphia-eating-disorder-boys">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/93.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/sections/goats-and-soda/2026/01/09/g-s1-105242/rfk-jr-hepatitis-b-vaccine-ghana">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/92.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/2026/01/08/nx-s1-5671156/doctor-reacts-to-the-pitt">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/91.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/2026/01/02/nx-s1-5665112/trump-aspirin-325-81-mg-low-dose-cardiac-stroke-heart-attack-bleeding">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/90.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/sections/goats-and-soda/2025/12/26/g-s1-103034/tiktok-gaza-africa-brazil-soccer-history">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/89.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/sections/goats-and-soda/2025/11/21/g-s1-97678/measles-romania-vaccines">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/88.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/87">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/87.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/sections/goats-and-soda/2025/10/01/g-s1-91262/jimmy-carter-guinea-worm-president-dragon-television-amazon">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/86.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.instagram.com/reel/DOjhf1ODJ5F/?igsh=Nno2NWZlMDlmbmp6">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/81v.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="http://npr.org/sections/goats-and-soda/2025/09/09/g-s1-87614/dr-peter-hotez-takes-the-war-against-science-very-personally">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/85.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/sections/goats-and-soda/2025/09/08/g-s1-87121/vaccines-measles-diarrhea-pneumonia-sudan">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/84.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/sections/shots-health-news/2025/08/07/nx-s1-5494742/nfl-banned-smelling-salts-why-fda-concussion">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/83.jpg">
-    </a>
-        </li>
+    {% assign p = clip_pages | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign p = clip_pages | where_exp: "x", "x.clip_id == pid | plus: 0" | first %}
+    {% endunless %}
 
-          
-          <li>
-    <a href="https://www.instagram.com/reel/DMxURwOvonx/">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/80v.jpg">
-    </a>
-        </li>
-          
-          <li>
-    <a href="https://www.npr.org/2025/07/30/nx-s1-5486007/earthquake-tsunami-factors-explained">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/82.jpg">
-    </a>
-        </li>
-<li>
-    <a href="https://www.npr.org/sections/goats-and-soda/2025/07/29/g-s1-79830/gaza-starvation-death-malnutrition">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/81.jpg">
-    </a>
-</li>
-          
-<li>
-    <a href="https://www.npr.org/sections/goats-and-soda/2025/07/13/g-s1-76957/folklife-festival-dolly-parton-maya-rappers">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/80.jpg">
-    </a>
-</li>
-        </ul>
+    {% if p and p.publisher_url %}
+      <li>
+        <a href="{{ p.publisher_url }}" target="_blank" rel="noopener">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg">
+        </a>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
         </center>
 </h3>
                 </div>

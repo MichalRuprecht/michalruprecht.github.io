@@ -690,7 +690,7 @@ mark.mark-big{
 /* ===== Clip / NYT-style article pages ===== */
 
 article.clip-article {
-  font-family: 'Georgia', serif;
+  font-family: 'NYT Imperial', serif;
   padding: 0 15%;
   margin: 0 auto;
   max-width: 70%;
@@ -764,6 +764,7 @@ article.clip-article .clip-body{
   line-height: 1.15;
   margin: 0 0 10px 0;
   color: #000;
+  text-align: left;
 }
 
 /* Image (square corners) */
@@ -862,12 +863,6 @@ article.clip-article p.nyt-publish-date{
 .clip-body p strong,
 .clip-body p b {
   font-weight: 700;
-}
-
-/* Slightly larger body text for readability */
-.clip-body {
-  font-size: 18px;
-  line-height: 1.65;
 }
 
 /* Photo story blocks */

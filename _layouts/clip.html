@@ -118,24 +118,26 @@
               {% endfor %}
             </div>
 
-          {% else %}
-            <!-- Normal clip: ALWAYS show single image -->
-            {% if page.clip_id %}
-              {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
-              <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
-            {% endif %}
+{% else %}
+  <!-- Normal clip: show image+caption UNLESS this is a video -->
+  {% unless page.video %}
+    {% if page.clip_id %}
+      {% assign img_path = 'https://michalruprecht.com/pages/clips/assets/photo/' | append: cid | append: '.jpg' %}
+      <img class="nyt-image clip-image" src="{{ img_path }}" alt="">
+    {% endif %}
 
-            {% if page.caption_html or page.photo_credit %}
-              <div class="clip-captionline">
-                {% if page.caption_html %}
-                  <span class="nyt-image-caption">{{ page.caption_html }}</span>
-                {% endif %}
-                {% if page.photo_credit %}
-                  <span class="nyt-image-attribution"> {{ page.photo_credit }}</span>
-                {% endif %}
-              </div>
-            {% endif %}
-          {% endif %}
+    {% if page.caption_html or page.photo_credit %}
+      <div class="clip-captionline">
+        {% if page.caption_html %}
+          <span class="nyt-image-caption">{{ page.caption_html }}</span>
+        {% endif %}
+        {% if page.photo_credit %}
+          <span class="nyt-image-attribution"> {{ page.photo_credit }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endunless %}
+{% endif %}
 
           <!-- Byline + date -->
           <div class="clip-meta">

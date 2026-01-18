@@ -83,27 +83,27 @@
   <div class="grid2">
     <div class="field">
       <label>Headline (title)</label>
-      <input id="title" type="text" placeholder="e.g., ‘The Pitt’ is hugely popular. Is it medically accurate?" />
+      <input id="title" type="text" />
     </div>
 
     <div class="field">
       <label>Publisher (text)</label>
-      <input id="publisher" type="text" placeholder="e.g., NPR" />
+      <input id="publisher" type="text" />
     </div>
 
     <div class="field">
       <label>Publication date (display text)</label>
-      <input id="dateDisplay" type="text" placeholder="e.g., Jan. 20, 2026" />
+      <input id="dateDisplay" type="text"/>
     </div>
 
     <div class="field">
       <label>Byline (display text)</label>
-      <input id="byline" type="text" placeholder="e.g., By Michal Ruprecht" />
+      <input id="byline" type="text" />
     </div>
 
     <div class="field">
       <label>Publisher URL (link out)</label>
-      <input id="publisherUrl" type="url" placeholder="https://..." />
+      <input id="publisherUrl" type="url" />
     </div>
 
     <div class="field">
@@ -112,18 +112,17 @@
         <option value="auto">Auto (show PDF button)</option>
         <option value="false">No PDF (pdf: false)</option>
       </select>
-      <div class="muted">Most of your clips: keep Auto. If no PDF exists, choose “No PDF”.</div>
     </div>
   </div>
 
   <div class="grid2">
     <div class="field">
       <label>Caption (HTML allowed, optional)</label>
-      <input id="captionHtml" type="text" placeholder='e.g., Sepideh Moafi... <i>The Pitt</i> ...' />
+      <input id="captionHtml" type="text" />
     </div>
     <div class="field">
       <label>Photo credit (optional)</label>
-      <input id="photoCredit" type="text" placeholder="e.g., Warrick Page/HBO Max" />
+      <input id="photoCredit" type="text"/>
     </div>
   </div>
 
@@ -134,30 +133,17 @@
       <label><input id="isVideo" type="checkbox" /> video: true</label>
       <label><input id="isPhotoStory" type="checkbox" /> photo_story: true</label>
     </div>
-    <div class="muted">
-      • Podcasts/videos can include an embed. <br/>
-      • Photo stories: you can add multiple photos + captions/credits (optional).
-    </div>
+  
   </div>
 
   <div class="grid2">
     <div class="field">
       <label>Embed HTML (optional) — put raw iframe here</label>
       <textarea id="embedHtml" placeholder='<iframe ...></iframe>'></textarea>
-      <div class="muted">This will be inserted as <code>embed_html: |</code> and indented correctly.</div>
     </div>
 
     <div class="field">
       <label>Photo story items (optional)</label>
-      <textarea id="photoStoryJson" placeholder='If photo_story: true, paste something like:
-[
-  {"suffix":"","caption_html":"Cover caption","photo_credit":"Photog"},
-  {"suffix":"b","caption_html":"Second caption","photo_credit":"Photog"},
-  {"suffix":"c","caption_html":"Third caption","photo_credit":"Photog"}
-]'></textarea>
-      <div class="muted">
-        • suffix "" means 87.jpg (cover). suffix "b" means 87b.jpg, etc. <br/>
-      </div>
     </div>
   </div>
 
@@ -172,10 +158,7 @@
       <button class="toolbtn primary" type="button" id="btnPastePlain">Paste as plain text next time</button>
     </div>
     <div id="storyEditor" class="editor" contenteditable="true"
-      placeholder="Paste your story here..."></div>
-    <div class="muted">
-      Paste directly from NPR/NYT/etc — bold/italics/links should carry over.
-    </div>
+      ></div>
   </div>
 
   <div class="row" style="align-items:center;margin-top:8px">

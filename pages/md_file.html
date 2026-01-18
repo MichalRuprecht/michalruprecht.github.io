@@ -50,17 +50,17 @@
 
   <div class="grid2">
     <div class="field">
-      <label>Headline (title)</label>
+      <label>Headline</label>
       <input id="title" type="text" />
     </div>
 
     <div class="field">
-      <label>Publisher (text)</label>
+      <label>Publisher</label>
       <input id="publisher" type="text" />
     </div>
 
     <div class="field">
-      <label>Publisher URL (original link)</label>
+      <label>Publisher URL</label>
       <input id="publisherUrl" type="url" placeholder="https://..." />
     </div>
 
@@ -83,14 +83,13 @@
         <label><input id="noPdf" type="checkbox" /> No PDF</label>
         <label><input id="isPhotoStory" type="checkbox" /> Photo story</label>
       </div>
-      <div class="muted">You never need to add podcast:false / video:false etc. Only set true when needed.</div>
     </div>
   </div>
 
   <div class="hr"></div>
 
   <div class="field">
-    <label>Caption (paste here; bold/italics/links preserved)</label>
+    <label>Caption</label>
     <div id="captionEditor" class="editor small" contenteditable="true"></div>
     <div class="toolbar">
       <button class="toolbtn" type="button" data-cmd="bold" data-target="captionEditor">Bold</button>
@@ -106,16 +105,14 @@
       <input id="photoCredit" type="text" />
     </div>
     <div class="field">
-      <label>Embed HTML (optional)</label>
+      <label>Embed HTML</label>
       <textarea id="embedHtml" placeholder='<iframe ...></iframe>'></textarea>
-      <div class="muted">Paste any embed code; it will be YAML-safe and correctly indented.</div>
     </div>
   </div>
 
   <div class="photo-story-wrap" id="photoStoryWrap">
     <div class="field">
       <label>Photo story builder</label>
-      <div class="muted">Click “Add next photo” to add caption/credit pairs. This generates 87, 87b, 87c… automatically.</div>
 
       <div id="photoStoryCards"></div>
 
@@ -129,7 +126,7 @@
   <div class="hr"></div>
 
   <div class="field">
-    <label>Story text (paste here; bold/italics/links preserved)</label>
+    <label>Story text</label>
     <div id="storyEditor" class="editor" contenteditable="true"></div>
     <div class="toolbar">
       <button class="toolbtn" type="button" data-cmd="bold" data-target="storyEditor">Bold</button>
@@ -137,15 +134,15 @@
       <button class="toolbtn" type="button" data-cmd="createLink" data-target="storyEditor">Link</button>
       <button class="toolbtn secondary" type="button" data-cmd="removeFormat" data-target="storyEditor">Clear</button>
     </div>
-    <div class="muted">Tip: paste from NPR; it will keep basic formatting and strip junk styling.</div>
   </div>
 
   <div class="hr"></div>
 
   <div class="row" style="align-items:center;justify-content:space-between">
     <div id="status" class="muted"></div>
-    <button id="btnGenerate" type="button">Generate + download next MD</button>
+    <button id="btnGenerate" type="button">Download MD file</button>
   </div>
+
 
   <script>
     // ====== CONFIG (hidden from UI) ======

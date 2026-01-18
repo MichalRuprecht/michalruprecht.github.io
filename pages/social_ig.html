@@ -17,22 +17,23 @@ title: Social Instagram
 <h3>
        
         <center>
-{% assign ig_clips = "96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81" | split: "," %}
 <ul class="image-grid-instagram">
-  {% assign clip_pages = site.pages | where_exp: "p", "p.clip == true" %}
+  {% assign ig_clips = site.pages
+    | where_exp: "p", "p.clip == true"
+    | where_exp: "p", "p.clip_id >= 81"
+    | where_exp: "p", "p.clip_id != 97"
+    | sort: "clip_id"
+    | reverse
+  %}
 
-  {% for id in ig_clips %}
-    {% assign pid = id | strip %}
-
-    {% assign p = clip_pages | where_exp: "x", "x.clip_id == pid" | first %}
-    {% unless p %}
-      {% assign p = clip_pages | where_exp: "x", "x.clip_id == pid | plus: 0" | first %}
-    {% endunless %}
-
-    {% if p and p.publisher_url %}
+  {% for p in ig_clips %}
+    {% if p.publisher_url and p.clip_id %}
       <li>
         <a href="{{ p.publisher_url }}" target="_blank" rel="noopener">
-          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg">
+          <img
+            src="https://michalruprecht.com/pages/clips/assets/photo/{{ p.clip_id }}.jpg"
+            alt="{{ p.title }}"
+          >
         </a>
       </li>
     {% endif %}

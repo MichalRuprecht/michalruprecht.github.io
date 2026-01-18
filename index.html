@@ -2,6 +2,14 @@
 layout: med
 title: Michal Ruprecht
 ---
+{% assign all_clips = site.pages | where_exp: "p", "p.clip == true" %}
+
+{% assign featured_global_health = "95,82,86,91,83,89,69" | split: "," %}
+{% assign featured_domestic = "93,96,75,78,85,76,73,56,31,35,53,34,36" | split: "," %}
+{% assign featured_inequity = "77,32,47,07" | split: "," %}
+{% assign featured_profiles = "81,92,94,87,33,17" | split: "," %}
+{% assign featured_multimedia = "98,88,84,90,97,79,42" | split: "," %}
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <meta name="description" content="Michal Ruprecht is a fourth-year medical student at Wayne State University School of Medicine. He is an AAAS Mass Media Fellow at NPR and the Stanford University School of Medicine Global Health Media Fellow.">
@@ -40,7 +48,6 @@ title: Michal Ruprecht
         </div>
     
        
-        
         <div class="title">
           REPORTING
         </div>
@@ -48,339 +55,99 @@ title: Michal Ruprecht
           <h3>
 
             <mark class="mark-big">Global Health and Infectious Disease</mark>
-        <ul class="image-list-tiny">            
+        <ul class="image-list-clip">
+  {% for id in featured_global_health %}
+    {% assign pid = id | strip %}
 
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/92">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/92.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/92">
-            RFK Jr. cast doubt on a key vaccine. This country can't wait to get it
-        </a>
-        <br>NPR
-    <br>Jan. 9, 2026
-    </div>
-</li>
-          
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/81">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/81.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/81">
-            People are dying of malnutrition in Gaza. How does starvation kill you?
-        </a>
-        <br>NPR
-    <br>July 29, 2025
-    </div>
-</li>
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
 
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/84">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/84.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/84">
-            This is what could happen to a child who doesn't get vaccinated
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img
+            src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg"
+            alt="{{ p.title | escape }}"
+            loading="lazy"
+          >
         </a>
-        <br>NPR
-    <br>Sept. 8, 2025
-    </div>
-</li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/88">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/88.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/88">
-            Are there lessons for the U.S. in this European country's struggle with measles?
-        </a>
-        <br>NPR
-    <br>Nov. 21, 2025
-    </div>
-        </li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/82">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/82.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/82">
-            What makes a tsunami — and what to do if one comes
-        </a>
-        <br>NPR
-   <br>July 30, 2025</div>
-        </li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/86">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/86.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/86">
-            A new documentary about a dastardly worm and a heroic effort by Jimmy Carter
-        </a>
-        <br>NPR
-    <br>Oct. 1, 2025
-    </div>
-</li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/50">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/50.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/50">
-            Benefits of HPV immunization spilling over to the unvaxxed
-        </a>
-        <br>MedPage Today
-             <br>May 16, 2022
-    </div>
-</li>
-        </ul>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}">
+            <span class="clip-title">{{ p.title }}</span>
+          </a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
 
 
 
     
 <br>
             <mark class="mark-big">Domestic Health, Policy and Science</mark>
-        <ul class="image-list-tiny">
-<li>
-    <a href="https://michalruprecht.com/pages/clips/90">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/90.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/90">
-            Is Trump taking too much aspirin? Here’s what experts say
+       <ul class="image-list-clip">
+  {% for id in featured_domestic %}
+    {% assign pid = id | strip %}
+
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
+
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
         </a>
-        <br>NPR
-             <br>Jan. 2, 2026
-    </div>
-</li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/93">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/93.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/93">
-            Young men want to get big. For some, it's becoming an obsession
-        </a>
-        <br>NPR
-             <br>Jan. 14, 2026
-    </div>
-</li>
-          
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/75">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/75.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/75">
-            1 in 12 kids lose a parent or sibling before turning 18: Report*
-        </a>
-        <br>ABC News
-             <br>March 28, 2023
-    </div>
-</li>
-        <li>
-    <a href="https://michalruprecht.com/pages/clips/77">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/77.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/77">
-            For Black women, most pregnancy-related deaths happen weeks or months after childbirth
-        </a>
-        <br>"Good Morning America"/ABC News
-             <br>April 13, 2023
-    </div>
-</li> 
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/83">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/83.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/83">
-            The NFL is making it harder for players to get smelling salts. Here's why
-        </a>
-        <br>NPR
-    <br>Aug. 7, 2025
-    </div>
-        </li>
-
-              <li>
-    <a href="https://michalruprecht.com/pages/clips/76">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/76.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/76">
-            University of Washington researchers say their prevention program could reduce gun violence deaths in children
-        </a>
-        <br>ABC News
-             <br>April 11, 2023
-    </div>
-</li>   
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/73">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/73.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/73">
-            'I wish everyone would just pay': When med students flock to pirated study tools
-        </a>
-        <br>MedPage Today
-             <br>July 1, 2022
-    </div>
-</li>
-          
-    
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/56">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/56.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/56">
-            Over 1 million kids and young adults vaped every day in 2019
-        </a>
-        <br>MedPage Today
-             <br>May 30, 2022
-    </div>
-</li>
-
-<li>
-    <a href="https://michalruprecht.com/pages/clips/31">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/31.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/31">
-            University clinicians see a future for telemedicine
-        </a>
-        <br>The Michigan Daily
-             <br>July 20, 2020
-    </div>
-</li>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
 
 
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/35">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/35.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/35">
-            Michigan law exacerbated city water problems in minority, low-income cities, U-M study finds
-        </a>
-        <br>The Michigan Daily
-             <br>Oct. 26, 2021
-    </div>
-</li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/53">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/53.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/53">
-            Bystander CPR more likely in states requiring teen training
-        </a>
-        <br>MedPage Today
-             <br>May 23, 2022
-    </div>
-</li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/34">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/34.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/34">
-            New statewide Michigan rule requires implicit bias training for health care workers
-        </a>
-        <br>The Michigan Daily
-             <br>June 17, 2021
-    </div>
-</li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/36">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/36.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/36">
-            University clinicians continue providing accessible virtual mental health services despite relaxed COVID-19 restrictions
-        </a>
-        <br>The Michigan Daily
-             <br>Nov. 9, 2021
-    </div>
-</li>
-
-
-        </ul>
-                                  <small>*This article is <a href="https://www.merriam-webster.com/sentences/emphasize" target="_blank">cited</a> in Merriam-Webster's Dictionary as an example of how to use the word <i>emphasize</i> in a sentence!</small>
+  
 
 
 
 
-
-<br><br>
+<br>
             <mark class="mark-big">Inequity, Gender and Structural Discrimination</mark>
-        <ul class="image-list-tiny">
+       <ul class="image-list-clip">
+  {% for id in featured_inequity %}
+    {% assign pid = id | strip %}
 
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/78">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/78.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/78">
-            These women matched at Stanford. Twitter responded with misogyny and racism.
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
+
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
         </a>
-        <br>MedPage Today
-             <br>April 12, 2023
-    </div>
-</li>
-          
-<li>
-    <a href="https://michalruprecht.com/pages/clips/32">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/32.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/32">
-            'It’s not worth reporting': Researchers allege ineffective ‘U’ reporting system for abuse
-        </a>
-        <br>The Michigan Daily
-             <br>Aug. 12, 2020
-    </div>
-</li> 
-          
-        <li>
-    <a href="https://michalruprecht.com/pages/clips/47">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/47.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/47">
-            Nearly all transgender kids stick with new identity 5 years later
-        </a>
-        <br>MedPage Today
-             <br>May 6, 2022
-    </div>
-</li>
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/7">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/7.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/7">
-            Michigan Democrats introduce bills to protect same-sex couples from discrimination by adoption agencies
-        </a>
-        <br>The Michigan Daily
-             <br>April 21, 2019
-    </div>
-</li>
-        </ul>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
 
 
             
@@ -390,208 +157,65 @@ title: Michal Ruprecht
             
 <br>
             <mark class="mark-big">Profiles and Human Stories</mark>
-        <ul class="image-list-tiny">
-<li>
-    <a href="https://michalruprecht.com/pages/clips/80">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/80.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/80">
-            Folklife stars: Maya artist, Bolivian rappers, Dolly Parton's guitar restorer
-        </a>
-        <br>NPR
-      <br>July 13, 2025</div>
-</li>
+<ul class="image-list-clip">
+  {% for id in featured_profiles %}
+    {% assign pid = id | strip %}
 
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/89">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/89.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/89">
-            Viral global TikToks: A twist on soccer, Tanzania's Charlie Chaplin, hope in Gaza
-        </a>
-        <br>NPR
-      <br>Dec. 28, 2025</div>
-</li>
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
 
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/91">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/91.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/91">
-            A doctor says 'The Pitt' reflects the gritty realities of medicine today
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
         </a>
-        <br>NPR
-      <br>Jan. 8, 2026</div>
-</li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/85">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/85.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/85">
-            Dr. Peter Hotez takes the war against science very personally
-        </a>
-        <br>NPR
-    <br>Sept. 10, 2025
-    </div>
-</li>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
 
 
 
-                 <li>
-    <a href="https://michalruprecht.com/pages/clips/33">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/33.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/33">
-            Michigan Medicine team successfully separates conjoined twins
-        </a>
-        <br>The Michigan Daily
-             <br>Sept. 24, 2020
-    </div>
-</li> 
-          
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/17">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/17.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/17">
-            ‘U’ professor, student bring University STEM to rural Michigan high school
-        </a>
-        <br>The Michigan Daily
-             <br>Aug. 6, 2019
-    </div>
-</li>
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/6">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/6.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/6">
-            Hidden mural from the 1880s uncovered
-        </a>
-        <br>The Michigan Daily
-             <br>March 28, 2019
-    </div>
-</li>
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/1">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/1.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/1">
-            Barbershop celebrates 80th anniversary
-        </a>
-        <br>The Michigan Daily
-             <br>March 12, 2019
-    </div>
-</li>
-          
-          </ul>
+
+
+
 
 
 <br>
             <mark class="mark-big">Multimedia Storytelling</mark>
-        <ul class="image-list-tiny">
-<li>
-    <a href="https://michalruprecht.com/pages/clips/94">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/94.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/94">
-            Podcast episode: ‘The Pitt’ is hugely popular. Is it medically accurate?
-        </a>
-        <br>Short Wave from NPR
-             <br>Jan. 20, 2026
-    </div>
-</li>
-          
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/42">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/42.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/42">
-            Podcast episode: Reimagining epilepsy care with food
-        </a>
-        <br>University of Michigan Neuroepic Podcast
-             <br>May 1, 2022
-    </div>
-</li>
-          
+<ul class="image-list-clip">
+  {% for id in featured_multimedia %}
+    {% assign pid = id | strip %}
 
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/81v">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/81v.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/81v">
-            Instagram Reel: People are dying of malnutrition in Gaza. How does starvation kill you?
-        </a>
-        <br>NPR
-    <br>Sept. 13, 2025
-    </div>
-        </li>
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
 
-          
-        <li>
-    <a href="https://michalruprecht.com/pages/clips/80v">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/80v.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/80v">
-            Instagram Reel: South American hip-hop with an indigenous twist
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
         </a>
-        <br>NPR
-    <br>July 31, 2025
-    </div>
-        </li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/87">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/87.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/87">
-            Photos: Dogs, turtles and healing beyond the hospital door
-        </a>
-        <br>Peninsula Press
-    <br>Oct. 8, 2025
-    </div>
-        </li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/93v">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/93.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/93v">
-            Video: Young men want to get big. For some, it's becoming an obsession
-        </a>
-        <br>Peninsula Press
-    <br>Jan. 14, 2026
-    </div>
-        </li>
-
-          <li>
-    <a href="https://michalruprecht.com/pages/clips/78v">
-        <img src="https://michalruprecht.com/pages/clips/assets/photo/78v.jpg">
-    </a>
-    <div class="details">
-        <a href="https://michalruprecht.com/pages/clips/78v">
-            TikTok: These women matched at Stanford. Twitter responded with misogyny and racism
-        </a>
-        <br>MedPage Today
-    <br>April 14, 2023
-    </div>
-</li>
-        
-        </ul>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+     
 
 
             <br><center><big>View all of my clips <a href="https://michalruprecht.com/pages/clips">here</a>.</big></center>

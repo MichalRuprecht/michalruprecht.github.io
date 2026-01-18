@@ -43,7 +43,42 @@
     .photo-card{border:1px solid #ddd;border-radius:14px;padding:12px;background:#fafafa}
     .photo-card h3{margin:0 0 10px;font-size:13px}
     .photo-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-  </style>
+
+
+    /* Required-field validation */
+    .field.invalid input,
+    .field.invalid textarea,
+    .field.invalid .richtext {
+      border-color: #d93025 !important;
+      background: #fff5f5;
+    }
+
+    .form-error {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid #d93025;
+      background: #fff5f5;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #b31412;
+      display: none;
+    }
+
+    #btnGenerate:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    /* Make the date input less wide so the calendar icon is reachable */
+    #pubDate {
+      max-width: 220px;
+    }
+
+    #pubDate::-webkit-calendar-picker-indicator {
+      margin-right: 10px;
+    }
+
+</style>
 </head>
 <body>
   <h1>Clip MD Maker <span class="pill">michalruprecht.github.io</span></h1>
@@ -140,6 +175,8 @@
 
   <div class="row" style="align-items:center;justify-content:space-between">
     <div id="status" class="muted"></div>
+
+  <div id="formError" class="form-error"></div>
     <button id="btnGenerate" type="button">Download MD file</button>
   </div>
 
@@ -493,6 +530,9 @@
 
     $("byline").value = "Michal Ruprecht";
 
+    // Initial required-field state
+    validateRequired(false);
+
     // ====== Photo story toggles ======
     $("isPhotoStory").addEventListener("change", ()=>{
       const on = $("isPhotoStory").checked;
@@ -511,6 +551,50 @@
     $("clearPhotosBtn").addEventListener("click", ()=>{
       photoCount = 0;
       renderPhotoCards();
+    });
+
+    // ====== Required fields (Title, Publisher, Publication URL) ======
+    const required = [
+      { id: "title", label: "Title" },
+      { id: "publisher", label: "Publisher" },
+      { id: "publisherUrl", label: "Publication URL" },
+    ];
+
+    function setFieldInvalid(inputEl, isInvalid){
+      const field = inputEl.closest(".field") || inputEl.parentElement;
+      if(field) field.classList.toggle("invalid", isInvalid);
+    }
+
+    function validateRequired(showError){
+      const missing = [];
+      for(const f of required){
+        const el = $(f.id);
+        const val = (el.value || "").trim();
+        const invalid = !val || (el.type === "url" && !el.checkValidity());
+        setFieldInvalid(el, invalid);
+        if(invalid) missing.push(f.label);
+      }
+
+      const ok = missing.length === 0;
+      $("btnGenerate").disabled = !ok;
+
+      const errBox = $("formError");
+      if(showError && !ok){
+        errBox.textContent = "Please fill out: " + missing.join(", ") + ".";
+        errBox.style.display = "block";
+      } else {
+        errBox.textContent = "";
+        errBox.style.display = "none";
+      }
+
+      return ok;
+    }
+
+    // Live validation
+    required.forEach(f => {
+      const el = $(f.id);
+      el.addEventListener("input", () => validateRequired(false));
+      el.addEventListener("blur",  () => validateRequired(false));
     });
 
     // ====== Main button: fetch next + generate + download ======

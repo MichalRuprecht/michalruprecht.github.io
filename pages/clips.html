@@ -39,7 +39,14 @@ title: Clips - Michal Ruprecht
   %}
 
   {% for p in clip_pages %}
-    {% assign cid = p.clip_id | plus: 0 %}
+    {% assign cid_num = p.clip_id | plus: 0 %}
+
+    {% if cid_num < 10 %}
+      {% assign cid = "0" | append: cid_num %}
+    {% else %}
+      {% assign cid = cid_num %}
+    {% endif %}
+
     {% assign img_url = "https://michalruprecht.com/pages/clips/assets/photo/" | append: cid | append: ".jpg" %}
 
     <li>
@@ -55,8 +62,8 @@ title: Clips - Michal Ruprecht
         <a class="clip-link" href="{{ p.url | relative_url }}">
           <span class="clip-title">{{ p.title }}</span>
         </a>
-        <br><span class="publisher">{{ p.publisher }}</span>
-        <br><span class="pub-date">{{ p.date_display }}</span>
+        {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+        {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
       </div>
     </li>
   {% endfor %}

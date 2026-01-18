@@ -40,8 +40,8 @@ title: Clips - Michal Ruprecht
   {% for p in clip_pages %}
     <li>
       <a href="{{ p.url | relative_url }}">
-        <img src="{{ p.image | relative_url }}">
-      </a>
+{% assign cid = p.clip_id | to_s %}
+<img src="https://michalruprecht.com/pages/clips/assets/photo/{{ cid }}.jpg" alt="">      </a>
       <div class="details">
         <a class="clip-link" href="{{ p.url | relative_url }}">
           <span class="clip-title">{{ p.title }}</span>

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clip MD Maker</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:24px;line-height:1.35;max-width:980px}
+    h1{font-size:22px;margin:0 0 14px}
+    .row{display:flex;gap:14px;flex-wrap:wrap}
+    .field{flex:1;min-width:280px;margin:10px 0}
+    label{display:block;font-size:12px;font-weight:700;margin:0 0 6px;color:#111}
+    input[type="text"], input[type="url"], textarea, select{
+      width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #bbb;border-radius:8px;font-size:14px
+    }
+    textarea{min-height:120px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+    .checks{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:6px 0 0}
+    .checks label{display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px;margin:0}
+    button{
+      padding:10px 14px;border-radius:10px;border:1px solid #111;background:#111;color:#fff;font-weight:700;cursor:pointer
+    }
+    button.secondary{background:#fff;color:#111}
+    .muted{color:#555;font-size:13px;margin-top:6px}
+    .pill{display:inline-block;background:#f1f1f1;border:1px solid #ddd;border-radius:999px;padding:3px 10px;font-size:12px}
+    .warn{color:#8a3b00}
+    .ok{color:#0a6}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:900px){.grid2{grid-template-columns:1fr}}
+    .hr{height:1px;background:#ddd;margin:18px 0}
+  </style>
+</head>
+<body>
+  <h1>Clip MD Maker <span class="pill">michalruprecht.github.io</span></h1>
+
+  <div class="row">
+    <div class="field">
+      <label>GitHub owner</label>
+      <input id="ghOwner" type="text" value="michalruprecht" />
+    </div>
+    <div class="field">
+      <label>GitHub repo</label>
+      <input id="ghRepo" type="text" value="michalruprecht.github.io" />
+    </div>
+    <div class="field">
+      <label>Clips folder path (repo-relative)</label>
+      <input id="ghPath" type="text" value="pages/clips" />
+      <div class="muted">This reads your repo to find the highest existing .md number.</div>
+    </div>
+  </div>
+
+  <div class="row" style="align-items:center;margin-top:6px">
+    <button class="secondary" id="btnFetch">1) Find next clip number</button>
+    <div id="status" class="muted">Not fetched yet.</div>
+  </div>
+
+  <div class="hr"></div>
+
+  <div class="grid2">
+    <div class="field">
+      <label>Headline (title)</label>
+      <input id="title" type="text" placeholder="e.g., ‘The Pitt’ is hugely popular. Is it medically accurate?" />
+    </div>
+
+    <div class="field">
+      <label>Publisher (text)</label>
+      <input id="publisher" type="text" placeholder="e.g., NPR" />
+    </div>
+
+    <div class="field">
+      <label>Publication date (display text)</label>
+      <input id="dateDisplay" type="text" placeholder="e.g., Jan. 20, 2026" />
+    </div>
+
+    <div class="field">
+      <label>Byline (display text)</label>
+      <input id="byline" type="text" placeholder="e.g., By Michal Ruprecht" />
+    </div>
+
+    <div class="field">
+      <label>Publisher URL (link out)</label>
+      <input id="publisherUrl" type="url" placeholder="https://..." />
+    </div>
+
+    <div class="field">
+      <label>PDF?</label>
+      <select id="pdfMode">
+        <option value="auto">Auto (show PDF button)</option>
+        <option value="false">No PDF (pdf: false)</option>
+      </select>
+      <div class="muted">Most of your clips: keep Auto. If no PDF exists, choose “No PDF”.</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="field">
+      <label>Caption (HTML allowed, optional)</label>
+      <input id="captionHtml" type="text" placeholder='e.g., Sepideh Moafi... <i>The Pitt</i> ...' />
+    </div>
+    <div class="field">
+      <label>Photo credit (optional)</label>
+      <input id="photoCredit" type="text" placeholder="e.g., Warrick Page/HBO Max" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Type</label>
+    <div class="checks">
+      <label><input id="isPodcast" type="checkbox" /> podcast: true</label>
+      <label><input id="isVideo" type="checkbox" /> video: true</label>
+      <label><input id="isPhotoStory" type="checkbox" /> photo_story: true</label>
+    </div>
+    <div class="muted">
+      • Podcasts/videos can include an embed. <br/>
+      • Photo stories: you can add multiple photos + captions/credits (optional).
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="field">
+      <label>Embed HTML (optional) — put raw iframe here</label>
+      <textarea id="embedHtml" placeholder='<iframe ...></iframe>'></textarea>
+      <div class="muted">This will be inserted as <code>embed_html: |</code> and indented correctly.</div>
+    </div>
+
+    <div class="field">
+      <label>Photo story items (optional)</label>
+      <textarea id="photoStoryJson" placeholder='If photo_story: true, paste something like:
+[
+  {"suffix":"","caption_html":"Cover caption","photo_credit":"Photog"},
+  {"suffix":"b","caption_html":"Second caption","photo_credit":"Photog"},
+  {"suffix":"c","caption_html":"Third caption","photo_credit":"Photog"}
+]'></textarea>
+      <div class="muted">
+        • suffix "" means 87.jpg (cover). suffix "b" means 87b.jpg, etc. <br/>
+        • If you leave this blank, your layout can still fall back to a simple count-based approach.
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Story text (Markdown)</label>
+    <textarea id="storyText" placeholder="Paste your story text here. Blank line between paragraphs."></textarea>
+    <div class="muted warn">
+      Tip: If you want bold subheads in Markdown, use <code>**Bold**</code> (not single *asterisks*).
+    </div>
+  </div>
+
+  <div class="row" style="align-items:center;margin-top:8px">
+    <button id="btnDownload">2) Download next .md</button>
+    <div id="nextInfo" class="muted"></div>
+  </div>
+
+<script>
+  // --- helpers ---
+  function safeYamlString(s) {
+    // Always quote strings; escape quotes/backslashes
+    const t = (s ?? "").toString();
+    return '"' + t.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+  }
+
+  function indentBlock(s, spaces = 2) {
+    const pad = " ".repeat(spaces);
+    return (s ?? "").toString()
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+      .split("\n")
+      .map(line => pad + line)
+      .join("\n");
+  }
+
+  function parseNumericIdFromFilename(name) {
+    // accepts "01.md", "94.md", "98.html" etc
+    const m = name.match(/^(\d+)\.(md|html)$/i);
+    if (!m) return null;
+    return parseInt(m[1], 10);
+  }
+
+  function padClipId(n) {
+    // Your assets 01-09 use leading zero; everything else no pad
+    return (n >= 1 && n <= 9) ? ("0" + n) : String(n);
+  }
+
+  // --- state ---
+  let nextNumber = null;       // integer, e.g. 12
+  let nextClipIdStr = null;    // string, e.g. "12" or "01"
+  let nextFilename = null;     // string, e.g. "12.md" or "01.md"
+
+  async function fetchNextNumber() {
+    const owner = document.getElementById("ghOwner").value.trim();
+    const repo  = document.getElementById("ghRepo").value.trim();
+    const path  = document.getElementById("ghPath").value.trim().replace(/^\/+|\/+$/g, "");
+
+    const status = document.getElementById("status");
+    status.textContent = "Fetching repo contents…";
+    status.className = "muted";
+
+    const api = `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${encodeURIComponent(path)}`;
+
+    let res;
+    try {
+      res = await fetch(api, { headers: { "Accept": "application/vnd.github+json" }});
+    } catch (e) {
+      status.textContent = "Network error while contacting GitHub API.";
+      status.className = "muted warn";
+      return;
+    }
+
+    if (!res.ok) {
+      status.textContent = `GitHub API error: ${res.status} ${res.statusText}. (If you hit rate limits, try later.)`;
+      status.className = "muted warn";
+      return;
+    }
+
+    const items = await res.json();
+    if (!Array.isArray(items)) {
+      status.textContent = "Unexpected API response (not a folder listing). Check the path.";
+      status.className = "muted warn";
+      return;
+    }
+
+    let max = 0;
+    for (const it of items) {
+      const id = parseNumericIdFromFilename(it.name || "");
+      if (id && id > max) max = id;
+    }
+
+    nextNumber = max + 1;
+    nextClipIdStr = padClipId(nextNumber);
+    nextFilename = nextClipIdStr + ".md";
+
+    status.textContent = `OK — highest found: ${max}. Next will be: ${nextFilename}`;
+    status.className = "muted ok";
+
+    document.getElementById("nextInfo").textContent = `Next file: ${nextFilename} (clip_id: "${nextClipIdStr}")`;
+  }
+
+  function buildYaml() {
+    const title        = document.getElementById("title").value.trim();
+    const publisher     = document.getElementById("publisher").value.trim();
+    const dateDisplay   = document.getElementById("dateDisplay").value.trim();
+    const byline        = document.getElementById("byline").value.trim();
+    const publisherUrl  = document.getElementById("publisherUrl").value.trim();
+    const captionHtml   = document.getElementById("captionHtml").value.trim();
+    const photoCredit   = document.getElementById("photoCredit").value.trim();
+    const embedHtml     = document.getElementById("embedHtml").value.trim();
+    const storyText     = document.getElementById("storyText").value.replace(/\r\n/g, "\n").trimEnd();
+
+    const isPodcast     = document.getElementById("isPodcast").checked;
+    const isVideo       = document.getElementById("isVideo").checked;
+    const isPhotoStory  = document.getElementById("isPhotoStory").checked;
+
+    const pdfMode       = document.getElementById("pdfMode").value; // auto | false
+
+    let photoStoryItemsRaw = document.getElementById("photoStoryJson").value.trim();
+
+    if (!nextFilename || !nextClipIdStr) {
+      throw new Error("Click “Find next clip number” first.");
+    }
+    if (!title) throw new Error("Headline (title) is required.");
+    if (!publisher) throw new Error("Publisher is required.");
+    if (!dateDisplay) throw new Error("Publication date is required.");
+    if (!byline) throw new Error("Byline is required.");
+    if (!publisherUrl) throw new Error("Publisher URL is required.");
+
+    // Build front matter
+    let fm = [];
+    fm.push("---");
+    fm.push(`layout: clip`);
+    fm.push(`title: ${safeYamlString(title)}`);
+    fm.push(`clip: true`);
+    fm.push(`clip_id: ${safeYamlString(nextClipIdStr)}`); // ALWAYS quote so "01" stays "01"
+    fm.push(`publisher: ${safeYamlString(publisher)}`);
+    fm.push(`date_display: ${safeYamlString(dateDisplay)}`);
+    fm.push(`byline: ${safeYamlString(byline)}`);
+    fm.push(`publisher_url: ${safeYamlString(publisherUrl)}`);
+
+    if (captionHtml) fm.push(`caption_html: ${safeYamlString(captionHtml)}`);
+    if (photoCredit) fm.push(`photo_credit: ${safeYamlString(photoCredit)}`);
+
+    if (pdfMode === "false") fm.push(`pdf: false`);
+
+    // Only include these flags if true (so you don't need podcast:false / video:false)
+    if (isPodcast) fm.push(`podcast: true`);
+    if (isVideo) fm.push(`video: true`);
+    if (isPhotoStory) fm.push(`photo_story: true`);
+
+    // Optional embed
+    if (embedHtml) {
+      fm.push(`embed_html: |`);
+      fm.push(indentBlock(embedHtml, 2));
+    }
+
+    // Optional photo story items array (for per-photo captions/credits)
+    if (isPhotoStory && photoStoryItemsRaw) {
+      // Validate JSON if provided
+      let parsed;
+      try { parsed = JSON.parse(photoStoryItemsRaw); }
+      catch(e) { throw new Error("Photo story items must be valid JSON array (or leave blank)."); }
+
+      if (!Array.isArray(parsed)) throw new Error("Photo story items JSON must be an array.");
+
+      // Write as YAML list safely (simple and readable)
+      fm.push(`photo_story_items:`);
+      for (const item of parsed) {
+        const suffix = (item.suffix ?? "").toString();
+        const cap    = (item.caption_html ?? "").toString();
+        const cred   = (item.photo_credit ?? "").toString();
+        fm.push(`  - suffix: ${safeYamlString(suffix)}`);
+        if (cap)  fm.push(`    caption_html: ${safeYamlString(cap)}`);
+        if (cred) fm.push(`    photo_credit: ${safeYamlString(cred)}`);
+      }
+    }
+
+    fm.push("---");
+    fm.push("");
+    fm.push(storyText ? storyText : "(paste story text here)");
+    fm.push("");
+
+    return fm.join("\n");
+  }
+
+  function downloadText(filename, text) {
+    const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // --- wire up ---
+  document.getElementById("btnFetch").addEventListener("click", fetchNextNumber);
+
+  document.getElementById("btnDownload").addEventListener("click", () => {
+    const status = document.getElementById("status");
+    try {
+      const md = buildYaml();
+      downloadText(nextFilename, md);
+      status.textContent = `Downloaded ${nextFilename}. Upload it to ${document.getElementById("ghPath").value.trim()}/ and commit.`;
+      status.className = "muted ok";
+    } catch (e) {
+      status.textContent = e.message || "Error building file.";
+      status.className = "muted warn";
+    }
+  });
+</script>
+</body>
+</html>

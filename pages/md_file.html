@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clip MD Maker</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:24px;line-height:1.35;max-width:980px}
+    h1{font-size:22px;margin:0 0 14px}
+    .row{display:flex;gap:14px;flex-wrap:wrap}
+    .field{flex:1;min-width:280px;margin:10px 0}
+    label{display:block;font-size:12px;font-weight:700;margin:0 0 6px;color:#111}
+    input[type="text"], input[type="url"], input[type="date"], textarea, select{
+      width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #bbb;border-radius:12px;font-size:14px
+    }
+    textarea{min-height:120px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+    .checks{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:6px 0 0}
+    .checks label{display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px;margin:0}
+    button{padding:10px 14px;border-radius:12px;border:1px solid #111;background:#111;color:#fff;font-weight:700;cursor:pointer}
+    button.secondary{background:#fff;color:#111}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .muted{color:#555;font-size:13px;margin-top:6px}
+    .pill{display:inline-block;background:#f1f1f1;border:1px solid #ddd;border-radius:999px;padding:3px 10px;font-size:12px}
+    .warn{color:#8a3b00}
+    .ok{color:#0a6}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:900px){.grid2{grid-template-columns:1fr}}
+    .hr{height:1px;background:#ddd;margin:18px 0}
+
+    /* Rich editors */
+    .editor{width:100%;box-sizing:border-box;padding:12px;border:1px solid #bbb;border-radius:12px;min-height:220px;background:#fff;font-size:14px;line-height:1.45;overflow:auto}
+    .editor.small{min-height:56px}
+    .editor:focus{outline:2px solid #111;outline-offset:2px}
+    .editor p{margin:0 0 10px}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .toolbtn{padding:8px 10px;border-radius:12px;border:1px solid #111;background:#fff;color:#111;font-weight:700;cursor:pointer;font-size:13px}
+    .toolbtn.primary{background:#111;color:#fff}
+    .toolbtn:active{transform:translateY(1px)}
+
+    .photo-story-wrap{display:none;margin-top:8px}
+    .photo-story-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+    @media (max-width:900px){.photo-story-grid{grid-template-columns:1fr}}
+    .photo-card{border:1px solid #ddd;border-radius:14px;padding:12px;background:#fafafa}
+    .photo-card h3{margin:0 0 10px;font-size:13px}
+    .photo-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  </style>
+</head>
+<body>
+  <h1>Clip MD Maker <span class="pill">michalruprecht.github.io</span></h1>
+
+  <div class="grid2">
+    <div class="field">
+      <label>Headline</label>
+      <input id="title" type="text" />
+    </div>
+
+    <div class="field">
+      <label>Publisher</label>
+      <input id="publisher" type="text" />
+    </div>
+
+    <div class="field">
+      <label>Publisher URL</label>
+      <input id="publisherUrl" type="url" placeholder="https://..." />
+    </div>
+
+    <div class="field">
+      <label>Publication date</label>
+      <input id="pubDate" type="date" />
+      <div class="muted">Outputs as <span class="pill" id="datePreview"></span></div>
+    </div>
+
+    <div class="field">
+      <label>Byline</label>
+      <input id="byline" type="text" />
+    </div>
+
+    <div class="field">
+      <label>Clip type</label>
+      <div class="checks">
+        <label><input id="isPodcast" type="checkbox" /> Podcast</label>
+        <label><input id="isVideo" type="checkbox" /> Video</label>
+        <label><input id="noPdf" type="checkbox" /> No PDF</label>
+        <label><input id="isPhotoStory" type="checkbox" /> Photo story</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <div class="field">
+    <label>Caption</label>
+    <div id="captionEditor" class="editor small" contenteditable="true"></div>
+    <div class="toolbar">
+      <button class="toolbtn" type="button" data-cmd="bold" data-target="captionEditor">Bold</button>
+      <button class="toolbtn" type="button" data-cmd="italic" data-target="captionEditor">Italic</button>
+      <button class="toolbtn" type="button" data-cmd="createLink" data-target="captionEditor">Link</button>
+      <button class="toolbtn secondary" type="button" data-cmd="removeFormat" data-target="captionEditor">Clear</button>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="field">
+      <label>Photo credit</label>
+      <input id="photoCredit" type="text" />
+    </div>
+    <div class="field">
+      <label>Embed HTML</label>
+      <textarea id="embedHtml" placeholder='<iframe ...></iframe>'></textarea>
+    </div>
+  </div>
+
+  <div class="photo-story-wrap" id="photoStoryWrap">
+    <div class="field">
+      <label>Photo story builder</label>
+
+      <div id="photoStoryCards"></div>
+
+      <div class="photo-actions">
+        <button class="toolbtn primary" type="button" id="addPhotoBtn">Add next photo</button>
+        <button class="toolbtn secondary" type="button" id="clearPhotosBtn">Clear photos</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <div class="field">
+    <label>Story text</label>
+    <div id="storyEditor" class="editor" contenteditable="true"></div>
+    <div class="toolbar">
+      <button class="toolbtn" type="button" data-cmd="bold" data-target="storyEditor">Bold</button>
+      <button class="toolbtn" type="button" data-cmd="italic" data-target="storyEditor">Italic</button>
+      <button class="toolbtn" type="button" data-cmd="createLink" data-target="storyEditor">Link</button>
+      <button class="toolbtn secondary" type="button" data-cmd="removeFormat" data-target="storyEditor">Clear</button>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <div class="row" style="align-items:center;justify-content:space-between">
+    <div id="status" class="muted"></div>
+    <button id="btnGenerate" type="button">Download MD file</button>
+  </div>
+
+  <!-- Post-download quick links -->
+  <div id="afterDownload" class="card" style="display:none;margin-top:14px">
+    <div class="muted" style="margin-bottom:10px">Next: upload the files to GitHub (or just use these links in a new tab)</div>
+
+    <div class="row" style="flex-wrap:wrap;gap:10px">
+      <a id="btnUploadMd" class="filter-btn" target="_blank" rel="noopener" href="https://github.com/MichalRuprecht/michalruprecht.github.io/upload/master/pages/clips">
+        Upload MD
+      </a>
+      <span class="muted" style="align-self:center">Name: <span id="mdFilename">—</span></span>
+    </div>
+
+    <div class="row" style="flex-wrap:wrap;gap:10px;margin-top:10px">
+      <a id="btnUploadPhoto" class="filter-btn" target="_blank" rel="noopener" href="https://github.com/MichalRuprecht/michalruprecht.github.io/upload/master/pages/clips/assets/photo">
+        Upload photo
+      </a>
+      <span class="muted" style="align-self:center">Name: <span id="photoFilename">—</span></span>
+    </div>
+
+    <div class="row" style="flex-wrap:wrap;gap:10px;margin-top:10px">
+      <a id="btnUploadPdf" class="filter-btn" target="_blank" rel="noopener" href="https://github.com/MichalRuprecht/michalruprecht.github.io/upload/master/pages/clips/assets/pdf">
+        Upload PDF
+      </a>
+      <span class="muted" style="align-self:center">Name: <span id="pdfFilename">—</span></span>
+    </div>
+  </div>
+
+
+  <script>
+    // ====== CONFIG (hidden from UI) ======
+    const GH_OWNER = "michalruprecht";
+    const GH_REPO  = "michalruprecht.github.io";
+    const CLIPS_PATH = "pages/clips"; // where your *.md live
+
+    // ====== Small helpers ======
+    function $(id){ return document.getElementById(id); }
+
+    function setStatus(msg, cls=""){
+      const el = $("status");
+      el.className = "muted " + (cls || "");
+      el.textContent = msg;
+    }
+
+    // Month abbreviations matching your site style
+    const MONTHS = ["Jan.","Feb.","Mar.","Apr.","May","June","July","Aug.","Sept.","Oct.","Nov.","Dec."];
+
+    function formatDateDisplayFromISO(iso){
+      // iso: YYYY-MM-DD
+      if(!iso) return "";
+      const [y,m,d] = iso.split("-").map(x=>parseInt(x,10));
+      if(!y||!m||!d) return "";
+      return `${MONTHS[m-1]} ${d}, ${y}`;
+    }
+
+    function todayISO(){
+      const dt = new Date();
+      const y = dt.getFullYear();
+      const m = String(dt.getMonth()+1).padStart(2,"0");
+      const d = String(dt.getDate()).padStart(2,"0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function safeYamlString(v){
+      // Always quote and escape. Also collapse newlines to spaces (front-matter values should be 1-line).
+      const s = (v ?? "").toString().replace(/\r?\n/g, " ").trim();
+      return `"${s.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+    }
+
+    function normalizeEmbed(raw){
+      // Strip leading/trailing whitespace; remove common indentation; then indent for YAML block
+      let s = (raw ?? "").toString().replace(/\r/g, "").trim();
+      if(!s) return "";
+      const lines = s.split("\n");
+      // compute min leading spaces among non-empty lines
+      let min = null;
+      for(const ln of lines){
+        if(!ln.trim()) continue;
+        const m = ln.match(/^(\s*)/)[1].length;
+        min = (min===null) ? m : Math.min(min, m);
+      }
+      const out = lines.map(ln => ln.slice(min || 0));
+      return out.map(ln => "  " + ln).join("\n"); // YAML block indentation
+    }
+
+    function sanitizeHTML(html, {allowBlock=true}={}){
+      // Keep simple semantic tags only. Strip styling/classes/scripts.
+      const tmp = document.createElement("div");
+      tmp.innerHTML = html || "";
+
+      // Convert plain text line breaks into paragraphs if it's mostly text
+      // (Only if there are no block tags present)
+      const hasBlock = tmp.querySelector("p,div,ul,ol,li,blockquote,h1,h2,h3,h4,h5,h6");
+      if(!hasBlock && allowBlock){
+        // split by <br> into paragraphs
+        const text = tmp.innerHTML;
+        // if user pasted plain text, keep as-is (browser often inserts <div> or <p> automatically anyway)
+      }
+
+      const ALLOWED = new Set([
+        "P","BR","STRONG","B","EM","I","A","UL","OL","LI"
+      ]);
+
+      function walk(node){
+        const children = Array.from(node.childNodes);
+        for(const child of children){
+          if(child.nodeType === Node.ELEMENT_NODE){
+            const tag = child.tagName.toUpperCase();
+
+            // remove disallowed tags but keep their text/children
+            if(!ALLOWED.has(tag)){
+              // Replace element with its children
+              const frag = document.createDocumentFragment();
+              while(child.firstChild) frag.appendChild(child.firstChild);
+              child.replaceWith(frag);
+              continue;
+            }
+
+            // clean attributes
+            const attrs = Array.from(child.attributes || []);
+            for(const a of attrs){
+              const name = a.name.toLowerCase();
+              if(tag === "A"){
+                if(name === "href" || name === "target" || name === "rel") continue;
+              }
+              child.removeAttribute(a.name);
+            }
+            if(tag === "A"){
+              // Make links safe-ish
+              child.setAttribute("target","_blank");
+              child.setAttribute("rel","noopener");
+            }
+
+            walk(child);
+          } else if(child.nodeType === Node.COMMENT_NODE){
+            child.remove();
+          }
+        }
+      }
+      walk(tmp);
+
+      // Normalize <b>/<i> to <strong>/<em> for consistency
+      tmp.querySelectorAll("b").forEach(el=>{
+        const s = document.createElement("strong");
+        s.innerHTML = el.innerHTML;
+        el.replaceWith(s);
+      });
+      tmp.querySelectorAll("i").forEach(el=>{
+        const e = document.createElement("em");
+        e.innerHTML = el.innerHTML;
+        el.replaceWith(e);
+      });
+
+      // Collapse excessive whitespace
+      let out = tmp.innerHTML.replace(/\s+\n/g,"\n").replace(/\n\s+/g,"\n").trim();
+      return out;
+    }
+
+    function htmlToMarkdownishBody(html){
+      // Jekyll kramdown will render raw HTML blocks fine.
+      // Make it readable by ensuring blank lines between paragraphs/lists.
+      if(!html) return "";
+      // Ensure paragraphs are separated by blank line
+      return html
+        .replace(/<\/p>\s*<p>/g, "</p>\n\n<p>")
+        .replace(/<\/ul>\s*<p>/g, "</ul>\n\n<p>")
+        .replace(/<\/ol>\s*<p>/g, "</ol>\n\n<p>")
+        .trim();
+    }
+
+    // ====== Photo story UI ======
+    let photoCount = 0;
+
+    function suffixForIndex(i){
+      // i=0 => "" (base), 1 => "b", 2 => "c", ...
+      if(i === 0) return "";
+      const code = "b".charCodeAt(0) + (i-1);
+      return String.fromCharCode(code);
+    }
+
+    function renderPhotoCards(){
+      const wrap = $("photoStoryCards");
+      wrap.innerHTML = "";
+      for(let i=0; i<photoCount; i++){
+        const suf = suffixForIndex(i);
+        const card = document.createElement("div");
+        card.className = "photo-card";
+        card.innerHTML = `
+          <h3>Photo ${i+1} (suffix: <span class="pill">${suf || "(base)"}</span>)</h3>
+          <div class="photo-story-grid">
+            <div>
+              <label>Caption</label>
+              <div id="psCap${i}" class="editor small" contenteditable="true"></div>
+              <div class="toolbar">
+                <button class="toolbtn" type="button" data-cmd="bold" data-target="psCap${i}">Bold</button>
+                <button class="toolbtn" type="button" data-cmd="italic" data-target="psCap${i}">Italic</button>
+                <button class="toolbtn" type="button" data-cmd="createLink" data-target="psCap${i}">Link</button>
+                <button class="toolbtn secondary" type="button" data-cmd="removeFormat" data-target="psCap${i}">Clear</button>
+              </div>
+            </div>
+            <div>
+              <label>Credit</label>
+              <input id="psCred${i}" type="text" />
+            </div>
+          </div>
+        `;
+        wrap.appendChild(card);
+      }
+    }
+
+    // ====== Rich toolbar ======
+    document.addEventListener("click", (e)=>{
+      const btn = e.target.closest("button[data-cmd]");
+      if(!btn) return;
+      const cmd = btn.dataset.cmd;
+      const targetId = btn.dataset.target;
+      const target = document.getElementById(targetId);
+      if(!target) return;
+
+      target.focus();
+
+      if(cmd === "createLink"){
+        const url = prompt("Paste URL:");
+        if(url) document.execCommand("createLink", false, url);
+        return;
+      }
+      document.execCommand(cmd, false, null);
+    });
+
+    // ====== GitHub fetch next number ======
+    async function fetchNextClipNumber(){
+      // Lists md files in CLIPS_PATH via GitHub API
+      const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${CLIPS_PATH}`;
+      const res = await fetch(api, { headers: { "Accept":"application/vnd.github+json" }});
+      if(!res.ok) throw new Error(`GitHub API error (${res.status})`);
+      const items = await res.json();
+
+      let max = 0;
+      for(const it of items){
+        if(it.type !== "file") continue;
+        const m = (it.name || "").match(/^(\d+)\.md$/);
+        if(!m) continue;
+        const n = parseInt(m[1], 10);
+        if(Number.isFinite(n)) max = Math.max(max, n);
+      }
+      return max + 1;
+    }
+
+    // ====== Build MD ======
+    function buildFrontMatter(nextId){
+      const title = $("title").value.trim();
+      const publisher = $("publisher").value.trim();
+      const publisherUrl = $("publisherUrl").value.trim();
+      const byline = $("byline").value.trim();
+
+      const iso = $("pubDate").value;
+      const dateDisplay = formatDateDisplayFromISO(iso);
+
+      const isPodcast = $("isPodcast").checked;
+      const isVideo = $("isVideo").checked;
+      const pdfFalse = $("noPdf").checked;
+      const isPhotoStory = $("isPhotoStory").checked;
+
+      const capHtml = sanitizeHTML($("captionEditor").innerHTML, {allowBlock:false});
+      const photoCredit = $("photoCredit").value.trim();
+
+      const embedRaw = $("embedHtml").value;
+      const embedNorm = normalizeEmbed(embedRaw);
+
+      // Story HTML (sanitize + keep paragraphs)
+      const storySan = sanitizeHTML($("storyEditor").innerHTML, {allowBlock:true});
+      const storyBody = htmlToMarkdownishBody(storySan);
+
+      const lines = [];
+      lines.push("---");
+      lines.push(`layout: clip`);
+      lines.push(`title: ${safeYamlString(title)}`);
+      lines.push(`clip: true`);
+      lines.push(`clip_id: ${nextId}`);
+      lines.push(`publisher: ${safeYamlString(publisher)}`);
+      lines.push(`date_display: ${safeYamlString(dateDisplay)}`);
+      lines.push(`byline: ${safeYamlString(byline)}`);
+      lines.push(`publisher_url: ${safeYamlString(publisherUrl)}`);
+
+      if(capHtml) lines.push(`caption_html: ${safeYamlString(capHtml)}`);
+      if(photoCredit) lines.push(`photo_credit: ${safeYamlString(photoCredit)}`);
+
+      // Only write booleans when true (so you never need podcast:false etc.)
+      if(pdfFalse) lines.push(`pdf: false`);
+      if(isPodcast) lines.push(`podcast: true`);
+      if(isVideo) lines.push(`video: true`);
+      if(isPhotoStory) lines.push(`photo_story: true`);
+
+      if(isPhotoStory){
+        // Build photo story items from cards
+        const items = [];
+        for(let i=0; i<photoCount; i++){
+          const suf = suffixForIndex(i);
+          const cap = sanitizeHTML(document.getElementById(`psCap${i}`)?.innerHTML || "", {allowBlock:false});
+          const cred = (document.getElementById(`psCred${i}`)?.value || "").trim();
+          items.push({
+            suffix: suf,
+            caption_html: cap || "",
+            photo_credit: cred || ""
+          });
+        }
+        // Emit as YAML list (everything quoted)
+        lines.push(`photo_story_total: ${photoCount}`);
+        lines.push(`photo_story_items:`);
+        for(const it of items){
+          lines.push(`  - suffix: ${safeYamlString(it.suffix)}`);
+          lines.push(`    caption_html: ${safeYamlString(it.caption_html)}`);
+          lines.push(`    photo_credit: ${safeYamlString(it.photo_credit)}`);
+        }
+      }
+
+      if(embedNorm){
+        lines.push(`embed_html: |`);
+        lines.push(embedNorm);
+      }
+
+      lines.push("---");
+      lines.push("");
+      lines.push(storyBody || "");
+      lines.push("");
+
+      return lines.join("\n");
+    }
+
+    function downloadText(filename, text){
+      const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // ====== Init defaults ======
+    function syncDatePreview(){
+      $("datePreview").textContent = formatDateDisplayFromISO($("pubDate").value) || "—";
+    }
+
+    $("pubDate").value = todayISO();
+    syncDatePreview();
+    $("pubDate").addEventListener("change", syncDatePreview);
+
+    $("byline").value = "Michal Ruprecht";
+
+    // ====== Photo story toggles ======
+    $("isPhotoStory").addEventListener("change", ()=>{
+      const on = $("isPhotoStory").checked;
+      $("photoStoryWrap").style.display = on ? "block" : "none";
+      if(on && photoCount === 0){
+        photoCount = 1; // start with cover photo
+        renderPhotoCards();
+      }
+    });
+
+    $("addPhotoBtn").addEventListener("click", ()=>{
+      photoCount += 1;
+      renderPhotoCards();
+    });
+
+    $("clearPhotosBtn").addEventListener("click", ()=>{
+      photoCount = 0;
+      renderPhotoCards();
+    });
+
+    // ====== Main button: fetch next + generate + download ======
+    $("btnGenerate").addEventListener("click", async ()=>{
+      try{
+        $("btnGenerate").disabled = true;
+        setStatus("Finding next clip number…", "");
+        const nextId = await fetchNextClipNumber();
+
+        setStatus(`Generating ${nextId}.md…`, "");
+        const md = buildFrontMatter(nextId);
+
+        downloadText(`${nextId}.md`, md);
+        setStatus(`Downloaded ${nextId}.md`, "ok");
+
+        // Show post-download upload helpers
+        const after = $("afterDownload");
+        after.style.display = "block";
+        $("mdFilename").textContent  = `${nextId}.md`;
+
+        // Photo filename: 01–09 keep leading zero; 10+ no leading zeros
+        const photoId = (nextId < 10) ? String(nextId).padStart(2, "0") : String(nextId);
+        $("jpgFilename").textContent = `${photoId}.jpg`;
+
+        // PDF filename depends on pdf toggle
+        const wantsPdf = $("hasPdf").checked;
+        const pdfRow = $("pdfRow");
+        if (wantsPdf) {
+          $("pdfFilename").textContent = `${photoId}.pdf`;
+          pdfRow.style.display = "flex";
+        } else {
+          $("pdfFilename").textContent = "(pdf: false)";
+          pdfRow.style.display = "none";
+        }
+      }catch(err){
+        console.error(err);
+        setStatus(`Error: ${err.message}`, "warn");
+      }finally{
+        $("btnGenerate").disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

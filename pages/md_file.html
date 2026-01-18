@@ -27,6 +27,35 @@
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     @media (max-width:900px){.grid2{grid-template-columns:1fr}}
     .hr{height:1px;background:#ddd;margin:18px 0}
+
+    /* Rich story editor */
+    .editor {
+      width:100%;
+      box-sizing:border-box;
+      padding:12px;
+      border:1px solid #bbb;
+      border-radius:8px;
+      min-height:220px;
+      background:#fff;
+      font-size:14px;
+      line-height:1.45;
+      overflow:auto;
+    }
+    .editor:focus { outline: 2px solid #111; outline-offset: 2px; }
+    .editor p { margin: 0 0 10px; }
+    .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
+    .toolbtn {
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #111;
+      background:#fff;
+      color:#111;
+      font-weight:700;
+      cursor:pointer;
+      font-size:13px;
+    }
+    .toolbtn.primary { background:#111; color:#fff; }
+    .toolbtn:active { transform: translateY(1px); }
   </style>
 </head>
 <body>
@@ -48,10 +77,6 @@
     </div>
   </div>
 
-  <div class="row" style="align-items:center;margin-top:6px">
-    <button class="secondary" id="btnFetch">1) Find next clip number</button>
-    <div id="status" class="muted">Not fetched yet.</div>
-  </div>
 
   <div class="hr"></div>
 
@@ -132,16 +157,24 @@
 ]'></textarea>
       <div class="muted">
         • suffix "" means 87.jpg (cover). suffix "b" means 87b.jpg, etc. <br/>
-        • If you leave this blank, your layout can still fall back to a simple count-based approach.
       </div>
     </div>
   </div>
 
+  <!-- NEW: Rich story editor -->
   <div class="field">
-    <label>Story text (Markdown)</label>
-    <textarea id="storyText" placeholder="Paste your story text here. Blank line between paragraphs."></textarea>
-    <div class="muted warn">
-      Tip: If you want bold subheads in Markdown, use <code>**Bold**</code> (not single *asterisks*).
+    <label>Story text (paste with formatting)</label>
+    <div class="toolbar">
+      <button class="toolbtn" type="button" id="btnBold">Bold</button>
+      <button class="toolbtn" type="button" id="btnItalic">Italic</button>
+      <button class="toolbtn" type="button" id="btnLink">Link</button>
+      <button class="toolbtn" type="button" id="btnClear">Clear formatting</button>
+      <button class="toolbtn primary" type="button" id="btnPastePlain">Paste as plain text next time</button>
+    </div>
+    <div id="storyEditor" class="editor" contenteditable="true"
+      placeholder="Paste your story here..."></div>
+    <div class="muted">
+      Paste directly from NPR/NYT/etc — bold/italics/links should carry over.
     </div>
   </div>
 
@@ -153,7 +186,6 @@
 <script>
   // --- helpers ---
   function safeYamlString(s) {
-    // Always quote strings; escape quotes/backslashes
     const t = (s ?? "").toString();
     return '"' + t.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
   }
@@ -169,21 +201,82 @@
   }
 
   function parseNumericIdFromFilename(name) {
-    // accepts "01.md", "94.md", "98.html" etc
     const m = name.match(/^(\d+)\.(md|html)$/i);
     if (!m) return null;
     return parseInt(m[1], 10);
   }
 
   function padClipId(n) {
-    // Your assets 01-09 use leading zero; everything else no pad
     return (n >= 1 && n <= 9) ? ("0" + n) : String(n);
   }
 
+  // Keep only basic tags that you actually want in Markdown body
+  function sanitizeStoryHtml(html) {
+    const allowed = new Set(["P","BR","STRONG","B","EM","I","A","UL","OL","LI","H2","H3","BLOCKQUOTE"]);
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+
+    const walker = document.createTreeWalker(tmp, NodeFilter.SHOW_ELEMENT, null);
+    const toRemove = [];
+
+    while (walker.nextNode()) {
+      const el = walker.currentNode;
+      const tag = el.tagName;
+
+      if (!allowed.has(tag)) {
+        // unwrap disallowed tag (keep children)
+        toRemove.push(el);
+        continue;
+      }
+
+      // strip most attributes
+      [...el.attributes].forEach(attr => {
+        const name = attr.name.toLowerCase();
+        if (tag === "A" && (name === "href" || name === "target" || name === "rel")) return;
+        el.removeAttribute(attr.name);
+      });
+
+      if (tag === "A") {
+        el.setAttribute("target", "_blank");
+        el.setAttribute("rel", "noopener");
+      }
+    }
+
+    // unwrap nodes marked for removal
+    for (const el of toRemove) {
+      const parent = el.parentNode;
+      while (el.firstChild) parent.insertBefore(el.firstChild, el);
+      parent.removeChild(el);
+    }
+
+    // normalize: convert DIV-only content into P
+    // if user pastes plain text, ensure it's paragraph-wrapped
+    const txt = tmp.textContent.trim();
+    if (!tmp.querySelector("p,h2,h3,ul,ol,blockquote") && txt) {
+      tmp.innerHTML = "<p>" + txt.replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>") + "</p>";
+    }
+
+    return tmp.innerHTML.trim();
+  }
+
+  // Convert headings to bold-ish subheads (since you asked for that vibe)
+  function postProcessHtml(html) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+
+    tmp.querySelectorAll("h2,h3").forEach(h => {
+      const p = document.createElement("p");
+      p.innerHTML = "<strong>" + (h.textContent || "").trim() + "</strong>";
+      h.replaceWith(p);
+    });
+
+    return tmp.innerHTML.trim();
+  }
+
   // --- state ---
-  let nextNumber = null;       // integer, e.g. 12
-  let nextClipIdStr = null;    // string, e.g. "12" or "01"
-  let nextFilename = null;     // string, e.g. "12.md" or "01.md"
+  let nextNumber = null;
+  let nextClipIdStr = null;
+  let nextFilename = null;
 
   async function fetchNextNumber() {
     const owner = document.getElementById("ghOwner").value.trim();
@@ -243,24 +336,24 @@
     const captionHtml   = document.getElementById("captionHtml").value.trim();
     const photoCredit   = document.getElementById("photoCredit").value.trim();
     const embedHtml     = document.getElementById("embedHtml").value.trim();
-    const storyText     = document.getElementById("storyText").value.replace(/\r\n/g, "\n").trimEnd();
 
     const isPodcast     = document.getElementById("isPodcast").checked;
     const isVideo       = document.getElementById("isVideo").checked;
     const isPhotoStory  = document.getElementById("isPhotoStory").checked;
 
-    const pdfMode       = document.getElementById("pdfMode").value; // auto | false
+    const pdfMode       = document.getElementById("pdfMode").value;
 
     let photoStoryItemsRaw = document.getElementById("photoStoryJson").value.trim();
 
-    if (!nextFilename || !nextClipIdStr) {
-      throw new Error("Click “Find next clip number” first.");
-    }
     if (!title) throw new Error("Headline (title) is required.");
     if (!publisher) throw new Error("Publisher is required.");
     if (!dateDisplay) throw new Error("Publication date is required.");
     if (!byline) throw new Error("Byline is required.");
     if (!publisherUrl) throw new Error("Publisher URL is required.");
+
+    // Story HTML from rich editor
+    const editor = document.getElementById("storyEditor");
+    let storyHtml = postProcessHtml(sanitizeStoryHtml(editor.innerHTML));
 
     // Build front matter
     let fm = [];
@@ -268,7 +361,7 @@
     fm.push(`layout: clip`);
     fm.push(`title: ${safeYamlString(title)}`);
     fm.push(`clip: true`);
-    fm.push(`clip_id: ${safeYamlString(nextClipIdStr)}`); // ALWAYS quote so "01" stays "01"
+    fm.push(`clip_id: ${safeYamlString(nextClipIdStr)}`);
     fm.push(`publisher: ${safeYamlString(publisher)}`);
     fm.push(`date_display: ${safeYamlString(dateDisplay)}`);
     fm.push(`byline: ${safeYamlString(byline)}`);
@@ -279,27 +372,22 @@
 
     if (pdfMode === "false") fm.push(`pdf: false`);
 
-    // Only include these flags if true (so you don't need podcast:false / video:false)
     if (isPodcast) fm.push(`podcast: true`);
     if (isVideo) fm.push(`video: true`);
     if (isPhotoStory) fm.push(`photo_story: true`);
 
-    // Optional embed
     if (embedHtml) {
       fm.push(`embed_html: |`);
       fm.push(indentBlock(embedHtml, 2));
     }
 
-    // Optional photo story items array (for per-photo captions/credits)
     if (isPhotoStory && photoStoryItemsRaw) {
-      // Validate JSON if provided
       let parsed;
       try { parsed = JSON.parse(photoStoryItemsRaw); }
       catch(e) { throw new Error("Photo story items must be valid JSON array (or leave blank)."); }
 
       if (!Array.isArray(parsed)) throw new Error("Photo story items JSON must be an array.");
 
-      // Write as YAML list safely (simple and readable)
       fm.push(`photo_story_items:`);
       for (const item of parsed) {
         const suffix = (item.suffix ?? "").toString();
@@ -313,7 +401,8 @@
 
     fm.push("---");
     fm.push("");
-    fm.push(storyText ? storyText : "(paste story text here)");
+    // Write HTML directly into the Markdown body to preserve formatting
+    fm.push(storyHtml ? storyHtml : "<p>(paste story text here)</p>");
     fm.push("");
 
     return fm.join("\n");
@@ -334,17 +423,62 @@
   // --- wire up ---
   document.getElementById("btnFetch").addEventListener("click", fetchNextNumber);
 
-  document.getElementById("btnDownload").addEventListener("click", () => {
-    const status = document.getElementById("status");
-    try {
-      const md = buildYaml();
-      downloadText(nextFilename, md);
-      status.textContent = `Downloaded ${nextFilename}. Upload it to ${document.getElementById("ghPath").value.trim()}/ and commit.`;
-      status.className = "muted ok";
-    } catch (e) {
-      status.textContent = e.message || "Error building file.";
-      status.className = "muted warn";
+
+  document.getElementById("btnDownload").addEventListener("click", async () => {
+  const status = document.getElementById("status");
+  status.textContent = "Working…";
+  status.className = "muted";
+
+  try {
+    // If we haven't fetched the next number yet, do it now automatically.
+    if (!nextFilename || !nextClipIdStr) {
+      await fetchNextNumber();
+      if (!nextFilename || !nextClipIdStr) {
+        throw new Error("Couldn’t determine next clip number. Check repo/path or GitHub rate limit.");
+      }
     }
+
+    const md = buildYaml();
+    downloadText(nextFilename, md);
+
+    status.textContent = `Downloaded ${nextFilename}. Upload it to ${document.getElementById("ghPath").value.trim()}/ and commit.`;
+    status.className = "muted ok";
+  } catch (e) {
+    status.textContent = e.message || "Error building file.";
+    status.className = "muted warn";
+  }
+});
+
+  // --- editor toolbar ---
+  const editor = document.getElementById("storyEditor");
+
+  function exec(cmd, val=null) {
+    editor.focus();
+    document.execCommand(cmd, false, val);
+  }
+
+  document.getElementById("btnBold").addEventListener("click", () => exec("bold"));
+  document.getElementById("btnItalic").addEventListener("click", () => exec("italic"));
+  document.getElementById("btnLink").addEventListener("click", () => {
+    const url = prompt("Link URL:");
+    if (url) exec("createLink", url);
+  });
+  document.getElementById("btnClear").addEventListener("click", () => exec("removeFormat"));
+
+  let pastePlain = false;
+  const btnPastePlain = document.getElementById("btnPastePlain");
+  btnPastePlain.addEventListener("click", () => {
+    pastePlain = !pastePlain;
+    btnPastePlain.textContent = pastePlain ? "Pasting plain text: ON" : "Paste as plain text next time";
+    btnPastePlain.classList.toggle("primary", pastePlain);
+  });
+
+  // Preserve formatting by default; optional plain-text mode
+  editor.addEventListener("paste", (e) => {
+    if (!pastePlain) return; // let browser keep rich paste
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData("text/plain");
+    exec("insertText", text);
   });
 </script>
 </body>

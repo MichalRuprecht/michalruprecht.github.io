@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clip MD Maker</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:24px;font-size:16px;line-height:1.45;max-width:980px}
+    h1{font-size:22px;margin:0 0 14px}
+    .row{display:flex;gap:14px;flex-wrap:wrap}
+    .field{flex:1;min-width:280px;margin:10px 0}
+    label{display:block;font-size:12px;font-weight:700;margin:0 0 6px;color:#111}
+    input[type="text"], input[type="url"], input[type="date"], textarea, select{
+      width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #bbb;border-radius:8px;font-size:16px
+    }
+    textarea{min-height:120px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:16px}
+    .rich{min-height:140px;border:1px solid #bbb;border-radius:8px;padding:10px 12px;background:#fff;font-size:16px}
+    input.invalid, textarea.invalid, .rich.invalid{border-color:#d66;background:#fff5f5}
+    .date-row input[type="date"]{width:180px;max-width:180px}
+    .checks{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:6px 0 0}
+    .checks label{display:flex;gap:8px;align-items:center;font-weight:600;font-size:13px;margin:0}
+    button{
+      padding:10px 14px;border-radius:10px;border:1px solid #111;background:#111;color:#fff;font-weight:700;cursor:pointer
+    }
+    button.secondary{background:#fff;color:#111}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    a.btn{display:inline-block;padding:10px 14px;border-radius:10px;border:1px solid #111;background:#111;color:#fff;font-weight:700;text-decoration:none}
+    a.btn.secondary{background:#fff;color:#111;border-color:#ccc}
+    .mini{padding:4px 8px;border-radius:999px;border:1px solid #ccc;background:#fff;color:#111;font-size:12px;cursor:pointer}
+    .muted{color:#555;font-size:13px;margin-top:6px}
+    .pill{display:inline-block;background:#f1f1f1;border:1px solid #ddd;border-radius:999px;padding:3px 10px;font-size:12px}
+    .datewrap{position:relative;display:inline-block;width:100%}
+    .datewrap input{padding-right:40px}
+    /* visible calendar icon, easier to reach */
+    .datewrap:after{
+      content:"\1F4C5";
+      position:absolute;
+      right:14px;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:16px;
+      opacity:0.65;
+      pointer-events:none;
+    }
+    .richtext, .richbox{min-height:120px;white-space:pre-wrap;word-break:break-word}
+    .richbox:empty:before{content:attr(data-placeholder);color:#888}
+    .warn{color:#8a3b00}
+    .ok{color:#0a6}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media (max-width:900px){.grid2{grid-template-columns:1fr}}
+    .hr{height:1px;background:#ddd;margin:18px 0}
+  </style>
+</head>
+<body>
+  <h1>Clip MD Maker <span class="pill">michalruprecht.github.io</span></h1>
+
+  <div id="status" class="muted" style="margin:0 0 10px"></div>
+
+  <div class="grid2">
+    <div class="field">
+      <label>Headline (title)</label>
+      <input id="title" type="text" placeholder="e.g., ‘The Pitt’ is hugely popular. Is it medically accurate?" />
+    </div>
+
+    <div class="field">
+      <label>Publisher</label>
+      <input id="publisher" type="text" placeholder="e.g., NPR" />
+      <label class="inline-check"><input id="publisherItalic" type="checkbox" /> italicize (for newspapers)</label>
+    </div>
+
+    <div class="field">
+      <label>Publication date</label>
+      <div class="date-row">
+        <input id="pubDate" type="date" />
+        <span class="date-pill" id="datePill" aria-label="Formatted date display"></span>
+      </div>
+      <div class="muted">Outputs as <span class="mono" id="datePreview">&nbsp;</span></div>
+    </div>
+
+    <div class="field">
+      <label>Byline</label>
+      <input id="byline" type="text" value="By Michal Ruprecht" />
+    </div>
+
+    <div class="field">
+      <label>Publisher URL</label>
+      <input id="publisherUrl" type="url" placeholder="https://..." />
+    </div>
+
+    <div class="field">
+      <label>PDF?</label>
+      <select id="pdfMode">
+        <option value="auto">Auto (show PDF button)</option>
+        <option value="false">No PDF (pdf: false)</option>
+      </select>
+      <div class="muted">Most of your clips: keep Auto. If no PDF exists, choose “No PDF”.</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="field">
+      <label>Caption (HTML allowed, optional)</label>
+      <div id="captionHtml" class="richtext" contenteditable="true" data-placeholder="Paste caption here (bold/italics/links kept)"></div>
+    </div>
+    <div class="field">
+      <label>Photo credit (optional)</label>
+      <input id="photoCredit" type="text" placeholder="e.g., Warrick Page/HBO Max" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Type</label>
+    <div class="checks">
+      <label><input id="isPodcast" type="checkbox" /> podcast: true</label>
+      <label><input id="isVideo" type="checkbox" /> video: true</label>
+      <label><input id="isPhotoStory" type="checkbox" /> photo_story: true</label>
+    </div>
+    <div class="muted">
+      • Podcasts/videos can include an embed. <br/>
+      • Photo stories: you can add multiple photos + captions/credits (optional).
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="field">
+      <label>Embed HTML (optional) — put raw iframe here</label>
+      <textarea id="embedHtml" placeholder='<iframe ...></iframe>'></textarea>
+      <div class="muted">This will be inserted as <code>embed_html: |</code> and indented correctly.</div>
+    </div>
+
+    <div class="field">
+      <label>Photo story (optional)</label>
+      <div class="muted" style="margin-bottom:8px">Add a cover slide, then click “Add next” to add more slides.</div>
+
+      <div class="row" style="gap:10px;align-items:center;margin-bottom:10px">
+        <button id="btnAddPhotoItem" type="button" class="btn secondary">Add next</button>
+        <span class="muted">Filename pattern: <code>.../{{ clip_id }}.jpg</code>, then <code>{{ clip_id }}b.jpg</code>, <code>{{ clip_id }}c.jpg</code>, ...</span>
+      </div>
+
+      <div id="photoItems"></div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Story text</label>
+    <div id="storyText" class="richtext" contenteditable="true" data-placeholder="Paste your story text here (bold/italics/links kept)."></div>
+    <div class="muted">Paste from NPR/other sites; we’ll keep bold/italics/links and clean up weird line breaks.</div>
+  </div>
+
+  <div class="row" style="align-items:center;margin-top:8px">
+    <button id="btnDownload" disabled>Download .md</button>
+    <div id="nextInfo" class="muted"></div>
+  </div>
+
+  <div id="afterDownload" class="card" style="display:none;margin-top:16px">
+    <h2 style="margin:0 0 10px">Next steps</h2>
+    <div class="muted" style="margin-bottom:12px">Upload these three files to GitHub.</div>
+
+    <div class="row" style="gap:10px;flex-wrap:wrap">
+      <a id="uploadMdBtn" class="btn" href="#" target="_blank" rel="noopener">Upload MD</a>
+      <span class="pill"><span id="mdName"></span> <button class="mini" id="copyMdName" type="button">Copy</button></span>
+    </div>
+
+    <div class="row" style="gap:10px;flex-wrap:wrap;margin-top:10px">
+      <a id="uploadJpgBtn" class="btn" href="#" target="_blank" rel="noopener">Upload photo</a>
+      <span class="pill"><span id="jpgName"></span> <button class="mini" id="copyJpgName" type="button">Copy</button></span>
+    </div>
+
+    <div class="row" style="gap:10px;flex-wrap:wrap;margin-top:10px">
+      <a id="uploadPdfBtn" class="btn" href="#" target="_blank" rel="noopener">Upload PDF</a>
+      <span class="pill"><span id="pdfName"></span> <button class="mini" id="copyPdfName" type="button">Copy</button></span>
+    </div>
+
+    <div class="row" style="margin-top:14px">
+      <button class="secondary" id="btnNew" type="button">Create another clip</button>
+    </div>
+  </div>
+
+<script>
+  // --- helpers ---
+  function safeYamlString(s) {
+    // Always quote strings; escape quotes/backslashes
+    const t = (s ?? "").toString();
+    return '"' + t.replace(/\\/g, "\\\\").replace(/"/g, '\\"') + '"';
+  }
+
+  function indentBlock(s, spaces = 2) {
+    const pad = " ".repeat(spaces);
+    return (s ?? "").toString()
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+      .split("\n")
+      .map(line => pad + line)
+      .join("\n");
+  }
+
+  function parseNumericIdFromFilename(name) {
+    // accepts "01.md", "94.md", "98.html" etc
+    const m = name.match(/^(\d+)\.(md|html)$/i);
+    if (!m) return null;
+    return parseInt(m[1], 10);
+  }
+
+  function padClipId(n) {
+    // Your assets 01-09 use leading zero; everything else no pad
+    return (n >= 1 && n <= 9) ? ("0" + n) : String(n);
+  }
+
+  // --- state ---
+  let nextNumber = null;       // integer, e.g. 12
+  let nextClipIdStr = null;    // string, e.g. "12" or "01"
+  let nextFilename = null;     // string, e.g. "12.md" or "01.md"
+
+  // Hard-coded repo settings (you asked not to show these in the UI)
+  const GH_OWNER = "MichalRuprecht";
+  const GH_REPO  = "michalruprecht.github.io";
+  const GH_PATH  = "pages/clips";
+
+  async function fetchNextNumber() {
+    const status = document.getElementById("status");
+    status.textContent = "Finding next clip number…";
+    status.className = "muted";
+
+    const api = `https://api.github.com/repos/${encodeURIComponent(GH_OWNER)}/${encodeURIComponent(GH_REPO)}/contents/${encodeURIComponent(GH_PATH)}`;
+
+    let res;
+    try {
+      res = await fetch(api, { headers: { "Accept": "application/vnd.github+json" }});
+    } catch (e) {
+      status.textContent = "Network error while contacting GitHub API.";
+      status.className = "muted warn";
+      return;
+    }
+
+    if (!res.ok) {
+      status.textContent = `GitHub API error: ${res.status} ${res.statusText}. (If you hit rate limits, try later.)`;
+      status.className = "muted warn";
+      return;
+    }
+
+    const items = await res.json();
+    if (!Array.isArray(items)) {
+      status.textContent = "Unexpected API response (not a folder listing). Check the path.";
+      status.className = "muted warn";
+      return;
+    }
+
+    let max = 0;
+    for (const it of items) {
+      const id = parseNumericIdFromFilename(it.name || "");
+      if (id && id > max) max = id;
+    }
+
+    nextNumber = max + 1;
+    nextClipIdStr = padClipId(nextNumber);
+    nextFilename = nextClipIdStr + ".md";
+
+    status.textContent = `Next will be: ${nextFilename}`;
+    status.className = "muted ok";
+
+    document.getElementById("nextInfo").textContent = `Next file: ${nextFilename} (clip_id: "${nextClipIdStr}")`;
+  }
+
+  function stripDisallowedInlineTags(html) {
+    // Keep only: b/strong, i/em, a[href]. Remove everything else.
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html || "";
+
+    const walker = document.createTreeWalker(tmp, NodeFilter.SHOW_ELEMENT, null);
+    const toClean = [];
+    while (walker.nextNode()) toClean.push(walker.currentNode);
+
+    for (const el of toClean) {
+      const tag = el.tagName.toLowerCase();
+      const allowed = (tag === "b" || tag === "strong" || tag === "i" || tag === "em" || tag === "a");
+      if (!allowed) {
+        // unwrap
+        const frag = document.createDocumentFragment();
+        while (el.firstChild) frag.appendChild(el.firstChild);
+        el.replaceWith(frag);
+        continue;
+      }
+      if (tag === "a") {
+        // keep only href
+        [...el.attributes].forEach(a => {
+          if (a.name.toLowerCase() !== "href") el.removeAttribute(a.name);
+        });
+      } else {
+        // strip all attributes for b/i/strong/em
+        [...el.attributes].forEach(a => el.removeAttribute(a.name));
+      }
+    }
+
+    // normalize whitespace so bolded links don't split lines
+    let out = tmp.innerHTML
+      .replace(/\u00a0/g, " ")
+      .replace(/[\t\n\r]+/g, " ")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+
+    return out;
+  }
+
+  function htmlToParagraphBlocks(html) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html || "";
+
+    // Convert <div>/<p> into newline-separated blocks, keep inline tags.
+    const blocks = [];
+    const children = [...tmp.childNodes];
+    if (!children.length) return "";
+
+    let current = "";
+    function flush() {
+      const t = current.replace(/\s{2,}/g, " ").trim();
+      if (t) blocks.push(t);
+      current = "";
+    }
+
+    function serializeNode(node) {
+      // Collapse hard wraps/newlines (esp. around links) into normal spaces.
+      if (node.nodeType === Node.TEXT_NODE) return (node.nodeValue || "").replace(/\s+/g, " ");
+      if (node.nodeType !== Node.ELEMENT_NODE) return "";
+      const tag = node.tagName.toLowerCase();
+      if (tag === "br") return "\n";
+      if (tag === "p" || tag === "div") {
+        const inner = [...node.childNodes].map(serializeNode).join("");
+        blocks.push(stripDisallowedInlineTags(inner));
+        return "";
+      }
+      // keep allowed inline tags
+      return node.outerHTML;
+    }
+
+    // If the paste is mostly text with no blocks, treat as one block
+    const hasBlocks = tmp.querySelector("p,div");
+    if (!hasBlocks) {
+      return stripDisallowedInlineTags(tmp.innerHTML);
+    }
+    [...tmp.childNodes].forEach(serializeNode);
+    return blocks.map(b => b.trim()).filter(Boolean).join("\n\n");
+  }
+
+  function formatDateDisplay(iso) {
+    if (!iso) return "";
+    const d = new Date(iso + "T00:00:00");
+    if (isNaN(d.getTime())) return "";
+    const monthsFull = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const abbr = {0:"Jan.",1:"Feb.",7:"Aug.",8:"Sept.",9:"Oct.",10:"Nov.",11:"Dec."};
+    const m = d.getMonth();
+    const month = abbr[m] || monthsFull[m];
+    const day = d.getDate();
+    const year = d.getFullYear();
+    return `${month} ${day}, ${year}`;
+  }
+
+  function buildYaml() {
+    const title        = document.getElementById("title").value.trim();
+    const publisherRaw  = document.getElementById("publisher").value.trim();
+    const pubItalic     = document.getElementById("publisherItalic").checked;
+    const pubDateIso    = document.getElementById("pubDate").value;
+    const dateDisplay   = formatDateDisplay(pubDateIso);
+    const byline        = document.getElementById("byline").value.trim();
+    const publisherUrl  = document.getElementById("publisherUrl").value.trim();
+    const captionHtml   = stripDisallowedInlineTags(document.getElementById("captionHtml").innerHTML);
+    const photoCredit   = document.getElementById("photoCredit").value.trim();
+    const embedHtml     = document.getElementById("embedHtml").value.trim();
+    const storyText     = htmlToParagraphBlocks(document.getElementById("storyText").innerHTML);
+
+    const isPodcast     = document.getElementById("isPodcast").checked;
+    const isVideo       = document.getElementById("isVideo").checked;
+    const isPhotoStory  = document.getElementById("isPhotoStory").checked;
+
+    const pdfMode       = document.getElementById("pdfMode").value; // auto | false
+    if (!nextFilename || !nextClipIdStr) {
+      throw new Error("Could not determine next clip number.");
+    }
+    if (!title) throw new Error("Headline (title) is required.");
+    if (!publisherRaw) throw new Error("Publisher is required.");
+    if (!publisherUrl) throw new Error("Publisher URL is required.");
+    // pubDate defaults to today; byline defaults to Michal Ruprecht.
+
+    const publisher = pubItalic ? `<i>${publisherRaw}</i>` : publisherRaw;
+
+    // Build front matter
+    let fm = [];
+    fm.push("---");
+    fm.push(`layout: clip`);
+    fm.push(`title: ${safeYamlString(title)}`);
+    fm.push(`clip: true`);
+    fm.push(`clip_id: ${safeYamlString(nextClipIdStr)}`); // ALWAYS quote so "01" stays "01"
+    fm.push(`publisher: ${safeYamlString(publisher)}`);
+    fm.push(`date_display: ${safeYamlString(dateDisplay)}`);
+    fm.push(`byline: ${safeYamlString(byline)}`);
+    fm.push(`publisher_url: ${safeYamlString(publisherUrl)}`);
+
+    if (captionHtml) fm.push(`caption_html: ${safeYamlString(captionHtml)}`);
+    if (photoCredit) fm.push(`photo_credit: ${safeYamlString(photoCredit)}`);
+
+    if (pdfMode === "false") fm.push(`pdf: false`);
+
+    // Only include these flags if true (so you don't need podcast:false / video:false)
+    if (isPodcast) fm.push(`podcast: true`);
+    if (isVideo) fm.push(`video: true`);
+    if (isPhotoStory) fm.push(`photo_story: true`);
+
+    // Optional embed
+    if (embedHtml) {
+      fm.push(`embed_html: |`);
+      fm.push(indentBlock(embedHtml, 2));
+    }
+
+    // Optional photo story items list
+    if (isPhotoStory) {
+      const items = photoStoryItems.map(it => ({
+        suffix: (it.suffix || ""),
+        caption_html: stripDisallowedInlineTags(it.captionHtml || ""),
+        photo_credit: (it.photoCredit || "")
+      })).filter(it => it.suffix !== null);
+
+      if (items.length) {
+        fm.push(`photo_story_items:`);
+        for (const item of items) {
+          fm.push(`  - suffix: ${safeYamlString(item.suffix)}`);
+          if (item.caption_html)  fm.push(`    caption_html: ${safeYamlString(item.caption_html)}`);
+          if (item.photo_credit) fm.push(`    photo_credit: ${safeYamlString(item.photo_credit)}`);
+        }
+      }
+    }
+
+    fm.push("---");
+    fm.push("");
+    fm.push(storyText ? storyText : "(paste story text here)");
+    fm.push("");
+
+    return fm.join("\n");
+  }
+
+  function downloadText(filename, text) {
+    const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // --- wire up ---
+  // no separate "find next" button; we fetch automatically when needed
+
+  const elTitle = document.getElementById("title");
+  const elPublisher = document.getElementById("publisher");
+  const elPublisherUrl = document.getElementById("publisherUrl");
+  const btnDownload = document.getElementById("btnDownload");
+
+  function setInvalid(el, isInvalid) {
+    if (!el) return;
+    el.classList.toggle("invalid", !!isInvalid);
+  }
+
+  function validateRequired() {
+    const missingTitle = !elTitle.value.trim();
+    const missingPublisher = !elPublisher.value.trim();
+    const missingUrl = !elPublisherUrl.value.trim();
+
+    setInvalid(elTitle, missingTitle);
+    setInvalid(elPublisher, missingPublisher);
+    setInvalid(elPublisherUrl, missingUrl);
+
+    const ok = !(missingTitle || missingPublisher || missingUrl);
+    btnDownload.disabled = !ok;
+    return ok;
+  }
+
+  [elTitle, elPublisher, elPublisherUrl].forEach(el => {
+    el.addEventListener("input", validateRequired);
+    el.addEventListener("blur", validateRequired);
+  });
+  validateRequired();
+
+  function setAfterDownloadUI(idNum) {
+    const jpg = String(idNum).padStart(idNum < 10 ? 2 : 0, "0") + ".jpg";
+    const pdf = String(idNum) + ".pdf";
+    document.getElementById("fnJpg").textContent = jpg;
+    document.getElementById("fnPdf").textContent = pdf;
+  }
+
+  async function handleDownloadClick() {
+    const status = document.getElementById("status");
+    status.className = "muted";
+
+    if (!validateRequired()) {
+      status.textContent = "Add: headline, publisher, and publisher URL before downloading.";
+      status.className = "muted warn";
+      return;
+    }
+
+    try {
+      // Always fetch the next number right before generating
+      await fetchNextNumber();
+      const md = buildYaml();
+      downloadText(nextFilename, md);
+
+      // Swap UI to "next steps" only
+      document.querySelectorAll(".card > *").forEach(n => {
+        if (n.id !== "afterDownload") n.style.display = "none";
+      });
+      const after = document.getElementById("afterDownload");
+      after.style.display = "block";
+
+      // Update filenames + wire buttons
+      const idNum = nextNumber;
+      setAfterDownloadUI(idNum);
+      status.textContent = "Downloaded.";
+      status.className = "muted ok";
+    } catch (e) {
+      status.textContent = e.message || "Error building file.";
+      status.className = "muted warn";
+    }
+  }
+
+  btnDownload.addEventListener("click", handleDownloadClick);
+
+  // Copy helpers
+  function copyText(text) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+  document.getElementById("copyJpg").addEventListener("click", () => copyText(document.getElementById("fnJpg").textContent));
+  document.getElementById("copyPdf").addEventListener("click", () => copyText(document.getElementById("fnPdf").textContent));
+</script>
+</body>
+</html>

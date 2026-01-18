@@ -1,905 +1,215 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Clip MD Generator</title>
-  <style>
-    :root{
-      --bg:#ffffff;
-      --text:#111;
-      --muted:#666;
-      --border:#d9d9d9;
-      --border-strong:#bdbdbd;
-      --danger-bg:#fff0f0;
-      --danger-border:#e08c8c;
-      --btn:#111;
-      --btn-text:#fff;
-      --btn-border:#111;
-      --btn-ghost:#fff;
-      --link:#007CE1;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Clip MD Generator</title>
 
-    body{
-      margin:0;
-      font-family: Georgia, "Times New Roman", Times, serif;
-      color:var(--text);
-      background:var(--bg);
-      font-size:18px; /* bigger overall */
-      line-height:1.35;
-    }
+<style>
+:root{
+  --border:#d9d9d9;
+  --danger-bg:#fff0f0;
+  --danger-border:#e08c8c;
+}
 
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 18px 16px 40px;
-    }
+body{
+  margin:0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size:18px;
+  background:#fff;
+}
 
-    .row{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:flex-end;
-      margin-bottom:12px;
-    }
+.wrap{
+  max-width:980px;
+  margin:auto;
+  padding:20px;
+}
 
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      min-width: 220px;
-      flex:1;
-    }
+.row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:flex-start; /* FIX */
+  margin-bottom:14px;
+}
 
-    label{
-      font-size:14px;
-      color:var(--muted);
-    }
+.field{
+  flex:1;
+  min-width:220px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
 
-    input[type="text"], input[type="url"], input[type="date"], textarea{
-      font-family: inherit;
-      font-size:18px;
-      padding:10px 12px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      outline:none;
-      background:#fff;
-    }
+label{
+  font-size:14px;
+  color:#666;
+}
 
-    input[type="text"].invalid,
-    input[type="url"].invalid{
-      background:var(--danger-bg);
-      border-color:var(--danger-border);
-    }
+input, textarea{
+  font-family:inherit;
+  font-size:18px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+}
 
-    .checks{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin: 10px 0 14px;
-      font-size:16px;
-    }
-    .checks label{
-      font-size:16px;
-      color:var(--text);
-      display:flex;
-      gap:8px;
-      align-items:center;
-      margin:0;
-    }
+input.invalid{
+  background:var(--danger-bg);
+  border-color:var(--danger-border);
+}
 
-    .tiny{
-      font-size:14px;
-      color:var(--muted);
-      margin: 4px 0 0;
-    }
+.edit-box{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px;
+}
 
-    .edit-box{
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:12px;
-      background:#fff;
-    }
+.editor{
+  min-height:100px;
+  outline:none;
+}
 
-    .editor{
-      min-height: 110px;
-      outline:none;
-      font-size:18px;
-      line-height:1.45;
-      white-space: normal;
-      overflow-wrap: anywhere;
-    }
+.checks{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  font-size:16px;
+}
 
-    .editor:focus{
-      outline:none;
-    }
+button{
+  font-size:18px;
+  padding:12px 18px;
+  border-radius:14px;
+  border:1px solid #111;
+  background:#111;
+  color:#fff;
+  cursor:pointer;
+}
 
-    .toolbar{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      margin: 10px 0 8px;
-    }
-
-    .btn{
-      appearance:none;
-      border:1px solid var(--btn-border);
-      background:var(--btn);
-      color:var(--btn-text);
-      padding:10px 14px;
-      border-radius:999px;
-      font-size:16px;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      user-select:none;
-    }
-    .btn:hover{ filter:brightness(0.92); }
-
-    .btn-ghost{
-      background:var(--btn-ghost);
-      color:var(--text);
-      border:1px solid var(--border-strong);
-    }
-
-    .btn-link{
-      background:#fff;
-      border:1px solid var(--border-strong);
-      color:var(--text);
-    }
-
-    .btn-lg{
-      font-size:18px;
-      padding:12px 18px;
-      border-radius:14px;
-    }
-
-    .hr{
-      height:1px;
-      background:#111;
-      opacity:0.35;
-      margin: 18px 0 16px;
-    }
-
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width:760px){
-      .split{ grid-template-columns: 1fr; }
-    }
-
-    .date-inline{
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    .date-inline input[type="date"]{
-      width: 220px;
-      padding-right: 12px;
-    }
-
-    .error{
-      display:none;
-      margin: 10px 0 0;
-      padding: 10px 12px;
-      border:1px solid var(--danger-border);
-      background: var(--danger-bg);
-      border-radius:12px;
-      font-size:16px;
-    }
-
-    /* Photo story builder */
-    .photo-story{
-      display:none;
-      margin-top: 12px;
-    }
-    .photo-item{
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:12px;
-      background:#fff;
-    }
-    .photo-item .editor{
-      min-height: 70px;
-    }
-    .photo-grid{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      margin-top: 12px;
-    }
-    .photo-row{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width:760px){
-      .photo-row{ grid-template-columns: 1fr; }
-    }
-
-    /* Result view */
-    .result{
-      display:none;
-      margin-top: 10px;
-    }
-    .result .card{
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:16px;
-      background:#fff;
-    }
-    .result .files{
-      display:grid;
-      gap:12px;
-      margin: 12px 0 8px;
-    }
-    .fileline{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      font-size:18px;
-    }
-    code{
-      background:#f3f3f3;
-      padding:4px 8px;
-      border-radius:10px;
-      font-size:16px;
-    }
-
-    .copy{
-      border:1px solid var(--border-strong);
-      background:#fff;
-      border-radius:999px;
-      padding:8px 12px;
-      cursor:pointer;
-      font-size:14px;
-    }
-
-    a.inline{
-      color:var(--link);
-      text-decoration:none;
-    }
-    a.inline:hover{
-      color:#000;
-      font-weight:700;
-    }
-  </style>
+.error{
+  display:none;
+  margin-top:10px;
+  padding:10px;
+  border:1px solid var(--danger-border);
+  background:var(--danger-bg);
+  border-radius:10px;
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
+<div class="wrap">
 
-    <div id="form">
-
-      <div class="row">
-        <div class="field">
-          <label>Title</label>
-          <input id="title" type="text" />
-        </div>
-
-        <div class="field">
-          <label>Publisher</label>
-          <input id="publisher" type="text" />
-          <div class="checks" style="margin:6px 0 0;">
-            <label><input id="publisherItalic" type="checkbox" /> Italicize publisher</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="field">
-          <label>Publication URL</label>
-          <input id="publisherUrl" type="url" />
-        </div>
-
-        <div class="field">
-          <label>Date display</label>
-          <div class="date-inline">
-            <input id="datePick" type="date" />
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Byline</label>
-          <input id="byline" type="text" />
-        </div>
-      </div>
-
-      <div class="checks">
-        <label><input id="isPodcast" type="checkbox" /> Podcast</label>
-        <label><input id="isVideo" type="checkbox" /> Video</label>
-        <label><input id="hasPdf" type="checkbox" checked /> PDF available</label>
-        <label><input id="hasEmbed" type="checkbox" /> Has embed</label>
-        <label><input id="isPhotoStory" type="checkbox" /> Photo story</label>
-      </div>
-
-      <div class="row">
-        <div class="field">
-          <label>Caption (optional)</label>
-          <div class="edit-box">
-            <div id="captionEditor" class="editor" contenteditable="true"></div>
-          </div>
-        </div>
-
-        <div class="field">
-          <label>Photo credit (optional)</label>
-          <input id="photoCredit" type="text" />
-        </div>
-      </div>
-
-      <div id="embedBlock" style="display:none;">
-        <div class="row">
-          <div class="field">
-            <label>Embed HTML</label>
-            <textarea id="embedHtml" rows="4" style="border-radius:14px;"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <div id="photoStoryBlock" class="photo-story">
-        <div class="toolbar">
-          <button class="btn btn-ghost" id="addPhotoRow" type="button">Add next photo</button>
-        </div>
-        <div id="photoGrid" class="photo-grid"></div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="row">
-        <div class="field">
-          <label>Story text</label>
-          <div class="edit-box">
-            <div id="storyEditor" class="editor" contenteditable="true"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="toolbar">
-        <button class="btn btn-lg" id="downloadBtn" type="button">Download MD</button>
-      </div>
-
-      <div id="err" class="error"></div>
-    </div>
-
-    <div id="result" class="result">
-      <div class="card">
-        <div style="font-size:20px; margin-bottom:10px;">Upload your files</div>
-
-        <div class="files">
-          <div class="fileline">
-            MD filename: <code id="mdName"></code>
-            <button class="copy" data-copy="mdName">Copy</button>
-            <a class="btn btn-lg" id="mdUpload" target="_blank" rel="noopener">Upload MD</a>
-          </div>
-
-          <div class="fileline" id="photoLine">
-            Photo filename: <code id="jpgName"></code>
-            <button class="copy" data-copy="jpgName">Copy</button>
-            <a class="btn btn-lg btn-link" id="photoUpload" target="_blank" rel="noopener">Upload Photo</a>
-          </div>
-
-          <div class="fileline" id="pdfLine">
-            PDF filename: <code id="pdfName"></code>
-            <button class="copy" data-copy="pdfName">Copy</button>
-            <a class="btn btn-lg btn-link" id="pdfUpload" target="_blank" rel="noopener">Upload PDF</a>
-          </div>
-        </div>
-
-        <div class="toolbar" style="margin-top:14px;">
-          <button class="btn btn-ghost btn-lg" id="newBtn" type="button">Make another</button>
-        </div>
-      </div>
-    </div>
-
+<div class="row">
+  <div class="field">
+    <label>Title</label>
+    <input id="title" type="text">
   </div>
 
+  <div class="field">
+    <label>Publisher</label>
+    <input id="publisher" type="text">
+    <label><input type="checkbox" id="publisherItalic"> Italicize publisher</label>
+  </div>
+</div>
+
+<div class="row">
+  <div class="field">
+    <label>Publication URL</label>
+    <input id="publisherUrl" type="url">
+  </div>
+
+  <div class="field">
+    <label>Date</label>
+    <input id="datePick" type="date">
+  </div>
+
+  <div class="field">
+    <label>Byline</label>
+    <input id="byline" type="text" value="Michal Ruprecht">
+  </div>
+</div>
+
+<div class="checks">
+  <label><input type="checkbox" id="hasPdf" checked> PDF available</label>
+</div>
+
+<div class="row">
+  <div class="field">
+    <label>Caption (bold + italics only)</label>
+    <div class="edit-box">
+      <div id="captionEditor" class="editor" contenteditable></div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="field">
+    <label>Story text</label>
+    <div class="edit-box">
+      <div id="storyEditor" class="editor" contenteditable></div>
+    </div>
+  </div>
+</div>
+
+<button id="downloadBtn">Download MD</button>
+<div id="err" class="error"></div>
+
+</div>
+
 <script>
-  // ---------- Config ----------
-  const GH_OWNER = "MichalRuprecht";
-  const GH_REPO  = "michalruprecht.github.io";
-  const GH_BRANCH = "master";
-  const CLIPS_DIR = "pages/clips";
+function sanitize(html){
+  const allowed = ["B","STRONG","I","EM","A","P"];
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
 
-  const UPLOAD_MD   = "https://github.com/MichalRuprecht/michalruprecht.github.io/upload/master/pages/clips";
-  const UPLOAD_PHOTO= "https://github.com/MichalRuprecht/michalruprecht.github.io/upload/master/pages/clips/assets/photo";
-  const UPLOAD_PDF  = "https://github.com/MichalRuprecht/michalruprecht.github.io/upload/master/pages/clips/assets/pdf";
-
-  // ---------- Helpers ----------
-  function pad2(n){
-    return String(n).padStart(2, "0");
-  }
-
-  function monthLabel(m){ // m: 0-11
-    const full = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    const abbr = {
-      "January":"Jan.",
-      "February":"Feb.",
-      "August":"Aug.",
-      "September":"Sept.",
-      "October":"Oct.",
-      "November":"Nov.",
-      "December":"Dec."
-    };
-    const name = full[m];
-    return abbr[name] || name;
-  }
-
-  function formatDateDisplay(yyyy_mm_dd){
-    if(!yyyy_mm_dd) return "";
-    const [y,m,d] = yyyy_mm_dd.split("-").map(x=>parseInt(x,10));
-    const dt = new Date(y, m-1, d);
-    const label = monthLabel(dt.getMonth());
-    return `${label} ${dt.getDate()}, ${dt.getFullYear()}`;
-  }
-
-  function escapeYamlString(s){
-    // Always double-quote, escape backslashes + quotes, normalize newlines
-    s = (s ?? "").toString();
-    s = s.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-    s = s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-    return `"${s}"`;
-  }
-
-  function normalizeHtmlFromPaste(html){
-    // Convert random pasted HTML into clean <p> blocks, preserving <b>/<strong>, <i>/<em>, <a>.
-    // Also prevents weird newlines around links by collapsing whitespace.
-    const tmp = document.createElement("div");
-    tmp.innerHTML = html;
-
-    // Remove scripts/styles
-    tmp.querySelectorAll("script,style").forEach(n=>n.remove());
-
-    // Convert headings to <p><b>text</b></p>
-    tmp.querySelectorAll("h1,h2,h3,h4,h5,h6").forEach(h=>{
-      const p = document.createElement("p");
-      const b = document.createElement("b");
-      b.innerHTML = h.innerHTML;
-      p.appendChild(b);
-      h.replaceWith(p);
-    });
-
-    // Replace div with p
-    tmp.querySelectorAll("div").forEach(d=>{
-      const p = document.createElement("p");
-      p.innerHTML = d.innerHTML;
-      d.replaceWith(p);
-    });
-
-    // Ensure stray text nodes are wrapped in <p>
-    const wrapTextNodes = [];
-    tmp.childNodes.forEach(n=>{
-      if(n.nodeType === Node.TEXT_NODE && n.textContent.trim()){
-        wrapTextNodes.push(n);
-      }
-    });
-    wrapTextNodes.forEach(t=>{
-      const p = document.createElement("p");
-      p.textContent = t.textContent;
-      t.replaceWith(p);
-    });
-
-    // Convert <br><br> into paragraph splits (best-effort)
-    // We'll keep single <br> inside paragraphs.
-    // Also collapse whitespace in text nodes.
-    const walker = document.createTreeWalker(tmp, NodeFilter.SHOW_TEXT, null);
-    let node;
-    while(node = walker.nextNode()){
-      node.textContent = node.textContent.replace(/\s+/g, " ");
-    }
-
-    // Clean paragraphs: remove empties
-    tmp.querySelectorAll("p").forEach(p=>{
-      const text = p.textContent.replace(/\s+/g," ").trim();
-      if(!text && p.querySelectorAll("img,iframe,video,audio").length===0){
-        p.remove();
-      }
-    });
-
-    // Final: return HTML with <p> blocks, no extra newlines
-    let out = tmp.innerHTML.trim();
-
-    // Collapse spaces around tags that often create line breaks in markdown rendering
-    out = out.replace(/\s+\n+\s+/g, " ");
-    out = out.replace(/\n+/g, " ");
-    out = out.replace(/\s{2,}/g, " ").trim();
-
-    return out;
-  }
-
-  function getEditorHtml(editorEl){
-    // If user typed plain text (no <p>), wrap it
-    const raw = editorEl.innerHTML || "";
-    const cleaned = normalizeHtmlFromPaste(raw);
-    return cleaned;
-  }
-
-  function stripOuterParagraph(html){
-    // For caption_html: we want just inline HTML (no <p> wrapper) if possible.
-    // If it's a single <p>...</p>, unwrap.
-    const m = html.match(/^<p>([\s\S]*)<\/p>$/i);
-    if(m) return m[1].trim();
-    return html.trim();
-  }
-
-  async function fetchNextClipNumber(){
-    // Uses GitHub contents API to list pages/clips and find highest numeric .md filename.
-    const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${CLIPS_DIR}?ref=${GH_BRANCH}`;
-    const res = await fetch(url, { headers: { "Accept":"application/vnd.github+json" }});
-    if(!res.ok) throw new Error("Could not fetch repo contents (GitHub API rate limit or path issue).");
-    const items = await res.json();
-
-    const nums = [];
-    for(const it of items){
-      if(!it || !it.name) continue;
-      const m = it.name.match(/^(\d+)\.md$/);
-      if(m){
-        nums.push(parseInt(m[1],10));
-      }
-    }
-    const max = nums.length ? Math.max(...nums) : 0;
-    return max + 1;
-  }
-
-  function buildYamlAndBody(nextId){
-    const titleEl = document.getElementById("title");
-    const publisherEl = document.getElementById("publisher");
-    const urlEl = document.getElementById("publisherUrl");
-
-    const datePick = document.getElementById("datePick").value;
-    const dateDisplay = formatDateDisplay(datePick);
-
-    const byline = document.getElementById("byline").value.trim() || "Michal Ruprecht";
-    const publisher = document.getElementById("publisher").value.trim();
-    const publisherItalic = document.getElementById("publisherItalic").checked;
-
-    const publisherUrl = document.getElementById("publisherUrl").value.trim();
-
-    const isPodcast = document.getElementById("isPodcast").checked;
-    const isVideo = document.getElementById("isVideo").checked;
-    const hasPdf = document.getElementById("hasPdf").checked;
-    const hasEmbed = document.getElementById("hasEmbed").checked;
-    const isPhotoStory = document.getElementById("isPhotoStory").checked;
-
-    const photoCredit = document.getElementById("photoCredit").value.trim();
-
-    const captionHtmlRaw = getEditorHtml(document.getElementById("captionEditor"));
-    const captionInline = stripOuterParagraph(captionHtmlRaw);
-
-    const storyHtml = getEditorHtml(document.getElementById("storyEditor"));
-
-    // Photo story items
-    const photos = [];
-    if(isPhotoStory){
-      document.querySelectorAll(".photo-item").forEach(item=>{
-        const cap = stripOuterParagraph(getEditorHtml(item.querySelector(".photo-cap")));
-        const cred = (item.querySelector(".photo-cred").value || "").trim();
-        photos.push({ caption: cap, credit: cred });
+  tmp.querySelectorAll("*").forEach(el=>{
+    if(!allowed.includes(el.tagName)){
+      el.replaceWith(...el.childNodes);
+    }else{
+      [...el.attributes].forEach(a=>{
+        if(el.tagName === "A" && a.name === "href") return;
+        el.removeAttribute(a.name);
       });
-    }
-
-    const embedRaw = (document.getElementById("embedHtml").value || "").trim();
-
-    // Publisher HTML (only if italic selected)
-    const publisherOut = publisherItalic ? `<i>${publisher}</i>` : publisher;
-
-    // File naming rule: 01-09 use leading zeros; 10+ no leading zeros
-    const idForFile = (nextId < 10) ? pad2(nextId) : String(nextId);
-
-    const lines = [];
-    lines.push("---");
-    lines.push(`layout: clip`);
-    lines.push(`title: ${escapeYamlString(titleEl.value.trim())}`);
-    lines.push(`clip: true`);
-    lines.push(`clip_id: ${escapeYamlString(String(nextId))}`);
-    lines.push(`publisher: ${escapeYamlString(publisherOut)}`);
-    lines.push(`date_display: ${escapeYamlString(dateDisplay)}`);
-    lines.push(`byline: ${escapeYamlString(byline)}`);
-    lines.push(`publisher_url: ${escapeYamlString(publisherUrl)}`);
-
-    if(captionInline){
-      // Only include caption_html, with whatever <i>/<b>/<a> user pasted — nothing else.
-      lines.push(`caption_html: ${escapeYamlString(captionInline)}`);
-    }
-    if(photoCredit){
-      lines.push(`photo_credit: ${escapeYamlString(photoCredit)}`);
-    }
-
-    if(!hasPdf){
-      lines.push(`pdf: false`);
-    }
-
-    // Only include podcast/video keys when true (so you never need podcast:false / video:false)
-    if(isPodcast) lines.push(`podcast: true`);
-    if(isVideo) lines.push(`video: true`);
-
-    if(hasEmbed && embedRaw){
-      lines.push(`embed_html: |`);
-      // Indent embed block safely; if user pasted messy indentation, we normalize to 2 spaces.
-      embedRaw.split(/\r?\n/).forEach(l=>{
-        lines.push("  " + l);
-      });
-    }
-
-    // Photo story metadata (optional, only when enabled)
-    if(isPhotoStory){
-      lines.push(`photo_story: true`);
-      lines.push(`photo_count: ${escapeYamlString(String(photos.length))}`);
-
-      // Captions list
-      lines.push(`photo_captions:`);
-      photos.forEach(ph=>{
-        lines.push(`  - ${escapeYamlString(ph.caption || "")}`);
-      });
-
-      // Credits list
-      lines.push(`photo_credits:`);
-      photos.forEach(ph=>{
-        lines.push(`  - ${escapeYamlString(ph.credit || "")}`);
-      });
-    }
-
-    lines.push("---");
-    lines.push("");
-    // Body: keep as HTML so bold/italic/links preserve reliably.
-    // Put each <p> on its own line for readability.
-    const body = storyHtml
-      ? storyHtml.replace(/<\/p>\s*<p>/g, "</p>\n\n<p>")
-      : "";
-    lines.push(body);
-
-    const md = lines.join("\n");
-
-    return {
-      md,
-      idForFile,
-      nextId
-    };
-  }
-
-  function downloadText(filename, text){
-    const blob = new Blob([text], {type:"text/markdown;charset=utf-8"});
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(()=>{
-      URL.revokeObjectURL(a.href);
-      a.remove();
-    }, 0);
-  }
-
-  function showError(msg){
-    const box = document.getElementById("err");
-    box.style.display = "block";
-    box.textContent = msg;
-  }
-  function clearError(){
-    const box = document.getElementById("err");
-    box.style.display = "none";
-    box.textContent = "";
-  }
-
-  function setInvalid(el, on){
-    if(on) el.classList.add("invalid");
-    else el.classList.remove("invalid");
-  }
-
-  function validateRequired(){
-    const titleEl = document.getElementById("title");
-    const publisherEl = document.getElementById("publisher");
-    const urlEl = document.getElementById("publisherUrl");
-
-    const t = titleEl.value.trim();
-    const p = publisherEl.value.trim();
-    const u = urlEl.value.trim();
-
-    setInvalid(titleEl, !t);
-    setInvalid(publisherEl, !p);
-    setInvalid(urlEl, !u);
-
-    if(!t || !p || !u){
-      showError("Please fill out Title, Publisher, and Publication URL before downloading.");
-      return false;
-    }
-    clearError();
-    return true;
-  }
-
-  function setDefaultDateToday(){
-    const dp = document.getElementById("datePick");
-    const now = new Date();
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth()+1).padStart(2,"0");
-    const dd = String(now.getDate()).padStart(2,"0");
-    dp.value = `${yyyy}-${mm}-${dd}`;
-  }
-
-  function setupPasteSanitizer(editor){
-    editor.addEventListener("paste", (e)=>{
-      // Preserve bold/italic/links by using HTML paste, then normalize.
-      e.preventDefault();
-      const html = (e.clipboardData || window.clipboardData).getData("text/html");
-      const text = (e.clipboardData || window.clipboardData).getData("text/plain");
-      const incoming = html || text;
-
-      const cleaned = html
-        ? normalizeHtmlFromPaste(incoming)
-        : normalizeHtmlFromPaste(`<p>${incoming.replace(/</g,"&lt;").replace(/>/g,"&gt;")}</p>`);
-
-      // Insert at cursor
-      document.execCommand("insertHTML", false, cleaned);
-    });
-  }
-
-  function toggleEmbed(){
-    const show = document.getElementById("hasEmbed").checked;
-    document.getElementById("embedBlock").style.display = show ? "block" : "none";
-  }
-
-  function togglePhotoStory(){
-    const on = document.getElementById("isPhotoStory").checked;
-    document.getElementById("photoStoryBlock").style.display = on ? "block" : "none";
-    if(on && document.querySelectorAll(".photo-item").length === 0){
-      // Start with the cover photo row by default
-      addPhotoRow();
-    }
-  }
-
-  function addPhotoRow(){
-    const grid = document.getElementById("photoGrid");
-
-    const row = document.createElement("div");
-    row.className = "photo-row";
-
-    const itemA = document.createElement("div");
-    itemA.className = "photo-item";
-    itemA.innerHTML = `
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">Caption</div>
-      <div class="edit-box" style="border-radius:14px;">
-        <div class="editor photo-cap" contenteditable="true"></div>
-      </div>
-      <div style="height:10px"></div>
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">Credit</div>
-      <input class="photo-cred" type="text" style="border-radius:14px;" />
-    `;
-
-    const itemB = document.createElement("div");
-    itemB.className = "photo-item";
-    itemB.innerHTML = `
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">Caption</div>
-      <div class="edit-box" style="border-radius:14px;">
-        <div class="editor photo-cap" contenteditable="true"></div>
-      </div>
-      <div style="height:10px"></div>
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">Credit</div>
-      <input class="photo-cred" type="text" style="border-radius:14px;" />
-    `;
-
-    row.appendChild(itemA);
-    row.appendChild(itemB);
-    grid.appendChild(row);
-
-    // Paste sanitizer for new photo caption editors
-    row.querySelectorAll(".photo-cap").forEach(setupPasteSanitizer);
-  }
-
-  function showResult(nextId){
-    const form = document.getElementById("form");
-    const res = document.getElementById("result");
-
-    form.style.display = "none";
-    res.style.display = "block";
-
-    const idForFile = (nextId < 10) ? pad2(nextId) : String(nextId);
-    const mdName = `${idForFile}.md`;
-    const jpgName = `${idForFile}.jpg`;
-    const pdfName = `${idForFile}.pdf`;
-
-    document.getElementById("mdName").textContent = mdName;
-    document.getElementById("jpgName").textContent = jpgName;
-    document.getElementById("pdfName").textContent = pdfName;
-
-    document.getElementById("mdUpload").href = UPLOAD_MD;
-    document.getElementById("photoUpload").href = UPLOAD_PHOTO;
-    document.getElementById("pdfUpload").href = UPLOAD_PDF;
-
-    // Hide PDF line if PDF unchecked
-    const hasPdf = document.getElementById("hasPdf").checked;
-    document.getElementById("pdfLine").style.display = hasPdf ? "flex" : "none";
-
-    // Photo always exists for clips in your system, but videos: you said don't show image on page.
-    // You still upload the photo for the listing grid, so keep photo line always visible.
-    document.getElementById("photoLine").style.display = "flex";
-  }
-
-  function resetAll(){
-    document.getElementById("form").style.display = "block";
-    document.getElementById("result").style.display = "none";
-    clearError();
-
-    // Clear fields
-    document.getElementById("title").value = "";
-    document.getElementById("publisher").value = "";
-    document.getElementById("publisherUrl").value = "";
-    document.getElementById("publisherItalic").checked = false;
-
-    setDefaultDateToday();
-    document.getElementById("byline").value = "Michal Ruprecht";
-
-    document.getElementById("isPodcast").checked = false;
-    document.getElementById("isVideo").checked = false;
-    document.getElementById("hasPdf").checked = true;
-    document.getElementById("hasEmbed").checked = false;
-    document.getElementById("isPhotoStory").checked = false;
-
-    document.getElementById("captionEditor").innerHTML = "";
-    document.getElementById("photoCredit").value = "";
-    document.getElementById("embedHtml").value = "";
-    document.getElementById("storyEditor").innerHTML = "";
-
-    document.getElementById("photoGrid").innerHTML = "";
-    document.getElementById("embedBlock").style.display = "none";
-    document.getElementById("photoStoryBlock").style.display = "none";
-
-    // remove invalid styles
-    ["title","publisher","publisherUrl"].forEach(id=>setInvalid(document.getElementById(id), false));
-  }
-
-  // ---------- Wiring ----------
-  document.getElementById("hasEmbed").addEventListener("change", toggleEmbed);
-  document.getElementById("isPhotoStory").addEventListener("change", togglePhotoStory);
-  document.getElementById("addPhotoRow").addEventListener("click", addPhotoRow);
-
-  ["title","publisher","publisherUrl"].forEach(id=>{
-    document.getElementById(id).addEventListener("input", validateRequired);
-  });
-
-  document.getElementById("downloadBtn").addEventListener("click", async ()=>{
-    if(!validateRequired()) return;
-
-    try{
-      const nextId = await fetchNextClipNumber();
-      const { md, idForFile } = buildYamlAndBody(nextId);
-      downloadText(`${idForFile}.md`, md);
-      showResult(nextId);
-    }catch(err){
-      showError(err.message || "Something went wrong.");
-      console.error(err);
     }
   });
 
-  // Copy buttons
-  document.addEventListener("click", (e)=>{
-    const btn = e.target.closest(".copy");
-    if(!btn) return;
-    const id = btn.getAttribute("data-copy");
-    const el = document.getElementById(id);
-    const val = el ? el.textContent : "";
-    navigator.clipboard.writeText(val);
-    btn.textContent = "Copied";
-    setTimeout(()=>btn.textContent="Copy", 900);
+  return tmp.innerHTML
+    .replace(/<p>\s*<\/p>/g,"")
+    .trim();
+}
+
+function getClean(editor){
+  const html = editor.innerHTML || "";
+  return sanitize(html);
+}
+
+document.querySelectorAll(".editor").forEach(ed=>{
+  ed.addEventListener("paste", e=>{
+    e.preventDefault();
+    const text = (e.clipboardData || window.clipboardData).getData("text/plain");
+    document.execCommand("insertText", false, text);
   });
+});
 
-  document.getElementById("newBtn").addEventListener("click", resetAll);
+document.getElementById("downloadBtn").onclick = ()=>{
+  const t = title.value.trim();
+  const p = publisher.value.trim();
+  const u = publisherUrl.value.trim();
 
-  // Setup paste sanitizer for editors
-  setupPasteSanitizer(document.getElementById("captionEditor"));
-  setupPasteSanitizer(document.getElementById("storyEditor"));
+  if(!t || !p || !u){
+    err.style.display="block";
+    err.textContent="Please fill out Title, Publisher, and Publication URL before downloading.";
+    return;
+  }
 
-  // Defaults
-  setDefaultDateToday();
-  document.getElementById("byline").value = "Michal Ruprecht";
-  toggleEmbed();
-  togglePhotoStory();
+  const caption = getClean(captionEditor);
+  const story = getClean(storyEditor);
+
+  console.log("caption_html:", caption);
+  console.log("story_html:", story);
+};
 </script>
 </body>
 </html>

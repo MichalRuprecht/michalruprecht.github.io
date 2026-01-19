@@ -30,7 +30,7 @@ jobs:
             exit 0
           fi
 
-      - name: Swap in scheduled index and commit
+            - name: Swap in scheduled index, delete source, and commit
         run: |
           if [ ! -f index_next.html ]; then
             echo "Missing index_next.html at repo root. Exiting."
@@ -38,10 +38,11 @@ jobs:
           fi
 
           cp index_next.html index.html
+          rm -f index_next.html
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add index.html
+          git add index.html index_next.html
           git commit -m "Publish scheduled homepage" || exit 0
           git push

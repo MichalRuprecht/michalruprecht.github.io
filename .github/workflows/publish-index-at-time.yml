@@ -2,7 +2,6 @@ name: Publish scheduled pages
 
 on:
   schedule:
-    # Runs every 5 minutes (GitHub schedules aren't exact to the minute anyway)
     - cron: "*/5 * * * *"
   workflow_dispatch:
 
@@ -23,65 +22,48 @@ jobs:
           from zoneinfo import ZoneInfo
 
           SCHEDULED_DIR = "_scheduled"
-          TZ = ZoneInfo("America/New_York")  # EST/EDT handled automatically
+          TZ = ZoneInfo("America/New_York")  # auto-handles EST/EDT
+          now_utc = datetime.now(timezone.utc)
 
           def parse_front_matter(path: str):
-            """
-            Very small front matter parser:
-            reads YAML-like 'key: value' lines between first two '---'.
-            """
             with open(path, "r", encoding="utf-8") as f:
               text = f.read()
-
             if not text.startswith("---"):
-              return None, text
-
+              return None
             parts = text.split("---", 2)
             if len(parts) < 3:
-              return None, text
-
+              return None
             fm_raw = parts[1].strip("\n")
-            body = parts[2].lstrip("\n")
-
             fm = {}
             for line in fm_raw.splitlines():
               line = line.strip()
-              if not line or line.startswith("#"):
-                continue
-              if ":" not in line:
+              if not line or line.startswith("#") or ":" not in line:
                 continue
               k, v = line.split(":", 1)
-              k = k.strip()
-              v = v.strip().strip('"').strip("'")
-              fm[k] = v
-            return fm, body
+              fm[k.strip()] = v.strip().strip('"').strip("'")
+            return fm
 
           def normalize_dest(update_page: str | None, src_filename: str) -> str:
             if not update_page or update_page.strip() == "":
-              return src_filename  # publish to repo root with same name
+              return src_filename  # publish to repo root with same filename
             u = update_page.strip()
-
-            # If they paste domain-ish paths, strip them:
+            # strip domain-ish prefixes if you paste them
             u = re.sub(r"^https?://[^/]+/", "", u)
             u = re.sub(r"^michalruprecht\.github\.io/", "", u)
-
-            # Remove leading slash
-            u = u.lstrip("/")
-            return u
-
-          now_utc = datetime.now(timezone.utc)
-          changed = False
+            return u.lstrip("/")
 
           if not os.path.isdir(SCHEDULED_DIR):
-            print(f"No {SCHEDULED_DIR}/ directory. Nothing to do.")
+            print(f"No {SCHEDULED_DIR}/ folder. Nothing to do.")
             raise SystemExit(0)
+
+          changed = False
 
           for name in sorted(os.listdir(SCHEDULED_DIR)):
             if not name.lower().endswith((".html", ".md")):
               continue
 
             src_path = os.path.join(SCHEDULED_DIR, name)
-            fm, body = parse_front_matter(src_path)
+            fm = parse_front_matter(src_path)
             if not fm:
               continue
 
@@ -89,23 +71,19 @@ jobs:
               continue
 
             date_str = fm.get("date", "").strip()
-            time_str = fm.get("time_est", "").strip()
+            time_str = fm.get("time_est", "").strip()  # keep your field name
 
             if not date_str or not time_str:
               print(f"Skipping {src_path}: missing date or time_est")
               continue
 
-            # date: MM-DD-YYYY or MM/DD/YYYY accepted
+            # date: MM-DD-YYYY or MM/DD/YYYY
             date_str = date_str.replace("/", "-")
             try:
               mm, dd, yyyy = date_str.split("-")
-              target_local = datetime(
-                int(yyyy), int(mm), int(dd),
-                int(time_str.split(":")[0]),
-                int(time_str.split(":")[1]),
-                int(time_str.split(":")[2]) if len(time_str.split(":")) > 2 else 0,
-                tzinfo=TZ
-              )
+              tparts = time_str.split(":")
+              hh = int(tparts[0]); mi = int(tparts[1]); ss = int(tparts[2]) if len(tparts) > 2 else 0
+              target_local = datetime(int(yyyy), int(mm), int(dd), hh, mi, ss, tzinfo=TZ)
             except Exception as e:
               print(f"Skipping {src_path}: can't parse date/time ({e})")
               continue
@@ -113,27 +91,21 @@ jobs:
             target_utc = target_local.astimezone(timezone.utc)
 
             if now_utc < target_utc:
-              print(f"Not due yet: {src_path} (target UTC {target_utc.isoformat()})")
+              print(f"Not due yet: {src_path} (NY {target_local.isoformat()} / UTC {target_utc.isoformat()})")
               continue
 
             dest_rel = normalize_dest(fm.get("update_page"), name)
-            dest_path = dest_rel
+            os.makedirs(os.path.dirname(dest_rel) or ".", exist_ok=True)
 
-            os.makedirs(os.path.dirname(dest_path) or ".", exist_ok=True)
-
-            # Publish the whole file (including front matter) so Jekyll can render it.
-            shutil.copyfile(src_path, dest_path)
-            print(f"Published {src_path} -> {dest_path}")
+            shutil.copyfile(src_path, dest_rel)
+            print(f"Published {src_path} -> {dest_rel}")
             changed = True
 
-            # Optionally delete scheduled source
-            delete_flag = fm.get("delete_schedule", "").lower() in ("yes", "true", "1")
-            if delete_flag:
+            if fm.get("delete_schedule", "").lower() in ("yes", "true", "1"):
               os.remove(src_path)
               print(f"Deleted scheduled source: {src_path}")
               changed = True
 
-          # If nothing changed, exit cleanly so no commit happens.
           if not changed:
             print("No scheduled files published.")
             raise SystemExit(0)
@@ -145,4 +117,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Publish scheduled page(s)" || exit 0
-          git push
+          git push origin HEAD

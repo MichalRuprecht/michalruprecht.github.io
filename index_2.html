@@ -1,0 +1,432 @@
+---
+layout: med
+title: Michal Ruprecht
+---
+{% assign all_clips = site.pages | where_exp: "p", "p.clip == true" %}
+
+{% assign featured_global_health = "95,82,86,91,83,89,69" | split: "," %}
+{% assign featured_domestic = "93,96,75,78,85,76,73,56,31,35,53,34,36" | split: "," %}
+{% assign featured_inequity = "77,32,47,07" | split: "," %}
+{% assign featured_profiles = "81,92,94,87,33,17" | split: "," %}
+{% assign featured_multimedia = "98,88,84,90,97,79,42" | split: "," %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <meta name="description" content="Michal Ruprecht is a fourth-year medical student at Wayne State University School of Medicine. He is an AAAS Mass Media Fellow at NPR and the Stanford University School of Medicine Global Health Media Fellow.">
+  <head>
+    <title>Michal Ruprecht</title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
+  </head>
+  <body>
+    <div class="grid">
+      <div class="left">
+        <div class="title">
+          HELLO!
+        </div>
+
+        
+        <div class="college">
+          <h3><img src="https://michalruprecht.com/assets/profile.svg" width="150" style="float:left;margin:5px 5px;border-radius:8px;filter: grayscale(0%)">
+            My name is <mark>Michal Ruprecht</mark>, and I’m a medical student and health reporter. I cover global health for <mark>NPR</mark> as a <mark>Stanford Global Health Media Fellow</mark>, reporting on how power, misinformation and prejudice shape who gets care and who is left behind. I leverage my medical training to inform the types of stories I write. I focus on nuanced issues affecting patients and providers in the Global South, rather than flashy medical breakthroughs that rarely reach the communities that need them most.
+
+<br /><br />As a Stanford Global Health Media Fellow, I spent a semester taking graduate-level journalism courses through the <mark>Stanford Journalism Program</mark>. Alongside my studies, I became the first fellow to receive a reporting fellowship at <mark>NPR</mark>, working for the outlet while completing my coursework. Building on my work at Stanford and NPR, I will report for <mark>CNN</mark> and complete a reporting trip abroad.
+
+
+<br /><br />Previously, I worked at <mark>NPR</mark> as a <mark>AAAS Mass Media Fellow</mark> and interned at <mark>ABC News</mark> and <mark>MedPage Today</mark> during medical school. In college, I interned with the <mark>American Public Health Association</mark> and reported for <mark><i>The Michigan Daily</i></mark>, the University of Michigan's independent daily student newspaper.
+
+<br /><br />Beyond reporting, I serve on the <mark>Society of Professional Journalists</mark> Student Advisory Board, where I advocate for press freedom and industry ethics. I'm also a member of the <mark>Association of Health Care Journalists</mark> Membership Committee.
+                    
+
+            <br /><br />I am a fourth-year MD student at <mark>Wayne State University School of Medicine</mark>. I serve on the board of directors of the <mark>Michigan Chapter of the American Academy of Pediatrics</mark> and <mark>Riley’s Way Foundation</mark>, a nonprofit that invests in the next generation of kind leaders. I graduated with honors with a Bachelor’s degree in neuroscience from the <mark>University of Michigan</mark> in 2022, where I leveraged community action and social change to partner with individuals affected by the Flint water crisis. For my senior thesis, I studied a membrane protein and created three ceramic sculptures representing the channel.
+            
+
+            <br /><br />Outside of work, I am passionate about brewing jun kombucha, sculptural <a href="https://michalruprecht.com/pages/ceramics">ceramics</a> in the realm of BioArt, contemporary literary fiction, vinyasa yoga, international half marathons, taro bubble tea, open water swimming and caring for my <i>Anthurium</i> house plant. I've been an avid listener of the "How I Built This" podcast since 2017 and stay updated with STAT's Morning Rounds Newsletter.
+
+            <br /><br />I am always open to story ideas. I receive a lot of pitches, but I read them all and respond quickly. I can be reached at <a href="mailto:mruprecht@umich.edu">mruprecht@umich.edu</a> or on Signal at <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank">@mrup.01</a>.</h3>
+        
+            
+        </div>
+    
+       
+        <div class="title">
+          REPORTING
+        </div>
+        <div class="college">
+          <h3>
+
+            <mark class="mark-big">Global Health and Infectious Disease</mark>
+        <ul class="image-list-tiny">
+  {% for id in featured_global_health %}
+    {% assign pid = id | strip %}
+
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
+
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img
+            src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg"
+            alt="{{ p.title | escape }}"
+            loading="lazy"
+          >
+        </a>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}">
+            <span class="clip-title">{{ p.title }}</span>
+          </a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+
+
+    
+<br>
+            <mark class="mark-big">Domestic Health, Policy and Science</mark>
+       <ul class="image-list-tiny">
+  {% for id in featured_domestic %}
+    {% assign pid = id | strip %}
+
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
+
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
+        </a>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+
+  
+
+
+
+
+<br>
+            <mark class="mark-big">Inequity, Gender and Structural Discrimination</mark>
+       <ul class="image-list-tiny">
+  {% for id in featured_inequity %}
+    {% assign pid = id | strip %}
+
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
+
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
+        </a>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+
+            
+
+            
+
+            
+<br>
+            <mark class="mark-big">Profiles and Human Stories</mark>
+<ul class="image-list-tiny">
+  {% for id in featured_profiles %}
+    {% assign pid = id | strip %}
+
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
+
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
+        </a>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+
+
+
+
+
+
+
+<br>
+            <mark class="mark-big">Multimedia Storytelling</mark>
+<ul class="image-list-tiny">
+  {% for id in featured_multimedia %}
+    {% assign pid = id | strip %}
+
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
+
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
+        </a>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+     
+
+
+            <br><center><big>View all of my clips <a href="https://michalruprecht.com/pages/clips">here</a>.</big></center>
+          
+
+          </h3>
+            
+            </h3>
+        </div>
+        
+        </div>
+    <div class="right">
+      <div class="title">&nbsp;</div>
+      <div class="college">
+          <h3>
+            <big>Contact me</big>
+                    <br /><img src="https://michalruprecht.com/assets/icons/mail.svg" alt="mail" style="width:16px;"><a href="mailto:mruprecht@umich.edu" target="_blank"> mruprecht@umich.edu</a> or <a href="mailto:mrup.01@proton.me" target="_blank">mrup.01@proton.me</a>
+            <br /><img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone" style="width:16px;"> +1 (707) 412-8684
+            <br /><img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone" style="width:16px;"> Signal encrypted messaging: <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank">@mrup.01</a>
+<br /><br /><big>Connect with me</big><br />
+                    <img src="https://michalruprecht.com/assets/icons/link.svg" alt="resume" style="width:16px;"><a href="http://michalruprecht.com/pages/clips" target="_blank"> Clips</a>
+                            <br /><img src="https://michalruprecht.com/assets/icons/linkedin.svg" alt="linkedin" style="width:16px;"><a href="https://www.linkedin.com/in/michalruprecht" target="_blank"> LinkedIn</a>
+                    <br /><img src="https://michalruprecht.com/assets/icons/bluesky.svg" alt="bluesky" style="width:16px;"><a href="https://bsky.app/profile/michalruprecht.com" target="_blank"> @michalruprecht.com</a>
+                            <br /><img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="instagram" style="width:16px;"><a href="https://instagram.com/mrup.01" target="_blank"> @mrup.01</a>
+                    <br /><img src="https://michalruprecht.com/assets/icons/tiktok.svg" alt="tiktok" style="width:16px;"><a href="https://www.tiktok.com/@michalruprecht" target="_blank"> @michalruprecht</a>
+            <br /><img src="https://michalruprecht.com/assets/icons/scholar.svg" alt="scholar" style="width:16px;"><a href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank"> Google Scholar</a>
+
+          </h3>
+        </div>
+
+                <div class="college">
+<h3>
+              <big>Publications in peer-reviewed journals</big>
+  <br>Feasibility of implementation of the zero suicide model in community-based organizations serving Afghan refugees resettled in Michigan
+  <br>Kaljee, L. M., Ahmedani, B., Srinivasan, S., Wells, E., <b>Ruprecht, M. T.</b>, Ahmed, Y., Randall, S., Beckwith, C., & Keuten, J.
+  <br><i>BMC Public Health</i>, 2025
+  <ul>
+    <li>
+      PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/40814037/">40814037</a>
+    </li>
+    <li>
+      PMCID: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12351990/">PMC12351990</a>
+</li>
+    <li>
+      <a href="https://michalruprecht.github.io/assets/pubs/5.pdf">Full-Text PDF</a>
+    </li>
+  </ul>
+
+  Management of a Pseudoaneurysm After Carotid-Esophageal Fistula Repair Secondary to Button Battery Ingestion in an Infant
+  <br><b>Ruprecht, M. T.</b>, Arasa, V. C. A., Ortega, L. F. A., & Torres, A. R.
+  <br><i>ACG Case Reports Journal</i>, 2025
+  <ul>
+    <li>
+      PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/40861925/">40861925</a>
+    </li>
+    <li>
+      PMCID: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12373100/">PMC12373100</a>
+</li>
+    <li>
+      <a href="https://michalruprecht.github.io/assets/pubs/6.pdf">Full-Text PDF</a>
+    </li>
+  </ul>
+  
+  A Complex Presentation of Vestibular Paroxysmia in an Adolescent With Wolff-Parkinson-White Syndrome
+  <br>Nunez, M., <b>Ruprecht, M. T.</b>, Aguirre, A. S., & Torres, A.
+  <br><i>Pediatric Neurology</i>, 2024
+  <ul>
+    <li>
+      PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/39243687/">39243687</a>
+    </li>
+    <li>
+      <a href="https://michalruprecht.github.io/assets/pubs/4.pdf">Full-Text PDF</a>
+    </li>
+  </ul>
+  Engaging Caregivers through mHealth to Support Chronic Care Patients
+  <br><b>Ruprecht, M. T.</b>, Kaljee, L., Zervos, J., Gleason, J., Lorenz-Goings, K., & Ashlock, G.
+  <br><i>e-Service Journal</i>, 2023
+  <ul>
+    <li>
+      <a href="https://michalruprecht.github.io/assets/pubs/3.pdf">Full-Text PDF</a>
+    </li>
+  </ul>
+  Membrane exporters of fluoride ion
+  <br>McIlwain, B. C., <b>Ruprecht, M. T.</b>, & Stockbridge, R. B.
+  <br><i>Annual Review of Biochemistry</i>, 2021
+  <ul>
+    <li>
+      PMID: <a href="https://pubmed.ncbi.nlm.nih.gov/33492991/">33492991</a>
+    </li>
+<li>
+      PMCID: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8217344/">PMC8217344</a>
+</li>
+    <li>
+      <a href="https://michalruprecht.github.io/assets/pubs/2.pdf">Full-Text PDF</a>
+    </li>
+  </ul>
+  Synthesis of “three-legged” tri-dentate podand ligands incorporating long-chain aliphatic moieties, for water remediators, and for isolating metal ions in non-aqueous solution
+  <br>Pothoof, J., <b>Ruprecht, M. T.</b>, Sliwinski, B. D., Sosnowski, B. M., Fitzgerald, P. R., Kosmas, S., & Benvenuto, M. A.
+  <br><i>Physical Sciences Reviews</i>, 2018
+  <ul>
+    <li>
+      <a href="https://michalruprecht.github.io/assets/pubs/1.pdf">Full-Text PDF</a>
+    </li>
+  </ul>
+</h3>
+                </div>
+      
+
+      
+<div class="college">
+  <script>var submitted = false;</script>
+  <iframe
+    name="hidden_iframe"
+    id="hidden_iframe"
+    style="display:none;"
+    onload="if(submitted) handleSuccess();"
+  ></iframe>
+
+<form
+  class="myform"
+  action="https://script.google.com/macros/s/AKfycbwcmBmiFUZtwot8sW8P1iLFzeFnIG3CZEx-UM8-KcihkaWUKj1w7DH2sOJxr-6Qy0Qs/exec"
+  method="post"
+  target="hidden_iframe"
+  onkeydown="return event.key!='Enter';"
+>
+  <center>
+    <h3>
+      <big>
+        Receive my stories in your inbox. Subscribe to my newsletter below.
+        <br />
+        <input
+          class="entry"
+          type="email"
+          name="entry.139445516"
+          placeholder="example@example.com"
+          required
+        />
+        <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+        <br />
+        <input class="submit" type="submit" value="Submit" />
+      </big>
+    </h3>
+  </center>
+</form>
+
+  <div id="successMessage" style="display:none;">
+    <center>
+      <h3>
+        <big>
+          Your response has been recorded.
+          <br />
+          <a href="#" onclick="resetForm(); return false;">Submit another response</a>
+        </big>
+      </h3>
+    </center>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector('.myform');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!validateEmail(this)) return;           // run your existing email check
+    grecaptcha.ready(() => {
+      grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', { action: 'newsletter' })
+        .then(token => {
+          document.getElementById('recaptchaResponse').value = token;
+          submitted = true;                     // trigger your iframe success handler
+          form.submit();                        // now post to your Apps Script
+        });
+    });
+  });
+
+  // your existing helpers stay below unchanged:
+  function validateEmail(form) {
+  var email = form['entry.139445516'].value.trim();
+  var re = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/;
+  if (!re.test(email)) {
+    alert('Please enter a valid email');
+    return false;
+  }
+  submitted = true;
+  return true;
+}
+
+function handleSuccess() {
+  document.querySelector('.myform').style.display = 'none';
+  document.getElementById('successMessage').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('successMessage').style.display = 'none';
+  var form = document.querySelector('.myform');
+  form.reset();
+  form.style.display = 'block';
+  submitted = false;
+}
+</script>
+      
+</div>
+
+
+    <footer>
+    </footer>
+    <script>
+      function playAudio(url) {
+  new Audio(url).play();
+}
+    </script>
+  </body>
+</html>
+
+
+

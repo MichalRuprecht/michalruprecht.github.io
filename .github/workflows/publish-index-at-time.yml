@@ -1,9 +1,9 @@
-name: Publish scheduled index.html
+name: Publish scheduled pages
 
 on:
   schedule:
-    # 1:00 AM EST = 06:00 UTC (EST is UTC-5)
-    - cron: "0 6 * * *"
+    # Runs every 5 minutes (GitHub schedules aren't exact to the minute anyway)
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -15,34 +15,134 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Only run on target date (unless manual test)
-        env:
-          TARGET_DATE: "2026-01-26"
+      - name: Publish any due scheduled files from _scheduled/
         run: |
-          TODAY=$(date -u +%F)
-          echo "UTC today: $TODAY"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Manual run - continuing"
-            exit 0
-          fi
-          if [ "$TODAY" != "$TARGET_DATE" ]; then
-            echo "Not target date ($TARGET_DATE). Exiting."
-            exit 0
-          fi
+          python3 - << 'PY'
+          import os, re, shutil
+          from datetime import datetime, timezone
+          from zoneinfo import ZoneInfo
 
-      - name: Swap in scheduled index, delete source, and commit
+          SCHEDULED_DIR = "_scheduled"
+          TZ = ZoneInfo("America/New_York")  # EST/EDT handled automatically
+
+          def parse_front_matter(path: str):
+            """
+            Very small front matter parser:
+            reads YAML-like 'key: value' lines between first two '---'.
+            """
+            with open(path, "r", encoding="utf-8") as f:
+              text = f.read()
+
+            if not text.startswith("---"):
+              return None, text
+
+            parts = text.split("---", 2)
+            if len(parts) < 3:
+              return None, text
+
+            fm_raw = parts[1].strip("\n")
+            body = parts[2].lstrip("\n")
+
+            fm = {}
+            for line in fm_raw.splitlines():
+              line = line.strip()
+              if not line or line.startswith("#"):
+                continue
+              if ":" not in line:
+                continue
+              k, v = line.split(":", 1)
+              k = k.strip()
+              v = v.strip().strip('"').strip("'")
+              fm[k] = v
+            return fm, body
+
+          def normalize_dest(update_page: str | None, src_filename: str) -> str:
+            if not update_page or update_page.strip() == "":
+              return src_filename  # publish to repo root with same name
+            u = update_page.strip()
+
+            # If they paste domain-ish paths, strip them:
+            u = re.sub(r"^https?://[^/]+/", "", u)
+            u = re.sub(r"^michalruprecht\.github\.io/", "", u)
+
+            # Remove leading slash
+            u = u.lstrip("/")
+            return u
+
+          now_utc = datetime.now(timezone.utc)
+          changed = False
+
+          if not os.path.isdir(SCHEDULED_DIR):
+            print(f"No {SCHEDULED_DIR}/ directory. Nothing to do.")
+            raise SystemExit(0)
+
+          for name in sorted(os.listdir(SCHEDULED_DIR)):
+            if not name.lower().endswith((".html", ".md")):
+              continue
+
+            src_path = os.path.join(SCHEDULED_DIR, name)
+            fm, body = parse_front_matter(src_path)
+            if not fm:
+              continue
+
+            if fm.get("schedule", "").lower() not in ("yes", "true", "1"):
+              continue
+
+            date_str = fm.get("date", "").strip()
+            time_str = fm.get("time_est", "").strip()
+
+            if not date_str or not time_str:
+              print(f"Skipping {src_path}: missing date or time_est")
+              continue
+
+            # date: MM-DD-YYYY or MM/DD/YYYY accepted
+            date_str = date_str.replace("/", "-")
+            try:
+              mm, dd, yyyy = date_str.split("-")
+              target_local = datetime(
+                int(yyyy), int(mm), int(dd),
+                int(time_str.split(":")[0]),
+                int(time_str.split(":")[1]),
+                int(time_str.split(":")[2]) if len(time_str.split(":")) > 2 else 0,
+                tzinfo=TZ
+              )
+            except Exception as e:
+              print(f"Skipping {src_path}: can't parse date/time ({e})")
+              continue
+
+            target_utc = target_local.astimezone(timezone.utc)
+
+            if now_utc < target_utc:
+              print(f"Not due yet: {src_path} (target UTC {target_utc.isoformat()})")
+              continue
+
+            dest_rel = normalize_dest(fm.get("update_page"), name)
+            dest_path = dest_rel
+
+            os.makedirs(os.path.dirname(dest_path) or ".", exist_ok=True)
+
+            # Publish the whole file (including front matter) so Jekyll can render it.
+            shutil.copyfile(src_path, dest_path)
+            print(f"Published {src_path} -> {dest_path}")
+            changed = True
+
+            # Optionally delete scheduled source
+            delete_flag = fm.get("delete_schedule", "").lower() in ("yes", "true", "1")
+            if delete_flag:
+              os.remove(src_path)
+              print(f"Deleted scheduled source: {src_path}")
+              changed = True
+
+          # If nothing changed, exit cleanly so no commit happens.
+          if not changed:
+            print("No scheduled files published.")
+            raise SystemExit(0)
+          PY
+
+      - name: Commit and push if changes
         run: |
-          if [ ! -f index_next.html ]; then
-            echo "Missing index_next.html at repo root. Exiting."
-            exit 1
-          fi
-
-          cp index_next.html index.html
-          rm -f index_next.html
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add index.html index_next.html
-          git commit -m "Publish scheduled homepage" || exit 0
+          git add -A
+          git commit -m "Publish scheduled page(s)" || exit 0
           git push

@@ -1,0 +1,47 @@
+name: Publish scheduled index.html
+
+on:
+  schedule:
+    # 1:00 AM EST = 06:00 UTC (EST is UTC-5)
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Only run on target date (unless manual test)
+        env:
+          TARGET_DATE: "2026-01-26"
+        run: |
+          TODAY=$(date -u +%F)
+          echo "UTC today: $TODAY"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual run - continuing"
+            exit 0
+          fi
+          if [ "$TODAY" != "$TARGET_DATE" ]; then
+            echo "Not target date ($TARGET_DATE). Exiting."
+            exit 0
+          fi
+
+      - name: Swap in scheduled index and commit
+        run: |
+          if [ ! -f index_next.html ]; then
+            echo "Missing index_next.html at repo root. Exiting."
+            exit 1
+          fi
+
+          cp index_next.html index.html
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add index.html
+          git commit -m "Publish scheduled homepage" || exit 0
+          git push

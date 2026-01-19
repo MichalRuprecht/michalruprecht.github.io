@@ -30,7 +30,7 @@ jobs:
             exit 0
           fi
 
-            - name: Swap in scheduled index, delete source, and commit
+      - name: Swap in scheduled index, delete source, and commit
         run: |
           if [ ! -f index_next.html ]; then
             echo "Missing index_next.html at repo root. Exiting."

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Source Email Generator</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #d1d5db;
+      --accent: #111827;
+      --accent-2: #374151;
+      --shadow: 0 18px 40px rgba(17, 24, 39, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+      color: var(--text);
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 11px 12px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+    }
+
+    .field textarea {
+      min-height: 82px;
+      resize: vertical;
+      line-height: 1.4;
+    }
+
+    .inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .checks {
+      display: grid;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .check {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.08s ease, opacity 0.2s ease, background 0.2s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #eef2f7;
+      color: var(--accent-2);
+      border: 1px solid #dbe3ee;
+    }
+
+    .preview-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .preview {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      min-height: 500px;
+      padding: 28px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12pt;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
+
+    .preview p { margin: 0 0 16px; }
+    .preview a {
+      color: #0645ad;
+      text-decoration: underline;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      min-height: 18px;
+    }
+
+    .tiny {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="title">Source Email Generator</h1>
+    <p class="subtitle">Two copy-ready templates in one place: a follow-up note for sources and a generic outreach note. Preview stays in Times New Roman, 12 pt.</p>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Inputs</h2>
+
+        <div class="field">
+          <label for="templateSelect">Message type</label>
+          <select id="templateSelect">
+            <option value="followup">Source follow-up with links</option>
+            <option value="generic">Generic outreach note</option>
+          </select>
+        </div>
+
+        <div class="inline">
+          <div class="field">
+            <label for="recipient">Recipient name</label>
+            <input id="recipient" placeholder="Optional" />
+          </div>
+          <div class="field">
+            <label for="signoff">Sign-off name</label>
+            <input id="signoff" value="Michal" />
+          </div>
+        </div>
+
+        <div class="field" id="openingWrap">
+          <label for="opening">Opening line</label>
+          <textarea id="opening">Thank you again for your time yesterday. Attached is the story.</textarea>
+        </div>
+
+        <div class="field">
+          <label for="storyLink">Story link URL</label>
+          <input id="storyLink" placeholder="https://..." />
+        </div>
+
+        <div class="field">
+          <label for="freeLink">Paywall-free version URL</label>
+          <input id="freeLink" placeholder="https://..." />
+        </div>
+
+        <div class="field">
+          <label for="pdfLink">PDF version URL</label>
+          <input id="pdfLink" placeholder="https://..." />
+        </div>
+
+        <div id="socialWrap">
+          <div class="field">
+            <label for="linkedinLink">LinkedIn post URL</label>
+            <input id="linkedinLink" placeholder="https://..." />
+          </div>
+
+          <div class="field">
+            <label for="instagramLink">Instagram post URL</label>
+            <input id="instagramLink" placeholder="https://..." />
+          </div>
+
+          <div class="field">
+            <label for="twitterLink">Twitter/X post URL</label>
+            <input id="twitterLink" placeholder="https://..." />
+          </div>
+        </div>
+
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="includeSocial" checked /> Include social links</label>
+          <label class="check"><input type="checkbox" id="blankAfterHello" checked /> Leave a blank line after “Hello”</label>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" id="copyRichBtn" type="button">Copy formatted email</button>
+          <button class="btn-secondary" id="copyPlainBtn" type="button">Copy plain text</button>
+          <button class="btn-secondary" id="resetBtn" type="button">Reset</button>
+        </div>
+
+        <div class="status" id="status"></div>
+        <div class="tiny">Formatted copy keeps clickable hyperlinks in most email editors. If formatting gets stripped, use plain text.</div>
+      </section>
+
+      <section class="card">
+        <div class="preview-controls">
+          <h2 style="margin:0;">Preview</h2>
+          <div class="muted">Times New Roman · 12 pt</div>
+        </div>
+        <div id="preview" class="preview"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const fields = {
+      templateSelect: document.getElementById('templateSelect'),
+      recipient: document.getElementById('recipient'),
+      signoff: document.getElementById('signoff'),
+      opening: document.getElementById('opening'),
+      storyLink: document.getElementById('storyLink'),
+      freeLink: document.getElementById('freeLink'),
+      pdfLink: document.getElementById('pdfLink'),
+      linkedinLink: document.getElementById('linkedinLink'),
+      instagramLink: document.getElementById('instagramLink'),
+      twitterLink: document.getElementById('twitterLink'),
+      includeSocial: document.getElementById('includeSocial'),
+      blankAfterHello: document.getElementById('blankAfterHello')
+    };
+
+    const preview = document.getElementById('preview');
+    const status = document.getElementById('status');
+    const socialWrap = document.getElementById('socialWrap');
+    const openingWrap = document.getElementById('openingWrap');
+
+    function escapeHtml(str) {
+      return (str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function normalizeUrl(url) {
+      const value = (url || '').trim();
+      if (!value) return '';
+      if (/^https?:\/\//i.test(value)) return value;
+      return 'https://' + value;
+    }
+
+    function linkRow(label, url) {
+      const clean = normalizeUrl(url);
+      if (!clean) return '';
+      return `<p><a href="${escapeHtml(clean)}">${escapeHtml(label)}</a></p>`;
+    }
+
+    function plainRow(label, url) {
+      const clean = normalizeUrl(url);
+      if (!clean) return '';
+      return `${label}: ${clean}`;
+    }
+
+    function buildHtml() {
+      const recipient = fields.recipient.value.trim();
+      const signoff = fields.signoff.value.trim() || 'Michal';
+      const opening = fields.opening.value.trim() || 'Thank you again for your time yesterday. Attached is the story.';
+      const includeSocial = fields.includeSocial.checked;
+      const blankAfterHello = fields.blankAfterHello.checked;
+      const template = fields.templateSelect.value;
+
+      const hello = recipient ? `Hello ${escapeHtml(recipient)},` : 'Hello,';
+      let html = `<p>${hello}</p>`;
+      if (blankAfterHello) html += '<p>&nbsp;</p>';
+
+      if (template === 'generic') {
+        html += '<p>I recently wrote this article and thought it might be of interest to you.</p>';
+        html += '<p>&nbsp;</p>';
+        html += linkRow('Story link', fields.storyLink.value);
+        html += linkRow('Pay wall free version', fields.freeLink.value);
+        html += linkRow('PDF version', fields.pdfLink.value);
+        html += '<p>&nbsp;</p>';
+        html += `<p>Best,<br>${escapeHtml(signoff)}</p>`;
+        return html;
+      }
+
+      html += `<p>${escapeHtml(opening)}</p>`;
+      html += '<p>&nbsp;</p>';
+      html += linkRow('Story link', fields.storyLink.value);
+      html += linkRow('Pay wall free version', fields.freeLink.value);
+      html += linkRow('PDF version', fields.pdfLink.value);
+
+      if (includeSocial) {
+        const social = [
+          linkRow('LinkedIn post', fields.linkedinLink.value),
+          linkRow('Instagram post', fields.instagramLink.value),
+          linkRow('Twitter post', fields.twitterLink.value)
+        ].filter(Boolean);
+
+        if (social.length) {
+          html += '<p>&nbsp;</p>' + social.join('');
+        }
+      }
+
+      html += '<p>&nbsp;</p>';
+      html += `<p>Thank you again,<br>${escapeHtml(signoff)}</p>`;
+      return html;
+    }
+
+    function buildPlainText() {
+      const recipient = fields.recipient.value.trim();
+      const signoff = fields.signoff.value.trim() || 'Michal';
+      const opening = fields.opening.value.trim() || 'Thank you again for your time yesterday. Attached is the story.';
+      const includeSocial = fields.includeSocial.checked;
+      const blankAfterHello = fields.blankAfterHello.checked;
+      const template = fields.templateSelect.value;
+
+      const parts = [];
+      parts.push(recipient ? `Hello ${recipient},` : 'Hello,');
+      if (blankAfterHello) parts.push('');
+
+      if (template === 'generic') {
+        parts.push('I recently wrote this article and thought it might be of interest to you.');
+        parts.push('');
+        parts.push(...[
+          plainRow('Story link', fields.storyLink.value),
+          plainRow('Pay wall free version', fields.freeLink.value),
+          plainRow('PDF version', fields.pdfLink.value)
+        ].filter(Boolean));
+        parts.push('');
+        parts.push('Best,');
+        parts.push(signoff);
+        return parts.join('\n');
+      }
+
+      parts.push(opening);
+      parts.push('');
+      parts.push(...[
+        plainRow('Story link', fields.storyLink.value),
+        plainRow('Pay wall free version', fields.freeLink.value),
+        plainRow('PDF version', fields.pdfLink.value)
+      ].filter(Boolean));
+
+      if (includeSocial) {
+        const socials = [
+          plainRow('LinkedIn post', fields.linkedinLink.value),
+          plainRow('Instagram post', fields.instagramLink.value),
+          plainRow('Twitter post', fields.twitterLink.value)
+        ].filter(Boolean);
+
+        if (socials.length) {
+          parts.push('');
+          parts.push(...socials);
+        }
+      }
+
+      parts.push('');
+      parts.push('Thank you again,');
+      parts.push(signoff);
+      return parts.join('\n');
+    }
+
+    function syncVisibility() {
+      const generic = fields.templateSelect.value === 'generic';
+      socialWrap.classList.toggle('hidden', generic || !fields.includeSocial.checked);
+      openingWrap.classList.toggle('hidden', generic);
+      fields.includeSocial.parentElement.classList.toggle('hidden', generic);
+    }
+
+    function render() {
+      syncVisibility();
+      preview.innerHTML = buildHtml();
+    }
+
+    async function copyRich() {
+      const html = buildHtml();
+      const text = buildPlainText();
+      try {
+        const item = new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        });
+        await navigator.clipboard.write([item]);
+        status.textContent = 'Formatted email copied.';
+      } catch (err) {
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = 'Rich copy was blocked here, so plain text was copied instead.';
+        } catch {
+          status.textContent = 'Copy failed here. Copy directly from the preview.';
+        }
+      }
+    }
+
+    async function copyPlain() {
+      try {
+        await navigator.clipboard.writeText(buildPlainText());
+        status.textContent = 'Plain-text email copied.';
+      } catch {
+        status.textContent = 'Copy failed here.';
+      }
+    }
+
+    function resetForm() {
+      fields.templateSelect.value = 'followup';
+      fields.recipient.value = '';
+      fields.signoff.value = 'Michal';
+      fields.opening.value = 'Thank you again for your time yesterday. Attached is the story.';
+      fields.storyLink.value = '';
+      fields.freeLink.value = '';
+      fields.pdfLink.value = '';
+      fields.linkedinLink.value = '';
+      fields.instagramLink.value = '';
+      fields.twitterLink.value = '';
+      fields.includeSocial.checked = true;
+      fields.blankAfterHello.checked = true;
+      status.textContent = '';
+      render();
+    }
+
+    Object.values(fields).forEach((el) => {
+      el.addEventListener('input', render);
+      el.addEventListener('change', render);
+    });
+
+    document.getElementById('copyRichBtn').addEventListener('click', copyRich);
+    document.getElementById('copyPlainBtn').addEventListener('click', copyPlain);
+    document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+    render();
+  </script>
+</body>
+</html>

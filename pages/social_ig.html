@@ -27,7 +27,7 @@ title: Social Instagram
   {% for p in ig_clips %}
     {% assign cid = p.clip_id | plus: 0 %}
 
-    {% if cid >= 81 and cid != 97 and p.publisher_url %}
+    {% if cid >= 81 and cid != 97 and cid != 108 and p.publisher_url %}
       <li>
         <a href="{{ p.publisher_url }}" target="_blank" rel="noopener">
           <img

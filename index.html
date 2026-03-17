@@ -117,43 +117,7 @@ title: Michal Ruprecht
   {% endfor %}
 </ul>
 
-
-  
-
-
-
-
-<br>
-            <mark class="mark-big">Inequity, Gender and Structural Discrimination</mark>
-       <ul class="image-list-tiny">
-  {% for id in featured_inequity %}
-    {% assign pid = id | strip %}
-
-    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
-    {% unless p %}
-      {% assign pnum = pid | plus: 0 %}
-      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
-    {% endunless %}
-
-    {% if p %}
-      <li>
-        <a href="{{ p.url | relative_url }}">
-          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
-        </a>
-        <div class="details">
-          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
-          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
-          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
-        </div>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
-
-
-            
-
-            
+    
 
             
 <br>
@@ -194,6 +158,34 @@ title: Michal Ruprecht
             <mark class="mark-big">Multimedia Storytelling</mark>
 <ul class="image-list-tiny">
   {% for id in featured_multimedia %}
+    {% assign pid = id | strip %}
+
+    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+    {% unless p %}
+      {% assign pnum = pid | plus: 0 %}
+      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+    {% endunless %}
+
+    {% if p %}
+      <li>
+        <a href="{{ p.url | relative_url }}">
+          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
+        </a>
+        <div class="details">
+          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
+          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
+          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
+        </div>
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+
+            <br>
+            <mark class="mark-big">Inequity, Gender and Structural Discrimination</mark>
+       <ul class="image-list-tiny">
+  {% for id in featured_inequity %}
     {% assign pid = id | strip %}
 
     {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}

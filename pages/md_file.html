@@ -51,6 +51,11 @@
       flex:1;
     }
 
+    .field-small{
+      flex: 0 0 180px;
+      min-width: 180px;
+    }
+
     label{
       font-size:14px;
       color:var(--muted);
@@ -64,6 +69,15 @@
       border-radius:10px;
       outline:none;
       background:#fff;
+    }
+
+    textarea.codebox{
+      font-family: "Courier New", Courier, monospace;
+      font-size:15px;
+      line-height:1.45;
+      min-height:140px;
+      white-space:pre;
+      overflow-x:auto;
     }
 
     input[type="text"].invalid,
@@ -170,16 +184,6 @@
       margin: 18px 0 16px;
     }
 
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-
-    @media (max-width:760px){
-      .split{ grid-template-columns: 1fr; }
-    }
-
     .date-inline{
       display:flex;
       gap:10px;
@@ -201,12 +205,14 @@
       font-size:16px;
     }
 
-    .photo-story{
+    .photo-story,
+    .data-block{
       display:none;
-      margin-top: 12px;
+      margin-top:12px;
     }
 
-    .photo-item{
+    .photo-item,
+    .data-item{
       border:1px solid var(--border);
       border-radius:14px;
       padding:12px;
@@ -214,14 +220,15 @@
     }
 
     .photo-item .editor{
-      min-height: 70px;
+      min-height:70px;
     }
 
-    .photo-grid{
+    .photo-grid,
+    .data-grid{
       display:flex;
       flex-direction:column;
       gap:12px;
-      margin-top: 12px;
+      margin-top:12px;
     }
 
     .photo-row{
@@ -236,7 +243,7 @@
 
     .result{
       display:none;
-      margin-top: 10px;
+      margin-top:10px;
     }
 
     .result .card{
@@ -249,7 +256,7 @@
     .result .files{
       display:grid;
       gap:12px;
-      margin: 12px 0 8px;
+      margin:12px 0 8px;
     }
 
     .fileline{
@@ -313,7 +320,7 @@
           <input id="title" type="text" />
         </div>
 
-        <div class="field">
+        <div class="field field-small">
           <label>Date display</label>
           <div class="date-inline">
             <input id="datePick" type="date" />
@@ -324,6 +331,11 @@
           <label>Byline</label>
           <input id="byline" type="text" />
         </div>
+
+        <div class="field field-small">
+          <label>Category (optional)</label>
+          <input id="category" type="text" />
+        </div>
       </div>
 
       <div class="checks">
@@ -332,6 +344,23 @@
         <label><input id="hasPdf" type="checkbox" checked /> PDF available</label>
         <label><input id="hasEmbed" type="checkbox" /> Has embed</label>
         <label><input id="isPhotoStory" type="checkbox" /> Photo story</label>
+        <label><input id="isData" type="checkbox" /> Data</label>
+      </div>
+
+      <div class="row">
+        <div class="field field-small">
+          <div class="checks" style="margin:0;">
+            <label><input id="hasVideoElement" type="checkbox" /> Video element</label>
+          </div>
+          <input id="videoClipNumber" type="text" placeholder="Clip number" style="display:none;" />
+        </div>
+
+        <div class="field field-small">
+          <div class="checks" style="margin:0;">
+            <label><input id="hasStoryElement" type="checkbox" /> Story element</label>
+          </div>
+          <input id="storyClipNumber" type="text" placeholder="Clip number" style="display:none;" />
+        </div>
       </div>
 
       <div class="row">
@@ -373,6 +402,13 @@
             <textarea id="embedHtml" rows="4" style="border-radius:14px;"></textarea>
           </div>
         </div>
+      </div>
+
+      <div id="dataBlock" class="data-block">
+        <div class="toolbar">
+          <button class="btn btn-ghost" id="addDataBtn" type="button">Add next data</button>
+        </div>
+        <div id="dataGrid" class="data-grid"></div>
       </div>
 
       <div id="photoStoryBlock" class="photo-story">
@@ -496,7 +532,6 @@
       if(tag === "A"){
         const href = (el.getAttribute("href") || "").trim();
         Array.from(el.attributes).forEach(a=>el.removeAttribute(a.name));
-
         const ok = href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:") || href.startsWith("/") || href.startsWith("#");
         if(ok) el.setAttribute("href", href);
         else el.replaceWith(...el.childNodes);
@@ -569,6 +604,16 @@
     return html.trim();
   }
 
+  function indentBlock(text, spaces){
+    const prefix = " ".repeat(spaces);
+    return (text || "")
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+      .split("\n")
+      .map(line => prefix + line)
+      .join("\n");
+  }
+
   async function fetchNextClipNumber(){
     const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${CLIPS_DIR}?ref=${GH_BRANCH}`;
     const res = await fetch(url, { headers: { "Accept":"application/vnd.github+json" }});
@@ -579,28 +624,85 @@
     for(const it of items){
       if(!it || !it.name) continue;
       const m = it.name.match(/^(\d+)\.md$/);
-      if(m){
-        nums.push(parseInt(m[1],10));
-      }
+      if(m) nums.push(parseInt(m[1],10));
     }
     const max = nums.length ? Math.max(...nums) : 0;
     return max + 1;
+  }
+
+  function addDataBox(initialValue = ""){
+    const grid = document.getElementById("dataGrid");
+    const nextNumber = grid.querySelectorAll(".data-item").length + 1;
+
+    const item = document.createElement("div");
+    item.className = "data-item";
+    item.innerHTML = `
+      <div style="font-size:14px;color:#666;margin-bottom:6px;">Data ${nextNumber}</div>
+      <textarea class="codebox data-code" spellcheck="false" placeholder="Paste raw embed/code here">${initialValue.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</textarea>
+    `;
+
+    grid.appendChild(item);
+  }
+
+  function addPhotoRow(){
+    const grid = document.getElementById("photoGrid");
+
+    const row = document.createElement("div");
+    row.className = "photo-row";
+
+    const itemA = document.createElement("div");
+    itemA.className = "photo-item";
+    itemA.innerHTML = `
+      <div style="font-size:14px;color:#666;margin-bottom:6px;">Caption</div>
+      <div class="edit-box" style="border-radius:14px;">
+        <div class="editor photo-cap" contenteditable="true"></div>
+      </div>
+      <div style="height:10px"></div>
+      <div style="font-size:14px;color:#666;margin-bottom:6px;">Credit</div>
+      <input class="photo-cred" type="text" style="border-radius:14px;" />
+    `;
+
+    const itemB = document.createElement("div");
+    itemB.className = "photo-item";
+    itemB.innerHTML = `
+      <div style="font-size:14px;color:#666;margin-bottom:6px;">Caption</div>
+      <div class="edit-box" style="border-radius:14px;">
+        <div class="editor photo-cap" contenteditable="true"></div>
+      </div>
+      <div style="height:10px"></div>
+      <div style="font-size:14px;color:#666;margin-bottom:6px;">Credit</div>
+      <input class="photo-cred" type="text" style="border-radius:14px;" />
+    `;
+
+    row.appendChild(itemA);
+    row.appendChild(itemB);
+    grid.appendChild(row);
+
+    row.querySelectorAll(".photo-cap").forEach(ed=>setupPasteSanitizer(ed, { allowLinks:false }));
   }
 
   function buildYamlAndBody(nextId){
     const datePick = document.getElementById("datePick").value;
     const dateDisplay = formatDateDisplay(datePick);
 
+    const title = document.getElementById("title").value.trim();
     const byline = document.getElementById("byline").value.trim() || "Michal Ruprecht";
     const publisher = document.getElementById("publisher").value.trim();
     const publisherItalic = document.getElementById("publisherItalic").checked;
     const publisherUrl = document.getElementById("publisherUrl").value.trim();
+    const category = document.getElementById("category").value.trim();
 
     const isPodcast = document.getElementById("isPodcast").checked;
     const isVideo = document.getElementById("isVideo").checked;
     const hasPdf = document.getElementById("hasPdf").checked;
     const hasEmbed = document.getElementById("hasEmbed").checked;
     const isPhotoStory = document.getElementById("isPhotoStory").checked;
+    const isData = document.getElementById("isData").checked;
+
+    const hasVideoElement = document.getElementById("hasVideoElement").checked;
+    const videoClipNumber = document.getElementById("videoClipNumber").value.trim();
+    const hasStoryElement = document.getElementById("hasStoryElement").checked;
+    const storyClipNumber = document.getElementById("storyClipNumber").value.trim();
 
     const photoCredit = document.getElementById("photoCredit").value.trim();
 
@@ -614,6 +716,9 @@
     const reportingInline = stripOuterParagraph(reportingHtmlRaw);
 
     const storyHtml = getEditorHtml(document.getElementById("storyEditor"), { allowLinks:true });
+    const embedRaw = (document.getElementById("embedHtml").value || "").trim();
+    const publisherOut = publisherItalic ? `<i>${publisher}</i>` : publisher;
+    const idForFile = (nextId < 10) ? pad2(nextId) : String(nextId);
 
     const photos = [];
     if(isPhotoStory){
@@ -624,14 +729,18 @@
       });
     }
 
-    const embedRaw = (document.getElementById("embedHtml").value || "").trim();
-    const publisherOut = publisherItalic ? `<i>${publisher}</i>` : publisher;
-    const idForFile = (nextId < 10) ? pad2(nextId) : String(nextId);
+    const dataBlocks = [];
+    if(isData){
+      document.querySelectorAll(".data-code").forEach(box=>{
+        const value = (box.value || "").replace(/\s+$/,"");
+        if(value.trim()) dataBlocks.push(value);
+      });
+    }
 
     const lines = [];
     lines.push("---");
     lines.push(`layout: clip`);
-    lines.push(`title: ${escapeYamlString(document.getElementById("title").value.trim())}`);
+    lines.push(`title: ${escapeYamlString(title)}`);
     lines.push(`clip: true`);
     lines.push(`clip_id: ${escapeYamlString(String(nextId))}`);
     lines.push(`publisher: ${escapeYamlString(publisherOut)}`);
@@ -645,6 +754,20 @@
 
     if(photoCredit){
       lines.push(`photo_credit: ${escapeYamlString(photoCredit)}`);
+    }
+
+    if(category){
+      lines.push(`category: ${category}`);
+    }
+
+    if(hasVideoElement && videoClipNumber){
+      lines.push(`video_element: true`);
+      lines.push(`video_clip_number: ${escapeYamlString(videoClipNumber)}`);
+    }
+
+    if(hasStoryElement && storyClipNumber){
+      lines.push(`story_element: true`);
+      lines.push(`story_clip_number: ${escapeYamlString(storyClipNumber)}`);
     }
 
     if(teaserInline){
@@ -664,8 +787,13 @@
 
     if(hasEmbed && embedRaw){
       lines.push(`embed_html: |`);
-      embedRaw.split(/\r?\n/).forEach(l=>{
-        lines.push("  " + l);
+      lines.push(indentBlock(embedRaw, 2));
+    }
+
+    if(isData && dataBlocks.length){
+      dataBlocks.forEach((block, index)=>{
+        lines.push(`data${index + 1}: |`);
+        lines.push(indentBlock(block, 2));
       });
     }
 
@@ -779,8 +907,8 @@
   }
 
   function toggleEmbed(){
-    const show = document.getElementById("hasEmbed").checked;
-    document.getElementById("embedBlock").style.display = show ? "block" : "none";
+    document.getElementById("embedBlock").style.display =
+      document.getElementById("hasEmbed").checked ? "block" : "none";
   }
 
   function togglePhotoStory(){
@@ -791,41 +919,29 @@
     }
   }
 
-  function addPhotoRow(){
-    const grid = document.getElementById("photoGrid");
+  function toggleData(){
+    const on = document.getElementById("isData").checked;
+    const block = document.getElementById("dataBlock");
+    const grid = document.getElementById("dataGrid");
 
-    const row = document.createElement("div");
-    row.className = "photo-row";
+    block.style.display = on ? "block" : "none";
+    if(on && grid.querySelectorAll(".data-item").length === 0){
+      addDataBox();
+    }
+  }
 
-    const itemA = document.createElement("div");
-    itemA.className = "photo-item";
-    itemA.innerHTML = `
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">Caption</div>
-      <div class="edit-box" style="border-radius:14px;">
-        <div class="editor photo-cap" contenteditable="true"></div>
-      </div>
-      <div style="height:10px"></div>
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">Credit</div>
-      <input class="photo-cred" type="text" style="border-radius:14px;" />
-    `;
+  function toggleVideoElement(){
+    const on = document.getElementById("hasVideoElement").checked;
+    const input = document.getElementById("videoClipNumber");
+    input.style.display = on ? "block" : "none";
+    if(!on) input.value = "";
+  }
 
-    const itemB = document.createElement("div");
-    itemB.className = "photo-item";
-    itemB.innerHTML = `
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">Caption</div>
-      <div class="edit-box" style="border-radius:14px;">
-        <div class="editor photo-cap" contenteditable="true"></div>
-      </div>
-      <div style="height:10px"></div>
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">Credit</div>
-      <input class="photo-cred" type="text" style="border-radius:14px;" />
-    `;
-
-    row.appendChild(itemA);
-    row.appendChild(itemB);
-    grid.appendChild(row);
-
-    row.querySelectorAll(".photo-cap").forEach(ed=>setupPasteSanitizer(ed, { allowLinks:false }));
+  function toggleStoryElement(){
+    const on = document.getElementById("hasStoryElement").checked;
+    const input = document.getElementById("storyClipNumber");
+    input.style.display = on ? "block" : "none";
+    if(!on) input.value = "";
   }
 
   function showResult(nextId){
@@ -850,7 +966,6 @@
 
     const hasPdf = document.getElementById("hasPdf").checked;
     document.getElementById("pdfLine").style.display = hasPdf ? "flex" : "none";
-
     document.getElementById("photoLine").style.display = "flex";
   }
 
@@ -863,6 +978,7 @@
     document.getElementById("publisher").value = "";
     document.getElementById("publisherUrl").value = "";
     document.getElementById("publisherItalic").checked = false;
+    document.getElementById("category").value = "";
 
     setDefaultDateToday();
     document.getElementById("byline").value = "Michal Ruprecht";
@@ -872,6 +988,14 @@
     document.getElementById("hasPdf").checked = true;
     document.getElementById("hasEmbed").checked = false;
     document.getElementById("isPhotoStory").checked = false;
+    document.getElementById("isData").checked = false;
+    document.getElementById("hasVideoElement").checked = false;
+    document.getElementById("hasStoryElement").checked = false;
+
+    document.getElementById("videoClipNumber").value = "";
+    document.getElementById("storyClipNumber").value = "";
+    document.getElementById("videoClipNumber").style.display = "none";
+    document.getElementById("storyClipNumber").style.display = "none";
 
     document.getElementById("captionEditor").innerHTML = "";
     document.getElementById("photoCredit").value = "";
@@ -881,8 +1005,10 @@
     document.getElementById("storyEditor").innerHTML = "";
 
     document.getElementById("photoGrid").innerHTML = "";
+    document.getElementById("dataGrid").innerHTML = "";
     document.getElementById("embedBlock").style.display = "none";
     document.getElementById("photoStoryBlock").style.display = "none";
+    document.getElementById("dataBlock").style.display = "none";
 
     ["title","publisher","publisherUrl"].forEach(id=>{
       setInvalid(document.getElementById(id), false);
@@ -891,7 +1017,11 @@
 
   document.getElementById("hasEmbed").addEventListener("change", toggleEmbed);
   document.getElementById("isPhotoStory").addEventListener("change", togglePhotoStory);
+  document.getElementById("isData").addEventListener("change", toggleData);
+  document.getElementById("hasVideoElement").addEventListener("change", toggleVideoElement);
+  document.getElementById("hasStoryElement").addEventListener("change", toggleStoryElement);
   document.getElementById("addPhotoRow").addEventListener("click", addPhotoRow);
+  document.getElementById("addDataBtn").addEventListener("click", ()=>addDataBox());
 
   ["title","publisher","publisherUrl"].forEach(id=>{
     document.getElementById(id).addEventListener("input", validateRequired);
@@ -919,7 +1049,7 @@
     const val = el ? el.textContent : "";
     navigator.clipboard.writeText(val);
     btn.textContent = "Copied";
-    setTimeout(()=>btn.textContent="Copy", 900);
+    setTimeout(()=>btn.textContent = "Copy", 900);
   });
 
   document.getElementById("newBtn").addEventListener("click", resetAll);
@@ -933,6 +1063,9 @@
   document.getElementById("byline").value = "Michal Ruprecht";
   toggleEmbed();
   togglePhotoStory();
+  toggleData();
+  toggleVideoElement();
+  toggleStoryElement();
 </script>
 </body>
 </html>

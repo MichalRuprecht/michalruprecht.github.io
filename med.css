@@ -146,6 +146,18 @@ h2 {
   text-decoration: none;
 }
 
+.clip-inline-button {
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+}
+
+.clip-inline-button:hover {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
 ul {
   margin-top: 0.2em;
   margin-bottom: 0.5em;

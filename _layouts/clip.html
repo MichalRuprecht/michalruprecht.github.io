@@ -112,10 +112,24 @@
 
           <!-- Embed (if present) ALWAYS goes here: after date, before story -->
           {% if page.embed_html %}
-            <div class="clip-embed">
-              {{ page.embed_html }}
-            </div>
-          {% endif %}
+  {% if page.story_element == true and page.story_clip_number %}
+    {% assign sid = page.story_clip_number | to_s %}
+    {% assign story_url = 'https://michalruprecht.com/pages/clips/' | append: sid | append: '.html' %}
+
+    <div class="clip-inline-button-row clip-story-button-row">
+      <a class="filter-btn clip-action-btn clip-inline-button"
+         href="{{ story_url }}"
+         target="_blank"
+         rel="noopener">
+        Read the article
+      </a>
+    </div>
+  {% endif %}
+
+  <div class="clip-embed">
+    {{ page.embed_html }}
+  </div>
+{% endif %}
 
           <div class="clip-body">
   {% assign paragraphs = content | split: '</p>' %}

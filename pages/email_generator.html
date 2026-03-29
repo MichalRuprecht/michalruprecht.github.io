@@ -131,21 +131,17 @@ title: Source Email Generator
     const preview = `
       <div>${greeting}</div>
       <br>
-      <div>Thank you again for your time yesterday. Attached is the story.</div>
+      <div>Thank you again for taking the time to speak with me. I really appreciate it. I wanted to share the story now that it’s live.</div>
       <br>
-      <div>${safeLink(storyLink, "Story link")}</div>
+      <div>You can read it ${safeLink(storyLink, "here")}. ${safeLink(freeLink, "Here")} is a paywall-free version and ${safeLink(pdfLink, "PDF copy")} as well.</div>
       <br>
-      <div>${safeLink(freeLink, "Pay wall free version")}</div>
+      <div>I’ve shared it on social media too, in case you’d like to take a look or reshare:</div>
       <br>
-      <div>${safeLink(pdfLink, "PDF version")}</div>
+      <div>${safeLink(linkedinLink, "LinkedIn")}</div>
       <br>
-      <div>Social media posts:</div>
+      <div>${safeLink(instagramLink, "Instagram")}</div>
       <br>
-      <div>${safeLink(linkedinLink, "LinkedIn post")}</div>
-      <br>
-      <div>${safeLink(instagramLink, "Instagram post")}</div>
-      <br>
-      <div>${safeLink(twitterLink, "Twitter post")}</div>
+      <div>${safeLink(twitterLink, "Twitter/X")}</div>
       <br>
       <div>Thank you again,</div>
       <div>Michal</div>

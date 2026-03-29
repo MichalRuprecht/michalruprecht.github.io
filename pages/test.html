@@ -4,917 +4,225 @@ title: Michal Ruprecht
 ---
 {% assign all_clips = site.pages | where_exp: "p", "p.clip == true" %}
 
-{% assign hero_ids = "107,95,82,96,105,98,90,81,92,93,91,86" | split: "," %}
-
-{% assign clip_107 = all_clips | where_exp: "x", "x.clip_id == '107' or x.clip_id == 107" | first %}
-{% assign clip_95  = all_clips | where_exp: "x", "x.clip_id == '95'  or x.clip_id == 95"  | first %}
-{% assign clip_82  = all_clips | where_exp: "x", "x.clip_id == '82'  or x.clip_id == 82"  | first %}
-{% assign clip_88  = all_clips | where_exp: "x", "x.clip_id == '88'  or x.clip_id == 88"  | first %}
-{% assign clip_98  = all_clips | where_exp: "x", "x.clip_id == '98'  or x.clip_id == 98"  | first %}
-{% assign clip_84  = all_clips | where_exp: "x", "x.clip_id == '84'  or x.clip_id == 84"  | first %}
-{% assign clip_105 = all_clips | where_exp: "x", "x.clip_id == '105' or x.clip_id == 105" | first %}
-{% assign clip_86  = all_clips | where_exp: "x", "x.clip_id == '86'  or x.clip_id == 86"  | first %}
-{% assign clip_81  = all_clips | where_exp: "x", "x.clip_id == '81'  or x.clip_id == 81"  | first %}
-{% assign clip_96  = all_clips | where_exp: "x", "x.clip_id == '96'  or x.clip_id == 96"  | first %}
-{% assign clip_97  = all_clips | where_exp: "x", "x.clip_id == '97'  or x.clip_id == 97"  | first %}
-{% assign clip_91  = all_clips | where_exp: "x", "x.clip_id == '91'  or x.clip_id == 91"  | first %}
-{% assign clip_92  = all_clips | where_exp: "x", "x.clip_id == '92'  or x.clip_id == 92"  | first %}
-{% assign clip_93  = all_clips | where_exp: "x", "x.clip_id == '93'  or x.clip_id == 93"  | first %}
-{% assign clip_90  = all_clips | where_exp: "x", "x.clip_id == '90'  or x.clip_id == 90"  | first %}
+{%- comment -%}
+Just edit these lists.
+First 2 = large cards.
+Everything else auto-populates below in rows of 3.
+{%- endcomment -%}
+{% assign hero_ids = "107,95" | split: "," %}
+{% assign featured_ids = "107,95,82,98,105,96,88,81,92,93,91,86,84,90" | split: "," %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta name="description" content="Michal Ruprecht is a medical student and health reporter covering policy, inequity, multimedia storytelling and global health.">
+  <meta name="description" content="Michal Ruprecht is a medical student and health reporter covering power, misinformation, inequity and who gets left behind.">
   <title>Michal Ruprecht</title>
   <script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
-
-  <style>
-    .home-wrap{
-      width:min(1400px, calc(100% - 40px));
-      margin:0 auto 48px auto;
-      font-family:'Open Sans', sans-serif;
-      color:#000;
-    }
-
-    .home-top{
-      display:grid;
-      grid-template-columns: 180px 1fr;
-      gap:28px;
-      align-items:end;
-      margin:18px 0 34px 0;
-      padding-bottom:26px;
-      border-bottom:3px solid #000;
-    }
-
-    .home-profile{
-      width:180px;
-      aspect-ratio:1 / 1.18;
-      object-fit:cover;
-      border:2px solid #000;
-      display:block;
-    }
-
-    .home-kicker{
-      font-family:'Montserrat', sans-serif;
-      font-size:14px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      margin:0 0 10px 0;
-    }
-
-    .home-name{
-      font-family:'Montserrat', sans-serif;
-      font-size:clamp(42px, 8vw, 110px);
-      line-height:.9;
-      font-weight:900;
-      margin:0;
-      letter-spacing:-.05em;
-    }
-
-    .home-dek{
-      max-width:900px;
-      font-size:20px;
-      line-height:1.45;
-      margin:16px 0 0 0;
-    }
-
-    .home-mini{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:16px;
-    }
-
-    .home-pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      border:1.5px solid #000;
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:14px;
-      color:#000;
-      text-decoration:none;
-      background:#fff;
-      transition:.18s ease;
-    }
-
-    .home-pill:hover{
-      background:#000;
-      color:#fff;
-    }
-
-    .section-block{
-      margin:0 0 44px 0;
-    }
-
-    .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:20px;
-      margin-bottom:18px;
-      border-bottom:2px solid #000;
-      padding-bottom:10px;
-    }
-
-    .section-title{
-      font-family:'Montserrat', sans-serif;
-      font-size:clamp(24px, 4vw, 42px);
-      line-height:1;
-      font-weight:900;
-      letter-spacing:-.04em;
-      margin:0;
-      text-transform:uppercase;
-    }
-
-    .section-note{
-      font-size:14px;
-      line-height:1.4;
-      max-width:520px;
-      text-align:right;
-      margin:0;
-    }
-
-    .mosaic{
-      display:grid;
-      grid-template-columns:repeat(12, 1fr);
-      grid-auto-rows:34px;
-      gap:16px;
-    }
-
-    .story-card{
-      position:relative;
-      display:block;
-      overflow:hidden;
-      text-decoration:none;
-      color:#000;
-      border:2px solid #000;
-      background:#fff;
-      transition:transform .18s ease, box-shadow .18s ease;
-      min-height:240px;
-    }
-
-    .story-card:hover{
-      transform:translateY(-3px);
-      box-shadow:8px 8px 0 #000;
-    }
-
-    .story-card.hero{
-      min-height:420px;
-    }
-
-    .story-media{
-      position:absolute;
-      inset:0;
-      overflow:hidden;
-      background:#f5f5f5;
-    }
-
-    .story-media img,
-    .story-media video,
-    .story-media iframe{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      border:0;
-    }
-
-    .story-media.has-overlay::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to top, rgba(255,255,255,.97) 0%, rgba(255,255,255,.88) 26%, rgba(255,255,255,.18) 58%, rgba(255,255,255,0) 100%);
-      pointer-events:none;
-    }
-
-    .story-content{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      padding:16px;
-      z-index:2;
-    }
-
-    .story-outlet-row{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:10px;
-      flex-wrap:wrap;
-    }
-
-    .story-logo{
-      height:20px;
-      width:auto;
-      max-width:88px;
-      display:block;
-    }
-
-    .story-outlet{
-      font-size:12px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-    }
-
-    .story-title{
-      font-family:'Merriweather', Georgia, serif;
-      font-size:clamp(20px, 2vw, 34px);
-      line-height:1.15;
-      font-weight:700;
-      margin:0 0 10px 0;
-      max-width:95%;
-      color:#000;
-    }
-
-    .story-card:not(.hero) .story-title{
-      font-size:clamp(18px, 1.5vw, 24px);
-    }
-
-    .story-teaser{
-      font-size:14px;
-      line-height:1.45;
-      margin:0 0 8px 0;
-      max-width:820px;
-      color:#111;
-    }
-
-    .story-reporting{
-      font-size:14px;
-      line-height:1.45;
-      margin:0;
-      max-width:820px;
-      color:#3a3a3a;
-    }
-
-    .story-reporting strong{
-      font-weight:700;
-    }
-
-    .story-chip{
-      position:absolute;
-      top:14px;
-      left:14px;
-      z-index:3;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      background:#000;
-      color:#fff;
-      padding:7px 10px;
-      border-radius:999px;
-    }
-
-    .story-chip.light{
-      background:#fff;
-      color:#000;
-      border:1.5px solid #000;
-    }
-
-    .story-card.large-a{ grid-column:span 7; grid-row:span 12; }
-    .story-card.large-b{ grid-column:span 5; grid-row:span 12; }
-    .story-card.medium-a{ grid-column:span 5; grid-row:span 10; }
-    .story-card.medium-b{ grid-column:span 4; grid-row:span 10; }
-    .story-card.medium-c{ grid-column:span 3; grid-row:span 10; }
-    .story-card.small-a{ grid-column:span 4; grid-row:span 8; }
-    .story-card.small-b{ grid-column:span 3; grid-row:span 8; }
-    .story-card.wide{ grid-column:span 8; grid-row:span 9; }
-
-    .podcast-card .story-media{
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,.95), rgba(255,255,255,.75) 32%, rgba(255,255,255,.12) 66%, rgba(255,255,255,0) 100%),
-        linear-gradient(135deg, #ffffff 0%, #efefef 100%);
-    }
-
-    .podcast-card .story-content{
-      background:linear-gradient(to top, rgba(255,255,255,.98) 0%, rgba(255,255,255,.9) 38%, rgba(255,255,255,0) 100%);
-      padding-top:120px;
-    }
-
-    .podcast-embed-shell{
-      position:absolute;
-      inset:18px 18px auto 18px;
-      height:130px;
-      border:2px solid #000;
-      background:#fff;
-      overflow:hidden;
-      z-index:1;
-    }
-
-    .podcast-embed-shell iframe{
-      width:100%;
-      height:100%;
-      border:0;
-      filter:grayscale(1) contrast(1.05);
-      pointer-events:none;
-    }
-
-    .data-card{
-      background:#fff;
-    }
-
-    .data-card .story-media{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:0;
-      background:#fff;
-    }
-
-    .data-panel{
-      position:relative;
-      border-right:1px solid #000;
-      overflow:hidden;
-      background:#fff;
-    }
-
-    .data-panel:last-child{
-      border-right:0;
-    }
-
-    .data-panel-inner{
-      position:absolute;
-      inset:0;
-      transform:scale(.7);
-      transform-origin:top left;
-      width:142.857%;
-      height:142.857%;
-      pointer-events:none;
-      filter:grayscale(1) contrast(1.05);
-    }
-
-    .data-panel-label{
-      position:absolute;
-      top:10px;
-      left:10px;
-      z-index:2;
-      background:#fff;
-      border:1.5px solid #000;
-      padding:5px 8px;
-      font-size:11px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-    }
-
-    .video-card iframe,
-    .podcast-card iframe{
-      pointer-events:none;
-    }
-
-    .vertical-card .story-media{
-      background:#000;
-    }
-
-    .vertical-card .story-media iframe{
-      width:100%;
-      height:100%;
-    }
-
-    .carousel-frame{
-      position:absolute;
-      inset:0;
-      background:#fff;
-    }
-
-    .carousel-frame img{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      opacity:0;
-      transition:opacity .45s ease;
-    }
-
-    .carousel-frame img.active{
-      opacity:1;
-    }
-
-    .carousel-caption{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      z-index:2;
-      background:rgba(255,255,255,.92);
-      border-top:2px solid #000;
-      padding:10px 14px;
-      font-size:12px;
-      line-height:1.35;
-      color:#111;
-    }
-
-    .carousel-caption .credit{
-      display:block;
-      margin-top:5px;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-      font-weight:700;
-    }
-
-    .all-clips-link{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      border:2px solid #000;
-      color:#000;
-      text-decoration:none;
-      padding:14px 18px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-      transition:.18s ease;
-    }
-
-    .all-clips-link:hover{
-      background:#000;
-      color:#fff;
-    }
-
-    .newsletter-shell{
-      margin-top:20px;
-      border-top:2px solid #000;
-      padding-top:22px;
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:18px;
-      align-items:start;
-    }
-
-    .newsletter-title{
-      font-family:'Montserrat', sans-serif;
-      font-size:20px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:-.02em;
-      margin:0 0 8px 0;
-    }
-
-    .newsletter-copy{
-      font-size:15px;
-      line-height:1.5;
-      margin:0;
-      max-width:680px;
-    }
-
-    .newsletter-box{
-      border:2px solid #000;
-      padding:18px;
-      background:#fff;
-    }
-
-    .newsletter-box .entry{
-      width:100%;
-      height:48px;
-      font-size:18px;
-      border:2px solid #000;
-      border-radius:0;
-      padding:0 12px;
-      margin:0 0 12px 0;
-    }
-
-    .newsletter-box .submit{
-      width:100%;
-      height:48px;
-      font-size:16px;
-      font-weight:800;
-      text-transform:uppercase;
-      border:2px solid #000;
-      background:#000;
-      color:#fff;
-      border-radius:0;
-      cursor:pointer;
-    }
-
-    .newsletter-box .submit:hover{
-      background:#fff;
-      color:#000;
-    }
-
-    @media (max-width: 1100px){
-      .mosaic{
-        grid-template-columns:repeat(6, 1fr);
-        grid-auto-rows:34px;
-      }
-
-      .story-card.large-a,
-      .story-card.large-b,
-      .story-card.medium-a,
-      .story-card.medium-b,
-      .story-card.medium-c,
-      .story-card.small-a,
-      .story-card.small-b,
-      .story-card.wide{
-        grid-column:span 6;
-        grid-row:span 10;
-      }
-
-      .story-card.hero{
-        min-height:380px;
-      }
-
-      .newsletter-shell{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media (max-width: 760px){
-      .home-wrap{
-        width:min(100%, calc(100% - 20px));
-      }
-
-      .home-top{
-        grid-template-columns:1fr;
-        gap:18px;
-      }
-
-      .home-profile{
-        width:130px;
-      }
-
-      .home-dek{
-        font-size:18px;
-      }
-
-      .section-head{
-        align-items:start;
-        flex-direction:column;
-      }
-
-      .section-note{
-        text-align:left;
-      }
-
-      .mosaic{
-        grid-template-columns:1fr;
-        grid-auto-rows:auto;
-      }
-
-      .story-card.large-a,
-      .story-card.large-b,
-      .story-card.medium-a,
-      .story-card.medium-b,
-      .story-card.medium-c,
-      .story-card.small-a,
-      .story-card.small-b,
-      .story-card.wide{
-        grid-column:auto;
-        grid-row:auto;
-        min-height:340px;
-      }
-
-      .story-card.hero{
-        min-height:420px;
-      }
-
-      .data-card .story-media{
-        grid-template-columns:1fr;
-      }
-
-      .data-panel{
-        border-right:0;
-        border-bottom:1px solid #000;
-      }
-
-      .data-panel:last-child{
-        border-bottom:0;
-      }
-    }
-  </style>
 </head>
-
 <body>
-  <main class="home-wrap">
+  <main class="homepage-shell">
+    <section class="homepage-top">
+      <div class="homepage-avatar-wrap">
+        <img class="homepage-avatar" src="https://michalruprecht.com/assets/profile.svg" alt="Michal Ruprecht">
+      </div>
 
-    <section class="home-top">
-      <img class="home-profile" src="https://michalruprecht.com/assets/profile.svg" alt="Michal Ruprecht">
-
-      <div>
-        <p class="home-kicker">Health reporting • multimedia • medicine</p>
-        <h1 class="home-name">MICHAL<br>RUPRECHT</h1>
-        <p class="home-dek">
+      <div class="homepage-intro">
+        <p class="homepage-kicker">HEALTH REPORTING • MULTIMEDIA • MEDICINE</p>
+        <h1 class="homepage-name">MICHAL<br>RUPRECHT</h1>
+        <p class="homepage-dek">
           I’m a medical student and health reporter covering power, inequity, misinformation and who gets left behind. I report across global health, policy, breaking news, profiles, visuals and audio.
         </p>
 
-        <div class="home-mini">
-          <a class="home-pill" href="mailto:mruprecht@umich.edu">Email</a>
-          <a class="home-pill" href="https://www.linkedin.com/in/michalruprecht" target="_blank">LinkedIn</a>
-          <a class="home-pill" href="https://instagram.com/mrup.01" target="_blank">Instagram</a>
-          <a class="home-pill" href="https://bsky.app/profile/michalruprecht.com" target="_blank">Bluesky</a>
-          <a class="home-pill" href="https://michalruprecht.com/pages/clips">All clips</a>
+        <div class="homepage-links">
+          <a class="homepage-link-pill" href="mailto:mruprecht@umich.edu">Email</a>
+          <a class="homepage-link-pill" href="https://www.linkedin.com/in/michalruprecht" target="_blank">LinkedIn</a>
+          <a class="homepage-link-pill" href="https://instagram.com/mrup.01" target="_blank">Instagram</a>
+          <a class="homepage-link-pill" href="https://bsky.app/profile/michalruprecht.com" target="_blank">Bluesky</a>
+          <a class="homepage-link-pill" href="https://michalruprecht.com/pages/clips">All clips</a>
         </div>
       </div>
     </section>
 
-    <section class="section-block">
-      <div class="section-head">
-        <h2 class="section-title">Featured work</h2>
-        <p class="section-note">Selected reporting across investigations, breaking news, profiles, data, photo, video and audio.</p>
-      </div>
+    <section class="homepage-section">
+      <h2 class="homepage-section-title">Featured work</h2>
 
-      <div class="mosaic">
+      <div class="homepage-grid">
+        {% for id in featured_ids %}
+          {% assign pid = id | strip %}
+          {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
+          {% unless p %}
+            {% assign pnum = pid | plus: 0 %}
+            {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
+          {% endunless %}
 
-        {% if clip_107 %}
-        <a class="story-card hero large-a" href="{{ clip_107.url | relative_url }}">
-          <div class="story-chip">Feature</div>
-          <div class="story-media has-overlay">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/107.jpg" alt="{{ clip_107.title | escape }}">
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_107.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_107.title }}</h3>
-            {% if clip_107.teaser %}<p class="story-teaser">{{ clip_107.teaser }}</p>{% endif %}
-            {% if clip_107.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_107.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
-
-        {% if clip_95 %}
-        <a class="story-card hero large-b" href="{{ clip_95.url | relative_url }}">
-          <div class="story-chip">Global health</div>
-          <div class="story-media has-overlay">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/95.jpg" alt="{{ clip_95.title | escape }}">
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_95.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_95.title }}</h3>
-            {% if clip_95.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_95.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
-
-        {% if clip_82 %}
-        <a class="story-card medium-a" href="{{ clip_82.url | relative_url }}">
-          <div class="story-chip light">Reported explainer</div>
-          <div class="story-media has-overlay">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/82.jpg" alt="{{ clip_82.title | escape }}">
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_82.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_82.title }}</h3>
-            {% if clip_82.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_82.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
-
-        {% if clip_98 %}
-        <a class="story-card medium-b podcast-card embed-card" href="{{ clip_98.url | relative_url }}">
-          <div class="story-chip">Podcast</div>
-          <div class="podcast-embed-shell">
-            {{ clip_98.embed_html }}
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_98.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_98.title }}</h3>
-            {% if clip_98.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_98.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
-
-        {% if clip_105 %}
-        <a class="story-card wide data-card" href="{{ clip_105.url | relative_url }}">
-          <div class="story-chip">Data reporting</div>
-          <div class="story-media">
-            <div class="data-panel">
-              <div class="data-panel-label">Map</div>
-              <div class="data-panel-inner">
-                {{ clip_105.data1 }}
-              </div>
-            </div>
-            <div class="data-panel">
-              <div class="data-panel-label">Trend</div>
-              <div class="data-panel-inner">
-                {{ clip_105.data2 }}
-              </div>
-            </div>
-          </div>
-          <div class="story-content" style="background:linear-gradient(to top, rgba(255,255,255,.96) 0%, rgba(255,255,255,.85) 40%, rgba(255,255,255,0) 100%);">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/cnn.svg" alt="CNN">
-              <span class="story-outlet">{{ clip_105.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_105.title }}</h3>
-            {% if clip_105.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_105.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
-
-        {% if clip_96 %}
-        <a class="story-card medium-b video-card embed-card" href="{{ clip_96.url | relative_url }}">
-          <div class="story-chip">Video-led feature</div>
-          <div class="story-media has-overlay">
-            {% if clip_97 %}
-              {{ clip_97.embed_html }}
-            {% else %}
-              <img src="https://michalruprecht.com/pages/clips/assets/photo/96.jpg" alt="{{ clip_96.title | escape }}">
+          {% if p %}
+            {% assign is_hero = false %}
+            {% if hero_ids contains pid %}
+              {% assign is_hero = true %}
             {% endif %}
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_96.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_96.title }}</h3>
-            {% if clip_96.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_96.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
 
-        {% if clip_81 %}
-        <a class="story-card medium-c" href="{{ clip_81.url | relative_url }}">
-          <div class="story-chip light">Profile</div>
-          <div class="story-media has-overlay">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/81.jpg" alt="{{ clip_81.title | escape }}">
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_81.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_81.title }}</h3>
-            {% if clip_81.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_81.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
+            {% assign linked_video = nil %}
+            {% assign use_linked_video = false %}
+            {% if p.video_element and p.video_clip_number %}
+              {% assign linked_video_id = p.video_clip_number | append: "" %}
+              {% assign linked_video = all_clips | where_exp: "x", "x.clip_id == linked_video_id" | first %}
+              {% unless linked_video %}
+                {% assign linked_video_num = linked_video_id | plus: 0 %}
+                {% assign linked_video = all_clips | where_exp: "x", "x.clip_id == linked_video_num" | first %}
+              {% endunless %}
+              {% if linked_video and featured_ids contains linked_video_id %}
+                {% assign use_linked_video = false %}
+              {% elsif linked_video %}
+                {% assign use_linked_video = true %}
+              {% endif %}
+            {% endif %}
 
-        {% if clip_92 %}
-        <a class="story-card small-a" href="{{ clip_92.url | relative_url }}">
-          <div class="story-chip light">Profile</div>
-          <div class="story-media has-overlay">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/92.jpg" alt="{{ clip_92.title | escape }}">
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_92.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_92.title }}</h3>
-            {% if clip_92.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_92.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
+            {% assign logo_file = "" %}
+            {% assign source_text = "" %}
 
-        {% if clip_93 %}
-        <a class="story-card small-b" href="{{ clip_93.url | relative_url }}">
-          <div class="story-chip light">Breaking news</div>
-          <div class="story-media has-overlay">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/93.jpg" alt="{{ clip_93.title | escape }}">
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_93.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_93.title }}</h3>
-            {% if clip_93.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_93.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
+            {% if p.publisher == "NPR" %}
+              {% assign logo_file = "npr.svg" %}
+            {% elsif p.publisher == "CNN" %}
+              {% assign logo_file = "cnn.svg" %}
+            {% elsif p.publisher == "ABC News" or p.publisher == "Good Morning America" %}
+              {% assign logo_file = "abc.svg" %}
+            {% elsif p.publisher == "MedPage Today" %}
+              {% assign logo_file = "medpage.svg" %}
+            {% elsif p.publisher == "The Michigan Daily" %}
+              {% assign logo_file = "michigandaily.svg" %}
+            {% elsif p.publisher == "Stanford Journalism" %}
+              {% assign logo_file = "stanford.svg" %}
+              {% assign source_text = "Journalism Program" %}
+            {% endif %}
 
-        {% if clip_91 %}
-        <a class="story-card small-b" href="{{ clip_91.url | relative_url }}">
-          <div class="story-chip light">International reporting</div>
-          <div class="story-media has-overlay">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/91.jpg" alt="{{ clip_91.title | escape }}">
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_91.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_91.title }}</h3>
-            {% if clip_91.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_91.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
+            {% assign category_text = p.category | default: "" | upcase %}
+            {% assign title_down = p.title | downcase %}
+            {% assign is_podcast = false %}
+            {% if title_down contains "podcast" %}
+              {% assign is_podcast = true %}
+            {% endif %}
 
-        {% if clip_86 %}
-        <a class="story-card small-b" href="{{ clip_86.url | relative_url }}">
-          <div class="story-chip light">Explainer</div>
-          <div class="story-media has-overlay">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/86.jpg" alt="{{ clip_86.title | escape }}">
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_86.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_86.title }}</h3>
-            {% if clip_86.reporting %}<p class="story-reporting"><strong>Reporting:</strong> {{ clip_86.reporting }}</p>{% endif %}
-          </div>
-        </a>
-        {% endif %}
+            {% assign card_classes = "homepage-card homepage-card--standard" %}
+            {% if is_hero %}
+              {% assign card_classes = "homepage-card homepage-card--hero" %}
+            {% endif %}
+            {% if is_podcast %}
+              {% assign card_classes = card_classes | append: " homepage-card--podcast" %}
+            {% endif %}
+            {% if p.data1 %}
+              {% assign card_classes = card_classes | append: " homepage-card--data" %}
+            {% endif %}
+            {% if p.photo_story %}
+              {% assign card_classes = card_classes | append: " homepage-card--photo" %}
+            {% endif %}
+            {% if p.embed_html and is_podcast == false %}
+              {% assign card_classes = card_classes | append: " homepage-card--vertical" %}
+            {% endif %}
+            {% if use_linked_video %}
+              {% assign card_classes = card_classes | append: " homepage-card--linked-video" %}
+            {% endif %}
 
+            <a class="{{ card_classes }}" href="{{ p.url | relative_url }}">
+              {% if category_text != "" %}
+                <span class="homepage-card-category">{{ category_text }}</span>
+              {% endif %}
+
+              <div class="homepage-card-media homepage-card-gradient">
+                {% if p.photo_story %}
+                  <div class="homepage-photo-carousel js-homepage-carousel" data-interval="15000">
+                    {% assign cid = p.clip_id | append: "" %}
+                    {% assign letters = "b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z" | split: "," %}
+
+                    {% for i in (0..50) %}
+                      {% if i >= p.photo_total %}{% break %}{% endif %}
+                      {% if i == 0 %}
+                        {% assign suffix = "" %}
+                      {% else %}
+                        {% assign idx = i | minus: 1 %}
+                        {% assign suffix = letters[idx] %}
+                      {% endif %}
+                      <img {% if i == 0 %}class="active"{% endif %} src="https://michalruprecht.com/pages/clips/assets/photo/{{ cid }}{{ suffix }}.jpg" alt="{{ p.title | escape }}">
+                    {% endfor %}
+                  </div>
+
+                  <div class="homepage-photo-caption js-homepage-caption"
+                       data-captions='{{ p.photo_captions_html | jsonify }}'
+                       data-credits='{{ p.photo_credits | jsonify }}'>
+                    {{ p.photo_captions_html[0] }}
+                    {% if p.photo_credits[0] %}
+                      <span class="homepage-photo-caption-credit">{{ p.photo_credits[0] }}</span>
+                    {% endif %}
+                  </div>
+
+                {% elsif is_podcast %}
+                  <div class="homepage-podcast-visual">
+                    <img class="homepage-podcast-thumb" src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
+                    <div>
+                      <div class="homepage-podcast-lines">
+                        <span></span><span></span><span></span><span></span>
+                        <span></span><span></span><span></span><span></span>
+                      </div>
+                      <div class="homepage-podcast-label">Podcast</div>
+                    </div>
+                  </div>
+                  <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
+
+                {% elsif p.data1 %}
+                  <div class="homepage-card-data-shell">
+                    <div class="homepage-card-data-inner">
+                      {{ p.data1 }}
+                    </div>
+                  </div>
+
+                {% elsif p.embed_html %}
+                  <div class="js-homepage-autoplay">
+                    {{ p.embed_html }}
+                  </div>
+
+                {% elsif use_linked_video and linked_video.embed_html %}
+                  <div class="js-homepage-autoplay">
+                    {{ linked_video.embed_html }}
+                  </div>
+
+                {% else %}
+                  <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
+                {% endif %}
+              </div>
+
+              <div class="homepage-card-body">
+                <div class="homepage-card-meta">
+                  {% if logo_file != "" %}
+                    <img class="homepage-card-logo" src="https://michalruprecht.com/pages/clips/assets/logo/{{ logo_file }}" alt="{{ p.publisher }}">
+                  {% endif %}
+                  {% if source_text != "" %}
+                    <span class="homepage-card-source-text">{{ source_text }}</span>
+                  {% endif %}
+                </div>
+
+                <h3 class="homepage-card-title">{{ p.title }}</h3>
+
+                {% if p.reporting %}
+                  <p class="homepage-card-reporting">{{ p.reporting }}</p>
+                {% endif %}
+              </div>
+            </a>
+          {% endif %}
+        {% endfor %}
       </div>
-    </section>
 
-    <section class="section-block">
-      <div class="section-head">
-        <h2 class="section-title">Multimedia</h2>
-        <p class="section-note">Video, audio and visual storytelling.</p>
+      <div class="homepage-all-clips">
+        <a href="https://michalruprecht.com/pages/clips">View all clips →</a>
       </div>
 
-      <div class="mosaic">
-
-        {% if clip_88 %}
-        <a class="story-card vertical-card medium-b embed-card" href="{{ clip_88.url | relative_url }}">
-          <div class="story-chip">Vertical video</div>
-          <div class="story-media has-overlay">
-            {{ clip_88.embed_html }}
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/npr.svg" alt="NPR">
-              <span class="story-outlet">{{ clip_88.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_88.title }}</h3>
-          </div>
-        </a>
-        {% endif %}
-
-        {% if clip_84 %}
-        <a class="story-card vertical-card medium-b embed-card" href="{{ clip_84.url | relative_url }}">
-          <div class="story-chip">Vertical video</div>
-          <div class="story-media has-overlay">
-            {{ clip_84.embed_html }}
-          </div>
-          <div class="story-content">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/stanford.svg" alt="Stanford Journalism">
-              <span class="story-outlet">{{ clip_84.publisher }}</span>
-            </div>
-            <h3 class="story-title">{{ clip_84.title }}</h3>
-          </div>
-        </a>
-        {% endif %}
-
-        {% if clip_90 %}
-        <a class="story-card wide" href="{{ clip_90.url | relative_url }}">
-          <div class="story-chip">Photo story</div>
-          <div class="carousel-frame js-carousel" data-interval="2600">
-            <img class="active" src="https://michalruprecht.com/pages/clips/assets/photo/90.jpg" alt="">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/90b.jpg" alt="">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/90c.jpg" alt="">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/90d.jpg" alt="">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/90e.jpg" alt="">
-            <img src="https://michalruprecht.com/pages/clips/assets/photo/90f.jpg" alt="">
-          </div>
-          <div class="carousel-caption js-carousel-caption"
-               data-captions='[
-                 "Rosario Luna stepped away from the tension of the waiting room outside Stanford Hospital.",
-                 "Joseph Moreno stood outside the hospital after a hectic shift in the kitchen.",
-                 "Lita Allen, newly discharged, looked forward to returning home to her dogs.",
-                 "Frankie Thompson pushed his mother in a wheelchair as they prepared to leave.",
-                 "The hospital cafe remained open as Leo Villareal&#39;s Buckyball lit the windows.",
-                 "The empty valet chair marked the end of the day outside Stanford Hospital."
-               ]'>
-            Rosario Luna stepped away from the tension of the waiting room outside Stanford Hospital.
-            <span class="credit">Stanford Journalism</span>
-          </div>
-          <div class="story-content" style="background:linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 100%); padding-bottom:66px;">
-            <div class="story-outlet-row">
-              <img class="story-logo" src="https://michalruprecht.com/pages/clips/assets/logo/stanford.svg" alt="Stanford Journalism">
-              <span class="story-outlet">{{ clip_90.publisher }}</span>
-            </div>
-            <h3 class="story-title" style="max-width:560px;">{{ clip_90.title }}</h3>
-          </div>
-        </a>
-        {% endif %}
-
-      </div>
-    </section>
-
-    <section class="section-block">
-      <a class="all-clips-link" href="https://michalruprecht.com/pages/clips">View all clips →</a>
-
-      <div class="newsletter-shell">
+      <div class="homepage-newsletter">
         <div>
-          <h3 class="newsletter-title">Get new stories in your inbox</h3>
-          <p class="newsletter-copy">
+          <h3 class="homepage-newsletter-title">Get new stories in your inbox</h3>
+          <p class="homepage-newsletter-copy">
             I read every pitch and regularly publish across text, audio and video. Subscribe here for new work.
           </p>
         </div>
 
-        <div class="newsletter-box">
+        <div class="homepage-newsletter-box">
           <script>var submitted = false;</script>
           <iframe
             name="hidden_iframe"
@@ -941,58 +249,58 @@ title: Michal Ruprecht
             <input class="submit" type="submit" value="Subscribe" />
           </form>
 
-          <div id="successMessage" style="display:none; font-size:15px; line-height:1.5;">
+          <div id="successMessage" style="display:none; font-size:13px; line-height:1.4;">
             Your response has been recorded.<br>
             <a href="#" onclick="resetForm(); return false;" style="color:#000;font-weight:700;">Submit another response</a>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 
   <script>
     (function () {
-      const embedCards = document.querySelectorAll('.embed-card iframe');
-
-      embedCards.forEach((iframe) => {
+      document.querySelectorAll('.js-homepage-autoplay iframe').forEach(function (iframe) {
         try {
-          const src = iframe.getAttribute('src') || '';
-          if (!src) return;
+          const rawSrc = iframe.getAttribute('src') || '';
+          if (!rawSrc) return;
 
-          let next = src;
+          let src = rawSrc;
 
-          if (src.includes('youtube.com/embed') || src.includes('youtu.be')) {
+          if (src.includes('youtube.com/embed')) {
+            const idMatch = src.match(/embed\/([^?&]+)/);
+            const youtubeId = idMatch ? idMatch[1] : '';
             const joiner = src.includes('?') ? '&' : '?';
-            next = src + joiner + 'autoplay=1&mute=1&controls=0&loop=1&playlist=' + getYoutubeId(src) + '&modestbranding=1&rel=0&playsinline=1';
-          } else if (src.includes('instagram.com') || src.includes('tiktok.com')) {
+            src = src + joiner + 'autoplay=1&mute=1&controls=0&loop=1&playlist=' + youtubeId + '&playsinline=1&rel=0&modestbranding=1';
+          } else {
             const joiner = src.includes('?') ? '&' : '?';
-            next = src + joiner + 'autoplay=1&muted=1';
+            src = src + joiner + 'autoplay=1&muted=1';
           }
 
-          iframe.setAttribute('src', next);
+          iframe.setAttribute('src', src);
           iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
         } catch (e) {}
       });
 
-      function getYoutubeId(url) {
-        const match = url.match(/embed\/([^?&]+)/);
-        return match ? match[1] : '';
-      }
-
-      document.querySelectorAll('.js-carousel').forEach((carousel) => {
+      document.querySelectorAll('.js-homepage-carousel').forEach(function (carousel) {
         const images = carousel.querySelectorAll('img');
-        const captionEl = carousel.parentElement.querySelector('.js-carousel-caption');
-        const captions = captionEl ? JSON.parse(captionEl.dataset.captions || '[]') : [];
-        const interval = Number(carousel.dataset.interval || 2600);
+        const captionBox = carousel.parentElement.querySelector('.js-homepage-caption');
+        const captions = captionBox ? JSON.parse(captionBox.dataset.captions || '[]') : [];
+        const credits = captionBox ? JSON.parse(captionBox.dataset.credits || '[]') : [];
+        const interval = parseInt(carousel.dataset.interval || '15000', 10);
         let index = 0;
 
-        setInterval(() => {
+        setInterval(function () {
           images[index].classList.remove('active');
           index = (index + 1) % images.length;
           images[index].classList.add('active');
-          if (captionEl && captions[index]) {
-            captionEl.innerHTML = captions[index] + '<span class="credit">Stanford Journalism</span>';
+
+          if (captionBox) {
+            let html = captions[index] || '';
+            if (credits[index]) {
+              html += '<span class="homepage-photo-caption-credit">' + credits[index] + '</span>';
+            }
+            captionBox.innerHTML = html;
           }
         }, interval);
       });

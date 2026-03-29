@@ -779,7 +779,7 @@ article.clip-article .clip-body{
 
 /* Caption + credit */
 .clip-captionline {
-  margin: 2px 0 14px 0;
+  margin-bottom: 26px;
 }
 
 .nyt-image-caption {
@@ -787,6 +787,7 @@ article.clip-article .clip-body{
   font-size: 16px;
   color: #6d6d6d;
   display: inline;
+    margin-bottom: 2px;
 }
 
 .nyt-image-attribution {
@@ -799,7 +800,7 @@ article.clip-article .clip-body{
 
 /* Byline + date (NYT-ish spacing) */
 .clip-meta{
-  margin: 14px 0 26px 0;
+  margin: 18px 0 28px 0;
   max-width: 760px;
 }
 
@@ -822,7 +823,7 @@ article.clip-article p.nyt-publish-date{
   font-weight: 400;
   line-height: 1.2;
   color: #8c8c8c;
-  margin: 0;
+  margin: 0 0 22px 0;  /* THIS is the important change */
 }
 
 /* Body text */

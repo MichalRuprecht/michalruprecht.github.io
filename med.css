@@ -131,6 +131,21 @@ h2 {
   display: inline-block;
 }
 
+.clip-inline-button-row {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 24px 0;
+}
+
+.clip-inline-button-row .filter-btn.clip-action-btn.clip-inline-button {
+  display: inline-block;
+  font-size: 16px;
+  padding: 6px 10px;
+  border-radius: 3px;
+  margin: 0;
+  text-decoration: none;
+}
+
 ul {
   margin-top: 0.2em;
   margin-bottom: 0.5em;

@@ -25,7 +25,7 @@
       font-family: Georgia, "Times New Roman", Times, serif;
       color:var(--text);
       background:var(--bg);
-      font-size:18px; /* bigger overall */
+      font-size:18px;
       line-height:1.35;
     }
 
@@ -39,7 +39,6 @@
       display:flex;
       gap:12px;
       flex-wrap:wrap;
-      /* Fix: keep inputs aligned nicely (Publisher was being pushed up) */
       align-items:flex-start;
       margin-bottom:12px;
     }
@@ -81,6 +80,7 @@
       margin: 10px 0 14px;
       font-size:16px;
     }
+
     .checks label{
       font-size:16px;
       color:var(--text);
@@ -140,7 +140,10 @@
       gap:10px;
       user-select:none;
     }
-    .btn:hover{ filter:brightness(0.92); }
+
+    .btn:hover{
+      filter:brightness(0.92);
+    }
 
     .btn-ghost{
       background:var(--btn-ghost);
@@ -172,6 +175,7 @@
       grid-template-columns: 1fr 1fr;
       gap:12px;
     }
+
     @media (max-width:760px){
       .split{ grid-template-columns: 1fr; }
     }
@@ -181,6 +185,7 @@
       gap:10px;
       align-items:center;
     }
+
     .date-inline input[type="date"]{
       width: 220px;
       padding-right: 12px;
@@ -196,51 +201,57 @@
       font-size:16px;
     }
 
-    /* Photo story builder */
     .photo-story{
       display:none;
       margin-top: 12px;
     }
+
     .photo-item{
       border:1px solid var(--border);
       border-radius:14px;
       padding:12px;
       background:#fff;
     }
+
     .photo-item .editor{
       min-height: 70px;
     }
+
     .photo-grid{
       display:flex;
       flex-direction:column;
       gap:12px;
       margin-top: 12px;
     }
+
     .photo-row{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:12px;
     }
+
     @media (max-width:760px){
       .photo-row{ grid-template-columns: 1fr; }
     }
 
-    /* Result view */
     .result{
       display:none;
       margin-top: 10px;
     }
+
     .result .card{
       border:1px solid var(--border);
       border-radius:18px;
       padding:16px;
       background:#fff;
     }
+
     .result .files{
       display:grid;
       gap:12px;
       margin: 12px 0 8px;
     }
+
     .fileline{
       display:flex;
       gap:10px;
@@ -248,6 +259,7 @@
       flex-wrap:wrap;
       font-size:18px;
     }
+
     code{
       background:#f3f3f3;
       padding:4px 8px;
@@ -268,6 +280,7 @@
       color:var(--link);
       text-decoration:none;
     }
+
     a.inline:hover{
       color:#000;
       font-weight:700;
@@ -277,16 +290,15 @@
 
 <body>
   <div class="wrap">
-
     <div id="form">
 
-            <div class="row">
+      <div class="row">
         <div class="field">
           <label>Publication URL</label>
           <input id="publisherUrl" type="url" />
         </div>
 
-                      <div class="field">
+        <div class="field">
           <label>Publisher</label>
           <input id="publisher" type="text" />
           <div class="checks" style="margin:6px 0 0;">
@@ -300,10 +312,6 @@
           <label>Headline</label>
           <input id="title" type="text" />
         </div>
-
-
-
-
 
         <div class="field">
           <label>Date display</label>
@@ -349,10 +357,14 @@
         </div>
       </div>
 
-      <div style="margin-top: 16px;">
-  <label for="reporting"><strong>Reporting (optional)</strong></label>
-  <textarea id="reporting" rows="3" style="width: 100%; margin-top: 6px;"></textarea>
-</div>
+      <div class="row">
+        <div class="field">
+          <label>Reporting (optional)</label>
+          <div class="edit-box">
+            <div id="reportingEditor" class="editor" contenteditable="true"></div>
+          </div>
+        </div>
+      </div>
 
       <div id="embedBlock" style="display:none;">
         <div class="row">
@@ -417,11 +429,9 @@
         </div>
       </div>
     </div>
-
   </div>
 
 <script>
-  // ---------- Config ----------
   const GH_OWNER = "MichalRuprecht";
   const GH_REPO  = "michalruprecht.github.io";
   const GH_BRANCH = "master";
@@ -431,12 +441,11 @@
   const UPLOAD_PHOTO= "https://github.com/MichalRuprecht/michalruprecht.github.io/upload/master/pages/clips/assets/photo";
   const UPLOAD_PDF  = "https://github.com/MichalRuprecht/michalruprecht.github.io/upload/master/pages/clips/assets/pdf";
 
-  // ---------- Helpers ----------
   function pad2(n){
     return String(n).padStart(2, "0");
   }
 
-  function monthLabel(m){ // m: 0-11
+  function monthLabel(m){
     const full = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     const abbr = {
       "January":"Jan.",
@@ -460,7 +469,6 @@
   }
 
   function escapeYamlString(s){
-    // Always double-quote, escape backslashes + quotes, normalize newlines
     s = (s ?? "").toString();
     s = s.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
     s = s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
@@ -468,17 +476,13 @@
   }
 
   function sanitizeAllowedHtml(root, allowLinks){
-    // Keep ONLY: <p>, <b>/<strong>, <i>/<em>, <a href>, <br>
-    // Strip ALL attributes (including inline styles) except href on <a>.
     const allowed = new Set(allowLinks
       ? ["P","B","STRONG","I","EM","A","BR"]
       : ["P","B","STRONG","I","EM","BR"]
     );
 
-    // Remove scripts/styles outright
     root.querySelectorAll("script,style").forEach(n=>n.remove());
 
-    // Walk deepest-first so unwraps don't skip nodes
     const all = Array.from(root.querySelectorAll("*"));
     for(let i = all.length - 1; i >= 0; i--){
       const el = all[i];
@@ -491,21 +495,16 @@
 
       if(tag === "A"){
         const href = (el.getAttribute("href") || "").trim();
-        // Strip everything first
         Array.from(el.attributes).forEach(a=>el.removeAttribute(a.name));
 
-        // Only keep safe-ish hrefs
         const ok = href.startsWith("http://") || href.startsWith("https://") || href.startsWith("mailto:") || href.startsWith("/") || href.startsWith("#");
         if(ok) el.setAttribute("href", href);
         else el.replaceWith(...el.childNodes);
-
-      }else{
-        // Strip ALL attributes (kills pasted styles/classes)
+      } else {
         Array.from(el.attributes).forEach(a=>el.removeAttribute(a.name));
       }
     }
 
-    // Remove empty paragraphs
     root.querySelectorAll("p").forEach(p=>{
       const text = (p.textContent || "").replace(/\s+/g, " ").trim();
       if(!text && p.querySelectorAll("a,br").length === 0){
@@ -515,12 +514,10 @@
   }
 
   function normalizeHtmlFromPaste(html, opts){
-    // Convert random pasted HTML into clean <p> blocks, then sanitize.
     const allowLinks = !!(opts && opts.allowLinks);
     const tmp = document.createElement("div");
     tmp.innerHTML = html;
 
-    // Convert headings to <p><b>text</b></p>
     tmp.querySelectorAll("h1,h2,h3,h4,h5,h6").forEach(h=>{
       const p = document.createElement("p");
       const b = document.createElement("b");
@@ -529,35 +526,31 @@
       h.replaceWith(p);
     });
 
-    // Replace div with p (common from CMS paste)
     tmp.querySelectorAll("div").forEach(d=>{
       const p = document.createElement("p");
       p.innerHTML = d.innerHTML;
       d.replaceWith(p);
     });
 
-    // Wrap top-level stray text nodes in <p>
     const wrapTextNodes = [];
     tmp.childNodes.forEach(n=>{
       if(n.nodeType === Node.TEXT_NODE && n.textContent.trim()) wrapTextNodes.push(n);
     });
+
     wrapTextNodes.forEach(t=>{
       const p = document.createElement("p");
       p.textContent = t.textContent;
       t.replaceWith(p);
     });
 
-    // Collapse whitespace in text nodes
     const walker = document.createTreeWalker(tmp, NodeFilter.SHOW_TEXT, null);
     let node;
     while(node = walker.nextNode()){
       node.textContent = node.textContent.replace(/\s+/g, " ");
     }
 
-    // Hard sanitize: remove styles/spans/etc, keep only allowed tags
     sanitizeAllowedHtml(tmp, allowLinks);
 
-    // Final: one-line-ish HTML (but we keep <p> structure)
     let out = tmp.innerHTML.trim();
     out = out.replace(/\s+\n+\s+/g, " ");
     out = out.replace(/\n+/g, " ");
@@ -571,15 +564,12 @@
   }
 
   function stripOuterParagraph(html){
-    // For caption_html: we want just inline HTML (no <p> wrapper) if possible.
-    // If it's a single <p>...</p>, unwrap.
     const m = html.match(/^<p>([\s\S]*)<\/p>$/i);
     if(m) return m[1].trim();
     return html.trim();
   }
 
   async function fetchNextClipNumber(){
-    // Uses GitHub contents API to list pages/clips and find highest numeric .md filename.
     const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${CLIPS_DIR}?ref=${GH_BRANCH}`;
     const res = await fetch(url, { headers: { "Accept":"application/vnd.github+json" }});
     if(!res.ok) throw new Error("Could not fetch repo contents (GitHub API rate limit or path issue).");
@@ -598,17 +588,12 @@
   }
 
   function buildYamlAndBody(nextId){
-    const titleEl = document.getElementById("title");
-    const publisherEl = document.getElementById("publisher");
-    const urlEl = document.getElementById("publisherUrl");
-
     const datePick = document.getElementById("datePick").value;
     const dateDisplay = formatDateDisplay(datePick);
 
     const byline = document.getElementById("byline").value.trim() || "Michal Ruprecht";
     const publisher = document.getElementById("publisher").value.trim();
     const publisherItalic = document.getElementById("publisherItalic").checked;
-
     const publisherUrl = document.getElementById("publisherUrl").value.trim();
 
     const isPodcast = document.getElementById("isPodcast").checked;
@@ -619,18 +604,17 @@
 
     const photoCredit = document.getElementById("photoCredit").value.trim();
 
-    // Caption should ONLY allow bold/italics (no links)
     const captionHtmlRaw = getEditorHtml(document.getElementById("captionEditor"), { allowLinks:false });
     const captionInline = stripOuterParagraph(captionHtmlRaw);
 
-    // Teaser should allow bold/italics/links
     const teaserHtmlRaw = getEditorHtml(document.getElementById("teaserEditor"), { allowLinks:true });
     const teaserInline = stripOuterParagraph(teaserHtmlRaw);
 
-    // Story should allow bold/italics/links
+    const reportingHtmlRaw = getEditorHtml(document.getElementById("reportingEditor"), { allowLinks:true });
+    const reportingInline = stripOuterParagraph(reportingHtmlRaw);
+
     const storyHtml = getEditorHtml(document.getElementById("storyEditor"), { allowLinks:true });
 
-    // Photo story items
     const photos = [];
     if(isPhotoStory){
       document.querySelectorAll(".photo-item").forEach(item=>{
@@ -641,17 +625,13 @@
     }
 
     const embedRaw = (document.getElementById("embedHtml").value || "").trim();
-
-    // Publisher HTML (only if italic selected)
     const publisherOut = publisherItalic ? `<i>${publisher}</i>` : publisher;
-
-    // File naming rule: 01-09 use leading zeros; 10+ no leading zeros
     const idForFile = (nextId < 10) ? pad2(nextId) : String(nextId);
 
     const lines = [];
     lines.push("---");
     lines.push(`layout: clip`);
-    lines.push(`title: ${escapeYamlString(titleEl.value.trim())}`);
+    lines.push(`title: ${escapeYamlString(document.getElementById("title").value.trim())}`);
     lines.push(`clip: true`);
     lines.push(`clip_id: ${escapeYamlString(String(nextId))}`);
     lines.push(`publisher: ${escapeYamlString(publisherOut)}`);
@@ -662,11 +642,17 @@
     if(captionInline){
       lines.push(`caption_html: ${escapeYamlString(captionInline)}`);
     }
+
     if(photoCredit){
       lines.push(`photo_credit: ${escapeYamlString(photoCredit)}`);
     }
+
     if(teaserInline){
       lines.push(`teaser_html: ${escapeYamlString(teaserInline)}`);
+    }
+
+    if(reportingInline){
+      lines.push(`reporting: ${escapeYamlString(reportingInline)}`);
     }
 
     if(!hasPdf){
@@ -704,12 +690,11 @@
     const body = storyHtml
       ? storyHtml.replace(/<\/p>\s*<p>/g, "</p>\n\n<p>")
       : "";
+
     lines.push(body);
 
-    const md = lines.join("\n");
-
     return {
-      md,
+      md: lines.join("\n"),
       idForFile,
       nextId
     };
@@ -733,6 +718,7 @@
     box.style.display = "block";
     box.textContent = msg;
   }
+
   function clearError(){
     const box = document.getElementById("err");
     box.style.display = "none";
@@ -761,6 +747,7 @@
       showError("Please fill out Title, Publisher, and Publication URL before downloading.");
       return false;
     }
+
     clearError();
     return true;
   }
@@ -780,10 +767,12 @@
       const html = (e.clipboardData || window.clipboardData).getData("text/html");
       const text = (e.clipboardData || window.clipboardData).getData("text/plain");
 
-      const incoming = html || "";
       const cleaned = html
-        ? normalizeHtmlFromPaste(incoming, opts)
-        : normalizeHtmlFromPaste(`<p>${(text||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</p>`, opts);
+        ? normalizeHtmlFromPaste(html, opts)
+        : normalizeHtmlFromPaste(
+            `<p>${(text || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</p>`,
+            opts
+          );
 
       document.execCommand("insertHTML", false, cleaned);
     });
@@ -836,7 +825,6 @@
     row.appendChild(itemB);
     grid.appendChild(row);
 
-    // Paste sanitizer for new photo caption editors (bold/italics only)
     row.querySelectorAll(".photo-cap").forEach(ed=>setupPasteSanitizer(ed, { allowLinks:false }));
   }
 
@@ -888,6 +876,7 @@
     document.getElementById("captionEditor").innerHTML = "";
     document.getElementById("photoCredit").value = "";
     document.getElementById("teaserEditor").innerHTML = "";
+    document.getElementById("reportingEditor").innerHTML = "";
     document.getElementById("embedHtml").value = "";
     document.getElementById("storyEditor").innerHTML = "";
 
@@ -895,10 +884,11 @@
     document.getElementById("embedBlock").style.display = "none";
     document.getElementById("photoStoryBlock").style.display = "none";
 
-    ["title","publisher","publisherUrl"].forEach(id=>setInvalid(document.getElementById(id), false));
+    ["title","publisher","publisherUrl"].forEach(id=>{
+      setInvalid(document.getElementById(id), false);
+    });
   }
 
-  // ---------- Wiring ----------
   document.getElementById("hasEmbed").addEventListener("change", toggleEmbed);
   document.getElementById("isPhotoStory").addEventListener("change", togglePhotoStory);
   document.getElementById("addPhotoRow").addEventListener("click", addPhotoRow);
@@ -921,7 +911,6 @@
     }
   });
 
-  // Copy buttons
   document.addEventListener("click", (e)=>{
     const btn = e.target.closest(".copy");
     if(!btn) return;
@@ -935,15 +924,11 @@
 
   document.getElementById("newBtn").addEventListener("click", resetAll);
 
-  // Setup paste sanitizer for editors
-  // Caption: only bold/italics (no links)
   setupPasteSanitizer(document.getElementById("captionEditor"), { allowLinks:false });
-  // Teaser: allow bold/italics/links
   setupPasteSanitizer(document.getElementById("teaserEditor"), { allowLinks:true });
-  // Story: allow bold/italics/links
+  setupPasteSanitizer(document.getElementById("reportingEditor"), { allowLinks:true });
   setupPasteSanitizer(document.getElementById("storyEditor"), { allowLinks:true });
 
-  // Defaults
   setDefaultDateToday();
   document.getElementById("byline").value = "Michal Ruprecht";
   toggleEmbed();

@@ -803,6 +803,16 @@ article.clip-article .clip-body{
   margin: 18px 0 28px 0;
   max-width: 760px;
 }
+
+article.clip-article p.nyt-byline{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #111;
+  margin: 0 0 4px 0;   /* THIS is what tightens it */
+}
+
 article.clip-article p.clip-reporting{
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 15px;

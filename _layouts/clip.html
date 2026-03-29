@@ -127,14 +127,14 @@
 
     {% if forloop.index == 2 and page.video_element == true and page.video_clip_number %}
       {% assign vid = page.video_clip_number | to_s %}
-      {% assign video_url = 'https://michalruprecht.com/pages/clips/assets/video/' | append: vid | append: '.mp4' %}
+      {% assign video_url = 'https://michalruprecht.com/pages/clips/' | append: vid | append: '.html' %}
 
-      <div class="clip-video-btn-wrapper">
-        <a class="filter-btn clip-action-btn clip-video-btn"
+      <div class="clip-inline-button-row">
+        <a class="filter-btn clip-action-btn clip-inline-button"
            href="{{ video_url }}"
            target="_blank"
            rel="noopener">
-          Watch related video
+          Video from this story
         </a>
       </div>
     {% endif %}

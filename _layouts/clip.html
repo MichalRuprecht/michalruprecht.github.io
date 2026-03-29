@@ -117,10 +117,29 @@
             </div>
           {% endif %}
 
-          <!-- Story -->
           <div class="clip-body">
-            {{ content }}
-          </div>
+  {% assign paragraphs = content | split: '</p>' %}
+
+  {% for p in paragraphs %}
+    {% if p != '' %}
+      {{ p }}</p>
+    {% endif %}
+
+    {% if forloop.index == 2 and page.video_element == true and page.video_clip_number %}
+      {% assign vid = page.video_clip_number | to_s %}
+      {% assign video_url = 'https://michalruprecht.com/pages/clips/assets/video/' | append: vid | append: '.mp4' %}
+
+      <div class="clip-video-btn-wrapper">
+        <a class="filter-btn clip-action-btn clip-video-btn"
+           href="{{ video_url }}"
+           target="_blank"
+           rel="noopener">
+          Watch related video
+        </a>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
 
 			{% if page.photo_story == true %}
   {% assign cid = page.clip_id | to_s %}

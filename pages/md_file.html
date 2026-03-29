@@ -340,6 +340,15 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="field">
+          <label>Story teaser (optional)</label>
+          <div class="edit-box">
+            <div id="teaserEditor" class="editor" contenteditable="true"></div>
+          </div>
+        </div>
+      </div>
+
       <div id="embedBlock" style="display:none;">
         <div class="row">
           <div class="field">
@@ -609,6 +618,10 @@
     const captionHtmlRaw = getEditorHtml(document.getElementById("captionEditor"), { allowLinks:false });
     const captionInline = stripOuterParagraph(captionHtmlRaw);
 
+    // Teaser should allow bold/italics/links
+    const teaserHtmlRaw = getEditorHtml(document.getElementById("teaserEditor"), { allowLinks:true });
+    const teaserInline = stripOuterParagraph(teaserHtmlRaw);
+
     // Story should allow bold/italics/links
     const storyHtml = getEditorHtml(document.getElementById("storyEditor"), { allowLinks:true });
 
@@ -646,6 +659,9 @@
     }
     if(photoCredit){
       lines.push(`photo_credit: ${escapeYamlString(photoCredit)}`);
+    }
+    if(teaserInline){
+      lines.push(`teaser_html: ${escapeYamlString(teaserInline)}`);
     }
 
     if(!hasPdf){
@@ -866,6 +882,7 @@
 
     document.getElementById("captionEditor").innerHTML = "";
     document.getElementById("photoCredit").value = "";
+    document.getElementById("teaserEditor").innerHTML = "";
     document.getElementById("embedHtml").value = "";
     document.getElementById("storyEditor").innerHTML = "";
 
@@ -916,6 +933,8 @@
   // Setup paste sanitizer for editors
   // Caption: only bold/italics (no links)
   setupPasteSanitizer(document.getElementById("captionEditor"), { allowLinks:false });
+  // Teaser: allow bold/italics/links
+  setupPasteSanitizer(document.getElementById("teaserEditor"), { allowLinks:true });
   // Story: allow bold/italics/links
   setupPasteSanitizer(document.getElementById("storyEditor"), { allowLinks:true });
 

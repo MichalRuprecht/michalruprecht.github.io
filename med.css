@@ -146,17 +146,6 @@ h2 {
   text-decoration: none;
 }
 
-.clip-inline-button {
-  background: #000;
-  color: #fff;
-  border: 1px solid #000;
-}
-
-.clip-inline-button:hover {
-  background: #fff;
-  color: #000;
-  border: 1px solid #000;
-}
 
 ul {
   margin-top: 0.2em;
@@ -897,6 +886,24 @@ article.clip-article p.nyt-publish-date{
   color: #121212;              /* black on hover */
   font-weight: 700;
   text-decoration: none;
+}
+
+.clip-body .clip-inline-button,
+.clip-body .clip-inline-button:visited {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.clip-body .clip-inline-button:hover,
+.clip-body .clip-inline-button:focus {
+  background: #000;
+  color: #fff;
+  border: 1px solid #000;
+  text-decoration: none;
+  font-weight: 400;
 }
 
 /* Ensure bold text with links stays inline and clean */

@@ -798,7 +798,6 @@ article.clip-article .clip-body{
   display: inline;
 }
 
-/* Byline + date (NYT-ish spacing) */
 .clip-meta{
   margin: 18px 0 28px 0;
   max-width: 760px;
@@ -810,7 +809,7 @@ article.clip-article p.nyt-byline{
   font-weight: 700;
   line-height: 1.2;
   color: #111;
-  margin: 0 0 4px 0;   /* THIS is what tightens it */
+  margin: 0 0 3px 0;
 }
 
 article.clip-article p.clip-reporting{
@@ -833,7 +832,6 @@ article.clip-article p.nyt-publish-date{
 }
 
 /* Body text */
-/* Story Text (ONLY the story body, not byline/date) */
 .clip-body p{
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 20px;

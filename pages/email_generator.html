@@ -47,6 +47,12 @@ title: Source Email Generator
     </label>
 
     <label>
+      Facebook post
+      <input id="facebookLink" type="url" placeholder="https://..."
+        style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #000; border-radius: 6px;">
+    </label>
+
+    <label>
       Twitter/X post
       <input id="twitterLink" type="url" placeholder="https://..."
         style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #000; border-radius: 6px;">
@@ -89,6 +95,7 @@ title: Source Email Generator
     "pdfLink",
     "linkedinLink",
     "instagramLink",
+    "facebookLink",
     "twitterLink"
   ];
 
@@ -122,6 +129,7 @@ title: Source Email Generator
     const pdfLink = document.getElementById("pdfLink").value.trim();
     const linkedinLink = document.getElementById("linkedinLink").value.trim();
     const instagramLink = document.getElementById("instagramLink").value.trim();
+    const facebookLink = document.getElementById("facebookLink").value.trim();
     const twitterLink = document.getElementById("twitterLink").value.trim();
 
     const greeting = recipientName
@@ -133,13 +141,15 @@ title: Source Email Generator
       <br>
       <div>Thank you again for taking the time to speak with me. I really appreciate it. I wanted to share the story now that it’s live.</div>
       <br>
-      <div>You can read it ${safeLink(storyLink, "here")}. ${safeLink(freeLink, "Here")} is a paywall-free version and ${safeLink(pdfLink, "PDF copy")} as well. I’ve shared it on social media too, in case you’d like to take a look or reshare:</div>
+      <div>You can read it ${safeLink(storyLink, "here")}. ${safeLink(freeLink, "Here")} is a paywall-free version and ${safeLink(pdfLink, "PDF copy")} as well.</div>
       <br>
-      <div>${safeLink(linkedinLink, "LinkedIn")}</div>
-      <br>
-      <div>${safeLink(instagramLink, "Instagram")}</div>
-      <br>
-      <div>${safeLink(twitterLink, "Twitter/X")}</div>
+      <div>I’ve shared it on social media too, in case you’d like to take a look or reshare:</div>
+      <ul style="margin-top: 6px; margin-bottom: 0; padding-left: 22px;">
+        <li>${safeLink(linkedinLink, "LinkedIn")}</li>
+        <li>${safeLink(instagramLink, "Instagram")}</li>
+        <li>${safeLink(facebookLink, "Facebook")}</li>
+        <li>${safeLink(twitterLink, "Twitter/X")}</li>
+      </ul>
       <br>
       <div>Thank you again for your time and for trusting me with your story.</div>
       <br>

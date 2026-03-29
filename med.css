@@ -134,7 +134,7 @@ h2 {
 .clip-inline-button-row {
   display: flex;
   justify-content: center;
-  margin: 20px 0 24px 0;
+  margin: 18px 0 22px 0;
 }
 
 .clip-inline-button-row .filter-btn.clip-action-btn.clip-inline-button {

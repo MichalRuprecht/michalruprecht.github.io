@@ -803,10 +803,6 @@ article.clip-article .clip-body{
   margin: 18px 0 28px 0;
   max-width: 760px;
 }
-
-/* Byline + dateline: NYT-ish (smaller + calmer) */
-/* Byline + dateline: force override vs any paragraph rules */
-/* Byline — NYT style: smaller than body, heavier */
 article.clip-article p.clip-reporting{
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 15px;

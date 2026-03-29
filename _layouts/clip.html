@@ -95,11 +95,16 @@
   {% endunless %}
 {% endunless %}
 
-          <!-- Byline + date -->
+          <!-- Byline + reporting blurb + date -->
           <div class="clip-meta">
             {% if page.byline %}
               <p class="nyt-byline">By {{ page.byline }}</p>
             {% endif %}
+
+            {% if page.reporting %}
+              <p class="clip-reporting">{{ page.reporting }}</p>
+            {% endif %}
+
             {% if page.date_display %}
               <p class="nyt-publish-date">{{ page.date_display }}</p>
             {% endif %}

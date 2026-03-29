@@ -705,6 +705,15 @@ article.clip-article .clip-body{
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+article.clip-article p.clip-reporting{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #4a4a4a;
+  margin: 8px 0 10px 0;
+  max-width: 780px;
+}
+
 /* Top utility row */
 .clip-topbar{
   display:flex;

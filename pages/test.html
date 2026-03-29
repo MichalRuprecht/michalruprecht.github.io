@@ -4,13 +4,9 @@ title: Michal Ruprecht
 ---
 {% assign all_clips = site.pages | where_exp: "p", "p.clip == true" %}
 
-{%- comment -%}
-Just edit these lists.
-First 2 = large cards.
-Everything else auto-populates below in rows of 3.
-{%- endcomment -%}
 {% assign hero_ids = "107,95" | split: "," %}
 {% assign featured_ids = "107,95,82,98,105,96,88,81,92,93,91,86,84,90" | split: "," %}
+{% assign no_linked_video_ids = "107" | split: "," %}
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -21,24 +17,79 @@ Everything else auto-populates below in rows of 3.
 </head>
 <body>
   <main class="homepage-shell">
+
     <section class="homepage-top">
-      <div class="homepage-avatar-wrap">
+      <div class="homepage-intro">
         <img class="homepage-avatar" src="https://michalruprecht.com/assets/profile.svg" alt="Michal Ruprecht">
+
+        <div>
+          <p class="homepage-kicker">HEALTH REPORTING • MULTIMEDIA • MEDICINE</p>
+          <h1 class="homepage-name">MICHAL<br>RUPRECHT</h1>
+          <p class="homepage-dek">
+            I’m a medical student and health reporter covering power, inequity, misinformation and who gets left behind. I focus on deeply reported journalism — not service-y “news you can use” — and I report across global health, policy, profiles, visuals and audio.
+          </p>
+
+          <div class="homepage-links">
+            <a class="homepage-link-pill" href="mailto:mruprecht@umich.edu">Email</a>
+            <a class="homepage-link-pill" href="https://www.linkedin.com/in/michalruprecht" target="_blank">LinkedIn</a>
+            <a class="homepage-link-pill" href="https://instagram.com/mrup.01" target="_blank">Instagram</a>
+            <a class="homepage-link-pill" href="https://www.facebook.com/mrup.0" target="_blank">Facebook</a>
+            <a class="homepage-link-pill" href="https://www.tiktok.com/@michalruprecht" target="_blank">TikTok</a>
+            <a class="homepage-link-pill" href="https://bsky.app/profile/michalruprecht.com" target="_blank">Bluesky</a>
+            <a class="homepage-link-pill" href="https://michalruprecht.com/pages/clips">All clips</a>
+          </div>
+        </div>
       </div>
 
-      <div class="homepage-intro">
-        <p class="homepage-kicker">HEALTH REPORTING • MULTIMEDIA • MEDICINE</p>
-        <h1 class="homepage-name">MICHAL<br>RUPRECHT</h1>
-        <p class="homepage-dek">
-          I’m a medical student and health reporter covering power, inequity, misinformation and who gets left behind. I report across global health, policy, breaking news, profiles, visuals and audio.
-        </p>
+      <div class="homepage-contact">
+        <h3>Contact me</h3>
 
-        <div class="homepage-links">
-          <a class="homepage-link-pill" href="mailto:mruprecht@umich.edu">Email</a>
-          <a class="homepage-link-pill" href="https://www.linkedin.com/in/michalruprecht" target="_blank">LinkedIn</a>
-          <a class="homepage-link-pill" href="https://instagram.com/mrup.01" target="_blank">Instagram</a>
-          <a class="homepage-link-pill" href="https://bsky.app/profile/michalruprecht.com" target="_blank">Bluesky</a>
-          <a class="homepage-link-pill" href="https://michalruprecht.com/pages/clips">All clips</a>
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/mail.svg" alt="mail">
+          <span><a href="mailto:mruprecht@umich.edu" target="_blank">mruprecht@umich.edu</a> or <a href="mailto:mrup.01@proton.me" target="_blank">mrup.01@proton.me</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone">
+          <span>+1 (707) 412-8684</span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/phone.svg" alt="signal">
+          <span>Signal encrypted messaging: <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank">@mrup.01</a></span>
+        </div>
+
+        <br>
+        <h3>Connect with me</h3>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/link.svg" alt="clips">
+          <span><a href="http://michalruprecht.com/pages/clips" target="_blank">Clips</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/linkedin.svg" alt="linkedin">
+          <span><a href="https://www.linkedin.com/in/michalruprecht" target="_blank">LinkedIn</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="instagram">
+          <span><a href="https://instagram.com/mrup.01" target="_blank">@mrup.01</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/facebook.svg" alt="facebook">
+          <span><a href="https://www.facebook.com/mrup.0" target="_blank">@mrup.0</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/tiktok.svg" alt="tiktok">
+          <span><a href="https://www.tiktok.com/@michalruprecht" target="_blank">@michalruprecht</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/scholar.svg" alt="scholar">
+          <span><a href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank">Google Scholar</a></span>
         </div>
       </div>
     </section>
@@ -63,6 +114,7 @@ Everything else auto-populates below in rows of 3.
 
             {% assign linked_video = nil %}
             {% assign use_linked_video = false %}
+
             {% if p.video_element and p.video_clip_number %}
               {% assign linked_video_id = p.video_clip_number | append: "" %}
               {% assign linked_video = all_clips | where_exp: "x", "x.clip_id == linked_video_id" | first %}
@@ -70,142 +122,238 @@ Everything else auto-populates below in rows of 3.
                 {% assign linked_video_num = linked_video_id | plus: 0 %}
                 {% assign linked_video = all_clips | where_exp: "x", "x.clip_id == linked_video_num" | first %}
               {% endunless %}
-              {% if linked_video and featured_ids contains linked_video_id %}
+
+              {% if no_linked_video_ids contains pid %}
+                {% assign use_linked_video = false %}
+              {% elsif linked_video and featured_ids contains linked_video_id %}
                 {% assign use_linked_video = false %}
               {% elsif linked_video %}
                 {% assign use_linked_video = true %}
               {% endif %}
             {% endif %}
 
-            {% assign logo_file = "" %}
-            {% assign source_text = "" %}
-
-            {% if p.publisher == "NPR" %}
-              {% assign logo_file = "npr.svg" %}
-            {% elsif p.publisher == "CNN" %}
-              {% assign logo_file = "cnn.svg" %}
-            {% elsif p.publisher == "ABC News" or p.publisher == "Good Morning America" %}
-              {% assign logo_file = "abc.svg" %}
-            {% elsif p.publisher == "MedPage Today" %}
-              {% assign logo_file = "medpage.svg" %}
-            {% elsif p.publisher == "The Michigan Daily" %}
-              {% assign logo_file = "michigandaily.svg" %}
-            {% elsif p.publisher == "Stanford Journalism" %}
-              {% assign logo_file = "stanford.svg" %}
-              {% assign source_text = "Journalism Program" %}
-            {% endif %}
-
-            {% assign category_text = p.category | default: "" | upcase %}
             {% assign title_down = p.title | downcase %}
+            {% assign publisher_down = p.publisher | default: "" | downcase %}
+
             {% assign is_podcast = false %}
             {% if title_down contains "podcast" %}
               {% assign is_podcast = true %}
             {% endif %}
 
-            {% assign card_classes = "homepage-card homepage-card--standard" %}
-            {% if is_hero %}
-              {% assign card_classes = "homepage-card homepage-card--hero" %}
-            {% endif %}
-            {% if is_podcast %}
-              {% assign card_classes = card_classes | append: " homepage-card--podcast" %}
-            {% endif %}
+            {% assign is_data = false %}
             {% if p.data1 %}
-              {% assign card_classes = card_classes | append: " homepage-card--data" %}
+              {% assign is_data = true %}
             {% endif %}
+
+            {% assign is_photo = false %}
             {% if p.photo_story %}
-              {% assign card_classes = card_classes | append: " homepage-card--photo" %}
-            {% endif %}
-            {% if p.embed_html and is_podcast == false %}
-              {% assign card_classes = card_classes | append: " homepage-card--vertical" %}
-            {% endif %}
-            {% if use_linked_video %}
-              {% assign card_classes = card_classes | append: " homepage-card--linked-video" %}
+              {% assign is_photo = true %}
             {% endif %}
 
-            <a class="{{ card_classes }}" href="{{ p.url | relative_url }}">
-              {% if category_text != "" %}
-                <span class="homepage-card-category">{{ category_text }}</span>
-              {% endif %}
+            {% assign is_vertical = false %}
+            {% if p.embed_html and title_down contains "video:" %}
+              {% assign is_vertical = true %}
+            {% endif %}
 
-              <div class="homepage-card-media homepage-card-gradient">
-                {% if p.photo_story %}
-                  <div class="homepage-photo-carousel js-homepage-carousel" data-interval="15000">
-                    {% assign cid = p.clip_id | append: "" %}
-                    {% assign letters = "b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z" | split: "," %}
+            {% assign is_linked_video_card = false %}
+            {% if use_linked_video and linked_video and linked_video.embed_html %}
+              {% assign is_linked_video_card = true %}
+            {% endif %}
 
-                    {% for i in (0..50) %}
-                      {% if i >= p.photo_total %}{% break %}{% endif %}
-                      {% if i == 0 %}
-                        {% assign suffix = "" %}
-                      {% else %}
-                        {% assign idx = i | minus: 1 %}
-                        {% assign suffix = letters[idx] %}
-                      {% endif %}
-                      <img {% if i == 0 %}class="active"{% endif %} src="https://michalruprecht.com/pages/clips/assets/photo/{{ cid }}{{ suffix }}.jpg" alt="{{ p.title | escape }}">
-                    {% endfor %}
+            {% assign logo_file = "" %}
+            {% assign source_text = "" %}
+            {% assign logo_class = "homepage-card-logo" %}
+
+            {% if publisher_down contains "npr" %}
+              {% assign logo_file = "npr.svg" %}
+            {% elsif publisher_down contains "cnn" %}
+              {% assign logo_file = "cnn.svg" %}
+              {% assign logo_class = "homepage-card-logo homepage-card-logo--cnn" %}
+            {% elsif publisher_down contains "abc" or publisher_down contains "good morning america" %}
+              {% assign logo_file = "abc.svg" %}
+            {% elsif publisher_down contains "medpage" %}
+              {% assign logo_file = "medpage.svg" %}
+            {% elsif publisher_down contains "michigan daily" %}
+              {% assign logo_file = "michigandaily.svg" %}
+            {% elsif publisher_down contains "stanford" %}
+              {% assign logo_file = "stanford.svg" %}
+              {% assign source_text = "Journalism Program" %}
+            {% endif %}
+
+            {% assign category_text = p.category | default: "" | upcase %}
+
+            {% assign card_class = "homepage-card homepage-card--standard" %}
+            {% if is_hero %}
+              {% assign card_class = "homepage-card homepage-card--hero" %}
+            {% elsif is_photo %}
+              {% assign card_class = "homepage-card homepage-card--photo" %}
+            {% elsif is_data %}
+              {% assign card_class = "homepage-card homepage-card--data" %}
+            {% elsif is_vertical %}
+              {% assign card_class = "homepage-card homepage-card--vertical" %}
+            {% elsif is_podcast %}
+              {% assign card_class = "homepage-card homepage-card--podcast" %}
+            {% elsif is_linked_video_card %}
+              {% assign card_class = "homepage-card homepage-card--linked-video" %}
+            {% endif %}
+
+            {% if is_data %}
+              <article class="{{ card_class }}">
+                {% if category_text != "" %}
+                  <span class="homepage-card-category">{{ category_text }}</span>
+                {% endif %}
+
+                <div class="homepage-card-media">
+                  <div class="homepage-card-data-shell">
+                    {{ p.data1 }}
+                  </div>
+                </div>
+
+                <div class="homepage-card-body">
+                  <div class="homepage-card-meta">
+                    {% if logo_file != "" %}
+                      <img class="{{ logo_class }}" src="https://michalruprecht.com/pages/clips/assets/logo/{{ logo_file }}" alt="{{ p.publisher }}">
+                    {% endif %}
+                    {% if source_text != "" %}
+                      <span class="homepage-card-source-text">{{ source_text }}</span>
+                    {% endif %}
                   </div>
 
-                  <div class="homepage-photo-caption js-homepage-caption"
+                  <h3 class="homepage-card-title">
+                    <a href="{{ p.url | relative_url }}" style="color:#000;text-decoration:none;">{{ p.title }}</a>
+                  </h3>
+
+                  {% if p.reporting %}
+                    <p class="homepage-card-reporting">{{ p.reporting }}</p>
+                  {% endif %}
+                </div>
+              </article>
+
+            {% elsif is_photo %}
+              <a class="homepage-card-link" href="{{ p.url | relative_url }}">
+                <article class="{{ card_class }}">
+                  {% if category_text != "" %}
+                    <span class="homepage-card-category">{{ category_text }}</span>
+                  {% endif %}
+
+                  <div class="homepage-card-media">
+                    <div class="homepage-photo-grid">
+                      <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
+                      <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}b.jpg" alt="{{ p.title | escape }}">
+                      <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}c.jpg" alt="{{ p.title | escape }}">
+                      <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}d.jpg" alt="{{ p.title | escape }}">
+                      <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}e.jpg" alt="{{ p.title | escape }}">
+                      <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}f.jpg" alt="{{ p.title | escape }}">
+                    </div>
+                  </div>
+
+                  <div class="homepage-photo-caption js-homepage-photo-caption"
                        data-captions='{{ p.photo_captions_html | jsonify }}'
-                       data-credits='{{ p.photo_credits | jsonify }}'>
+                       data-credits='{{ p.photo_credits | jsonify }}'
+                       data-interval="15000">
                     {{ p.photo_captions_html[0] }}
                     {% if p.photo_credits[0] %}
                       <span class="homepage-photo-caption-credit">{{ p.photo_credits[0] }}</span>
                     {% endif %}
                   </div>
 
-                {% elsif is_podcast %}
-                  <div class="homepage-podcast-visual">
-                    <img class="homepage-podcast-thumb" src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
-                    <div>
-                      <div class="homepage-podcast-lines">
-                        <span></span><span></span><span></span><span></span>
-                        <span></span><span></span><span></span><span></span>
+                  <div class="homepage-card-body">
+                    <div class="homepage-card-meta">
+                      {% if logo_file != "" %}
+                        <img class="{{ logo_class }}" src="https://michalruprecht.com/pages/clips/assets/logo/{{ logo_file }}" alt="{{ p.publisher }}">
+                      {% endif %}
+                      {% if source_text != "" %}
+                        <span class="homepage-card-source-text">{{ source_text }}</span>
+                      {% endif %}
+                    </div>
+
+                    <h3 class="homepage-card-title">{{ p.title }}</h3>
+                  </div>
+                </article>
+              </a>
+
+            {% elsif is_podcast %}
+              <a class="homepage-card-link" href="{{ p.url | relative_url }}">
+                <article class="{{ card_class }}">
+                  {% if category_text != "" %}
+                    <span class="homepage-card-category">{{ category_text }}</span>
+                  {% endif %}
+
+                  <div class="homepage-card-media">
+                    <div class="homepage-podcast-top">
+                      <img class="homepage-podcast-thumb" src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
+                      <div>
+                        <div class="homepage-podcast-audio">
+                          <div class="homepage-podcast-lines">
+                            <span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span></span><span></span>
+                          </div>
+                          <div class="homepage-podcast-play">▶</div>
+                        </div>
+                        <div class="homepage-podcast-kicker">Podcast</div>
                       </div>
-                      <div class="homepage-podcast-label">Podcast</div>
-                    </div>
-                  </div>
-                  <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
-
-                {% elsif p.data1 %}
-                  <div class="homepage-card-data-shell">
-                    <div class="homepage-card-data-inner">
-                      {{ p.data1 }}
                     </div>
                   </div>
 
-                {% elsif p.embed_html %}
-                  <div class="js-homepage-autoplay">
-                    {{ p.embed_html }}
+                  <div class="homepage-card-body">
+                    <div class="homepage-card-meta">
+                      {% if logo_file != "" %}
+                        <img class="{{ logo_class }}" src="https://michalruprecht.com/pages/clips/assets/logo/{{ logo_file }}" alt="{{ p.publisher }}">
+                      {% endif %}
+                      {% if source_text != "" %}
+                        <span class="homepage-card-source-text">{{ source_text }}</span>
+                      {% endif %}
+                    </div>
+
+                    <h3 class="homepage-card-title">{{ p.title }}</h3>
+
+                    {% if p.reporting %}
+                      <p class="homepage-card-reporting">{{ p.reporting }}</p>
+                    {% endif %}
+                  </div>
+                </article>
+              </a>
+
+            {% else %}
+              <a class="homepage-card-link" href="{{ p.url | relative_url }}">
+                <article class="{{ card_class }}">
+                  {% if category_text != "" %}
+                    <span class="homepage-card-category">{{ category_text }}</span>
+                  {% endif %}
+
+                  <div class="homepage-card-media homepage-card-gradient">
+                    {% if is_vertical %}
+                      <div class="js-homepage-autoplay">
+                        {{ p.embed_html }}
+                      </div>
+                    {% elsif is_linked_video_card %}
+                      <div class="js-homepage-autoplay">
+                        {{ linked_video.embed_html }}
+                      </div>
+                    {% else %}
+                      <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
+                    {% endif %}
                   </div>
 
-                {% elsif use_linked_video and linked_video.embed_html %}
-                  <div class="js-homepage-autoplay">
-                    {{ linked_video.embed_html }}
+                  <div class="homepage-card-body">
+                    <div class="homepage-card-meta">
+                      {% if logo_file != "" %}
+                        <img class="{{ logo_class }}" src="https://michalruprecht.com/pages/clips/assets/logo/{{ logo_file }}" alt="{{ p.publisher }}">
+                      {% endif %}
+                      {% if source_text != "" %}
+                        <span class="homepage-card-source-text">{{ source_text }}</span>
+                      {% endif %}
+                    </div>
+
+                    <h3 class="homepage-card-title">{{ p.title }}</h3>
+
+                    {% if p.reporting %}
+                      <p class="homepage-card-reporting">{{ p.reporting }}</p>
+                    {% endif %}
                   </div>
-
-                {% else %}
-                  <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}">
-                {% endif %}
-              </div>
-
-              <div class="homepage-card-body">
-                <div class="homepage-card-meta">
-                  {% if logo_file != "" %}
-                    <img class="homepage-card-logo" src="https://michalruprecht.com/pages/clips/assets/logo/{{ logo_file }}" alt="{{ p.publisher }}">
-                  {% endif %}
-                  {% if source_text != "" %}
-                    <span class="homepage-card-source-text">{{ source_text }}</span>
-                  {% endif %}
-                </div>
-
-                <h3 class="homepage-card-title">{{ p.title }}</h3>
-
-                {% if p.reporting %}
-                  <p class="homepage-card-reporting">{{ p.reporting }}</p>
-                {% endif %}
-              </div>
-            </a>
+                </article>
+              </a>
+            {% endif %}
           {% endif %}
         {% endfor %}
       </div>
@@ -215,12 +363,8 @@ Everything else auto-populates below in rows of 3.
       </div>
 
       <div class="homepage-newsletter">
-        <div>
-          <h3 class="homepage-newsletter-title">Get new stories in your inbox</h3>
-          <p class="homepage-newsletter-copy">
-            I read every pitch and regularly publish across text, audio and video. Subscribe here for new work.
-          </p>
-        </div>
+        <h3 class="homepage-newsletter-title">Get new stories in your inbox</h3>
+        <p class="homepage-newsletter-copy">Receive my stories in your inbox. Subscribe to my newsletter below.</p>
 
         <div class="homepage-newsletter-box">
           <script>var submitted = false;</script>
@@ -282,26 +426,21 @@ Everything else auto-populates below in rows of 3.
         } catch (e) {}
       });
 
-      document.querySelectorAll('.js-homepage-carousel').forEach(function (carousel) {
-        const images = carousel.querySelectorAll('img');
-        const captionBox = carousel.parentElement.querySelector('.js-homepage-caption');
-        const captions = captionBox ? JSON.parse(captionBox.dataset.captions || '[]') : [];
-        const credits = captionBox ? JSON.parse(captionBox.dataset.credits || '[]') : [];
-        const interval = parseInt(carousel.dataset.interval || '15000', 10);
+      document.querySelectorAll('.js-homepage-photo-caption').forEach(function (captionBox) {
+        const captions = JSON.parse(captionBox.dataset.captions || '[]');
+        const credits = JSON.parse(captionBox.dataset.credits || '[]');
+        const interval = parseInt(captionBox.dataset.interval || '15000', 10);
         let index = 0;
 
-        setInterval(function () {
-          images[index].classList.remove('active');
-          index = (index + 1) % images.length;
-          images[index].classList.add('active');
+        if (!captions.length) return;
 
-          if (captionBox) {
-            let html = captions[index] || '';
-            if (credits[index]) {
-              html += '<span class="homepage-photo-caption-credit">' + credits[index] + '</span>';
-            }
-            captionBox.innerHTML = html;
+        setInterval(function () {
+          index = (index + 1) % captions.length;
+          let html = captions[index] || '';
+          if (credits[index]) {
+            html += '<span class="homepage-photo-caption-credit">' + credits[index] + '</span>';
           }
+          captionBox.innerHTML = html;
         }, interval);
       });
 

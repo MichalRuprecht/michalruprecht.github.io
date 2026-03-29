@@ -735,6 +735,11 @@ article.clip-article .clip-body{
   gap: 0;                   /* touching */
 }
 
+.clip-action-wrapper {
+  text-align: center;
+  margin: 24px 0; /* adjust spacing as needed */
+}
+
 /* Use your existing .filter-btn but shrink it ONLY on clip pages */
 .clip-actions .filter-btn.clip-action-btn {
   font-size: 0.95em;        /* smaller text */

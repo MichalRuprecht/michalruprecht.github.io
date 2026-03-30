@@ -5,18 +5,10 @@ title: Michal Ruprecht
 {% assign all_clips = site.pages | where_exp: "p", "p.clip == true" %}
 
 {%- comment -%}
-Only edit these lists.
-First item in featured_ids becomes the main wide hero automatically.
-Everything else is auto-sized by content type.
-
-photo_story => 3x2
-data1 => 2x1
-vertical video clip => 1x2
-linked video story => 2x1
-podcast => 1x1
-everything else => 1x1
+Edit only these:
+featured_ids = homepage order
+no_linked_video_ids = story IDs that should never use their linked video preview on homepage
 {%- endcomment -%}
-
 {% assign featured_ids = "107,95,82,98,105,96,88,81,92,93,91,86,84,90" | split: "," %}
 {% assign no_linked_video_ids = "107" | split: "," %}
 
@@ -30,54 +22,73 @@ everything else => 1x1
 <body>
   <main class="homepage-shell">
 
-    <section class="homepage-top">
-      <div class="homepage-intro">
+    <section class="homepage-top-grid">
+      <div class="homepage-top-avatar">
         <img class="homepage-avatar" src="https://michalruprecht.com/assets/profile.svg" alt="Michal Ruprecht">
+      </div>
 
-        <div>
-          <p class="homepage-kicker">HEALTH REPORTING • MULTIMEDIA • MEDICINE</p>
-          <h1 class="homepage-name">MICHAL<br>RUPRECHT</h1>
-          <p class="homepage-dek">
-            I’m a medical student and health reporter covering power, inequity, misinformation and who gets left behind. I focus on deeply reported journalism — not service-y “news you can use” — and I report across global health, policy, profiles, visuals and audio.
-          </p>
+      <div class="homepage-top-name">
+        <p class="homepage-kicker">HEALTH REPORTING • MULTIMEDIA • MEDICINE</p>
+        <h1 class="homepage-name">MICHAL<br>RUPRECHT</h1>
+      </div>
 
-          <div class="homepage-contact-inline">
-            <div class="homepage-contact-line">
-              <a class="homepage-contact-item" href="mailto:mruprecht@umich.edu" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/mail.svg" alt="mail"> mruprecht@umich.edu
-              </a>
-              <a class="homepage-contact-item" href="mailto:mrup.01@proton.me" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/mail.svg" alt="mail"> mrup.01@proton.me
-              </a>
-              <span class="homepage-contact-item">
-                <img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone"> +1 (707) 412-8684
-              </span>
-              <a class="homepage-contact-item" href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/phone.svg" alt="signal"> @mrup.01
-              </a>
-            </div>
+      <div class="homepage-top-blank"></div>
 
-            <div class="homepage-contact-line">
-              <a class="homepage-contact-item" href="http://michalruprecht.com/pages/clips" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/link.svg" alt="clips"> Clips
-              </a>
-              <a class="homepage-contact-item" href="https://www.linkedin.com/in/michalruprecht" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/linkedin.svg" alt="linkedin"> LinkedIn
-              </a>
-              <a class="homepage-contact-item" href="https://instagram.com/mrup.01" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="instagram"> @mrup.01
-              </a>
-              <a class="homepage-contact-item" href="https://www.facebook.com/mrup.0" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/facebook.svg" alt="facebook"> @mrup.0
-              </a>
-              <a class="homepage-contact-item" href="https://www.tiktok.com/@michalruprecht" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/tiktok.svg" alt="tiktok"> @michalruprecht
-              </a>
-              <a class="homepage-contact-item" href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank">
-                <img src="https://michalruprecht.com/assets/icons/scholar.svg" alt="scholar"> Google Scholar
-              </a>
-            </div>
-          </div>
+      <div class="homepage-top-about">
+        <p class="homepage-dek">
+          I’m a medical student and health reporter covering power, inequity, misinformation and who gets left behind. I focus on deeply reported journalism — not service-y “news you can use” — and I report across global health, policy, profiles, visuals and audio.
+        </p>
+      </div>
+
+      <div class="homepage-top-contact">
+        <h3>Contact me</h3>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/mail.svg" alt="mail">
+          <span><a href="mailto:mruprecht@umich.edu" target="_blank">mruprecht@umich.edu</a> or <a href="mailto:mrup.01@proton.me" target="_blank">mrup.01@proton.me</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone">
+          <span>+1 (707) 412-8684</span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/phone.svg" alt="signal">
+          <span>Signal encrypted messaging: <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank">@mrup.01</a></span>
+        </div>
+
+        <br>
+        <h3>Connect with me</h3>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/link.svg" alt="clips">
+          <span><a href="http://michalruprecht.com/pages/clips" target="_blank">Clips</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/linkedin.svg" alt="linkedin">
+          <span><a href="https://www.linkedin.com/in/michalruprecht" target="_blank">LinkedIn</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="instagram">
+          <span><a href="https://instagram.com/mrup.01" target="_blank">@mrup.01</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/facebook.svg" alt="facebook">
+          <span><a href="https://www.facebook.com/mrup.0" target="_blank">@mrup.0</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/tiktok.svg" alt="tiktok">
+          <span><a href="https://www.tiktok.com/@michalruprecht" target="_blank">@michalruprecht</a></span>
+        </div>
+
+        <div class="homepage-contact-row">
+          <img src="https://michalruprecht.com/assets/icons/scholar.svg" alt="scholar">
+          <span><a href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank">Google Scholar</a></span>
         </div>
       </div>
     </section>
@@ -143,11 +154,6 @@ everything else => 1x1
               {% assign is_linked_video_card = true %}
             {% endif %}
 
-            {% assign is_wide = false %}
-            {% if forloop.first or is_data or is_linked_video_card %}
-              {% assign is_wide = true %}
-            {% endif %}
-
             {% assign logo_file = "" %}
             {% assign source_text = "" %}
             {% assign logo_class = "homepage-card-logo" %}
@@ -171,14 +177,16 @@ everything else => 1x1
             {% assign category_text = p.category | default: "" | upcase %}
 
             {% assign card_class = "homepage-card homepage-card--normal" %}
-            {% if is_photo %}
+            {% if forloop.first %}
+              {% assign card_class = "homepage-card homepage-card--hero" %}
+            {% elsif is_photo %}
               {% assign card_class = "homepage-card homepage-card--photo" %}
             {% elsif is_data %}
               {% assign card_class = "homepage-card homepage-card--data" %}
             {% elsif is_vertical %}
               {% assign card_class = "homepage-card homepage-card--vertical" %}
-            {% elsif is_linked_video_card or is_wide %}
-              {% assign card_class = "homepage-card homepage-card--wide" %}
+            {% elsif is_linked_video_card %}
+              {% assign card_class = "homepage-card homepage-card--linked-video" %}
             {% elsif is_podcast %}
               {% assign card_class = "homepage-card homepage-card--podcast" %}
             {% endif %}
@@ -395,11 +403,33 @@ everything else => 1x1
 
   <script>
     (function () {
-      document.querySelectorAll('.js-homepage-autoplay iframe').forEach(function (iframe) {
+      document.querySelectorAll('.js-homepage-autoplay').forEach(function(container) {
         try {
-          const rawSrc = iframe.getAttribute('src') || '';
-          if (!rawSrc) return;
+          container.style.position = 'absolute';
+          container.style.inset = '0';
+          container.style.width = '100%';
+          container.style.height = '100%';
 
+          const outer = container.firstElementChild;
+          if (outer && outer.tagName === 'DIV') {
+            outer.style.position = 'absolute';
+            outer.style.inset = '0';
+            outer.style.width = '100%';
+            outer.style.height = '100%';
+            outer.style.paddingBottom = '0';
+            outer.style.minHeight = '0';
+          }
+
+          const iframe = container.querySelector('iframe');
+          if (!iframe) return;
+
+          iframe.style.position = 'absolute';
+          iframe.style.inset = '0';
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.border = '0';
+
+          const rawSrc = iframe.getAttribute('src') || '';
           let src = rawSrc;
 
           if (src.includes('youtube.com/embed')) {

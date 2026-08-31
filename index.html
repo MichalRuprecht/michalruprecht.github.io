@@ -1,350 +1,182 @@
 ---
-layout: med
-title: Michal Ruprecht
+layout: portfolio
+title: Michal Ruprecht | Journalist and Medical Student
+description: Michal Ruprecht is a medical student and journalist covering mental health for NPR as a Rosalynn Carter Fellow.
+body_class: home-page
+recaptcha: true
 ---
-{% assign all_clips = site.pages | where_exp: "p", "p.clip == true" %}
+{% assign clip_pages = site.pages | where_exp: "p", "p.clip == true" | where_exp: "p", "p.clip_id" | sort: "clip_id" | reverse %}
 
-{% assign featured_global_health = "95,82,86,91,83,89,100" | split: "," %}
-{% assign featured_domestic = "107,109,93,96,105,101,106,102,99,75,85,76,73,56,31,53,36" | split: "," %}
-{% assign featured_profiles = "81,92,94,87,33,17" | split: "," %}
-{% assign featured_multimedia = "98,88,115,110,84,90,97,108,79,42" | split: "," %}
-{% assign featured_inequity = "78,77,32,47,35,34,07" | split: "," %}
+<section class="hero" id="about">
+  <div class="site-shell hero__grid">
+    <div class="hero__portrait-wrap">
+      <div class="hero__portrait-frame">
+        <img class="hero__portrait" src="/assets/profile.svg" alt="Portrait of Michal Ruprecht">
+      </div>
+      <div class="hero__current" aria-label="Current role">
+        <span>Currently</span>
+        <strong>NPR</strong>
+        <span>Rosalynn Carter Fellow</span>
+      </div>
+    </div>
 
-
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <meta name="description" content="Michal Ruprecht is a fourth-year medical student at Wayne State University School of Medicine. He is an AAAS Mass Media Fellow at NPR and the Stanford University School of Medicine Global Health Media Fellow.">
-  <head>
-    <title>Michal Ruprecht</title>
-    <script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
-  </head>
-  <body>
-    <div class="grid">
-      <div class="left">
-        <div class="title">
-          HELLO!
-        </div>
-
-        
-        <div class="college">
-          <h3><img src="https://michalruprecht.com/assets/profile.svg" width="150" style="float:left;margin:5px 5px;border-radius:8px;filter: grayscale(0%)">
-            My name is <mark>Michal Ruprecht</mark>, and I’m a medical student and health reporter. I cover domestic health for <mark>CNN</mark> as a <mark>Stanford Global Health Media Fellow</mark>, reporting on how power, misinformation and prejudice shape who gets care and who is left behind. I leverage my medical training to inform the types of stories I write. I focus on nuanced issues affecting patients and providers, rather than flashy medical breakthroughs that rarely reach the communities that need them most.
-
-<br /><br />As a Stanford Global Health Media Fellow, I spent a semester taking graduate-level journalism courses spanning data journalism and multimedia storytelling through the <mark>Stanford Journalism Program</mark>. Alongside my studies, I became the first fellow to receive a reporting fellowship at <mark>NPR</mark>, working for the outlet while completing my coursework. I now cover domestic health for <mark>CNN</mark>. Building on this work, I will complete a reporting trip abroad.
-
-
-<br /><br />Previously, I worked at <mark>NPR</mark> as a <mark>AAAS Mass Media Fellow</mark> and <mark>Stanford Global Health Media Fellow</mark>. I interned at <mark>ABC News</mark> and <mark>MedPage Today</mark> during medical school. In college, I interned with the <mark>American Public Health Association</mark> and reported for <mark><i>The Michigan Daily</i></mark>, the University of Michigan's independent daily student newspaper.
-
-<br /><br />Beyond reporting, I serve on the <mark>Society of Professional Journalists</mark> Student Advisory Board, where I advocate for press freedom and industry ethics. I'm also a member of the <mark>Association of Health Care Journalists</mark> Membership Committee.
-                    
-
-            <br /><br />I am a fourth-year MD student at <mark>Wayne State University School of Medicine</mark>. I serve on the board of directors of the <mark>Michigan Chapter of the American Academy of Pediatrics</mark> and <mark>Riley’s Way Foundation</mark>, a nonprofit that invests in the next generation of kind leaders. I graduated with honors with a Bachelor’s degree in neuroscience from the <mark>University of Michigan</mark> in 2022, where I leveraged community action and social change to partner with individuals affected by the Flint water crisis. For my senior thesis, I studied a membrane protein and created three ceramic sculptures representing the channel.
-            
-
-            <br /><br />Outside of work, I am passionate about brewing jun kombucha, sculptural <a href="https://michalruprecht.com/pages/ceramics">ceramics</a> in the realm of BioArt, contemporary literary fiction, vinyasa yoga, international half marathons, taro bubble tea, open water swimming and caring for my <i>Anthurium</i> house plant. I've been an avid listener of the "How I Built This" podcast since 2017 and stay updated with STAT's Morning Rounds Newsletter.
-
-            <br /><br />I am always open to story ideas. I receive a lot of pitches, but I read them all and respond quickly. I can be reached at <a href="mailto:mruprecht@umich.edu">mruprecht@umich.edu</a> or on Signal at <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank">@mrup.01</a>.</h3>
-        
-            
-        </div>
-    
-       
-        <div class="title">
-          REPORTING
-        </div>
-        <div class="college">
-          <h3>
-
-            <mark class="mark-big">Global Health and Infectious Disease</mark>
-        <ul class="image-list-tiny">
-  {% for id in featured_global_health %}
-    {% assign pid = id | strip %}
-
-    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
-    {% unless p %}
-      {% assign pnum = pid | plus: 0 %}
-      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
-    {% endunless %}
-
-    {% if p %}
-      <li>
-        <a href="{{ p.url | relative_url }}">
-          <img
-            src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg"
-            alt="{{ p.title | escape }}"
-            loading="lazy"
-          >
-        </a>
-        <div class="details">
-          <a class="clip-link" href="{{ p.url | relative_url }}">
-            <span class="clip-title">{{ p.title }}</span>
-          </a>
-          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
-          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
-        </div>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
-
-
-
-    
-<br>
-            <mark class="mark-big">Domestic Health, Policy and Science</mark>
-       <ul class="image-list-tiny">
-  {% for id in featured_domestic %}
-    {% assign pid = id | strip %}
-
-    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
-    {% unless p %}
-      {% assign pnum = pid | plus: 0 %}
-      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
-    {% endunless %}
-
-    {% if p %}
-      <li>
-        <a href="{{ p.url | relative_url }}">
-          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
-        </a>
-        <div class="details">
-          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
-          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
-          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
-        </div>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
-
-    
-
-            
-<br>
-            <mark class="mark-big">Profiles and Human Stories</mark>
-<ul class="image-list-tiny">
-  {% for id in featured_profiles %}
-    {% assign pid = id | strip %}
-
-    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
-    {% unless p %}
-      {% assign pnum = pid | plus: 0 %}
-      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
-    {% endunless %}
-
-    {% if p %}
-      <li>
-        <a href="{{ p.url | relative_url }}">
-          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
-        </a>
-        <div class="details">
-          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
-          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
-          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
-        </div>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
-
-
-
-
-
-
-
-
-<br>
-            <mark class="mark-big">Multimedia Storytelling</mark>
-<ul class="image-list-tiny">
-  {% for id in featured_multimedia %}
-    {% assign pid = id | strip %}
-
-    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
-    {% unless p %}
-      {% assign pnum = pid | plus: 0 %}
-      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
-    {% endunless %}
-
-    {% if p %}
-      <li>
-        <a href="{{ p.url | relative_url }}">
-          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
-        </a>
-        <div class="details">
-          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
-          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
-          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
-        </div>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
-
-
-            <br>
-            <mark class="mark-big">Inequity, Gender and Structural Discrimination</mark>
-       <ul class="image-list-tiny">
-  {% for id in featured_inequity %}
-    {% assign pid = id | strip %}
-
-    {% assign p = all_clips | where_exp: "x", "x.clip_id == pid" | first %}
-    {% unless p %}
-      {% assign pnum = pid | plus: 0 %}
-      {% assign p = all_clips | where_exp: "x", "x.clip_id == pnum" | first %}
-    {% endunless %}
-
-    {% if p %}
-      <li>
-        <a href="{{ p.url | relative_url }}">
-          <img src="https://michalruprecht.com/pages/clips/assets/photo/{{ pid }}.jpg" alt="{{ p.title | escape }}" loading="lazy">
-        </a>
-        <div class="details">
-          <a class="clip-link" href="{{ p.url | relative_url }}"><span class="clip-title">{{ p.title }}</span></a>
-          {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
-          {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
-        </div>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
-     
-
-
-            <br><center><big>View all of my clips <a href="https://michalruprecht.com/pages/clips">here</a>.</big></center>
-          
-
-          </h3>
-            
-            </h3>
-        </div>
-        
-        </div>
-    <div class="right">
-      <div class="title">&nbsp;</div>
-      <div class="college">
-          <h3>
-            <big>Contact me</big>
-                    <br /><img src="https://michalruprecht.com/assets/icons/mail.svg" alt="mail" style="width:16px;"><a href="mailto:mruprecht@umich.edu" target="_blank"> mruprecht@umich.edu</a> or <a href="mailto:mrup.01@proton.me" target="_blank">mrup.01@proton.me</a>
-            <br /><img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone" style="width:16px;"> +1 (707) 412-8684
-            <br /><img src="https://michalruprecht.com/assets/icons/phone.svg" alt="phone" style="width:16px;"> Signal encrypted messaging: <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank">@mrup.01</a>
-<br /><br /><big>Connect with me</big><br />
-                    <img src="https://michalruprecht.com/assets/icons/link.svg" alt="resume" style="width:16px;"><a href="http://michalruprecht.com/pages/clips" target="_blank"> Clips</a>
-                            <br /><img src="https://michalruprecht.com/assets/icons/linkedin.svg" alt="linkedin" style="width:16px;"><a href="https://www.linkedin.com/in/michalruprecht" target="_blank"> LinkedIn</a>
-                            <br /><img src="https://michalruprecht.com/assets/icons/instagram.svg" alt="instagram" style="width:16px;"><a href="https://instagram.com/mrup.01" target="_blank"> @mrup.01</a>
-                                        <br /><img src="https://michalruprecht.com/assets/icons/facebook.svg" alt="facebook" style="width:16px;height:16px;"><a href="https://www.facebook.com/mrup.0" target="_blank"> @mrup.0</a>
-                    <br /><img src="https://michalruprecht.com/assets/icons/tiktok.svg" alt="tiktok" style="width:16px;"><a href="https://www.tiktok.com/@michalruprecht" target="_blank"> @michalruprecht</a>
-            <br /><img src="https://michalruprecht.com/assets/icons/scholar.svg" alt="scholar" style="width:16px;"><a href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank"> Google Scholar</a>
-
-          </h3>
-        </div>
-
-
-      
-
-      
-<div class="college">
-  <script>var submitted = false;</script>
-  <iframe
-    name="hidden_iframe"
-    id="hidden_iframe"
-    style="display:none;"
-    onload="if(submitted) handleSuccess();"
-  ></iframe>
-
-<form
-  class="myform"
-  action="https://script.google.com/macros/s/AKfycbwcmBmiFUZtwot8sW8P1iLFzeFnIG3CZEx-UM8-KcihkaWUKj1w7DH2sOJxr-6Qy0Qs/exec"
-  method="post"
-  target="hidden_iframe"
-  onkeydown="return event.key!='Enter';"
->
-  <center>
-    <h3>
-      <big>
-        Receive my stories in your inbox. Subscribe to my newsletter below.
-        <br />
-        <input
-          class="entry"
-          type="email"
-          name="entry.139445516"
-          placeholder="example@example.com"
-          required
-        />
-        <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-        <br />
-        <input class="submit" type="submit" value="Submit" />
-      </big>
-    </h3>
-  </center>
-</form>
-
-  <div id="successMessage" style="display:none;">
-    <center>
-      <h3>
-        <big>
-          Your response has been recorded.
-          <br />
-          <a href="#" onclick="resetForm(); return false;">Submit another response</a>
-        </big>
-      </h3>
-    </center>
+    <div class="hero__copy">
+      <p class="eyebrow">Medical student · Journalist</p>
+      <h1>Michal Ruprecht</h1>
+      <p class="hero__lede">My name is <mark>Michal Ruprecht</mark>, and I’m a medical student. I’m also a journalist, covering mental health for <mark>NPR</mark> as a <mark>Rosalynn Carter Fellow</mark>. I report on how power, misinformation and prejudice shape who gets care and who is left behind. I leverage my medical training to inform the types of stories I write. I focus on nuanced issues affecting patients and providers, rather than flashy medical breakthroughs that rarely reach the communities that need them most.</p>
+      <div class="hero__actions">
+        <a class="button button--primary" href="#reporting">Reporting</a>
+        <a class="button button--secondary" href="mailto:mruprecht@umich.edu">Email</a>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<script>
-  const form = document.querySelector('.myform');
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (!validateEmail(this)) return;           // run your existing email check
-    grecaptcha.ready(() => {
-      grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', { action: 'newsletter' })
-        .then(token => {
-          document.getElementById('recaptchaResponse').value = token;
-          submitted = true;                     // trigger your iframe success handler
-          form.submit();                        // now post to your Apps Script
-        });
-    });
-  });
+<section class="support-strip" aria-labelledby="support-title">
+  <div class="site-shell">
+    <p class="support-strip__label" id="support-title">Fellowships &amp; support</p>
+    <div class="support-strip__names">
+      {% for item in site.data.portfolio.support %}
+        <span>{{ item.name }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 
-  // your existing helpers stay below unchanged:
-  function validateEmail(form) {
-  var email = form['entry.139445516'].value.trim();
-  var re = /^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/;
-  if (!re.test(email)) {
-    alert('Please enter a valid email');
-    return false;
-  }
-  submitted = true;
-  return true;
-}
+<section class="about-detail section-pad">
+  <div class="site-shell about-detail__grid">
+    <div class="section-heading">
+      <p class="eyebrow">Biography</p>
+      <h2>About</h2>
+    </div>
+    <div class="prose prose--bio">
+      <p>In 2025, I took a leave of absence from medical school to pursue two journalism fellowships. My goal was to uncover the stories of society’s most marginalized communities through deeply reported and nuanced reporting.</p>
 
-function handleSuccess() {
-  document.querySelector('.myform').style.display = 'none';
-  document.getElementById('successMessage').style.display = 'block';
-}
+      <p>As a <mark>AAAS Mass Media Fellow</mark> at NPR, I wrote about highly polarizing topics. I covered the Gaza famine, tracing the stages of starvation through the story of a frontline health care worker. I also reported on Sudan — home to the least vaccinated children in the world — and one mother’s unsuccessful quest to vaccinate her son. The country’s vaccination campaigns were once hailed as a “remarkable achievement” before its people were hurled into civil war.</p>
 
-function resetForm() {
-  document.getElementById('successMessage').style.display = 'none';
-  var form = document.querySelector('.myform');
-  form.reset();
-  form.style.display = 'block';
-  submitted = false;
-}
-</script>
-      
-</div>
+      <p>I continued to report for NPR as a <mark>Stanford Global Health Media Fellow</mark> while taking graduate-level journalism courses in data journalism and multimedia storytelling at the <mark>Stanford Journalism Program</mark>. I spent several months tracing the fallout from a controversial White House press conference on autism — and what it revealed about medicine. I also covered how one country in West Africa is racing to secure the newborn hepatitis B vaccine as the U.S. moves away from recommending it routinely.</p>
+    </div>
+  </div>
+</section>
 
+<section class="reporting section-pad" id="reporting" data-reporting-browser>
+  <div class="site-shell">
+    <div class="reporting__header">
+      <div>
+        <p class="eyebrow">Portfolio</p>
+        <h2>Reporting</h2>
+      </div>
+      <label class="reporting-search">
+        <span class="visually-hidden">Search reporting</span>
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.4-4.4m2.4-5.1a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg>
+        <input type="search" placeholder="Search reporting" autocomplete="off" data-reporting-search>
+      </label>
+    </div>
 
-    <footer>
-    </footer>
-    <script>
-      function playAudio(url) {
-  new Audio(url).play();
-}
-    </script>
-  </body>
-</html>
+    <div class="reporting-controls" aria-label="Filter reporting">
+      <div class="filter-group" role="group" aria-label="Collection">
+        <span class="filter-group__label">View</span>
+        <button class="filter-chip is-active" type="button" data-filter-kind="collection" data-filter-value="featured" aria-pressed="true">Featured</button>
+        <button class="filter-chip" type="button" data-filter-kind="collection" data-filter-value="all" aria-pressed="false">All reporting</button>
+      </div>
 
+      <div class="filter-group" role="group" aria-label="Publication">
+        <span class="filter-group__label">Outlet</span>
+        <button class="filter-chip is-active" type="button" data-filter-kind="source" data-filter-value="all" aria-pressed="true">All</button>
+        {% for outlet in site.data.portfolio.outlets %}
+          <button class="filter-chip" type="button" data-filter-kind="source" data-filter-value="{{ outlet.value }}" aria-pressed="false">{{ outlet.label }}</button>
+        {% endfor %}
+      </div>
 
+      <div class="filter-group" role="group" aria-label="Topic">
+        <span class="filter-group__label">Topic</span>
+        <button class="filter-chip is-active" type="button" data-filter-kind="topic" data-filter-value="all" aria-pressed="true">All</button>
+        {% for topic in site.data.portfolio.topics %}
+          <button class="filter-chip" type="button" data-filter-kind="topic" data-filter-value="{{ topic.slug }}" aria-pressed="false">{{ topic.label }}</button>
+        {% endfor %}
+      </div>
+    </div>
 
+    <div class="reporting__meta">
+      <p data-reporting-count aria-live="polite"></p>
+      <button class="text-button" type="button" data-clear-filters hidden>Clear filters</button>
+    </div>
+
+    <ul class="clip-grid" data-clip-grid>
+      {% for p in clip_pages %}
+        {% assign cid_num = p.clip_id | plus: 0 %}
+        {% capture cid %}{% if cid_num < 10 %}0{{ cid_num }}{% else %}{{ cid_num }}{% endif %}{% endcapture %}
+        {% assign cid = cid | strip %}
+        {% assign is_featured = false %}
+        {% if site.data.portfolio.featured_ids contains cid %}{% assign is_featured = true %}{% endif %}
+        {% if p.featured == true %}{% assign is_featured = true %}{% endif %}
+        {% capture topic_values %}{% for topic in site.data.portfolio.topics %}{% if topic.ids contains cid %} {{ topic.slug }}{% endif %}{% endfor %}{% if p.category %} {{ p.category | strip_html | slugify }}{% endif %}{% if p.video %} multimedia{% endif %}{% if p.podcast %} multimedia{% endif %}{% if p.photo_story %} multimedia{% endif %}{% endcapture %}
+        {% assign source_slug = p.publisher | strip_html | slugify %}
+        {% assign format_label = "Article" %}
+        {% if p.video %}{% assign format_label = "Video" %}{% elsif p.podcast %}{% assign format_label = "Podcast" %}{% elsif p.photo_story %}{% assign format_label = "Photo story" %}{% elsif p.data %}{% assign format_label = "Data" %}{% endif %}
+
+        <li class="clip-card" data-clip-card data-featured="{{ is_featured }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">
+          <a class="clip-card__image-link" href="{{ p.url | relative_url }}" tabindex="-1" aria-hidden="true">
+            <img src="/pages/clips/assets/photo/{{ cid }}.jpg" alt="" loading="lazy">
+          </a>
+          <div class="clip-card__body">
+            <div class="clip-card__meta">
+              <span class="clip-card__publisher">{{ p.publisher }}</span>
+              <span aria-hidden="true">·</span>
+              <span>{{ p.date_display }}</span>
+            </div>
+            <h3><a href="{{ p.url | relative_url }}">{{ p.title }}</a></h3>
+            {% unless format_label == "Article" %}<span class="format-badge">{{ format_label }}</span>{% endunless %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <p class="reporting-empty" data-reporting-empty hidden>No reporting matches those filters.</p>
+    <div class="reporting__more">
+      <button class="button button--secondary" type="button" data-load-more>Show more reporting</button>
+    </div>
+  </div>
+</section>
+
+<section class="contact section-pad" id="contact">
+  <div class="site-shell contact__grid">
+    <div class="contact-card">
+      <p class="eyebrow">Contact</p>
+      <h2>Contact me</h2>
+      <div class="contact-list">
+        <a href="mailto:mruprecht@umich.edu">mruprecht@umich.edu</a>
+        <a href="mailto:mrup.01@proton.me">mrup.01@proton.me</a>
+        <a href="tel:+17074128684">+1 (707) 412-8684</a>
+        <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank" rel="noopener">Signal: @mrup.01</a>
+      </div>
+      <div class="social-links" aria-label="Social profiles">
+        <a href="https://www.linkedin.com/in/michalruprecht" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://instagram.com/mrup.01" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://bsky.app/profile/michalruprecht.com" target="_blank" rel="noopener">Bluesky</a>
+        <a href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+      </div>
+    </div>
+
+    <div class="newsletter-card">
+      <p class="eyebrow">Newsletter</p>
+      <h2>Receive my stories in your inbox.</h2>
+      <p>Subscribe to my newsletter below.</p>
+
+      <iframe name="hidden_iframe" id="hidden_iframe" title="Newsletter submission" hidden></iframe>
+      <form class="newsletter-form" action="https://script.google.com/macros/s/AKfycbwcmBmiFUZtwot8sW8P1iLFzeFnIG3CZEx-UM8-KcihkaWUKj1w7DH2sOJxr-6Qy0Qs/exec" method="post" target="hidden_iframe" data-newsletter-form>
+        <label class="visually-hidden" for="newsletter-email">Email address</label>
+        <div class="newsletter-form__row">
+          <input id="newsletter-email" type="email" name="entry.139445516" placeholder="example@example.com" autocomplete="email" required>
+          <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+          <button class="button button--primary" type="submit">Submit</button>
+        </div>
+        <p class="form-status" data-form-status aria-live="polite"></p>
+      </form>
+      <div class="newsletter-success" data-newsletter-success hidden>
+        <p>Your response has been recorded.</p>
+        <button class="text-button" type="button" data-newsletter-reset>Submit another response</button>
+      </div>
+    </div>
+  </div>
+</section>

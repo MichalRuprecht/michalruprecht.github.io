@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Michal T. Ruprecht">
+    <meta name="theme-color" content="#102925">
+    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+    {% if page.description %}<meta name="description" content="{{ page.description | escape }}">{% endif %}
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/portfolio.css?v={{ site.time | date: '%s' }}">
+    <script>document.documentElement.classList.add('has-js');</script>
+    <script defer src="/assets/js/portfolio.js?v={{ site.time | date: '%s' }}"></script>
+    {% if page.recaptcha %}<script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>{% endif %}
+  </head>
+  <body class="{{ page.body_class }}">
+    {% include site-header.html %}
+    <main id="main-content">
+      {{ content }}
+    </main>
+    {% include site-footer.html %}
+  </body>
+</html>

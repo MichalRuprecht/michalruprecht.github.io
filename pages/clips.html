@@ -1,125 +1,19 @@
 ---
-layout: med
-title: Clips - Michal Ruprecht
+layout: null
+title: Reporting | Michal Ruprecht
+sitemap: false
 ---
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<!doctype html>
+<html lang="en">
   <head>
-    <title>Clips - Michal Ruprecht</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="0; url=/#reporting">
+    <link rel="canonical" href="https://michalruprecht.com/#reporting">
+    <title>Reporting | Michal Ruprecht</title>
+    <script>window.location.replace('/#reporting');</script>
   </head>
   <body>
- 
-
-<div class="title">
-          CLIPS
-        </div>
-
-    <!-- Filter buttons -->
-<div id="filter-buttons">
-  <a class="filter-btn" href="/pages/clips?filter=all"                data-source="all"                data-filter="all">All</a>
-    <a class="filter-btn" href="/pages/clips?filter=npr"         data-source="NPR"          data-filter="npr">NPR</a>
-      <a class="filter-btn" href="/pages/clips?filter=cnn"         data-source="CNN"          data-filter="cnn">CNN</a>
-  <a class="filter-btn" href="/pages/clips?filter=abc-news"         data-source="ABC News"          data-filter="abc-news">ABC News</a>
-    <a class="filter-btn" href="/pages/clips?filter=stanford-journalism"         data-source="Stanford Journalism"          data-filter="stanford-journalism">Stanford Journalism</a>
-  <a class="filter-btn" href="/pages/clips?filter=medpage-today"    data-source="MedPage Today"      data-filter="medpage-today">MedPage Today</a>
-  <a class="filter-btn" href="/pages/clips?filter=michigan-daily"   data-source="The Michigan Daily" data-filter="michigan-daily">The Michigan Daily</a>
-</div>
-    <!-- end filter buttons -->
-
-    
-      <h3>
-        <center>
-<ul class="image-list-clip">
-  {% assign clip_pages = site.pages
-    | where_exp: "p", "p.clip == true"
-    | where_exp: "p", "p.clip_id"
-    | sort: "clip_id"
-    | reverse
-  %}
-
-  {% for p in clip_pages %}
-    {% assign cid_num = p.clip_id | plus: 0 %}
-
-    {% if cid_num < 10 %}
-      {% assign cid = "0" | append: cid_num %}
-    {% else %}
-      {% assign cid = cid_num %}
-    {% endif %}
-
-    {% assign img_url = "https://michalruprecht.com/pages/clips/assets/photo/" | append: cid | append: ".jpg" %}
-
-    <li>
-      <a href="{{ p.url | relative_url }}">
-        <img
-          src="{{ img_url }}"
-          alt="{{ p.title | escape }}"
-          loading="lazy"
-        >
-      </a>
-
-      <div class="details">
-        <a class="clip-link" href="{{ p.url | relative_url }}">
-          <span class="clip-title">{{ p.title }}</span>
-        </a>
-        {% if p.publisher %}<br><span class="publisher">{{ p.publisher }}</span>{% endif %}
-        {% if p.date_display %}<br><span class="pub-date">{{ p.date_display }}</span>{% endif %}
-      </div>
-    </li>
-  {% endfor %}
-</ul>
-      </center></h3>
-
-</body>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const buttons = document.querySelectorAll('#filter-buttons .filter-btn');
-  const items   = document.querySelectorAll('.image-list-clip li');
-
-  function doFilterBySlug(slug) {
-    // clear previous
-    buttons.forEach(b => b.classList.remove('active'));
-    // find the button via its data-filter
-    const btn = Array.from(buttons).find(b => b.dataset.filter === slug);
-    // if none, show all and exit
-    if (!btn) {
-      items.forEach(li => li.style.display = 'flex');
-      return;
-    }
-    btn.classList.add('active');
-    // get the human-readable source
-    const source = btn.dataset.source.toLowerCase();
-    items.forEach(li => {
-      if (slug === 'all') {
-        li.style.display = 'flex';
-      } else {
-        const pubEl = li.querySelector('.publisher');
-        const pubText = pubEl
-          ? pubEl.innerText.toLowerCase().replace(/\u2019/g, "'").trim()
-          : '';
-        li.style.display = pubText.includes(source)
-          ? 'flex'
-          : 'none';
-      }
-    });
-  }
-
-  // On load: read ?filter=slug
-  const params = new URLSearchParams(window.location.search);
-  const initial = params.get('filter') || 'all';
-  doFilterBySlug(initial);
-
-  // On click: update URL and re-filter
-  buttons.forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      const slug = btn.dataset.filter;
-      history.replaceState(null, '', '?filter=' + slug);
-      doFilterBySlug(slug);
-    });
-  });
-});
-</script>
-  
+    <p><a href="/#reporting">Reporting</a></p>
+  </body>
 </html>
-

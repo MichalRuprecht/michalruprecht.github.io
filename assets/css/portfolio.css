@@ -902,6 +902,17 @@ mark {
   column-gap: 24px;
 }
 
+.ceramics-grid--featured {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  columns: auto;
+}
+
+.ceramics-grid--featured .piece-card {
+  margin-bottom: 0;
+}
+
 .piece-card {
   display: inline-block;
   width: 100%;
@@ -915,7 +926,8 @@ mark {
 
 .piece-card img {
   width: 100%;
-  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
   background: var(--paper);
 }
 
@@ -1124,11 +1136,14 @@ mark {
 
   .reporting__header {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: start;
+    justify-content: stretch;
   }
 
   .reporting-search {
     width: 100%;
+    max-width: none;
   }
 
   .filter-group {

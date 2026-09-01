@@ -73,6 +73,13 @@
         .filter((button) => button.dataset.filterKind === 'source')
         .map((button) => [button.dataset.filterValue, button.textContent.trim()])
     );
+    const sourceLabelFallbacks = new Map([
+      ['npr', 'NPR'],
+      ['stanford-journalism', 'Stanford Journalism'],
+      ['cnn', 'CNN'],
+      ['medpage-today', 'MedPage Today'],
+      ['abc-news', 'ABC News']
+    ]);
     const topicLabels = new Map(
       buttons
         .filter((button) => button.dataset.filterKind === 'topic')
@@ -162,7 +169,7 @@
       if (state.collection === 'featured') {
         descriptors.push('featured');
       } else {
-        if (state.source !== 'all') descriptors.push(sourceLabels.get(state.source) || state.source);
+        if (state.source !== 'all') descriptors.push(sourceLabels.get(state.source) || sourceLabelFallbacks.get(state.source) || state.source);
         if (state.topic !== 'all') descriptors.push((topicLabels.get(state.topic) || state.topic).toLowerCase());
       }
 

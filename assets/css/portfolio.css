@@ -250,7 +250,7 @@ a {
 
 .hero__current span {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1.35;
@@ -436,6 +436,7 @@ mark {
 
 .credentials__additional h3 {
   color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
 }
 
 .credentials__additional ul {
@@ -860,15 +861,6 @@ mark {
   text-underline-offset: 5px;
 }
 
-.site-footer__snail-mail {
-  max-width: 390px;
-  margin: 16px 0 0;
-  color: rgba(255, 255, 255, 0.68);
-  font-family: var(--serif);
-  font-size: 16px;
-  line-height: 1.5;
-}
-
 .site-footer__phone {
   margin-top: 28px;
 }
@@ -922,20 +914,13 @@ mark {
   display: flex;
   justify-content: space-between;
   gap: 30px;
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .site-footer__more {
   align-items: center;
-  margin-top: clamp(60px, 8vw, 96px);
-  padding: 30px 0;
-}
-
-.site-footer__name {
-  font-family: var(--serif);
-  font-size: 30px;
-  font-weight: 600;
-  text-decoration: none;
+  justify-content: flex-start;
+  margin-top: clamp(44px, 6vw, 72px);
+  padding: 22px 0;
 }
 
 .site-footer__nav {
@@ -949,6 +934,7 @@ mark {
 .site-footer__bottom {
   align-items: flex-start;
   padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
   color: rgba(255, 255, 255, 0.62);
   font-size: 11px;
 }

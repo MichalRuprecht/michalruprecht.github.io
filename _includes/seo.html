@@ -18,6 +18,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="{{ seo_title | escape }}">
 <meta name="twitter:description" content="{{ seo_description | escape }}">
+<link rel="alternate" type="text/plain" href="{{ '/llms.txt' | absolute_url }}" title="About Michal Ruprecht for language models">
 
 {% if page.url == '/' %}
 <script type="application/ld+json">
@@ -33,11 +34,21 @@
       "inLanguage": "en-US"
     },
     {
+      "@type": "ProfilePage",
+      "@id": "https://michalruprecht.com/#profilepage",
+      "url": "https://michalruprecht.com/",
+      "name": "Michal Ruprecht — Medical Student and Health Journalist",
+      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
+      "mainEntity": { "@id": "https://michalruprecht.com/#person" }
+    },
+    {
       "@type": "Person",
       "@id": "https://michalruprecht.com/#person",
       "name": "Michal T. Ruprecht",
       "alternateName": "Michal Ruprecht",
       "url": "https://michalruprecht.com/",
+      "mainEntityOfPage": { "@id": "https://michalruprecht.com/#profilepage" },
+      "image": "https://michalruprecht.com/assets/profile.svg",
       "description": "Medical student and journalist covering mental health for NPR as a Rosalynn Carter Fellow.",
       "jobTitle": ["Medical student", "Journalist"],
       "sameAs": [

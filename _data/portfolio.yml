@@ -1,3 +1,6 @@
+# FEATURED STORIES
+# Add or remove a clip number here to change the homepage's Featured view.
+# The cards are displayed newest first, regardless of the order below.
 featured_ids:
   - "116"
   - "115"
@@ -17,16 +20,10 @@ outlets:
     label: NPR
   - value: cnn
     label: CNN
-  - value: abc-news
-    label: ABC News
   - value: stanford-journalism
     label: Stanford Journalism
-  - value: medpage-today
-    label: MedPage Today
-  - value: michigan-daily
-    label: The Michigan Daily
-  - value: association-of-health-care-journalists
-    label: AHCJ
+  - value: abc-news
+    label: ABC News
 
 topics:
   - slug: global-health
@@ -45,10 +42,25 @@ topics:
     label: Inequity & structural discrimination
     ids: ["109", "78", "77", "74", "72", "71", "47", "35", "34", "32", "07"]
 
-support:
-  - name: Rosalynn Carter Fellow
+fellowships:
+  - name: Rosalynn Carter Fellowships for Mental Health Journalism
+    organization: The Carter Center
+  - name: AAAS Mass Media Fellowship
+    organization: AAAS
+  - name: Stanford Global Health Media Fellowship
+    organization: Stanford Center for Innovation in Global Health
+
+supporters:
+  - name: The Carter Center
   - name: Pulitzer Center
   - name: Association of Health Care Journalists
-  - name: AAAS
+  - name: Association of American Medical Colleges
+    short: AAMC
   - name: American Academy of Pediatrics
-  - name: Stanford
+  - name: Stanford Center for Innovation in Global Health
+
+published:
+  - name: NPR
+  - name: CNN
+  - name: ABC News
+  - name: MedPage Today

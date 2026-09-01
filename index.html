@@ -25,35 +25,45 @@ recaptcha: true
       <p class="hero__lede">My name is <mark>Michal Ruprecht</mark>, and I’m a medical student. I’m also a journalist, covering mental health for <mark>NPR</mark> as a <mark>Rosalynn Carter Fellow</mark>. I report on how power, misinformation and prejudice shape who gets care and who is left behind. I leverage my medical training to inform the types of stories I write. I focus on nuanced issues affecting patients and providers, rather than flashy medical breakthroughs that rarely reach the communities that need them most.</p>
       <div class="hero__actions">
         <a class="button button--primary" href="#reporting">Reporting</a>
-        <a class="button button--secondary" href="mailto:mruprecht@umich.edu">Email</a>
+        <a class="button button--secondary" href="mailto:mrup.01@proton.me">Email</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="support-strip" aria-labelledby="support-title">
-  <div class="site-shell">
-    <p class="support-strip__label" id="support-title">Fellowships &amp; support</p>
-    <div class="support-strip__names">
-      {% for item in site.data.portfolio.support %}
-        <span>{{ item.name }}</span>
-      {% endfor %}
+<section class="credentials" aria-labelledby="fellowships-title">
+  <div class="site-shell credentials__inner">
+    <div class="credentials__fellowships">
+      <h2 id="fellowships-title">Fellowships</h2>
+      <ol class="fellowship-list">
+        {% for item in site.data.portfolio.fellowships %}
+          <li>
+            <span class="fellowship-list__number" aria-hidden="true">0{{ forloop.index }}</span>
+            <span class="fellowship-list__name">{{ item.name }}</span>
+            <span class="fellowship-list__organization">{{ item.organization }}</span>
+          </li>
+        {% endfor %}
+      </ol>
     </div>
-  </div>
-</section>
 
-<section class="about-detail section-pad">
-  <div class="site-shell about-detail__grid">
-    <div class="section-heading">
-      <p class="eyebrow">Biography</p>
-      <h2>About</h2>
-    </div>
-    <div class="prose prose--bio">
-      <p>In 2025, I took a leave of absence from medical school to pursue two journalism fellowships. My goal was to uncover the stories of society’s most marginalized communities through deeply reported and nuanced reporting.</p>
+    <div class="credentials__secondary">
+      <div class="credentials__group">
+        <h3>Reporting supported by</h3>
+        <ul class="name-list">
+          {% for item in site.data.portfolio.supporters %}
+            <li>{{ item.name }}{% if item.short %} <span>({{ item.short }})</span>{% endif %}</li>
+          {% endfor %}
+        </ul>
+      </div>
 
-      <p>As a <mark>AAAS Mass Media Fellow</mark> at NPR, I wrote about highly polarizing topics. I covered the Gaza famine, tracing the stages of starvation through the story of a frontline health care worker. I also reported on Sudan — home to the least vaccinated children in the world — and one mother’s unsuccessful quest to vaccinate her son. The country’s vaccination campaigns were once hailed as a “remarkable achievement” before its people were hurled into civil war.</p>
-
-      <p>I continued to report for NPR as a <mark>Stanford Global Health Media Fellow</mark> while taking graduate-level journalism courses in data journalism and multimedia storytelling at the <mark>Stanford Journalism Program</mark>. I spent several months tracing the fallout from a controversial White House press conference on autism — and what it revealed about medicine. I also covered how one country in West Africa is racing to secure the newborn hepatitis B vaccine as the U.S. moves away from recommending it routinely.</p>
+      <div class="credentials__group credentials__group--published">
+        <h3>Published in</h3>
+        <ul class="published-list">
+          {% for item in site.data.portfolio.published %}
+            <li>{{ item.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -62,7 +72,6 @@ recaptcha: true
   <div class="site-shell">
     <div class="reporting__header">
       <div>
-        <p class="eyebrow">Portfolio</p>
         <h2>Reporting</h2>
       </div>
       <label class="reporting-search">
@@ -79,7 +88,7 @@ recaptcha: true
         <button class="filter-chip" type="button" data-filter-kind="collection" data-filter-value="all" aria-pressed="false">All reporting</button>
       </div>
 
-      <div class="filter-group" role="group" aria-label="Publication">
+      <div class="filter-group" role="group" aria-label="Publication" data-advanced-filters hidden>
         <span class="filter-group__label">Outlet</span>
         <button class="filter-chip is-active" type="button" data-filter-kind="source" data-filter-value="all" aria-pressed="true">All</button>
         {% for outlet in site.data.portfolio.outlets %}
@@ -87,7 +96,7 @@ recaptcha: true
         {% endfor %}
       </div>
 
-      <div class="filter-group" role="group" aria-label="Topic">
+      <div class="filter-group" role="group" aria-label="Topic" data-advanced-filters hidden>
         <span class="filter-group__label">Topic</span>
         <button class="filter-chip is-active" type="button" data-filter-kind="topic" data-filter-value="all" aria-pressed="true">All</button>
         {% for topic in site.data.portfolio.topics %}
@@ -114,7 +123,7 @@ recaptcha: true
         {% assign format_label = "Article" %}
         {% if p.video %}{% assign format_label = "Video" %}{% elsif p.podcast %}{% assign format_label = "Podcast" %}{% elsif p.photo_story %}{% assign format_label = "Photo story" %}{% elsif p.data %}{% assign format_label = "Data" %}{% endif %}
 
-        <li class="clip-card" data-clip-card data-featured="{{ is_featured }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">
+        <li class="clip-card" data-clip-card data-clip-id="{{ cid }}" data-featured="{{ is_featured }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">
           <a class="clip-card__image-link" href="{{ p.url | relative_url }}" tabindex="-1" aria-hidden="true">
             <img src="/pages/clips/assets/photo/{{ cid }}.jpg" alt="" loading="lazy">
           </a>
@@ -134,48 +143,6 @@ recaptcha: true
     <p class="reporting-empty" data-reporting-empty hidden>No reporting matches those filters.</p>
     <div class="reporting__more">
       <button class="button button--secondary" type="button" data-load-more>Show more reporting</button>
-    </div>
-  </div>
-</section>
-
-<section class="contact section-pad" id="contact">
-  <div class="site-shell contact__grid">
-    <div class="contact-card">
-      <p class="eyebrow">Contact</p>
-      <h2>Contact me</h2>
-      <div class="contact-list">
-        <a href="mailto:mruprecht@umich.edu">mruprecht@umich.edu</a>
-        <a href="mailto:mrup.01@proton.me">mrup.01@proton.me</a>
-        <a href="tel:+17074128684">+1 (707) 412-8684</a>
-        <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank" rel="noopener">Signal: @mrup.01</a>
-      </div>
-      <div class="social-links" aria-label="Social profiles">
-        <a href="https://www.linkedin.com/in/michalruprecht" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://instagram.com/mrup.01" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://bsky.app/profile/michalruprecht.com" target="_blank" rel="noopener">Bluesky</a>
-        <a href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
-      </div>
-    </div>
-
-    <div class="newsletter-card">
-      <p class="eyebrow">Newsletter</p>
-      <h2>Receive my stories in your inbox.</h2>
-      <p>Subscribe to my newsletter below.</p>
-
-      <iframe name="hidden_iframe" id="hidden_iframe" title="Newsletter submission" hidden></iframe>
-      <form class="newsletter-form" action="https://script.google.com/macros/s/AKfycbwcmBmiFUZtwot8sW8P1iLFzeFnIG3CZEx-UM8-KcihkaWUKj1w7DH2sOJxr-6Qy0Qs/exec" method="post" target="hidden_iframe" data-newsletter-form>
-        <label class="visually-hidden" for="newsletter-email">Email address</label>
-        <div class="newsletter-form__row">
-          <input id="newsletter-email" type="email" name="entry.139445516" placeholder="example@example.com" autocomplete="email" required>
-          <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-          <button class="button button--primary" type="submit">Submit</button>
-        </div>
-        <p class="form-status" data-form-status aria-live="polite"></p>
-      </form>
-      <div class="newsletter-success" data-newsletter-success hidden>
-        <p>Your response has been recorded.</p>
-        <button class="text-button" type="button" data-newsletter-reset>Submit another response</button>
-      </div>
     </div>
   </div>
 </section>

@@ -172,7 +172,7 @@ recaptcha: true
         {% capture topic_values %}{% if p.categories %}{% for category in p.categories %} {{ category | strip_html | slugify }}{% endfor %}{% elsif p.category %} {{ p.category | strip_html | slugify }}{% endif %}{% if p.audio %} multimedia{% endif %}{% if p.video %} multimedia{% endif %}{% if p.podcast %} multimedia{% endif %}{% if p.photo_story %} multimedia{% endif %}{% endcapture %}
         {% assign source_slug = p.publisher | strip_html | slugify %}
         {% assign card_topic_slugs = topic_values | strip | split: " " %}
-        {% capture visible_topic_badges %}{% for topic in reporting_topic_order %}{% assign topic_slug = topic | slugify %}{% if card_topic_slugs contains topic_slug %}<span class="format-badge">{{ topic | capitalize }}</span>{% endif %}{% endfor %}{% endcapture %}
+        {% capture visible_topic_badges %}{% for topic in reporting_topic_order %}{% assign topic_slug = topic | slugify %}{% if card_topic_slugs contains topic_slug %}<span class="format-badge format-badge--{{ topic_slug }}">{{ topic | capitalize }}</span>{% endif %}{% endfor %}{% endcapture %}
         {% assign visible_topic_badges = visible_topic_badges | strip %}
 
         <li class="clip-card" data-clip-card data-clip-id="{{ cid }}" data-featured="{{ is_featured }}" data-featured-rank="{{ featured_rank }}" data-large="{{ is_large }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-title="{{ p.title | strip_html | downcase | escape }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">

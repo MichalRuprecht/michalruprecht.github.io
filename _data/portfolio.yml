@@ -1,6 +1,6 @@
 # FEATURED STORIES
-# Add or remove a clip number here to change the homepage's Featured view.
-# The cards are displayed newest first, regardless of the order below.
+# Add, remove, or reorder clip numbers here to control the homepage's Featured view.
+# The cards are displayed in this exact order, from top to bottom.
 featured_ids:
   - "95"
   - "107"
@@ -8,9 +8,6 @@ featured_ids:
   - "88"
   - "109"
   - "86"
-
-# LARGE STORY CARD
-# Keep this list short. The homepage will enlarge at most one matching card.
 
 outlets:
   - value: npr

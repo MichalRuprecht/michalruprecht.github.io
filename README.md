@@ -5,7 +5,7 @@ This repository builds Michal Ruprecht’s journalism and ceramics portfolio wit
 ## The few files that control most of the site
 
 - `index.html` — homepage biography, contact information, newsletter form, and the data-driven reporting grid
-- `_data/portfolio.yml` — featured clip numbers, topic groups, outlet filters, and fellowship/support names
+- `_data/portfolio.yml` — featured clip order, outlet filters, and fellowship/support names
 - `assets/css/portfolio.css` — the homepage, navigation, footer, clip cards, and ceramics design
 - `assets/js/portfolio.js` — mobile navigation, clip filtering/search, and the newsletter form
 - `_layouts/portfolio.html` — shared shell for the homepage and ceramics portfolio

@@ -25,7 +25,8 @@ recaptcha: true
     {% assign reporting_topics = reporting_topics | push: "multimedia" %}
   {% endif %}
 {% endfor %}
-{% assign reporting_topics = reporting_topics | uniq | sort %}
+{% assign reporting_topics = reporting_topics | uniq %}
+{% assign reporting_topic_order = "global health|domestic health|multimedia|research" | split: "|" %}
 
 <section class="hero" id="about">
   <div class="site-shell hero__grid">
@@ -140,8 +141,10 @@ recaptcha: true
       <div class="filter-group" role="group" aria-label="Topic" data-advanced-filters hidden>
         <span class="filter-group__label">Topic</span>
         <button class="filter-chip is-active" type="button" data-filter-kind="topic" data-filter-value="all" aria-pressed="true">All</button>
-        {% for topic in reporting_topics %}
-          <button class="filter-chip" type="button" data-filter-kind="topic" data-filter-value="{{ topic | slugify }}" aria-pressed="false">{{ topic | capitalize }}</button>
+        {% for topic in reporting_topic_order %}
+          {% if reporting_topics contains topic %}
+            <button class="filter-chip" type="button" data-filter-kind="topic" data-filter-value="{{ topic | slugify }}" aria-pressed="false">{{ topic | capitalize }}</button>
+          {% endif %}
         {% endfor %}
       </div>
     </div>
@@ -157,8 +160,13 @@ recaptcha: true
         {% capture cid %}{% if cid_num < 10 %}0{{ cid_num }}{% else %}{{ cid_num }}{% endif %}{% endcapture %}
         {% assign cid = cid | strip %}
         {% assign is_featured = false %}
-        {% if site.data.portfolio.featured_ids contains cid %}{% assign is_featured = true %}{% endif %}
-        {% if p.featured == true %}{% assign is_featured = true %}{% endif %}
+        {% assign featured_rank = 999 %}
+        {% for featured_id in site.data.portfolio.featured_ids %}
+          {% if featured_id == cid %}
+            {% assign is_featured = true %}
+            {% assign featured_rank = forloop.index0 %}
+          {% endif %}
+        {% endfor %}
         {% assign is_large = false %}
         {% if site.data.portfolio.large_ids contains cid %}{% assign is_large = true %}{% endif %}
         {% capture topic_values %}{% if p.categories %}{% for category in p.categories %} {{ category | strip_html | slugify }}{% endfor %}{% elsif p.category %} {{ p.category | strip_html | slugify }}{% endif %}{% if p.audio %} multimedia{% endif %}{% if p.video %} multimedia{% endif %}{% if p.podcast %} multimedia{% endif %}{% if p.photo_story %} multimedia{% endif %}{% endcapture %}
@@ -166,7 +174,7 @@ recaptcha: true
         {% assign format_label = "Article" %}
         {% if p.audio or p.video or p.podcast or p.photo_story %}{% assign format_label = "Multimedia" %}{% elsif p.data %}{% assign format_label = "Data" %}{% endif %}
 
-        <li class="clip-card" data-clip-card data-clip-id="{{ cid }}" data-featured="{{ is_featured }}" data-large="{{ is_large }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-title="{{ p.title | strip_html | downcase | escape }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">
+        <li class="clip-card" data-clip-card data-clip-id="{{ cid }}" data-featured="{{ is_featured }}" data-featured-rank="{{ featured_rank }}" data-large="{{ is_large }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-title="{{ p.title | strip_html | downcase | escape }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">
           <a class="clip-card__image-link" href="{{ p.url | relative_url }}" tabindex="-1" aria-hidden="true">
             <img src="/pages/clips/assets/photo/{{ cid }}.jpg" alt="" loading="lazy">
           </a>

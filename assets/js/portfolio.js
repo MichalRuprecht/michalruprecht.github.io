@@ -200,6 +200,8 @@
           const scoreDifference = relevance(b, query, terms) - relevance(a, query, terms);
           return scoreDifference || originalOrder.get(a) - originalOrder.get(b);
         });
+      } else if (state.collection === 'featured') {
+        matches.sort((a, b) => Number(a.dataset.featuredRank) - Number(b.dataset.featuredRank));
       } else {
         matches.sort((a, b) => originalOrder.get(a) - originalOrder.get(b));
       }

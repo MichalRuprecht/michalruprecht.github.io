@@ -1867,6 +1867,25 @@ mark {
     font-size: 27px;
   }
 
+  .clip-card__topics {
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .format-badge {
+    max-width: 100%;
+    padding: 4px 8px;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    line-height: 1.25;
+  }
+
+  .format-badge--inequity-gender-and-structural-discrimination {
+    font-size: clamp(8px, 2.4vw, 10px);
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+  }
+
   .newsletter-card {
     padding: 28px 22px;
     border-radius: 4px 42px 4px 4px;

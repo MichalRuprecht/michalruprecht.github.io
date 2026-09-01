@@ -1,9 +1,17 @@
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header class="site-header">
   <div class="site-shell site-header__inner">
-    <nav class="portfolio-switcher" aria-label="Choose a portfolio">
-      <a href="/"{% unless page.body_class == "ceramics-page" %} class="is-active" aria-current="page"{% endunless %}>Journalism portfolio</a>
-      <a href="/pages/ceramics"{% if page.body_class == "ceramics-page" %} class="is-active" aria-current="page"{% endif %}>Ceramics portfolio</a>
-    </nav>
+    {% if page.body_class == "ceramics-page" %}
+      <nav class="portfolio-switcher" aria-label="Choose a portfolio">
+        <a href="/">Journalism portfolio</a>
+        <a href="/pages/ceramics" class="is-active" aria-current="page">Ceramics portfolio</a>
+      </nav>
+    {% else %}
+      <nav class="journalism-header-nav" aria-label="Primary navigation">
+        <a href="/#about">About</a>
+        <a href="/#reporting">Reporting</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    {% endif %}
   </div>
 </header>

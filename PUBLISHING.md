@@ -14,6 +14,12 @@ The clip generator remains the simplest safe workflow while this website is host
 
 The homepage reads clip metadata directly from `pages/clips/*.md`. There is no second clips list to update.
 
+## Changing the Featured section
+
+For an existing story, open `_data/portfolio.yml` and add or remove its clip number under `featured_ids`. The clip number is the number in its filename or URL—for example, `116` for `pages/clips/116.md`. Featured stories appear newest first.
+
+For a new story, the generator's **Feature on homepage** checkbox adds it to Featured automatically. Leave the box unchecked when a story should appear only under All reporting.
+
 ## Categories used by the homepage
 
 - `global health`

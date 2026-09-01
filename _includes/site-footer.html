@@ -1,23 +1,66 @@
-<footer class="site-footer">
+<footer class="site-footer" id="contact">
   <div class="site-shell">
-    <div class="site-footer__top">
+    <div class="site-footer__main">
+      <div class="site-footer__contact">
+        <h2>Contact</h2>
+        <a class="site-footer__email" href="mailto:mrup.01@proton.me">mrup.01@proton.me</a>
+
+        <div class="site-footer__phone">
+          <span>+1 (707) 412-8684</span>
+          <div class="site-footer__phone-actions" aria-label="Phone contact options">
+            <a href="https://signal.me/#eu/rnnuUnyX8RWbivq72nxT4YaR_dE3IvF5lA6OGZISX5E2j1p1ItpH-bq_14rtbkHx" target="_blank" rel="noopener">Signal</a>
+            <a href="https://wa.me/17074128684" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="sms:+17074128684">Text</a>
+            <a href="tel:+17074128684">Call</a>
+          </div>
+        </div>
+
+        <nav class="site-footer__social" aria-label="Social profiles">
+          <a href="https://www.linkedin.com/in/michalruprecht" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://instagram.com/mrup.01" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://scholar.google.com/citations?user=BTPISPEAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+        </nav>
+      </div>
+
+      {% if page.recaptcha %}
+      <div class="newsletter-card site-footer__newsletter">
+        <h2>Receive my stories in your inbox.</h2>
+        <p>Subscribe to my newsletter below.</p>
+
+        <iframe name="hidden_iframe" id="hidden_iframe" title="Newsletter submission" hidden></iframe>
+        <form class="newsletter-form" action="https://script.google.com/macros/s/AKfycbwcmBmiFUZtwot8sW8P1iLFzeFnIG3CZEx-UM8-KcihkaWUKj1w7DH2sOJxr-6Qy0Qs/exec" method="post" target="hidden_iframe" data-newsletter-form>
+          <label class="visually-hidden" for="newsletter-email">Email address</label>
+          <div class="newsletter-form__row">
+            <input id="newsletter-email" type="email" name="entry.139445516" placeholder="example@example.com" autocomplete="email" required>
+            <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+            <button class="button button--primary" type="submit">Submit</button>
+          </div>
+          <p class="form-status" data-form-status aria-live="polite"></p>
+        </form>
+        <div class="newsletter-success" data-newsletter-success hidden>
+          <p>Your response has been recorded.</p>
+          <button class="text-button" type="button" data-newsletter-reset>Submit another response</button>
+        </div>
+        <p class="recaptcha-notice">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="site-footer__more">
       <a class="site-footer__name" href="/">Michal Ruprecht</a>
       <nav class="site-footer__nav" aria-label="Footer navigation">
+        <a href="/#about">About</a>
         <a href="/#reporting">Reporting</a>
-        <a href="/pages/ceramics">Ceramics</a>
-        <a href="mailto:mruprecht@umich.edu">Email</a>
-        <a href="https://www.linkedin.com/in/michalruprecht" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://instagram.com/mrup.01" target="_blank" rel="noopener">Instagram</a>
-        <a href="https://bsky.app/profile/michalruprecht.com" target="_blank" rel="noopener">Bluesky</a>
+        <a href="/pages/ceramics">Ceramics portfolio</a>
       </nav>
     </div>
 
     <div class="site-footer__bottom">
       <p>Copyright © 2019–<span data-current-year>{{ site.time | date: "%Y" }}</span> Michal T. Ruprecht. All rights reserved.</p>
-      <details class="medical-disclaimer">
-        <summary>Medical disclaimer</summary>
+      <div class="medical-disclaimer">
+        <h2>Medical disclaimer</h2>
         <p>This website is provided for educational and informational purposes only and does not constitute providing medical advice or professional services. The information provided should not be used for diagnosing or treating a health problem or disease, and those seeking personal medical advice should consult with a licensed physician. Always seek the advice of your doctor or other qualified health provider regarding a medical condition. [Never disregard professional medical advice or delay in seeking it because of something you have read on this website.] No physician-patient relationship is created by this website. Science and medicine are constantly evolving fields, and changes may impact the information contained herein. Neither Michal Ruprecht nor any contributor to this website makes any representations, express or implied, with respect to the information provided, and assumes no obligation to update any of the information stated herein.</p>
-      </details>
+      </div>
     </div>
   </div>
 </footer>

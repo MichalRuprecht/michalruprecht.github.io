@@ -1,0 +1,12 @@
+---
+layout: null
+sitemap: false
+---
+{% assign clip_pages = site.pages | where_exp: "p", "p.clip == true" | where_exp: "p", "p.clip_id" | sort: "clip_id" %}
+[
+{% for p in clip_pages %}
+  {% assign cid_num = p.clip_id | plus: 0 %}
+  {% capture cid %}{% if cid_num < 10 %}0{{ cid_num }}{% else %}{{ cid_num }}{% endif %}{% endcapture %}
+  {"id": {{ cid | strip | jsonify }}, "text": {{ p.content | markdownify | strip_html | jsonify }}}{% unless forloop.last %},{% endunless %}
+{% endfor %}
+]

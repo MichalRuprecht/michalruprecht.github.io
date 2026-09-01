@@ -27,7 +27,10 @@
     const empty = reporting.querySelector('[data-reporting-empty]');
     const loadMore = reporting.querySelector('[data-load-more]');
     const clear = reporting.querySelector('[data-clear-filters]');
+    const advancedFilters = Array.from(reporting.querySelectorAll('[data-advanced-filters]'));
     const params = new URLSearchParams(window.location.search);
+    const searchIndex = new Map();
+    let searchIndexPromise;
 
     const state = {
       collection: params.get('view') || (params.toString() ? 'all' : 'featured'),
@@ -38,6 +41,23 @@
     };
 
     const normalize = (value) => (value || '').toLowerCase().trim();
+
+    function loadSearchIndex() {
+      if (!searchIndexPromise) {
+        searchIndexPromise = fetch('/assets/data/reporting-search.json')
+          .then((response) => {
+            if (!response.ok) throw new Error('Search index unavailable');
+            return response.json();
+          })
+          .then((items) => {
+            items.forEach((item) => searchIndex.set(String(item.id), normalize(item.text)));
+          })
+          .catch(() => {
+            // Headline, outlet, and date search still work if the body index cannot load.
+          });
+      }
+      return searchIndexPromise;
+    }
 
     function setActiveButtons() {
       buttons.forEach((button) => {
@@ -50,8 +70,8 @@
     function updateUrl() {
       const next = new URLSearchParams();
       if (state.collection === 'all') next.set('view', 'all');
-      if (state.source !== 'all') next.set('outlet', state.source);
-      if (state.topic !== 'all') next.set('topic', state.topic);
+      if (state.collection === 'all' && state.source !== 'all') next.set('outlet', state.source);
+      if (state.collection === 'all' && state.topic !== 'all') next.set('topic', state.topic);
       if (state.query) next.set('q', state.query);
       const queryString = next.toString();
       const url = `${window.location.pathname}${queryString ? `?${queryString}` : ''}#reporting`;
@@ -60,12 +80,16 @@
 
     function render({ updateHistory = true } = {}) {
       const query = normalize(state.query);
+      const showAdvancedFilters = state.collection === 'all';
+      advancedFilters.forEach((group) => { group.hidden = !showAdvancedFilters; });
+
       const matches = cards.filter((card) => {
         const collectionMatch = state.collection === 'all' || card.dataset.featured === 'true';
         const sourceMatch = state.source === 'all' || card.dataset.source.includes(state.source);
         const topics = card.dataset.topics.split(/\s+/).filter(Boolean);
         const topicMatch = state.topic === 'all' || topics.includes(state.topic);
-        const searchMatch = !query || normalize(card.dataset.search).includes(query);
+        const searchableText = `${normalize(card.dataset.search)} ${searchIndex.get(card.dataset.clipId) || ''}`;
+        const searchMatch = !query || searchableText.includes(query);
         return collectionMatch && sourceMatch && topicMatch && searchMatch;
       });
 
@@ -88,6 +112,10 @@
     buttons.forEach((button) => {
       button.addEventListener('click', () => {
         state[button.dataset.filterKind] = button.dataset.filterValue;
+        if (button.dataset.filterKind === 'collection' && state.collection === 'featured') {
+          state.source = 'all';
+          state.topic = 'all';
+        }
         state.limit = 18;
         render();
       });
@@ -95,10 +123,17 @@
 
     if (search) {
       search.value = state.query;
-      search.addEventListener('input', () => {
+      search.addEventListener('focus', loadSearchIndex, { once: true });
+      search.addEventListener('input', async () => {
         state.query = search.value.trim();
+        if (state.query) state.collection = 'all';
         state.limit = 18;
         render();
+        if (state.query) {
+          const currentQuery = state.query;
+          await loadSearchIndex();
+          if (state.query === currentQuery) render({ updateHistory: false });
+        }
       });
     }
 
@@ -118,6 +153,7 @@
     });
 
     render({ updateHistory: false });
+    if (state.query) loadSearchIndex().then(() => render({ updateHistory: false }));
   }
 
   const newsletterForm = document.querySelector('[data-newsletter-form]');

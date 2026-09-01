@@ -56,7 +56,7 @@ recaptcha: true
         {% for item in site.data.portfolio.fellowships %}
           <li>
             <span class="fellowship-list__organization">{{ item.organization }}</span>
-            <span class="fellowship-list__name">{{ item.name }}</span>
+            <span class="fellowship-list__name">{% if item.url %}<a href="{{ item.url }}" target="_blank" rel="me noopener">{{ item.name }}</a>{% else %}{{ item.name }}{% endif %}</span>
           </li>
         {% endfor %}
       </ul>

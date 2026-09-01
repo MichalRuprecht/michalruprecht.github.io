@@ -339,8 +339,7 @@
           <datalist id="categoryOptions">
             <option value="global health"></option>
             <option value="domestic health"></option>
-            <option value="profiles & human stories"></option>
-            <option value="inequity & structural discrimination"></option>
+            <option value="research"></option>
           </datalist>
         </div>
       </div>
@@ -353,7 +352,6 @@
         <label><input id="hasEmbed" type="checkbox" /> Has embed</label>
         <label><input id="isPhotoStory" type="checkbox" /> Photo story</label>
         <label><input id="isData" type="checkbox" /> Data</label>
-        <label><input id="isFeatured" type="checkbox" /> Feature on homepage</label>
       </div>
 
       <div class="row">
@@ -709,7 +707,6 @@
     const hasEmbed = document.getElementById("hasEmbed").checked;
     const isPhotoStory = document.getElementById("isPhotoStory").checked;
     const isData = document.getElementById("isData").checked;
-    const isFeatured = document.getElementById("isFeatured").checked;
 
     const hasVideoElement = document.getElementById("hasVideoElement").checked;
     const videoClipNumber = document.getElementById("videoClipNumber").value.trim();
@@ -754,9 +751,6 @@
     lines.push(`layout: clip`);
     lines.push(`title: ${escapeYamlString(title)}`);
     lines.push(`clip: true`);
-    if(isFeatured){
-      lines.push(`featured: true`);
-    }
     lines.push(`clip_id: ${escapeYamlString(String(nextId))}`);
     lines.push(`publisher: ${escapeYamlString(publisherOut)}`);
     lines.push(`date_display: ${escapeYamlString(dateDisplay)}`);
@@ -1007,7 +1001,6 @@
     document.getElementById("hasEmbed").checked = false;
     document.getElementById("isPhotoStory").checked = false;
     document.getElementById("isData").checked = false;
-    document.getElementById("isFeatured").checked = false;
     document.getElementById("hasVideoElement").checked = false;
     document.getElementById("hasStoryElement").checked = false;
 

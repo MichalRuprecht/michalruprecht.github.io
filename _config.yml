@@ -1,12 +1,11 @@
 url: "https://michalruprecht.com"
 baseurl: ""
 
-title: Michal Ruprecht Official Website
-site.title: Michal Ruprecht Official Website
+title: Michal Ruprecht
 
-description: Michal Ruprecht is a medical student and journalist covering mental health for NPR as a Rosalynn Carter Fellow.
+description: Michal Ruprecht is a medical student and health journalist covering mental health for NPR as a Rosalynn Carter Fellow, with reporting across global and domestic health.
 
-name: Michal T. Ruprecht Official Website
+name: Michal T. Ruprecht
 
 markdown: kramdown
 

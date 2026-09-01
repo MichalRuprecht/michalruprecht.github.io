@@ -15,6 +15,11 @@ featured_ids:
   - "86"
   - "82"
 
+# LARGE STORY CARD
+# Keep this list short. The homepage will enlarge at most one matching card.
+large_ids:
+  - "116"
+
 outlets:
   - value: npr
     label: NPR
@@ -43,19 +48,38 @@ topics:
     ids: ["109", "78", "77", "74", "72", "71", "47", "35", "34", "32", "07"]
 
 fellowships:
-  - name: Rosalynn Carter Fellowships for Mental Health Journalism
+  - name: Rosalynn Carter Fellowship for Mental Health Journalism
     organization: The Carter Center
   - name: AAAS Mass Media Fellowship
-    organization: AAAS
+    organization: Association of American Medical Colleges
   - name: Stanford Global Health Media Fellowship
     organization: Stanford Center for Innovation in Global Health
+
+additional_fellowships:
+  - Global Health Advocacy Incubator Reporting Fellowship
+  - Association of Health Care Journalists American Cities Health Journalism Fellowship
+  - STAT News Travel Fellowship
+
+recognition:
+  - Finalist, Nicholas Kristof Reporting Trip
+
+training:
+  - Graduate-level journalism training at the Stanford Journalism Program
+  - HEFAT trained (Hostile Environment and First Aid Training)
+
+reported_from:
+  - Uganda
+  - New York City
+  - Atlanta
+  - Michigan
+  - San Francisco
+  - Washington, D.C.
 
 supporters:
   - name: The Carter Center
   - name: Pulitzer Center
   - name: Association of Health Care Journalists
   - name: Association of American Medical Colleges
-    short: AAMC
   - name: American Academy of Pediatrics
   - name: Stanford Center for Innovation in Global Health
 

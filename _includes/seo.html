@@ -1,0 +1,77 @@
+{% assign seo_title = page.title | default: site.title %}
+{% assign seo_description = page.description | default: page.teaser_html | default: site.description | strip_html | strip_newlines | strip %}
+<title>{{ seo_title | escape }}</title>
+<meta name="description" content="{{ seo_description | escape }}">
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+{% if page.noindex %}
+  <meta name="robots" content="noindex, nofollow">
+{% else %}
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+{% endif %}
+
+<meta property="og:title" content="{{ seo_title | escape }}">
+<meta property="og:description" content="{{ seo_description | escape }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
+<meta property="og:site_name" content="Michal Ruprecht">
+<meta property="og:type" content="{% if page.clip %}article{% else %}website{% endif %}">
+<meta property="og:image" content="{{ '/assets/profile.svg' | absolute_url }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ seo_title | escape }}">
+<meta name="twitter:description" content="{{ seo_description | escape }}">
+
+{% if page.url == '/' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://michalruprecht.com/#website",
+      "url": "https://michalruprecht.com/",
+      "name": "Michal Ruprecht",
+      "description": "{{ site.description | escape }}",
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://michalruprecht.com/#person",
+      "name": "Michal T. Ruprecht",
+      "alternateName": "Michal Ruprecht",
+      "url": "https://michalruprecht.com/",
+      "description": "Medical student and journalist covering mental health for NPR as a Rosalynn Carter Fellow.",
+      "jobTitle": ["Medical student", "Journalist"],
+      "sameAs": [
+        "https://www.linkedin.com/in/michalruprecht",
+        "https://instagram.com/mrup.01",
+        "https://scholar.google.com/citations?user=BTPISPEAAAAJ"
+      ],
+      "knowsAbout": [
+        "Mental health journalism",
+        "Global health reporting",
+        "Domestic health reporting",
+        "Science journalism",
+        "Health misinformation"
+      ],
+      "award": [
+        "Rosalynn Carter Fellowship for Mental Health Journalism",
+        "AAAS Mass Media Fellowship",
+        "Stanford Global Health Media Fellowship",
+        "Finalist, Nicholas Kristof Reporting Trip"
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "Graduate-level journalism training at the Stanford Journalism Program",
+          "credentialCategory": "Training"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "HEFAT trained (Hostile Environment and First Aid Training)",
+          "credentialCategory": "Training"
+        }
+      ]
+    }
+  ]
+}
+</script>
+{% endif %}

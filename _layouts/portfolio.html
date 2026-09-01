@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Michal T. Ruprecht">
     <meta name="theme-color" content="#102925">
-    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-    {% if page.description %}<meta name="description" content="{{ page.description | escape }}">{% endif %}
+    {% include seo.html %}
     <link rel="icon" href="/assets/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +13,7 @@
     <link rel="stylesheet" href="/assets/css/portfolio.css?v={{ site.time | date: '%s' }}">
     <script>document.documentElement.classList.add('has-js');</script>
     <script defer src="/assets/js/portfolio.js?v={{ site.time | date: '%s' }}"></script>
-    {% if page.recaptcha %}<script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>{% endif %}
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt"></script>
   </head>
   <body class="{{ page.body_class }}">
     {% include site-header.html %}

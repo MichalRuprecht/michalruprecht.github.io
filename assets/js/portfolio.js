@@ -17,6 +17,26 @@
     });
   }
 
+  const siteHeader = document.querySelector('.site-header');
+
+  if (siteHeader) {
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const menuIsOpen = navToggle && navToggle.getAttribute('aria-expanded') === 'true';
+        const scrollingDown = currentScrollY > lastScrollY && currentScrollY > 120;
+        siteHeader.classList.toggle('is-hidden', scrollingDown && !menuIsOpen);
+        lastScrollY = Math.max(currentScrollY, 0);
+        ticking = false;
+      });
+    }, { passive: true });
+  }
+
   const reporting = document.querySelector('[data-reporting-browser]');
 
   if (reporting) {
@@ -24,12 +44,24 @@
     const buttons = Array.from(reporting.querySelectorAll('[data-filter-kind]'));
     const search = reporting.querySelector('[data-reporting-search]');
     const count = reporting.querySelector('[data-reporting-count]');
+    const grid = reporting.querySelector('[data-clip-grid]');
     const empty = reporting.querySelector('[data-reporting-empty]');
     const loadMore = reporting.querySelector('[data-load-more]');
     const clear = reporting.querySelector('[data-clear-filters]');
     const advancedFilters = Array.from(reporting.querySelectorAll('[data-advanced-filters]'));
     const params = new URLSearchParams(window.location.search);
     const searchIndex = new Map();
+    const originalOrder = new Map(cards.map((card, index) => [card, index]));
+    const sourceLabels = new Map(
+      buttons
+        .filter((button) => button.dataset.filterKind === 'source')
+        .map((button) => [button.dataset.filterValue, button.textContent.trim()])
+    );
+    const topicLabels = new Map(
+      buttons
+        .filter((button) => button.dataset.filterKind === 'topic')
+        .map((button) => [button.dataset.filterValue, button.textContent.trim()])
+    );
     let searchIndexPromise;
 
     const state = {
@@ -37,7 +69,7 @@
       source: params.get('outlet') || 'all',
       topic: params.get('topic') || 'all',
       query: params.get('q') || '',
-      limit: 18
+      extra: 0
     };
 
     const normalize = (value) => (value || '').toLowerCase().trim();
@@ -78,8 +110,56 @@
       window.history.replaceState(null, '', url);
     }
 
+    function occurrences(text, term) {
+      if (!term) return 0;
+      let total = 0;
+      let fromIndex = 0;
+      while ((fromIndex = text.indexOf(term, fromIndex)) !== -1) {
+        total += 1;
+        fromIndex += term.length;
+      }
+      return total;
+    }
+
+    function searchText(card) {
+      return `${normalize(card.dataset.search)} ${searchIndex.get(card.dataset.clipId) || ''}`;
+    }
+
+    function relevance(card, query, terms) {
+      const title = normalize(card.dataset.title);
+      const body = searchIndex.get(card.dataset.clipId) || '';
+      const basic = normalize(card.dataset.search);
+      let score = 0;
+
+      score += occurrences(title, query) * 1000;
+      score += occurrences(body, query) * 45;
+      terms.forEach((term) => {
+        score += occurrences(title, term) * 180;
+        score += occurrences(basic, term) * 25;
+        score += occurrences(body, term) * 5;
+      });
+      return score;
+    }
+
+    function resultLabel(total, visibleCount, query) {
+      const descriptors = [];
+      if (state.collection === 'featured') {
+        descriptors.push('featured');
+      } else {
+        if (state.source !== 'all') descriptors.push(sourceLabels.get(state.source) || state.source);
+        if (state.topic !== 'all') descriptors.push((topicLabels.get(state.topic) || state.topic).toLowerCase());
+      }
+
+      const noun = total === 1 ? 'story' : 'stories';
+      const describedStories = `${descriptors.length ? `${descriptors.join(' ')} ` : ''}${noun}`;
+      const quantity = visibleCount < total ? `${visibleCount} of ${total}` : String(total);
+      const related = query ? ` related to “${state.query}”` : '';
+      return `Showing ${quantity} ${describedStories}${related}`;
+    }
+
     function render({ updateHistory = true } = {}) {
       const query = normalize(state.query);
+      const terms = query.split(/\s+/).filter(Boolean);
       const showAdvancedFilters = state.collection === 'all';
       advancedFilters.forEach((group) => { group.hidden = !showAdvancedFilters; });
 
@@ -88,20 +168,37 @@
         const sourceMatch = state.source === 'all' || card.dataset.source.includes(state.source);
         const topics = card.dataset.topics.split(/\s+/).filter(Boolean);
         const topicMatch = state.topic === 'all' || topics.includes(state.topic);
-        const searchableText = `${normalize(card.dataset.search)} ${searchIndex.get(card.dataset.clipId) || ''}`;
-        const searchMatch = !query || searchableText.includes(query);
+        const searchableText = searchText(card);
+        const searchMatch = !query || terms.every((term) => searchableText.includes(term));
         return collectionMatch && sourceMatch && topicMatch && searchMatch;
       });
 
-      cards.forEach((card) => { card.hidden = true; });
-      matches.slice(0, state.limit).forEach((card) => { card.hidden = false; });
+      if (query) {
+        matches.sort((a, b) => {
+          const scoreDifference = relevance(b, query, terms) - relevance(a, query, terms);
+          return scoreDifference || originalOrder.get(a) - originalOrder.get(b);
+        });
+      } else {
+        matches.sort((a, b) => originalOrder.get(a) - originalOrder.get(b));
+      }
 
-      const visibleCount = Math.min(matches.length, state.limit);
-      count.textContent = matches.length === visibleCount
-        ? `${matches.length} ${matches.length === 1 ? 'story' : 'stories'}`
-        : `Showing ${visibleCount} of ${matches.length} stories`;
+      matches.forEach((card) => grid.appendChild(card));
+
+      cards.forEach((card) => {
+        card.hidden = true;
+        card.classList.remove('is-large');
+      });
+
+      const largeCard = matches.slice(0, 6).find((card) => card.dataset.large === 'true');
+      if (largeCard) largeCard.classList.add('is-large');
+      const initialLimit = largeCard ? 5 : 6;
+      const limit = initialLimit + state.extra;
+      matches.slice(0, limit).forEach((card) => { card.hidden = false; });
+
+      const visibleCount = Math.min(matches.length, limit);
+      count.textContent = resultLabel(matches.length, visibleCount, query);
       empty.hidden = matches.length !== 0;
-      loadMore.hidden = matches.length <= state.limit;
+      loadMore.hidden = matches.length <= limit;
 
       const isDefault = state.collection === 'featured' && state.source === 'all' && state.topic === 'all' && !state.query;
       clear.hidden = isDefault;
@@ -116,7 +213,7 @@
           state.source = 'all';
           state.topic = 'all';
         }
-        state.limit = 18;
+        state.extra = 0;
         render();
       });
     });
@@ -127,7 +224,7 @@
       search.addEventListener('input', async () => {
         state.query = search.value.trim();
         if (state.query) state.collection = 'all';
-        state.limit = 18;
+        state.extra = 0;
         render();
         if (state.query) {
           const currentQuery = state.query;
@@ -138,7 +235,7 @@
     }
 
     loadMore.addEventListener('click', () => {
-      state.limit += 18;
+      state.extra += 6;
       render({ updateHistory: false });
     });
 
@@ -147,7 +244,7 @@
       state.source = 'all';
       state.topic = 'all';
       state.query = '';
-      state.limit = 18;
+      state.extra = 0;
       search.value = '';
       render();
     });

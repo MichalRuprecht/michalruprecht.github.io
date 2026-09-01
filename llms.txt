@@ -1,0 +1,30 @@
+---
+layout: null
+sitemap: false
+---
+# Michal Ruprecht
+
+Official portfolio: {{ site.url }}/
+
+Michal Ruprecht is a medical student and journalist covering mental health for NPR as a Rosalynn Carter Fellow. His reporting examines how power, misinformation and prejudice shape access to care, with a focus on global health, domestic health and the experiences of patients and providers.
+
+## Fellowships
+
+- The Carter Center — Rosalynn Carter Fellowship for Mental Health Journalism
+- Association of American Medical Colleges — AAAS Mass Media Fellowship
+- Stanford Center for Innovation in Global Health — Stanford Global Health Media Fellowship
+- Global Health Advocacy Incubator Reporting Fellowship
+- Association of Health Care Journalists American Cities Health Journalism Fellowship
+- STAT News Travel Fellowship
+
+## Training and recognition
+
+- Graduate-level journalism training at the Stanford Journalism Program
+- HEFAT trained (Hostile Environment and First Aid Training)
+- Finalist, Nicholas Kristof Reporting Trip
+
+## Reporting
+
+Published in NPR, CNN, ABC News and MedPage Today. Reporting locations include Uganda, New York City, Atlanta, Michigan, San Francisco and Washington, D.C.
+
+Reporting portfolio: {{ site.url }}/#reporting

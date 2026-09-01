@@ -5,6 +5,7 @@ sitemap: false
 # Michal Ruprecht
 
 Official portfolio: {{ site.url }}/
+Official Rosalynn Carter Fellowship profile: https://mentalhealthjournalism.org/fellows/michal-ruprecht/
 
 Michal Ruprecht is a medical student and journalist covering mental health for NPR as a Rosalynn Carter Fellow. His reporting examines how power, misinformation and prejudice shape access to care, with a focus on global health, domestic health and the experiences of patients and providers.
 

@@ -18,6 +18,8 @@ outlets:
     label: Stanford Journalism
   - value: abc-news
     label: ABC News
+  - value: medpage-today
+    label: MedPage Today
 
 fellowships:
   - name: Stanford Global Health Media Fellowship

@@ -3,7 +3,7 @@
 The clip generator remains the simplest safe workflow while this website is hosted only on GitHub Pages.
 
 1. Open `https://michalruprecht.com/pages/md_file.html`.
-2. Fill in the story information. Choose one of the suggested subject categories if it applies. Check **Audio**, **Podcast**, **Video**, or **Photo story** for any multimedia elements. These format choices do not replace the subject category: a Global health story can also be Audio, for example. Check **Feature on homepage** only for a story that should appear in the default featured view.
+2. Fill in the story information. Enter one or more topics, separated by commas. Check **Audio**, **Podcast**, **Video**, or **Photo story** for any multimedia elements. These format choices do not replace the subject topic: a Global health story can also be Audio, for example. Check **Feature on homepage** only for a story that should appear in the default featured view.
 3. Download the generated Markdown file.
 4. Use the three GitHub upload links shown by the generator:
    - Markdown → `pages/clips/`
@@ -31,12 +31,20 @@ large_ids:
 
 The site enlarges at most one story in the current results. When that larger card is visible, the first view shows five stories; when all cards are the same size, it shows six.
 
-## Categories used by the homepage
+## Adding topics to a Markdown file
 
-- `global health`
-- `domestic health`
-- `profiles & human stories`
-- `inequity & structural discrimination`
+The homepage creates its Topic buttons directly from the clip files. To give a story more than one topic, use a list in that story's Markdown header:
+
+```yaml
+categories:
+  - Global health
+  - Inequity & structural discrimination
+audio: true
+```
+
+This example appears under Global health, Inequity & structural discrimination, and Multimedia. You do not need to add the story number or topic to `_data/portfolio.yml`.
+
+Older files that use a single line such as `category: Global health` will continue to work.
 
 Audio, video, podcast, and photo-story clips are placed in the Multimedia filter automatically. Their cards use the single label **Multimedia** so that labels such as “Video” are not repeated when they already appear in a headline.
 

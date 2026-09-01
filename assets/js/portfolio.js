@@ -152,7 +152,13 @@
 
       const noun = total === 1 ? 'story' : 'stories';
       const describedStories = `${descriptors.length ? `${descriptors.join(' ')} ` : ''}${noun}`;
-      const quantity = visibleCount < total ? `${visibleCount} of ${total}` : String(total);
+      const apNumber = (number) => {
+        const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+        return number < 10 ? words[number] : String(number);
+      };
+      const quantity = visibleCount < total
+        ? `${apNumber(visibleCount)} of ${apNumber(total)}`
+        : apNumber(total);
       const related = query ? ` related to “${state.query}”` : '';
       return `Showing ${quantity} ${describedStories}${related}`;
     }

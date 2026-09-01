@@ -334,7 +334,7 @@
         </div>
 
         <div class="field field-small">
-          <label>Category (optional)</label>
+          <label>Topics (optional; separate multiple topics with commas)</label>
           <input id="category" type="text" list="categoryOptions" />
           <datalist id="categoryOptions">
             <option value="global health"></option>
@@ -700,6 +700,7 @@
     const publisherItalic = document.getElementById("publisherItalic").checked;
     const publisherUrl = document.getElementById("publisherUrl").value.trim();
     const category = document.getElementById("category").value.trim();
+    const categories = category.split(",").map(value => value.trim()).filter(Boolean);
 
     const isAudio = document.getElementById("isAudio").checked;
     const isPodcast = document.getElementById("isPodcast").checked;
@@ -770,8 +771,9 @@
       lines.push(`photo_credit: ${escapeYamlString(photoCredit)}`);
     }
 
-    if(category){
-      lines.push(`category: ${category}`);
+    if(categories.length){
+      lines.push(`categories:`);
+      categories.forEach(value => lines.push(`  - ${escapeYamlString(value)}`));
     }
 
     if(hasVideoElement && videoClipNumber){

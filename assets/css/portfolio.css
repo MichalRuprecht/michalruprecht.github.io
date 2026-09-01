@@ -239,7 +239,7 @@ a {
   position: absolute;
   right: -38px;
   bottom: -30px;
-  width: max-content;
+  width: min(215px, 76%);
   max-width: calc(100vw - 32px);
   padding: 13px 17px;
   border: 1px solid var(--ink);
@@ -250,12 +250,21 @@ a {
 
 .hero__current span {
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1.35;
   text-transform: uppercase;
-  white-space: nowrap;
+}
+
+.hero__current strong {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--serif);
+  font-size: 35px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
 .eyebrow {
@@ -280,7 +289,7 @@ a {
 
 .hero h1 {
   max-width: 770px;
-  font-size: clamp(64px, 8.5vw, 130px);
+  font-size: clamp(54px, 7vw, 100px);
 }
 
 .hero__lede {
@@ -343,9 +352,9 @@ mark {
 
 .credentials {
   padding: clamp(58px, 7vw, 92px) 0;
-  color: var(--ink);
+  color: var(--white);
   border-top: 1px solid var(--line);
-  background: var(--paper-light);
+  background: var(--ink);
 }
 
 .credentials__inner {
@@ -370,7 +379,7 @@ mark {
 .fellowship-list {
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
   list-style: none;
 }
 
@@ -380,7 +389,7 @@ mark {
   gap: 6px;
   margin: 0;
   padding: 24px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .fellowship-list__name {
@@ -391,7 +400,7 @@ mark {
 
 .fellowship-list__organization {
   order: -1;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.68);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -416,13 +425,17 @@ mark {
   text-transform: uppercase;
 }
 
+.credentials__additional h3 {
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .credentials__additional ul {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 9px 28px;
   margin: 0;
   padding: 0;
-  color: var(--ink-soft);
+  color: rgba(255, 255, 255, 0.84);
   font-size: 15px;
   line-height: 1.45;
   list-style: none;
@@ -430,8 +443,14 @@ mark {
 
 .credentials__secondary {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 48px clamp(48px, 8vw, 110px);
+  grid-template-columns: 1.35fr 0.72fr 1.25fr 0.9fr;
+  gap: clamp(30px, 4vw, 58px);
+}
+
+.credibility-strip {
+  padding: clamp(50px, 7vw, 82px) 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
 }
 
 .credentials__group h3 {
@@ -450,6 +469,27 @@ mark {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 32px;
+}
+
+.credibility-strip .name-list,
+.credibility-strip .published-list {
+  grid-template-columns: 1fr;
+}
+
+.credentials__group--supported {
+  grid-column: span 2;
+}
+
+.credibility-strip .credentials__group--supported .name-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.credentials__group--places {
+  grid-column: 1 / -1;
+}
+
+.credibility-strip .credentials__group--places .published-list {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .name-list li,
@@ -1256,6 +1296,14 @@ mark {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .credentials__secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .credibility-strip .credentials__group--places .published-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .site-footer__main {
     grid-template-columns: 1fr;
   }
@@ -1363,7 +1411,7 @@ mark {
   }
 
   .hero h1 {
-    font-size: clamp(58px, 19vw, 86px);
+    font-size: clamp(50px, 16vw, 72px);
   }
 
   .hero__lede {
@@ -1379,6 +1427,16 @@ mark {
   .credentials__additional,
   .credentials__additional ul,
   .name-list {
+    grid-template-columns: 1fr;
+  }
+
+  .credentials__group--supported,
+  .credentials__group--places {
+    grid-column: auto;
+  }
+
+  .credibility-strip .credentials__group--supported .name-list,
+  .credibility-strip .credentials__group--places .published-list {
     grid-template-columns: 1fr;
   }
 

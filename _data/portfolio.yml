@@ -30,30 +30,13 @@ outlets:
   - value: abc-news
     label: ABC News
 
-topics:
-  - slug: global-health
-    label: Global health
-    ids: ["116", "115", "100", "95", "92", "91", "89", "88", "86", "84", "83", "82", "81"]
-  - slug: domestic-health
-    label: Domestic health
-    ids: ["114", "113", "112", "111", "109", "107", "106", "105", "104", "103", "102", "101", "99", "98", "96", "94", "93", "85", "76", "75", "73", "56", "53", "36", "31"]
-  - slug: profiles-human-stories
-    label: Profiles & human stories
-    ids: ["94", "92", "87", "81", "33", "17"]
-  - slug: multimedia
-    label: Multimedia
-    ids: ["115", "110", "108", "98", "97", "90", "88", "84", "79", "42"]
-  - slug: inequity-structural-discrimination
-    label: Inequity & structural discrimination
-    ids: ["109", "78", "77", "74", "72", "71", "47", "35", "34", "32", "07"]
-
 fellowships:
-  - name: Rosalynn Carter Fellowship for Mental Health Journalism
-    organization: The Carter Center
-  - name: AAAS Mass Media Fellowship
-    organization: Association of American Medical Colleges
   - name: Stanford Global Health Media Fellowship
     organization: Stanford Center for Innovation in Global Health
+  - name: AAAS Mass Media Fellowship
+    organization: Association of American Medical Colleges
+  - name: Rosalynn Carter Fellowship for Mental Health Journalism
+    organization: The Carter Center
 
 additional_fellowships:
   - Global Health Advocacy Incubator Reporting Fellowship
@@ -65,7 +48,7 @@ recognition:
 
 training:
   - Graduate-level journalism training at the Stanford Journalism Program
-  - HEFAT trained (Hostile Environment and First Aid Training)
+  - Hostile Environment and First Aid Training (HEFAT)
 
 reported_from:
   - Uganda
@@ -78,6 +61,7 @@ reported_from:
 supporters:
   - name: The Carter Center
   - name: Pulitzer Center
+  - name: Kresge Foundation
   - name: Association of Health Care Journalists
   - name: Association of American Medical Colleges
   - name: American Academy of Pediatrics

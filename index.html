@@ -6,6 +6,26 @@ body_class: home-page
 recaptcha: true
 ---
 {% assign clip_pages = site.pages | where_exp: "p", "p.clip == true" | where_exp: "p", "p.clip_id" | sort: "clip_id" | reverse %}
+{% assign reporting_topics = "" | split: "" %}
+{% for p in clip_pages %}
+  {% if p.categories %}
+    {% for category in p.categories %}
+      {% assign normalized_category = category | strip_html | strip | downcase %}
+      {% unless normalized_category == "audio" or normalized_category == "video" or normalized_category == "podcast" or normalized_category == "photo story" %}
+        {% assign reporting_topics = reporting_topics | push: normalized_category %}
+      {% endunless %}
+    {% endfor %}
+  {% elsif p.category %}
+    {% assign normalized_category = p.category | strip_html | strip | downcase %}
+    {% unless normalized_category == "audio" or normalized_category == "video" or normalized_category == "podcast" or normalized_category == "photo story" %}
+      {% assign reporting_topics = reporting_topics | push: normalized_category %}
+    {% endunless %}
+  {% endif %}
+  {% if p.audio or p.video or p.podcast or p.photo_story %}
+    {% assign reporting_topics = reporting_topics | push: "multimedia" %}
+  {% endif %}
+{% endfor %}
+{% assign reporting_topics = reporting_topics | uniq | sort %}
 
 <section class="hero" id="about">
   <div class="site-shell hero__grid">
@@ -14,7 +34,8 @@ recaptcha: true
         <img class="hero__portrait" src="/assets/profile.svg" alt="Portrait of Michal Ruprecht">
       </div>
       <div class="hero__current" aria-label="Current role">
-        <span>Mental health reporting · NPR</span>
+        <span>Mental health reporter</span>
+        <strong>NPR</strong>
       </div>
     </div>
 
@@ -42,14 +63,18 @@ recaptcha: true
       <div class="credentials__additional">
         <h3>Additional fellowships &amp; recognition</h3>
         <ul>
-          {% for item in site.data.portfolio.additional_fellowships %}<li>{{ item }}</li>{% endfor %}
           {% for item in site.data.portfolio.recognition %}<li>{{ item }}</li>{% endfor %}
+          {% for item in site.data.portfolio.additional_fellowships %}<li>{{ item }}</li>{% endfor %}
         </ul>
       </div>
     </div>
+  </div>
+</section>
 
+<section class="credibility-strip" aria-label="Reporting experience">
+  <div class="site-shell">
     <div class="credentials__secondary">
-      <div class="credentials__group">
+      <div class="credentials__group credentials__group--supported">
         <h3>Reporting supported by</h3>
         <ul class="name-list">
           {% for item in site.data.portfolio.supporters %}
@@ -67,14 +92,14 @@ recaptcha: true
         </ul>
       </div>
 
-      <div class="credentials__group">
+      <div class="credentials__group credentials__group--training">
         <h3>Training</h3>
         <ul class="name-list name-list--single">
           {% for item in site.data.portfolio.training %}<li>{{ item }}</li>{% endfor %}
         </ul>
       </div>
 
-      <div class="credentials__group">
+      <div class="credentials__group credentials__group--places">
         <h3>Reported from</h3>
         <ul class="published-list">
           {% for item in site.data.portfolio.reported_from %}<li>{{ item }}</li>{% endfor %}
@@ -115,8 +140,8 @@ recaptcha: true
       <div class="filter-group" role="group" aria-label="Topic" data-advanced-filters hidden>
         <span class="filter-group__label">Topic</span>
         <button class="filter-chip is-active" type="button" data-filter-kind="topic" data-filter-value="all" aria-pressed="true">All</button>
-        {% for topic in site.data.portfolio.topics %}
-          <button class="filter-chip" type="button" data-filter-kind="topic" data-filter-value="{{ topic.slug }}" aria-pressed="false">{{ topic.label }}</button>
+        {% for topic in reporting_topics %}
+          <button class="filter-chip" type="button" data-filter-kind="topic" data-filter-value="{{ topic | slugify }}" aria-pressed="false">{{ topic | capitalize }}</button>
         {% endfor %}
       </div>
     </div>
@@ -136,7 +161,7 @@ recaptcha: true
         {% if p.featured == true %}{% assign is_featured = true %}{% endif %}
         {% assign is_large = false %}
         {% if site.data.portfolio.large_ids contains cid %}{% assign is_large = true %}{% endif %}
-        {% capture topic_values %}{% for topic in site.data.portfolio.topics %}{% if topic.ids contains cid %} {{ topic.slug }}{% endif %}{% endfor %}{% if p.category %} {{ p.category | strip_html | slugify }}{% endif %}{% if p.audio %} multimedia{% endif %}{% if p.video %} multimedia{% endif %}{% if p.podcast %} multimedia{% endif %}{% if p.photo_story %} multimedia{% endif %}{% endcapture %}
+        {% capture topic_values %}{% if p.categories %}{% for category in p.categories %} {{ category | strip_html | slugify }}{% endfor %}{% elsif p.category %} {{ p.category | strip_html | slugify }}{% endif %}{% if p.audio %} multimedia{% endif %}{% if p.video %} multimedia{% endif %}{% if p.podcast %} multimedia{% endif %}{% if p.photo_story %} multimedia{% endif %}{% endcapture %}
         {% assign source_slug = p.publisher | strip_html | slugify %}
         {% assign format_label = "Article" %}
         {% if p.audio or p.video or p.podcast or p.photo_story %}{% assign format_label = "Multimedia" %}{% elsif p.data %}{% assign format_label = "Data" %}{% endif %}

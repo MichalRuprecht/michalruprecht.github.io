@@ -11,8 +11,6 @@ featured_ids:
 
 # LARGE STORY CARD
 # Keep this list short. The homepage will enlarge at most one matching card.
-large_ids:
-  - "116"
 
 outlets:
   - value: npr

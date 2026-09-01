@@ -166,15 +166,25 @@
 
     function resultLabel(total, visibleCount, query) {
       const descriptors = [];
+      let topicDescriptor = '';
       if (state.collection === 'featured') {
         descriptors.push('featured');
       } else {
         if (state.source !== 'all') descriptors.push(sourceLabels.get(state.source) || sourceLabelFallbacks.get(state.source) || state.source);
-        if (state.topic !== 'all') descriptors.push((topicLabels.get(state.topic) || state.topic).toLowerCase());
+        if (state.topic !== 'all') topicDescriptor = (topicLabels.get(state.topic) || state.topic).toLowerCase();
       }
 
       const noun = total === 1 ? 'story' : 'stories';
-      const describedStories = `${descriptors.length ? `${descriptors.join(' ')} ` : ''}${noun}`;
+      let describedStories;
+      if (topicDescriptor.endsWith(' stories')) {
+        const topicPhrase = total === 1 && topicDescriptor === 'profiles and human stories'
+          ? 'profile or human story'
+          : topicDescriptor;
+        describedStories = [...descriptors, topicPhrase].join(' ');
+      } else {
+        if (topicDescriptor) descriptors.push(topicDescriptor);
+        describedStories = `${descriptors.length ? `${descriptors.join(' ')} ` : ''}${noun}`;
+      }
       const apNumber = (number) => {
         const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
         return number < 10 ? words[number] : String(number);

@@ -21,6 +21,8 @@
 
   if (siteHeader) {
     let lastScrollY = window.scrollY;
+    let directionStartY = window.scrollY;
+    let direction = 0;
     let ticking = false;
 
     window.addEventListener('scroll', () => {
@@ -29,8 +31,22 @@
       window.requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
         const menuIsOpen = navToggle && navToggle.getAttribute('aria-expanded') === 'true';
-        const scrollingDown = currentScrollY > lastScrollY && currentScrollY > 120;
-        siteHeader.classList.toggle('is-hidden', scrollingDown && !menuIsOpen);
+        const delta = currentScrollY - lastScrollY;
+        const nextDirection = delta > 0 ? 1 : delta < 0 ? -1 : direction;
+
+        if (nextDirection !== direction) {
+          direction = nextDirection;
+          directionStartY = currentScrollY;
+        }
+
+        if (currentScrollY < 120 || menuIsOpen) {
+          siteHeader.classList.remove('is-hidden');
+        } else if (direction === 1 && currentScrollY > 260 && currentScrollY - directionStartY > 90) {
+          siteHeader.classList.add('is-hidden');
+        } else if (direction === -1 && directionStartY - currentScrollY > 35) {
+          siteHeader.classList.remove('is-hidden');
+        }
+
         lastScrollY = Math.max(currentScrollY, 0);
         ticking = false;
       });

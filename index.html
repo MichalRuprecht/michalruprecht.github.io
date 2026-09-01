@@ -40,8 +40,7 @@ recaptcha: true
     </div>
 
     <div class="hero__copy">
-      <p class="eyebrow">Medical student · Journalist</p>
-      <h1>Michal Ruprecht</h1>
+      <h1>Hiya!</h1>
       <p class="hero__lede">My name is <mark>Michal Ruprecht</mark>, and I’m a medical student. I’m also a journalist, covering mental health for <mark>NPR</mark> as a <mark>Rosalynn Carter Fellow</mark>. I report on how power, misinformation and prejudice shape who gets care and who is left behind. I leverage my medical training to inform the types of stories I write. I focus on nuanced issues affecting patients and providers, rather than flashy medical breakthroughs that rarely reach the communities that need them most.</p>
     </div>
   </div>
@@ -50,7 +49,8 @@ recaptcha: true
 <section class="credentials" aria-labelledby="fellowships-title">
   <div class="site-shell credentials__inner">
     <div class="credentials__fellowships">
-      <h2 id="fellowships-title">Fellowships</h2>
+      <h2 id="fellowships-title">A few things worth mentioning</h2>
+      <p class="credentials__intro">Along the way, I’ve received several reporting fellowships that have given me the time and support to produce deeply reported stories. I even took time away from medical school to pursue some of them — trading rounds for reporting, at least temporarily.</p>
       <ul class="fellowship-list">
         {% for item in site.data.portfolio.fellowships %}
           <li>
@@ -61,7 +61,7 @@ recaptcha: true
       </ul>
 
       <div class="credentials__additional">
-        <h3>Additional fellowships &amp; recognition</h3>
+        <h3>Also worth a footnote</h3>
         <ul>
           {% for item in site.data.portfolio.recognition %}<li>{{ item }}</li>{% endfor %}
           {% for item in site.data.portfolio.additional_fellowships %}<li>{{ item }}</li>{% endfor %}
@@ -75,7 +75,7 @@ recaptcha: true
   <div class="site-shell">
     <div class="credentials__secondary">
       <div class="credentials__group credentials__group--supported">
-        <h3>Reporting supported by</h3>
+        <h3>The reporting took a village</h3>
         <ul class="name-list">
           {% for item in site.data.portfolio.supporters %}
             <li>{{ item.name }}{% if item.short %} <span>({{ item.short }})</span>{% endif %}</li>
@@ -84,7 +84,7 @@ recaptcha: true
       </div>
 
       <div class="credentials__group credentials__group--published">
-        <h3>Published in</h3>
+        <h3>Where the work has landed</h3>
         <ul class="published-list">
           {% for item in site.data.portfolio.published %}
             <li>{{ item.name }}</li>
@@ -93,14 +93,14 @@ recaptcha: true
       </div>
 
       <div class="credentials__group credentials__group--training">
-        <h3>Training</h3>
+        <h3>A few tools in the field kit</h3>
         <ul class="name-list name-list--single">
           {% for item in site.data.portfolio.training %}<li>{{ item }}</li>{% endfor %}
         </ul>
       </div>
 
       <div class="credentials__group credentials__group--places">
-        <h3>Reported from</h3>
+        <h3>Datelines so far</h3>
         <ul class="published-list">
           {% for item in site.data.portfolio.reported_from %}<li>{{ item }}</li>{% endfor %}
         </ul>

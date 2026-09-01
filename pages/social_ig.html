@@ -1,68 +1,36 @@
 ---
-layout: med
-title: Social Instagram
+layout: portfolio
+title: Recent Reporting | Michal Ruprecht
+description: Recent reporting by medical student and journalist Michal Ruprecht.
+body_class: social-ig-page
 ---
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <title>Social Instagram</title>
-  </head>
-  <body>
-    <div class="grid">
-      <div class="footer">
+{% assign ig_clips = site.pages
+  | where_exp: "p", "p.clip == true"
+  | where_exp: "p", "p.clip_id"
+  | sort: "clip_id"
+  | reverse
+%}
 
-<div class="title">
-      POSTS
-    </div>
-<h3>
-       
-        <center><ul class="image-grid-instagram">
-  {% assign ig_clips = site.pages
-    | where_exp: "p", "p.clip == true"
-    | where_exp: "p", "p.clip_id"
-    | sort: "clip_id"
-    | reverse
-  %}
+<section class="social-ig-hero">
+  <div class="site-shell">
+    <h1>Recent reporting</h1>
+  </div>
+</section>
 
-  {% for p in ig_clips %}
-    {% assign cid = p.clip_id | plus: 0 %}
-
-    {% if cid >= 81 and cid != 97 and cid != 108 and cid != 110 and p.publisher_url %}
-      <li>
-        <a href="{{ p.publisher_url }}" target="_blank" rel="noopener">
-          <img
-            src="https://michalruprecht.com/pages/clips/assets/photo/{{ cid }}.jpg"
-            alt="{{ p.title | escape }}"
-            loading="lazy"
-          >
-        </a>
-      </li>
-    {% endif %}
-  {% endfor %}
-</ul>
-        </center>
-</h3>
-                </div>
-    </div>
-
-         
-      <footer>
-    </footer>
-    <script>
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-
-    for (i = 0; i < coll.length; i++) {
-      coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight){
-          content.style.maxHeight = null;
-        } else {
-          content.style.maxHeight = content.scrollHeight + "px";
-        }
-      });
-    }
-    </script>
-  </body>
-</html>
+<section class="social-ig-section" aria-label="Recent reporting links">
+  <div class="site-shell">
+    <ul class="social-ig-grid">
+      {% for p in ig_clips %}
+        {% assign cid = p.clip_id | plus: 0 %}
+        {% if cid >= 81 and cid != 97 and cid != 108 and cid != 110 and p.publisher_url %}
+          <li class="social-ig-card">
+            <a href="{{ p.publisher_url }}" target="_blank" rel="noopener">
+              <img src="/pages/clips/assets/photo/{{ cid }}.jpg" alt="" loading="lazy">
+              <h2>{{ p.title }}</h2>
+            </a>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</section>

@@ -1,6 +1,6 @@
 ---
 layout: portfolio
-title: Michal Ruprecht | Journalist and Medical Student
+title: Michal Ruprecht | Medical Student and Health Journalist
 description: Michal Ruprecht is a medical student and journalist covering mental health for NPR as a Rosalynn Carter Fellow.
 body_class: home-page
 recaptcha: true
@@ -14,8 +14,7 @@ recaptcha: true
         <img class="hero__portrait" src="/assets/profile.svg" alt="Portrait of Michal Ruprecht">
       </div>
       <div class="hero__current" aria-label="Current role">
-        <strong>NPR</strong>
-        <span>Rosalynn Carter Fellow</span>
+        <span>Mental health reporting · NPR</span>
       </div>
     </div>
 
@@ -23,10 +22,6 @@ recaptcha: true
       <p class="eyebrow">Medical student · Journalist</p>
       <h1>Michal Ruprecht</h1>
       <p class="hero__lede">My name is <mark>Michal Ruprecht</mark>, and I’m a medical student. I’m also a journalist, covering mental health for <mark>NPR</mark> as a <mark>Rosalynn Carter Fellow</mark>. I report on how power, misinformation and prejudice shape who gets care and who is left behind. I leverage my medical training to inform the types of stories I write. I focus on nuanced issues affecting patients and providers, rather than flashy medical breakthroughs that rarely reach the communities that need them most.</p>
-      <div class="hero__actions">
-        <a class="button button--primary" href="#reporting">Reporting</a>
-        <a class="button button--secondary" href="mailto:mrup.01@proton.me">Email</a>
-      </div>
     </div>
   </div>
 </section>
@@ -35,15 +30,22 @@ recaptcha: true
   <div class="site-shell credentials__inner">
     <div class="credentials__fellowships">
       <h2 id="fellowships-title">Fellowships</h2>
-      <ol class="fellowship-list">
+      <ul class="fellowship-list">
         {% for item in site.data.portfolio.fellowships %}
           <li>
-            <span class="fellowship-list__number" aria-hidden="true">0{{ forloop.index }}</span>
-            <span class="fellowship-list__name">{{ item.name }}</span>
             <span class="fellowship-list__organization">{{ item.organization }}</span>
+            <span class="fellowship-list__name">{{ item.name }}</span>
           </li>
         {% endfor %}
-      </ol>
+      </ul>
+
+      <div class="credentials__additional">
+        <h3>Additional fellowships &amp; recognition</h3>
+        <ul>
+          {% for item in site.data.portfolio.additional_fellowships %}<li>{{ item }}</li>{% endfor %}
+          {% for item in site.data.portfolio.recognition %}<li>{{ item }}</li>{% endfor %}
+        </ul>
+      </div>
     </div>
 
     <div class="credentials__secondary">
@@ -62,6 +64,20 @@ recaptcha: true
           {% for item in site.data.portfolio.published %}
             <li>{{ item.name }}</li>
           {% endfor %}
+        </ul>
+      </div>
+
+      <div class="credentials__group">
+        <h3>Training</h3>
+        <ul class="name-list name-list--single">
+          {% for item in site.data.portfolio.training %}<li>{{ item }}</li>{% endfor %}
+        </ul>
+      </div>
+
+      <div class="credentials__group">
+        <h3>Reported from</h3>
+        <ul class="published-list">
+          {% for item in site.data.portfolio.reported_from %}<li>{{ item }}</li>{% endfor %}
         </ul>
       </div>
     </div>
@@ -118,12 +134,14 @@ recaptcha: true
         {% assign is_featured = false %}
         {% if site.data.portfolio.featured_ids contains cid %}{% assign is_featured = true %}{% endif %}
         {% if p.featured == true %}{% assign is_featured = true %}{% endif %}
-        {% capture topic_values %}{% for topic in site.data.portfolio.topics %}{% if topic.ids contains cid %} {{ topic.slug }}{% endif %}{% endfor %}{% if p.category %} {{ p.category | strip_html | slugify }}{% endif %}{% if p.video %} multimedia{% endif %}{% if p.podcast %} multimedia{% endif %}{% if p.photo_story %} multimedia{% endif %}{% endcapture %}
+        {% assign is_large = false %}
+        {% if site.data.portfolio.large_ids contains cid %}{% assign is_large = true %}{% endif %}
+        {% capture topic_values %}{% for topic in site.data.portfolio.topics %}{% if topic.ids contains cid %} {{ topic.slug }}{% endif %}{% endfor %}{% if p.category %} {{ p.category | strip_html | slugify }}{% endif %}{% if p.audio %} multimedia{% endif %}{% if p.video %} multimedia{% endif %}{% if p.podcast %} multimedia{% endif %}{% if p.photo_story %} multimedia{% endif %}{% endcapture %}
         {% assign source_slug = p.publisher | strip_html | slugify %}
         {% assign format_label = "Article" %}
-        {% if p.video %}{% assign format_label = "Video" %}{% elsif p.podcast %}{% assign format_label = "Podcast" %}{% elsif p.photo_story %}{% assign format_label = "Photo story" %}{% elsif p.data %}{% assign format_label = "Data" %}{% endif %}
+        {% if p.audio or p.video or p.podcast or p.photo_story %}{% assign format_label = "Multimedia" %}{% elsif p.data %}{% assign format_label = "Data" %}{% endif %}
 
-        <li class="clip-card" data-clip-card data-clip-id="{{ cid }}" data-featured="{{ is_featured }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">
+        <li class="clip-card" data-clip-card data-clip-id="{{ cid }}" data-featured="{{ is_featured }}" data-large="{{ is_large }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-title="{{ p.title | strip_html | downcase | escape }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">
           <a class="clip-card__image-link" href="{{ p.url | relative_url }}" tabindex="-1" aria-hidden="true">
             <img src="/pages/clips/assets/photo/{{ cid }}.jpg" alt="" loading="lazy">
           </a>

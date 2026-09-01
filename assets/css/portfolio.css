@@ -105,6 +105,11 @@ a {
   border-bottom: 1px solid var(--line);
   background: rgba(251, 250, 246, 0.94);
   backdrop-filter: blur(16px);
+  transition: transform 220ms ease;
+}
+
+.site-header.is-hidden {
+  transform: translateY(-105%);
 }
 
 .site-header__inner {
@@ -234,32 +239,23 @@ a {
   position: absolute;
   right: -38px;
   bottom: -30px;
-  width: min(230px, 76%);
-  padding: 18px 20px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 13px 17px;
   border: 1px solid var(--ink);
   background: var(--highlight);
   box-shadow: 9px 9px 0 var(--ink);
   transform: rotate(1.5deg);
 }
 
-.hero__current span,
-.hero__current strong {
-  display: block;
-}
-
 .hero__current span {
-  font-size: 11px;
+  display: block;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   line-height: 1.35;
   text-transform: uppercase;
-}
-
-.hero__current strong {
-  margin: 1px 0;
-  font-family: var(--serif);
-  font-size: 37px;
-  line-height: 1;
+  white-space: nowrap;
 }
 
 .eyebrow {
@@ -347,8 +343,9 @@ mark {
 
 .credentials {
   padding: clamp(58px, 7vw, 92px) 0;
-  color: var(--white);
-  background: var(--ink);
+  color: var(--ink);
+  border-top: 1px solid var(--line);
+  background: var(--paper-light);
 }
 
 .credentials__inner {
@@ -373,25 +370,17 @@ mark {
 .fellowship-list {
   margin: 0;
   padding: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.26);
+  border-top: 1px solid var(--line);
   list-style: none;
 }
 
 .fellowship-list li {
-  display: grid;
-  grid-template-columns: 54px minmax(0, 1.45fr) minmax(210px, 0.7fr);
-  gap: 20px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   margin: 0;
-  padding: 21px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.26);
-}
-
-.fellowship-list__number {
-  color: var(--highlight);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
 }
 
 .fellowship-list__name {
@@ -401,26 +390,53 @@ mark {
 }
 
 .fellowship-list__organization {
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 13px;
-  font-weight: 600;
+  order: -1;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.credentials__additional {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.38fr) minmax(0, 1fr);
+  gap: 30px;
+  margin-top: 34px;
+}
+
+.credentials__additional h3,
+.credentials__group h3 {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.credentials__additional ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px 28px;
+  margin: 0;
+  padding: 0;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.45;
+  list-style: none;
 }
 
 .credentials__secondary {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.75fr);
-  gap: clamp(48px, 8vw, 110px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px clamp(48px, 8vw, 110px);
 }
 
 .credentials__group h3 {
   margin-bottom: 18px;
-  color: rgba(255, 255, 255, 0.68);
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  color: var(--ink-soft);
 }
 
 .name-list,
@@ -440,16 +456,14 @@ mark {
 .published-list li {
   margin: 0;
   padding: 10px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid var(--line);
   font-family: var(--serif);
   font-size: clamp(17px, 1.5vw, 21px);
   line-height: 1.25;
 }
 
-.name-list li span {
-  color: rgba(255, 255, 255, 0.62);
-  font-family: var(--sans);
-  font-size: 11px;
+.name-list--single {
+  grid-template-columns: 1fr;
 }
 
 .published-list {
@@ -546,7 +560,7 @@ mark {
   width: 60px;
   flex: 0 0 60px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -559,7 +573,7 @@ mark {
   border-radius: 999px;
   color: var(--ink);
   background: transparent;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -572,17 +586,21 @@ mark {
 }
 
 .reporting__meta {
-  min-height: 62px;
+  min-height: 74px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .reporting__meta p {
   margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.2;
 }
 
 .text-button {
@@ -591,7 +609,7 @@ mark {
   border-bottom: 1px solid currentColor;
   color: var(--ink);
   background: transparent;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -609,14 +627,16 @@ mark {
   min-width: 0;
 }
 
-.clip-card:first-child {
+.clip-card.is-large {
   grid-column: span 2;
 }
 
 .clip-card__image-link {
   display: block;
   overflow: hidden;
+  border: 0;
   background: var(--paper);
+  line-height: 0;
 }
 
 .clip-card__image-link img {
@@ -642,7 +662,7 @@ mark {
   flex-wrap: wrap;
   gap: 6px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.06em;
   line-height: 1.35;
@@ -679,7 +699,7 @@ mark {
   padding: 4px 8px;
   border: 1px solid var(--ink);
   border-radius: 999px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -714,6 +734,7 @@ mark {
 .newsletter-card > p:not(.eyebrow) {
   margin: 19px 0 0;
   color: rgba(255, 255, 255, 0.72);
+  font-size: 16px;
 }
 
 .newsletter-form {
@@ -806,7 +827,7 @@ mark {
   flex-wrap: wrap;
   gap: 8px 17px;
   margin-top: 11px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -863,7 +884,7 @@ mark {
   display: flex;
   flex-wrap: wrap;
   gap: 11px 22px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -882,19 +903,14 @@ mark {
   width: min(660px, 100%);
 }
 
-.medical-disclaimer h2 {
+.medical-disclaimer p {
   margin: 0;
-  color: var(--white);
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  line-height: 1.6;
 }
 
-.medical-disclaimer p {
-  margin: 14px 0 0;
-  line-height: 1.6;
+.site-footer h2,
+.site-footer a {
+  color: var(--white);
 }
 
 /* Ceramics */
@@ -938,15 +954,24 @@ mark {
 .media-links {
   display: grid;
   gap: 13px;
-  margin-top: 34px;
-  padding-top: 28px;
+  margin-top: 40px;
+  padding: 24px 0;
   border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .media-links a {
+  display: grid;
+  gap: 3px;
   font-family: var(--serif);
-  font-size: 19px;
+  font-size: 20px;
   text-underline-offset: 4px;
+}
+
+.media-links a span {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 13px;
 }
 
 .ceramics-section {
@@ -1004,20 +1029,20 @@ mark {
   margin: 0 0 24px;
   break-inside: avoid;
   overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 4px 34px 4px 4px;
-  background: var(--white);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .piece-card img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: contain;
-  background: var(--paper);
+  background: transparent;
 }
 
 .piece-card figcaption {
-  padding: 16px 18px 19px;
+  padding: 14px 0 18px;
   color: var(--ink);
   font-family: var(--serif);
   font-size: 16px;
@@ -1029,8 +1054,66 @@ mark {
 }
 
 .ceramics-section--dark .piece-card {
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 10px 10px 0 rgba(16, 41, 37, 0.22);
+  box-shadow: none;
+}
+
+/* Instagram reporting links */
+.social-ig-page main {
+  background: var(--paper-light);
+}
+
+.social-ig-hero {
+  padding: clamp(64px, 9vw, 118px) 0 clamp(38px, 5vw, 62px);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.social-ig-hero h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(58px, 9vw, 120px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+}
+
+.social-ig-section {
+  padding: clamp(48px, 7vw, 92px) 0;
+}
+
+.social-ig-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-ig-card a {
+  display: block;
+  text-decoration: none;
+}
+
+.social-ig-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: var(--paper);
+  transition: transform 220ms ease, filter 220ms ease;
+}
+
+.social-ig-card h2 {
+  margin: 13px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(19px, 1.8vw, 25px);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.social-ig-card a:hover img {
+  filter: saturate(1.05);
+  transform: translateY(-3px);
 }
 
 /* Shared shell around legacy pages and clip pages. */
@@ -1067,6 +1150,19 @@ mark {
 .clip-page .nyt-title,
 .clip-page .clip-body p {
   color: var(--ink);
+}
+
+.clip-page .clip-published {
+  font-size: 20px;
+}
+
+.clip-page article.clip-article p.nyt-byline {
+  font-size: 18px;
+}
+
+.clip-page article.clip-article p.nyt-publish-date {
+  color: var(--muted);
+  font-size: 16px;
 }
 
 .clip-page .nyt-title {
@@ -1130,7 +1226,7 @@ mark {
   color: var(--ink);
   background: transparent;
   font-family: var(--sans);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   text-decoration: none;
 }
@@ -1276,16 +1372,12 @@ mark {
   }
 
   .fellowship-list li {
-    grid-template-columns: 38px minmax(0, 1fr);
-    gap: 12px;
-    align-items: start;
-  }
-
-  .fellowship-list__organization {
-    grid-column: 2;
+    gap: 5px;
   }
 
   .credentials__secondary,
+  .credentials__additional,
+  .credentials__additional ul,
   .name-list {
     grid-template-columns: 1fr;
   }
@@ -1328,8 +1420,12 @@ mark {
     gap: 40px;
   }
 
-  .clip-card:first-child {
+  .clip-card.is-large {
     grid-column: auto;
+  }
+
+  .social-ig-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .clip-card h3 {
@@ -1363,6 +1459,12 @@ mark {
 
   .ceramics-section__intro {
     gap: 34px;
+  }
+}
+
+@media (max-width: 520px) {
+  .social-ig-grid {
+    grid-template-columns: 1fr;
   }
 }
 

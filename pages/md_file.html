@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
   <title>Clip MD Generator</title>
   <style>
     :root{
@@ -345,6 +346,7 @@
       </div>
 
       <div class="checks">
+        <label><input id="isAudio" type="checkbox" /> Audio</label>
         <label><input id="isPodcast" type="checkbox" /> Podcast</label>
         <label><input id="isVideo" type="checkbox" /> Video</label>
         <label><input id="hasPdf" type="checkbox" checked /> PDF available</label>
@@ -699,6 +701,7 @@
     const publisherUrl = document.getElementById("publisherUrl").value.trim();
     const category = document.getElementById("category").value.trim();
 
+    const isAudio = document.getElementById("isAudio").checked;
     const isPodcast = document.getElementById("isPodcast").checked;
     const isVideo = document.getElementById("isVideo").checked;
     const hasPdf = document.getElementById("hasPdf").checked;
@@ -793,6 +796,7 @@
       lines.push(`pdf: false`);
     }
 
+    if(isAudio) lines.push(`audio: true`);
     if(isPodcast) lines.push(`podcast: true`);
     if(isVideo) lines.push(`video: true`);
 
@@ -994,6 +998,7 @@
     setDefaultDateToday();
     document.getElementById("byline").value = "Michal Ruprecht";
 
+    document.getElementById("isAudio").checked = false;
     document.getElementById("isPodcast").checked = false;
     document.getElementById("isVideo").checked = false;
     document.getElementById("hasPdf").checked = true;

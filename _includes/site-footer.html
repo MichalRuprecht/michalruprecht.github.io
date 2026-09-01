@@ -22,7 +22,6 @@
         </nav>
       </div>
 
-      {% if page.recaptcha %}
       <div class="newsletter-card site-footer__newsletter">
         <h2>Receive my stories in your inbox.</h2>
         <p>Subscribe to my newsletter below.</p>
@@ -43,7 +42,6 @@
         </div>
         <p class="recaptcha-notice">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
       </div>
-      {% endif %}
     </div>
 
     <div class="site-footer__more">
@@ -58,7 +56,6 @@
     <div class="site-footer__bottom">
       <p>Copyright © 2019–<span data-current-year>{{ site.time | date: "%Y" }}</span> Michal T. Ruprecht. All rights reserved.</p>
       <div class="medical-disclaimer">
-        <h2>Medical disclaimer</h2>
         <p>This website is provided for educational and informational purposes only and does not constitute providing medical advice or professional services. The information provided should not be used for diagnosing or treating a health problem or disease, and those seeking personal medical advice should consult with a licensed physician. Always seek the advice of your doctor or other qualified health provider regarding a medical condition. [Never disregard professional medical advice or delay in seeking it because of something you have read on this website.] No physician-patient relationship is created by this website. Science and medicine are constantly evolving fields, and changes may impact the information contained herein. Neither Michal Ruprecht nor any contributor to this website makes any representations, express or implied, with respect to the information provided, and assumes no obligation to update any of the information stated herein.</p>
       </div>
     </div>

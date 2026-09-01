@@ -1,0 +1,25 @@
+---
+---
+{% capture reporting_target %}/?view=all&outlet={{ page.outlet_value | url_encode }}#reporting{% endcapture %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.outlet_label }} Reporting | Michal Ruprecht</title>
+  <meta name="description" content="Browse Michal Ruprecht’s reporting for {{ page.outlet_label }}.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <meta property="og:title" content="{{ page.outlet_label }} Reporting | Michal Ruprecht">
+  <meta property="og:description" content="Browse Michal Ruprecht’s reporting for {{ page.outlet_label }}.">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:site_name" content="Michal Ruprecht">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="{{ '/assets/profile.svg' | absolute_url }}">
+  <meta http-equiv="refresh" content="0; url={{ reporting_target | escape }}">
+  <script>window.location.replace({{ reporting_target | jsonify }});</script>
+</head>
+<body>
+  <p>Opening <a href="{{ reporting_target | escape }}">{{ page.outlet_label }} reporting by Michal Ruprecht</a>…</p>
+</body>
+</html>

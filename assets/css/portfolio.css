@@ -105,7 +105,7 @@ a {
   border-bottom: 1px solid var(--line);
   background: rgba(251, 250, 246, 0.94);
   backdrop-filter: blur(16px);
-  transition: transform 220ms ease;
+  transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .site-header.is-hidden {
@@ -374,6 +374,15 @@ mark {
   margin-bottom: 30px;
   font-size: clamp(48px, 6vw, 82px);
   line-height: 1;
+}
+
+.credentials__intro {
+  max-width: 800px;
+  margin: -10px 0 38px;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--serif);
+  font-size: clamp(19px, 1.8vw, 25px);
+  line-height: 1.5;
 }
 
 .fellowship-list {
@@ -849,6 +858,15 @@ mark {
   font-size: clamp(21px, 2.2vw, 30px);
   text-decoration-color: rgba(255, 255, 255, 0.34);
   text-underline-offset: 5px;
+}
+
+.site-footer__snail-mail {
+  max-width: 390px;
+  margin: 16px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .site-footer__phone {

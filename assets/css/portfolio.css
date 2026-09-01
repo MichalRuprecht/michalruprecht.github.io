@@ -741,9 +741,16 @@ mark {
   text-decoration-color: currentColor;
 }
 
+.clip-card__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
 .format-badge {
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 0;
   padding: 4px 8px;
   border: 1px solid var(--ink);
   border-radius: 999px;

@@ -22,7 +22,7 @@ For a new story, add its number to `featured_ids` in the position where you want
 
 ## Adding topics to a Markdown file
 
-The homepage reads topics directly from the clip files. The visible filters are Global health, Domestic health, Multimedia and Research, in that order. Data journalism does not appear as a topic filter. To give a story more than one topic, use a list in that story's Markdown header:
+The homepage reads topics directly from the clip files. The first four visible filters are Global health, Domestic health, Multimedia and Research, in that order, followed by Profiles and human stories and Inequity, gender and structural discrimination. Data journalism does not appear as a topic filter. To give a story more than one topic, use a list in that story's Markdown header:
 
 ```yaml
 categories:

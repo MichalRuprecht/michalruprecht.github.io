@@ -456,8 +456,8 @@ mark {
 
 .credentials__secondary {
   display: grid;
-  grid-template-columns: 1.35fr 0.72fr 1.25fr 0.9fr;
-  gap: clamp(30px, 4vw, 58px);
+  grid-template-columns: minmax(0, 1.45fr) minmax(250px, 0.55fr);
+  gap: clamp(40px, 5vw, 72px);
 }
 
 .credibility-strip {
@@ -490,15 +490,18 @@ mark {
 }
 
 .credentials__group--supported {
-  grid-column: span 2;
+  grid-column: auto;
 }
 
 .credibility-strip .credentials__group--supported .name-list {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.credentials__group--published,
 .credentials__group--places {
   grid-column: 1 / -1;
+  padding-top: clamp(32px, 4vw, 48px);
+  border-top: 1px solid var(--line);
 }
 
 .credibility-strip .credentials__group--places .published-list {
@@ -525,10 +528,21 @@ mark {
   gap: 0 24px;
 }
 
-.credential-memories--work {
+.work-history {
   display: grid;
-  gap: 22px;
-  margin-top: 28px;
+  grid-template-columns: minmax(240px, 0.62fr) minmax(0, 1.38fr);
+  gap: clamp(38px, 6vw, 82px);
+  align-items: start;
+}
+
+.credentials__group--published .published-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.credential-memories--work {
+  display: flex;
+  gap: clamp(28px, 4vw, 54px);
+  align-items: flex-start;
 }
 
 .credential-memory {
@@ -536,29 +550,21 @@ mark {
   margin: 0;
 }
 
-.credential-memory--cnn,
-.credential-memory--npr {
-  display: grid;
-  gap: 12px;
-  align-items: start;
-}
-
 .credential-memory--cnn {
-  grid-template-columns: 82px minmax(0, 1fr);
+  width: min(42%, 230px);
 }
 
 .credential-memory--npr {
-  grid-template-columns: minmax(0, 1fr) 118px;
+  width: min(50%, 280px);
+  margin-top: 34px;
+}
+
+.credential-memory--cnn .credential-memory__photo {
+  width: min(100%, 122px);
 }
 
 .credential-memory--npr .credential-memory__photo {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.credential-memory--npr figcaption {
-  grid-column: 1;
-  grid-row: 1;
+  width: min(100%, 176px);
 }
 
 .credential-memory__photo {
@@ -585,7 +591,7 @@ mark {
 
 .places-reporting {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
   gap: clamp(30px, 5vw, 66px);
   align-items: center;
 }
@@ -595,38 +601,33 @@ mark {
 }
 
 .credential-memory--uganda {
-  width: min(100%, 280px);
+  width: min(100%, 300px);
   justify-self: end;
 }
 
 .credential-memory figcaption {
   display: grid;
-  gap: 3px;
-  padding: 8px 2px 0;
-}
-
-.credential-memory--cnn figcaption,
-.credential-memory--npr figcaption {
-  padding-top: 0;
+  gap: 5px;
+  padding: 12px 2px 0;
 }
 
 .credential-memory figcaption strong {
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   line-height: 1.35;
   text-transform: uppercase;
 }
 
 .credential-memory figcaption span {
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: clamp(17px, 1.45vw, 20px);
   line-height: 1.4;
 }
 
 .credential-memory figcaption small {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.4;
 }
 
@@ -2095,21 +2096,32 @@ mark {
     gap: 28px;
   }
 
-  .places-reporting .published-list {
+  .work-history {
     grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .credential-memories--work {
+    gap: 20px;
+    justify-content: space-between;
+  }
+
+  .credential-memory--cnn {
+    width: 40%;
+  }
+
+  .credential-memory--npr {
+    width: 52%;
+    margin-top: 22px;
+  }
+
+  .places-reporting .published-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .credential-memory--uganda {
     width: min(82vw, 280px);
     justify-self: start;
-  }
-
-  .credential-memory--cnn {
-    grid-template-columns: 86px minmax(0, 1fr);
-  }
-
-  .credential-memory--npr {
-    grid-template-columns: minmax(0, 1fr) 126px;
   }
 
   .personal-notes__grid {

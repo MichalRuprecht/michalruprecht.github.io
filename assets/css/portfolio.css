@@ -1299,11 +1299,12 @@ mark {
   filter: drop-shadow(0 16px 14px rgba(16, 41, 37, 0.3));
 }
 
-.ceramics-hero__object--one {
-  right: -3%;
-  bottom: -2%;
-  width: 48%;
-  transform: rotate(-8deg);
+.ceramics-hero__object--mushroom-log {
+  right: -10%;
+  bottom: -4%;
+  width: auto;
+  height: 54%;
+  transform: rotate(-5deg);
 }
 
 .ceramics-hero__object--two {
@@ -2175,10 +2176,11 @@ mark {
     height: 84%;
   }
 
-  .ceramics-hero__object--one {
-    right: 0;
-    bottom: 0;
-    width: 43%;
+  .ceramics-hero__object--mushroom-log {
+    right: -11%;
+    bottom: -3%;
+    width: auto;
+    height: 48%;
   }
 
   .ceramics-hero__object--two {

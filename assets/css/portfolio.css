@@ -1198,10 +1198,25 @@ mark {
   transform: rotate(10deg);
 }
 
+.ceramics-page .ceramics-coverage-heading {
+  margin-top: clamp(48px, 6vw, 76px);
+}
+
+.ceramics-page .ceramics-coverage-heading h2 {
+  max-width: 980px;
+  margin: 0;
+  color: #163c37;
+  font-family: var(--serif);
+  font-size: clamp(42px, 5.8vw, 82px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
 .ceramics-page .media-links {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
-  margin-top: clamp(48px, 6vw, 76px);
+  margin-top: clamp(22px, 3vw, 34px);
   padding: 0;
   border: 1px solid rgba(16, 41, 37, 0.28);
   background: rgba(255, 255, 255, 0.46);
@@ -2017,8 +2032,16 @@ mark {
     width: 36%;
   }
 
-  .ceramics-page .media-links {
+  .ceramics-page .ceramics-coverage-heading {
     margin-top: 34px;
+  }
+
+  .ceramics-page .ceramics-coverage-heading h2 {
+    font-size: clamp(38px, 12vw, 56px);
+  }
+
+  .ceramics-page .media-links {
+    margin-top: 20px;
   }
 
   .ceramics-page .media-links a {

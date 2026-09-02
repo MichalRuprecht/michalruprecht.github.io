@@ -84,42 +84,44 @@ recaptcha: true
         </ul>
       </div>
 
-      <div class="credentials__group credentials__group--published">
-        <h3>Where I have worked</h3>
-        <ul class="published-list">
-          {% for item in site.data.portfolio.published %}
-            <li>{{ item.name }}</li>
-          {% endfor %}
-        </ul>
-
-        <div class="credential-memories credential-memories--work" aria-label="Memories from CNN and NPR">
-          <figure class="credential-memory credential-memory--cnn">
-            <div class="credential-memory__photo">
-              <img src="/assets/photos/cnn-sanjay-gupta.jpg" width="618" height="1100" loading="lazy" decoding="async" alt="Michal Ruprecht with Dr. Sanjay Gupta in a CNN studio">
-            </div>
-            <figcaption>
-              <strong>CNN</strong>
-              <span>With Dr. Sanjay Gupta, CNN’s chief medical correspondent, whom I worked with while at CNN.</span>
-            </figcaption>
-          </figure>
-
-          <figure class="credential-memory credential-memory--npr">
-            <div class="credential-memory__photo">
-              <img src="/assets/photos/npr-tiny-desk.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Michal Ruprecht standing in front of NPR’s Tiny Desk holding yellow maracas">
-            </div>
-            <figcaption>
-              <strong>NPR’s Tiny Desk</strong>
-              <span>I attended nine concerts; Gloria Estefan and the Doobie Brothers were my favorites.</span>
-            </figcaption>
-          </figure>
-        </div>
-      </div>
-
       <div class="credentials__group credentials__group--training">
         <h3>Journalism training</h3>
         <ul class="name-list name-list--single">
           {% for item in site.data.portfolio.training %}<li>{{ item }}</li>{% endfor %}
         </ul>
+      </div>
+
+      <div class="credentials__group credentials__group--published">
+        <h3>Where I have worked</h3>
+        <div class="work-history">
+          <ul class="published-list">
+            {% for item in site.data.portfolio.published %}
+              <li>{{ item.name }}</li>
+            {% endfor %}
+          </ul>
+
+          <div class="credential-memories credential-memories--work" aria-label="Memories from CNN and NPR">
+            <figure class="credential-memory credential-memory--cnn">
+              <div class="credential-memory__photo">
+                <img src="/assets/photos/cnn-sanjay-gupta.jpg" width="618" height="1100" loading="lazy" decoding="async" alt="Michal Ruprecht with Dr. Sanjay Gupta in a CNN studio">
+              </div>
+              <figcaption>
+                <strong>CNN</strong>
+                <span>With Dr. Sanjay Gupta, CNN’s chief medical correspondent, whom I worked with while at CNN.</span>
+              </figcaption>
+            </figure>
+
+            <figure class="credential-memory credential-memory--npr">
+              <div class="credential-memory__photo">
+                <img src="/assets/photos/npr-tiny-desk.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Michal Ruprecht standing in front of NPR’s Tiny Desk holding yellow maracas">
+              </div>
+              <figcaption>
+                <strong>NPR’s Tiny Desk</strong>
+                <span>I attended nine concerts; Gloria Estefan and the Doobie Brothers were my favorites.</span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
       </div>
 
       <div class="credentials__group credentials__group--places">

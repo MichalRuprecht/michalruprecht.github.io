@@ -91,6 +91,28 @@ recaptcha: true
             <li>{{ item.name }}</li>
           {% endfor %}
         </ul>
+
+        <div class="credential-memories credential-memories--work" aria-label="Memories from CNN and NPR">
+          <figure class="credential-memory credential-memory--cnn">
+            <div class="credential-memory__photo">
+              <img src="/assets/photos/cnn-sanjay-gupta.jpg" width="618" height="1100" loading="lazy" decoding="async" alt="Michal Ruprecht with Dr. Sanjay Gupta in a CNN studio">
+            </div>
+            <figcaption>
+              <strong>CNN</strong>
+              <span>With Dr. Sanjay Gupta, CNN’s chief medical correspondent, whom I worked with while at CNN.</span>
+            </figcaption>
+          </figure>
+
+          <figure class="credential-memory credential-memory--npr">
+            <div class="credential-memory__photo">
+              <img src="/assets/photos/npr-tiny-desk.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Michal Ruprecht standing in front of NPR’s Tiny Desk holding yellow maracas">
+            </div>
+            <figcaption>
+              <strong>NPR’s Tiny Desk</strong>
+              <span>I attended nine concerts; Gloria Estefan and the Doobie Brothers were my favorites.</span>
+            </figcaption>
+          </figure>
+        </div>
       </div>
 
       <div class="credentials__group credentials__group--training">
@@ -102,43 +124,23 @@ recaptcha: true
 
       <div class="credentials__group credentials__group--places">
         <h3>Places I have reported from</h3>
-        <ul class="published-list">
-          {% for item in site.data.portfolio.reported_from %}<li>{{ item }}</li>{% endfor %}
-        </ul>
+        <div class="places-reporting">
+          <ul class="published-list">
+            {% for item in site.data.portfolio.reported_from %}<li>{{ item }}</li>{% endfor %}
+          </ul>
+
+          <figure class="credential-memory credential-memory--uganda">
+            <div class="credential-memory__photo">
+              <img src="/assets/photos/reporting-uganda-lake-victoria.jpg" width="1600" height="1066" loading="lazy" decoding="async" alt="Michal Ruprecht holding a microphone and wearing headphones on a boat on Lake Victoria in Uganda">
+            </div>
+            <figcaption>
+              <strong>Lake Victoria, Uganda</strong>
+              <span>Reporting from some of the country’s most remote islands.</span>
+              <small>Photo by Stuart Tibaweswa</small>
+            </figcaption>
+          </figure>
+        </div>
       </div>
-    </div>
-
-    <div class="professional-moments" aria-label="Reporting and newsroom photographs">
-      <figure class="reporting-moment reporting-moment--uganda">
-        <div class="reporting-moment__photo">
-          <img src="/assets/photos/reporting-uganda-lake-victoria.jpg" width="1600" height="1066" loading="lazy" decoding="async" alt="Michal Ruprecht holding a microphone and wearing headphones on a boat on Lake Victoria in Uganda">
-        </div>
-        <figcaption>
-          <strong>Lake Victoria, Uganda</strong>
-          <span>Reporting from some of the country’s most remote islands.</span>
-          <small>Photo by Stuart Tibaweswa</small>
-        </figcaption>
-      </figure>
-
-      <figure class="reporting-moment reporting-moment--cnn">
-        <div class="reporting-moment__photo">
-          <img src="/assets/photos/cnn-sanjay-gupta.jpg" width="618" height="1100" loading="lazy" decoding="async" alt="Michal Ruprecht with Dr. Sanjay Gupta in a CNN studio">
-        </div>
-        <figcaption>
-          <strong>CNN</strong>
-          <span>With Dr. Sanjay Gupta, CNN’s chief medical correspondent, whom I worked with while at CNN.</span>
-        </figcaption>
-      </figure>
-
-      <figure class="reporting-moment reporting-moment--npr">
-        <div class="reporting-moment__photo">
-          <img src="/assets/photos/npr-tiny-desk.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Michal Ruprecht standing in front of NPR’s Tiny Desk holding yellow maracas">
-        </div>
-        <figcaption>
-          <strong>NPR’s Tiny Desk</strong>
-          <span>I attended nine concerts; Gloria Estefan and the Doobie Brothers were my favorites.</span>
-        </figcaption>
-      </figure>
     </div>
   </div>
 </section>

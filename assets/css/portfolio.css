@@ -525,71 +525,108 @@ mark {
   gap: 0 24px;
 }
 
-.professional-moments {
+.credential-memories--work {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(18px, 2.5vw, 30px);
-  align-items: start;
-  margin-top: clamp(38px, 5vw, 58px);
-  padding-top: clamp(28px, 4vw, 40px);
-  border-top: 1px solid var(--line);
+  gap: 22px;
+  margin-top: 28px;
 }
 
-.reporting-moment {
+.credential-memory {
   min-width: 0;
   margin: 0;
 }
 
-.reporting-moment__photo {
-  overflow: hidden;
-  height: clamp(160px, 16vw, 205px);
-  border: 1px solid rgba(16, 41, 37, 0.38);
-  background: var(--paper);
-  box-shadow: 6px 7px 0 rgba(16, 41, 37, 0.08);
+.credential-memory--cnn,
+.credential-memory--npr {
+  display: grid;
+  gap: 12px;
+  align-items: start;
 }
 
-.reporting-moment__photo img {
+.credential-memory--cnn {
+  grid-template-columns: 82px minmax(0, 1fr);
+}
+
+.credential-memory--npr {
+  grid-template-columns: minmax(0, 1fr) 118px;
+}
+
+.credential-memory--npr .credential-memory__photo {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.credential-memory--npr figcaption {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.credential-memory__photo {
+  padding: 5px;
+  border: 1px solid rgba(16, 41, 37, 0.38);
+  background: var(--white);
+  box-shadow: 5px 6px 0 rgba(16, 41, 37, 0.08);
+}
+
+.credential-memory--cnn .credential-memory__photo,
+.credential-memory--uganda .credential-memory__photo {
+  transform: rotate(-1.2deg);
+}
+
+.credential-memory--npr .credential-memory__photo {
+  transform: rotate(1.4deg);
+}
+
+.credential-memory__photo img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   filter: saturate(0.92) contrast(1.02);
 }
 
-.reporting-moment--uganda .reporting-moment__photo img {
-  object-position: center;
+.places-reporting {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 280px);
+  gap: clamp(30px, 5vw, 66px);
+  align-items: center;
 }
 
-.reporting-moment--cnn .reporting-moment__photo img {
-  object-position: center 28%;
+.places-reporting .published-list {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.reporting-moment--npr .reporting-moment__photo img {
-  object-position: center;
+.credential-memory--uganda {
+  width: min(100%, 280px);
+  justify-self: end;
 }
 
-.reporting-moment figcaption {
+.credential-memory figcaption {
   display: grid;
   gap: 3px;
-  padding: 13px 2px 0;
+  padding: 8px 2px 0;
 }
 
-.reporting-moment figcaption strong {
-  font-size: 11px;
+.credential-memory--cnn figcaption,
+.credential-memory--npr figcaption {
+  padding-top: 0;
+}
+
+.credential-memory figcaption strong {
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.1em;
   line-height: 1.35;
   text-transform: uppercase;
 }
 
-.reporting-moment figcaption span {
+.credential-memory figcaption span {
   font-family: var(--serif);
-  font-size: clamp(15px, 1.35vw, 18px);
+  font-size: 15px;
   line-height: 1.4;
 }
 
-.reporting-moment figcaption small {
+.credential-memory figcaption small {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
   line-height: 1.4;
 }
 
@@ -2053,31 +2090,26 @@ mark {
     padding: 64px 0 72px;
   }
 
-  .professional-moments {
+  .places-reporting {
     grid-template-columns: 1fr;
-    gap: 20px;
-    margin-top: 36px;
-    padding-top: 28px;
+    gap: 28px;
   }
 
-  .reporting-moment {
-    display: grid;
-    grid-template-columns: 104px minmax(0, 1fr);
-    gap: 15px;
-    align-items: start;
+  .places-reporting .published-list {
+    grid-template-columns: 1fr;
   }
 
-  .reporting-moment__photo {
-    width: 104px;
-    height: 104px;
+  .credential-memory--uganda {
+    width: min(82vw, 280px);
+    justify-self: start;
   }
 
-  .reporting-moment figcaption {
-    padding: 0;
+  .credential-memory--cnn {
+    grid-template-columns: 86px minmax(0, 1fr);
   }
 
-  .reporting-moment figcaption span {
-    font-size: 16px;
+  .credential-memory--npr {
+    grid-template-columns: minmax(0, 1fr) 126px;
   }
 
   .personal-notes__grid {

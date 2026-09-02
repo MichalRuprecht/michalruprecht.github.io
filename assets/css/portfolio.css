@@ -778,6 +778,121 @@ mark {
   padding-top: 55px;
 }
 
+.personal-notes {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(74px, 9vw, 124px) 0;
+  border-top: 1px solid var(--line);
+  background: #ead8c2;
+}
+
+.personal-notes__grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.86fr) minmax(0, 1.14fr);
+  gap: clamp(54px, 8vw, 116px);
+  align-items: center;
+}
+
+.personal-notes__ceramics {
+  position: relative;
+  display: grid;
+  min-height: 500px;
+  place-items: center;
+  color: var(--white);
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.personal-notes__ceramics::before {
+  position: absolute;
+  inset: 5% 8% 9% 3%;
+  z-index: -1;
+  border-radius: 42% 58% 36% 64% / 58% 39% 61% 42%;
+  content: "";
+  background: #d67b4f;
+  transform: rotate(-4deg);
+}
+
+.personal-notes__ceramics img {
+  width: min(88%, 430px);
+  max-height: 430px;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 18px rgba(16, 41, 37, 0.28));
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.personal-notes__ceramics:hover img,
+.personal-notes__ceramics:focus-visible img {
+  transform: translateY(-8px) rotate(2deg);
+}
+
+.personal-notes__ceramics-copy {
+  position: absolute;
+  right: 0;
+  bottom: 3%;
+  display: grid;
+  gap: 3px;
+  max-width: 290px;
+  padding: 15px 19px 16px;
+  background: var(--ink);
+  box-shadow: 8px 8px 0 var(--highlight);
+  transform: rotate(1.5deg);
+}
+
+.personal-notes__ceramics-copy small {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.personal-notes__ceramics-copy strong {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.personal-notes__copy h2 {
+  margin: 0 0 clamp(30px, 4vw, 52px);
+  font-family: var(--serif);
+  font-size: clamp(54px, 7vw, 96px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+}
+
+.personal-notes__list {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid rgba(16, 41, 37, 0.28);
+  list-style: none;
+}
+
+.personal-notes__list li {
+  display: grid;
+  grid-template-columns: minmax(92px, 0.3fr) minmax(0, 1fr);
+  gap: 22px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(16, 41, 37, 0.28);
+  align-items: baseline;
+}
+
+.personal-notes__list span {
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.personal-notes__list strong {
+  font-family: var(--serif);
+  font-size: clamp(19px, 2vw, 27px);
+  font-weight: 500;
+  line-height: 1.25;
+}
+
 .newsletter-card {
   align-self: start;
   padding: clamp(30px, 5vw, 62px);
@@ -1861,6 +1976,46 @@ mark {
 
   .clip-card.is-large {
     grid-column: auto;
+  }
+
+  .personal-notes {
+    padding: 64px 0 72px;
+  }
+
+  .personal-notes__grid {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .personal-notes__ceramics {
+    min-height: 370px;
+  }
+
+  .personal-notes__ceramics img {
+    width: min(82%, 340px);
+    max-height: 330px;
+  }
+
+  .personal-notes__ceramics:hover img,
+  .personal-notes__ceramics:focus-visible img {
+    transform: none;
+  }
+
+  .personal-notes__ceramics-copy {
+    right: 2px;
+    bottom: 0;
+    max-width: min(280px, 82vw);
+  }
+
+  .personal-notes__copy h2 {
+    margin-bottom: 28px;
+    font-size: clamp(50px, 16vw, 72px);
+  }
+
+  .personal-notes__list li {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    padding: 17px 0;
   }
 
   .social-ig-grid {

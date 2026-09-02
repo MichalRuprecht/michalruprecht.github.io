@@ -1198,20 +1198,6 @@ mark {
   transform: rotate(10deg);
 }
 
-.ceramics-notes {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(36px, 7vw, 96px);
-  margin-top: clamp(66px, 8vw, 110px);
-  padding-top: clamp(38px, 5vw, 64px);
-  border-top: 1px solid rgba(16, 41, 37, 0.24);
-}
-
-.ceramics-notes .prose {
-  margin: 0;
-  font-size: clamp(17px, 1.25vw, 20px);
-}
-
 .ceramics-page .media-links {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0;
@@ -1246,6 +1232,8 @@ mark {
   position: relative;
   padding: clamp(82px, 10vw, 148px) 0;
   border-top: 1px solid rgba(16, 41, 37, 0.22);
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
 }
 
 .ceramics-page .ceramics-section--dark {
@@ -1352,7 +1340,7 @@ mark {
 
 .ceramics-feature__piece img {
   width: 92%;
-  height: 100%;
+  height: auto;
   max-height: 260px;
   object-fit: contain;
   filter: drop-shadow(0 15px 12px rgba(0, 0, 0, 0.3));
@@ -1427,7 +1415,8 @@ mark {
 
 .piece-card--cutout img {
   width: 100%;
-  height: 300px;
+  height: auto;
+  max-height: 300px;
   aspect-ratio: auto;
   object-fit: contain;
   filter: drop-shadow(0 20px 14px rgba(20, 31, 28, 0.27));
@@ -1439,7 +1428,7 @@ mark {
 }
 
 .piece-card--tall img {
-  height: 380px;
+  max-height: 380px;
 }
 
 .piece-card--wide {
@@ -1924,14 +1913,13 @@ mark {
 
 @media (max-width: 860px) {
   .ceramics-page .ceramics-hero__grid,
-  .ceramics-notes,
   .ceramics-page .ceramics-section__intro {
     grid-template-columns: 1fr;
   }
 
   .ceramics-hero__stage {
     width: min(100%, 560px);
-    min-height: 590px;
+    min-height: 540px;
     justify-self: center;
   }
 
@@ -1988,28 +1976,91 @@ mark {
   }
 
   .ceramics-page .ceramics-hero {
-    padding-top: 48px;
+    padding: 36px 0 58px;
+  }
+
+  .ceramics-page .ceramics-hero__grid {
+    gap: 30px;
   }
 
   .ceramics-page .ceramics-hero h1 {
-    font-size: clamp(68px, 25vw, 104px);
+    font-size: clamp(58px, 19vw, 82px);
+    line-height: 0.9;
+  }
+
+  .ceramics-page .ceramics-hero__lede {
+    margin-top: 28px;
+    font-size: 17px;
+    line-height: 1.62;
   }
 
   .ceramics-hero__stage {
-    min-height: 450px;
+    width: 100%;
+    min-height: 360px;
+  }
+
+  .ceramics-page .ceramics-hero__portrait {
+    inset: 8% 7% 8% 5%;
+    width: 88%;
+    height: 84%;
   }
 
   .ceramics-hero__object--one {
-    right: -1%;
+    right: 0;
+    bottom: 0;
+    width: 43%;
   }
 
   .ceramics-hero__object--two {
-    left: -2%;
+    top: 1%;
+    left: 0;
+    width: 36%;
+  }
+
+  .ceramics-page .media-links {
+    margin-top: 34px;
+  }
+
+  .ceramics-page .media-links a {
+    min-height: 0;
+    padding: 22px 20px;
+    font-size: 18px;
+  }
+
+  .ceramics-page .media-links a span {
+    font-size: 13px;
+  }
+
+  .ceramics-page .ceramics-section {
+    padding: 64px 0;
+  }
+
+  .ceramics-page .ceramics-section__intro {
+    gap: 26px;
+    margin-bottom: 40px;
+  }
+
+  .ceramics-page .ceramics-section h2 {
+    font-size: clamp(44px, 14vw, 64px);
+    line-height: 0.94;
+  }
+
+  .ceramics-page .ceramics-section__subtitle {
+    margin-top: 14px;
+    font-size: 17px;
+  }
+
+  .ceramics-page .ceramics-section .prose {
+    font-size: 17px;
   }
 
   .ceramics-feature,
   .ceramics-page .ceramics-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ceramics-feature {
+    gap: 30px;
   }
 
   .ceramics-feature__main,
@@ -2019,7 +2070,25 @@ mark {
   }
 
   .ceramics-feature__art {
-    min-height: 390px;
+    min-height: 310px;
+  }
+
+  .ceramics-feature__art::before {
+    width: min(78vw, 300px);
+  }
+
+  .ceramics-feature__art img {
+    width: 100%;
+    max-height: 310px;
+  }
+
+  .ceramics-feature__piece {
+    min-height: 220px;
+    padding: 14px;
+  }
+
+  .ceramics-feature__piece img {
+    max-height: 230px;
   }
 
   .ceramics-feature__piece--yellow {
@@ -2032,12 +2101,44 @@ mark {
     padding: 0 10px 12px;
   }
 
+  .ceramics-page .ceramics-grid {
+    gap: 44px;
+  }
+
   .piece-card__art {
-    min-height: 310px;
+    min-height: 260px;
+    padding: 12px;
   }
 
   .piece-card--cutout img {
-    height: 290px;
+    width: min(96%, 420px);
+    height: auto;
+    max-height: 310px;
+  }
+
+  .piece-card--cutout:hover img {
+    transform: none;
+  }
+
+  .piece-card--tall img {
+    max-height: 380px;
+  }
+
+  .piece-card--wide img {
+    width: 100%;
+  }
+
+  .piece-card--photo .piece-card__art {
+    min-height: 300px;
+  }
+
+  .piece-card--photo img {
+    height: 300px;
+  }
+
+  .ceramics-page .piece-card figcaption {
+    padding: 14px 4px 0;
+    font-size: 16px;
   }
 }
 

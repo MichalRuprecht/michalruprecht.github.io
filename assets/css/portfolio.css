@@ -1300,11 +1300,12 @@ mark {
 }
 
 .ceramics-hero__object--mushroom-log {
-  right: -10%;
-  bottom: -4%;
+  right: auto;
+  bottom: -3%;
+  left: -12%;
   width: auto;
-  height: 54%;
-  transform: rotate(-5deg);
+  height: 42%;
+  transform: rotate(4deg);
 }
 
 .ceramics-hero__object--two {
@@ -2177,10 +2178,11 @@ mark {
   }
 
   .ceramics-hero__object--mushroom-log {
-    right: -11%;
-    bottom: -3%;
+    right: auto;
+    bottom: -2%;
+    left: -10%;
     width: auto;
-    height: 48%;
+    height: 38%;
   }
 
   .ceramics-hero__object--two {

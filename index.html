@@ -33,6 +33,7 @@ recaptcha: true
     <div class="hero__portrait-wrap">
       <div class="hero__portrait-frame">
         <img class="hero__portrait" src="/assets/profile.svg" alt="Portrait of Michal Ruprecht">
+        <p class="hero__photo-credit">Photo by <em>Maansi Srivastava</em></p>
       </div>
       <div class="hero__current" aria-label="Current role">
         <span>Mental health reporter</span>
@@ -73,9 +74,9 @@ recaptcha: true
 </section>
 
 <section class="credibility-strip" aria-label="Reporting experience">
-  <div class="site-shell">
-    <div class="credentials__secondary">
-      <div class="credentials__overview">
+  <div class="credentials__secondary">
+    <div class="credentials__band credentials__band--overview">
+      <div class="site-shell credentials__overview">
         <div class="credentials__group credentials__group--supported">
           <h3>Organizations that have supported my reporting</h3>
           <ul class="name-list">
@@ -92,57 +93,65 @@ recaptcha: true
           </ul>
         </div>
       </div>
+    </div>
 
-      <div class="credentials__group credentials__group--published">
-        <h3>Where I have worked</h3>
-        <div class="work-history">
-          <ul class="published-list">
-            {% for item in site.data.portfolio.published %}
-              <li>{{ item.name }}</li>
-            {% endfor %}
-          </ul>
+    <div class="credentials__band credentials__band--work">
+      <div class="site-shell">
+        <div class="credentials__group credentials__group--published">
+          <h3>Where I have worked</h3>
+          <div class="work-history">
+            <ul class="published-list">
+              {% for item in site.data.portfolio.published %}
+                <li>{{ item.name }}</li>
+              {% endfor %}
+            </ul>
 
-          <div class="credential-memories credential-memories--work" aria-label="Memories from CNN and NPR">
-            <figure class="credential-memory credential-memory--cnn">
-              <div class="credential-memory__photo">
-                <img src="/assets/photos/cnn-sanjay-gupta-crop.jpg" width="560" height="760" loading="lazy" decoding="async" alt="Michal Ruprecht with Dr. Sanjay Gupta in a CNN studio">
-              </div>
-              <figcaption>
-                <strong>CNN</strong>
-                <span>With Dr. Sanjay Gupta, CNN’s chief medical correspondent, whom I worked with while at CNN.</span>
-              </figcaption>
-            </figure>
+            <div class="credential-memories credential-memories--work" aria-label="Memories from CNN and NPR">
+              <figure class="credential-memory credential-memory--cnn">
+                <div class="credential-memory__photo">
+                  <img src="/assets/photos/cnn-sanjay-gupta-crop.jpg" width="560" height="760" loading="lazy" decoding="async" alt="Michal Ruprecht with Dr. Sanjay Gupta in a CNN studio">
+                </div>
+                <figcaption>
+                  <strong>CNN</strong>
+                  <span>With Dr. Sanjay Gupta, CNN’s chief medical correspondent, whom I worked with while at CNN.</span>
+                </figcaption>
+              </figure>
 
-            <figure class="credential-memory credential-memory--npr">
-              <div class="credential-memory__photo">
-                <img src="/assets/photos/npr-tiny-desk.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Michal Ruprecht standing in front of NPR’s Tiny Desk holding yellow maracas">
-              </div>
-              <figcaption>
-                <strong>NPR’s Tiny Desk</strong>
-                <span>Gloria Estefan and the Doobie Brothers were my favorites.</span>
-              </figcaption>
-            </figure>
+              <figure class="credential-memory credential-memory--npr">
+                <div class="credential-memory__photo">
+                  <img src="/assets/photos/npr-tiny-desk.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Michal Ruprecht standing in front of NPR’s Tiny Desk holding yellow maracas">
+                </div>
+                <figcaption>
+                  <strong>NPR’s Tiny Desk</strong>
+                  <span>Gloria Estefan and the Doobie Brothers were my favorites.</span>
+                </figcaption>
+              </figure>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="credentials__group credentials__group--places">
-        <h3>Places I have reported from</h3>
-        <div class="places-reporting">
-          <ul class="published-list">
-            {% for item in site.data.portfolio.reported_from %}<li>{{ item }}</li>{% endfor %}
-          </ul>
+    <div class="credentials__band credentials__band--places">
+      <div class="site-shell">
+        <div class="credentials__group credentials__group--places">
+          <h3>Places I have reported from</h3>
+          <div class="places-reporting">
+            <ul class="published-list">
+              {% for item in site.data.portfolio.reported_from %}<li>{{ item }}</li>{% endfor %}
+            </ul>
 
-          <figure class="credential-memory credential-memory--uganda">
-            <div class="credential-memory__photo">
-              <img src="/assets/photos/reporting-uganda-lake-victoria.jpg" width="1600" height="1066" loading="lazy" decoding="async" alt="Michal Ruprecht holding a microphone and wearing headphones on a boat on Lake Victoria in Uganda">
-            </div>
-            <figcaption>
-              <strong>Lake Victoria, Uganda</strong>
-              <span>Reporting from some of the country’s most remote islands.</span>
-              <small>Photo by Stuart Tibaweswa</small>
-            </figcaption>
-          </figure>
+            <figure class="credential-memory credential-memory--uganda">
+              <div class="credential-memory__photo">
+                <img src="/assets/photos/reporting-uganda-lake-victoria.jpg" width="1600" height="1066" loading="lazy" decoding="async" alt="Michal Ruprecht holding a microphone and wearing headphones on a boat on Lake Victoria in Uganda">
+              </div>
+              <figcaption>
+                <strong>Lake Victoria, Uganda</strong>
+                <span>Reporting from some of the country’s most remote islands.</span>
+                <small>Photo by Stuart Tibaweswa</small>
+              </figcaption>
+            </figure>
+          </div>
         </div>
       </div>
     </div>

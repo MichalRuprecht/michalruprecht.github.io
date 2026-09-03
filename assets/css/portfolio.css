@@ -235,16 +235,17 @@ a {
 
 .hero__photo-credit {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  bottom: 4px;
+  left: -23px;
   margin: 0;
-  padding: 4px 7px;
-  color: rgba(16, 41, 37, 0.78);
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.82);
+  padding: 0;
+  color: var(--muted);
   font-size: 10px;
-  line-height: 1.25;
-  backdrop-filter: blur(3px);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
 }
 
 .hero__photo-credit em {
@@ -542,8 +543,7 @@ mark {
 }
 
 .credentials__band--work .credential-memory__photo {
-  border-color: rgba(255, 255, 255, 0.55);
-  box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.18);
+  border-color: var(--white);
 }
 
 .credentials__band--work .credential-memory figcaption span {
@@ -614,16 +614,14 @@ mark {
   width: min(100%, 250px);
   aspect-ratio: 6 / 5;
   overflow: hidden;
-  padding: 0;
-  border: 6px solid var(--white);
-  box-shadow: 0 0 0 1px rgba(16, 41, 37, 0.38), 5px 6px 0 rgba(16, 41, 37, 0.12);
 }
 
 .credential-memory__photo {
-  padding: 5px;
-  border: 1px solid rgba(16, 41, 37, 0.38);
+  overflow: hidden;
+  padding: 0;
+  border: 6px solid var(--white);
   background: var(--white);
-  box-shadow: 5px 6px 0 rgba(16, 41, 37, 0.08);
+  box-shadow: 0 0 0 1px rgba(16, 41, 37, 0.38), 5px 6px 0 rgba(16, 41, 37, 0.12);
 }
 
 .credential-memory--cnn .credential-memory__photo,

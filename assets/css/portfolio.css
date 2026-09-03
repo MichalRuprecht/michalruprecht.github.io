@@ -236,7 +236,7 @@ a {
 .hero__photo-credit {
   position: absolute;
   bottom: 4px;
-  left: -23px;
+  left: -14px;
   margin: 0;
   padding: 0;
   color: var(--muted);
@@ -246,10 +246,6 @@ a {
   white-space: nowrap;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-}
-
-.hero__photo-credit em {
-  font-family: var(--serif);
 }
 
 .hero__current {
@@ -621,7 +617,7 @@ mark {
   padding: 0;
   border: 6px solid var(--white);
   background: var(--white);
-  box-shadow: 0 0 0 1px rgba(16, 41, 37, 0.38), 5px 6px 0 rgba(16, 41, 37, 0.12);
+  box-shadow: none;
 }
 
 .credential-memory--cnn .credential-memory__photo,

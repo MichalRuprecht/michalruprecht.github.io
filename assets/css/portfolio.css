@@ -1048,7 +1048,8 @@ mark {
   bottom: 3%;
   display: grid;
   gap: 3px;
-  max-width: 290px;
+  width: max-content;
+  max-width: calc(100vw - 40px);
   padding: 15px 19px 16px;
   color: var(--ink);
   background: var(--highlight);
@@ -1068,6 +1069,7 @@ mark {
   font-size: 22px;
   font-weight: 500;
   line-height: 1.15;
+  white-space: nowrap;
 }
 
 .personal-notes__copy h2 {
@@ -2258,7 +2260,7 @@ mark {
   .personal-notes__ceramics-copy {
     right: 2px;
     bottom: 0;
-    max-width: min(280px, 82vw);
+    max-width: calc(100vw - 34px);
   }
 
   .personal-notes__copy h2 {

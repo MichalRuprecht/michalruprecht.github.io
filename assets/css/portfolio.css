@@ -1099,9 +1099,10 @@ mark {
 
 .personal-notes__list span {
   color: var(--ink-soft);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 

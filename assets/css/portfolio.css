@@ -614,6 +614,9 @@ mark {
   width: min(100%, 250px);
   aspect-ratio: 6 / 5;
   overflow: hidden;
+  padding: 0;
+  border: 6px solid var(--white);
+  box-shadow: 0 0 0 1px rgba(16, 41, 37, 0.38), 5px 6px 0 rgba(16, 41, 37, 0.12);
 }
 
 .credential-memory__photo {

@@ -217,6 +217,7 @@ a {
 }
 
 .hero__portrait-frame {
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--ink);
   border-radius: 48% 48% 18px 18px;
@@ -230,6 +231,24 @@ a {
   aspect-ratio: 0.91;
   object-fit: cover;
   object-position: center top;
+}
+
+.hero__photo-credit {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  margin: 0;
+  padding: 4px 7px;
+  color: rgba(16, 41, 37, 0.78);
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.82);
+  font-size: 10px;
+  line-height: 1.25;
+  backdrop-filter: blur(3px);
+}
+
+.hero__photo-credit em {
+  font-family: var(--serif);
 }
 
 .hero__current {
@@ -454,23 +473,33 @@ mark {
 }
 
 .credentials__secondary {
-  display: grid;
-  gap: 12px;
+  display: block;
 }
 
 .credentials__overview {
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(250px, 0.55fr);
   gap: clamp(32px, 4vw, 56px);
-  padding: clamp(25px, 3vw, 36px);
-  border: 1px solid rgba(16, 41, 37, 0.12);
-  background: #e9e2d5;
 }
 
 .credibility-strip {
-  padding: 12px 0;
+  padding: 0;
   border-bottom: 1px solid var(--line);
-  background: #f7f3eb;
+  background: var(--paper);
+}
+
+.credentials__band {
+  padding: clamp(38px, 4.6vw, 64px) 0;
+}
+
+.credentials__band--overview,
+.credentials__band--places {
+  background: #e9e2d5;
+}
+
+.credentials__band--work {
+  color: var(--white);
+  background: var(--ink);
 }
 
 .credentials__group h3 {
@@ -504,18 +533,21 @@ mark {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.credentials__group--published,
-.credentials__group--places {
-  padding: clamp(25px, 3vw, 36px);
-  border: 1px solid rgba(16, 41, 37, 0.12);
+.credentials__band--work .credentials__group h3 {
+  color: rgba(255, 255, 255, 0.72);
 }
 
-.credentials__group--published {
-  background: #e3ebe5;
+.credentials__band--work .published-list li {
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
-.credentials__group--places {
-  background: #efe1d4;
+.credentials__band--work .credential-memory__photo {
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.18);
+}
+
+.credentials__band--work .credential-memory figcaption span {
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .credibility-strip .credentials__group--places .published-list {

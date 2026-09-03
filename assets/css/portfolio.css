@@ -155,7 +155,7 @@ a {
 
 .journalism-header-nav a {
   position: relative;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 600;
   text-decoration: none;
 }
@@ -464,7 +464,7 @@ mark {
   margin: 0;
   padding: 0;
   color: rgba(255, 255, 255, 0.84);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.45;
   list-style: none;
 }
@@ -1058,9 +1058,10 @@ mark {
 }
 
 .personal-notes__ceramics-copy small {
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 

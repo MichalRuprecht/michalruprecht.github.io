@@ -181,7 +181,7 @@ a {
 .hero {
   position: relative;
   overflow: hidden;
-  padding: clamp(64px, 9vw, 128px) 0;
+  padding: clamp(52px, 7vw, 94px) 0;
   background-color: var(--paper);
   background-image:
     linear-gradient(rgba(16, 41, 37, 0.045) 1px, transparent 1px),
@@ -206,7 +206,7 @@ a {
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.35fr);
-  gap: clamp(54px, 8vw, 118px);
+  gap: clamp(46px, 6vw, 86px);
   align-items: center;
 }
 
@@ -354,7 +354,7 @@ mark {
 }
 
 .credentials {
-  padding: clamp(58px, 7vw, 92px) 0;
+  padding: clamp(46px, 5.5vw, 72px) 0;
   color: var(--white);
   border-top: 1px solid var(--line);
   background: var(--ink);
@@ -374,14 +374,14 @@ mark {
 }
 
 .credentials h2 {
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   font-size: clamp(48px, 6vw, 82px);
   line-height: 1;
 }
 
 .credentials__intro {
   max-width: 800px;
-  margin: -10px 0 38px;
+  margin: -8px 0 30px;
   color: rgba(255, 255, 255, 0.78);
   font-family: var(--serif);
   font-size: clamp(19px, 1.8vw, 25px);
@@ -400,7 +400,7 @@ mark {
   flex-direction: column;
   gap: 6px;
   margin: 0;
-  padding: 24px 0;
+  padding: 20px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
@@ -424,7 +424,7 @@ mark {
   display: grid;
   grid-template-columns: minmax(210px, 0.38fr) minmax(0, 1fr);
   gap: 30px;
-  margin-top: 34px;
+  margin-top: 26px;
 }
 
 .credentials__additional h3,
@@ -462,7 +462,7 @@ mark {
 }
 
 .credibility-strip {
-  padding: clamp(38px, 5vw, 60px) 0;
+  padding: clamp(28px, 4vw, 46px) 0;
   border-bottom: 1px solid var(--line);
   background: var(--paper);
 }
@@ -501,13 +501,14 @@ mark {
 .credentials__group--published,
 .credentials__group--places {
   grid-column: 1 / -1;
-  margin-top: clamp(20px, 2.5vw, 30px);
-  padding-top: clamp(22px, 2.5vw, 30px);
+  margin-top: clamp(14px, 1.8vw, 22px);
+  padding-top: clamp(18px, 2vw, 24px);
   border-top: 1px solid var(--line);
 }
 
 .credibility-strip .credentials__group--places .published-list {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  max-width: 720px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .name-list li,
@@ -558,7 +559,7 @@ mark {
 
 .credential-memory--npr {
   width: min(52%, 300px);
-  margin-top: 24px;
+  margin-top: 8px;
 }
 
 .credential-memory--cnn .credential-memory__photo {
@@ -567,6 +568,8 @@ mark {
 
 .credential-memory--npr .credential-memory__photo {
   width: min(100%, 250px);
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
 }
 
 .credential-memory__photo {
@@ -591,15 +594,21 @@ mark {
   filter: saturate(0.92) contrast(1.02);
 }
 
+.credential-memory--npr .credential-memory__photo img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
 .places-reporting {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
-  gap: clamp(24px, 4vw, 48px);
+  gap: clamp(20px, 3vw, 38px);
   align-items: start;
 }
 
 .places-reporting .published-list {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .credential-memory--uganda {
@@ -633,8 +642,64 @@ mark {
   line-height: 1.4;
 }
 
+@media (min-width: 1100px) {
+  .work-history {
+    grid-template-columns: minmax(340px, 0.5fr) minmax(0, 1.5fr);
+    gap: clamp(28px, 3vw, 44px);
+  }
+
+  .credential-memories--work {
+    display: grid;
+    grid-template-columns: minmax(290px, 0.92fr) minmax(350px, 1.08fr);
+    gap: clamp(22px, 2.5vw, 36px);
+  }
+
+  .credential-memory--cnn,
+  .credential-memory--npr {
+    width: auto;
+    display: grid;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .credential-memory--cnn {
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+
+  .credential-memory--npr {
+    grid-template-columns: 225px minmax(0, 1fr);
+    margin-top: 0;
+  }
+
+  .credential-memory--cnn .credential-memory__photo,
+  .credential-memory--npr .credential-memory__photo {
+    width: 100%;
+  }
+
+  .credential-memory--cnn figcaption,
+  .credential-memory--npr figcaption {
+    padding-top: 0;
+  }
+
+  .places-reporting {
+    grid-template-columns: minmax(0, 1fr) minmax(410px, 460px);
+  }
+
+  .credential-memory--uganda {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+  }
+
+  .credential-memory--uganda figcaption {
+    padding-top: 0;
+  }
+}
+
 .section-pad {
-  padding: clamp(60px, 7vw, 100px) 0;
+  padding: clamp(48px, 5.5vw, 78px) 0;
 }
 
 .prose {
@@ -662,7 +727,7 @@ mark {
   align-items: end;
   justify-content: space-between;
   gap: 36px;
-  margin-bottom: 42px;
+  margin-bottom: 32px;
 }
 
 .reporting h2 {
@@ -889,7 +954,7 @@ mark {
 .personal-notes {
   position: relative;
   overflow: hidden;
-  padding: clamp(74px, 9vw, 124px) 0;
+  padding: clamp(58px, 6.5vw, 88px) 0;
   border-top: 1px solid var(--line);
   background: #ead8c2;
 }
@@ -897,7 +962,7 @@ mark {
 .personal-notes__grid {
   display: grid;
   grid-template-columns: minmax(280px, 0.86fr) minmax(0, 1.14fr);
-  gap: clamp(54px, 8vw, 116px);
+  gap: clamp(42px, 6vw, 82px);
   align-items: center;
 }
 
@@ -1060,7 +1125,7 @@ mark {
 }
 
 .site-footer {
-  padding: clamp(72px, 9vw, 118px) 0 42px;
+  padding: clamp(54px, 6.5vw, 84px) 0 36px;
   color: var(--white);
   background: var(--ink);
 }
@@ -1068,7 +1133,7 @@ mark {
 .site-footer__main {
   display: grid;
   grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
-  gap: clamp(50px, 8vw, 118px);
+  gap: clamp(42px, 6vw, 82px);
   align-items: start;
 }
 
@@ -1152,7 +1217,7 @@ mark {
 .site-footer__more {
   align-items: center;
   justify-content: flex-start;
-  margin-top: clamp(44px, 6vw, 72px);
+  margin-top: clamp(32px, 4vw, 48px);
   padding: 22px 0;
 }
 

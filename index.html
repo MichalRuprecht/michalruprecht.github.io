@@ -75,20 +75,22 @@ recaptcha: true
 <section class="credibility-strip" aria-label="Reporting experience">
   <div class="site-shell">
     <div class="credentials__secondary">
-      <div class="credentials__group credentials__group--supported">
-        <h3>Organizations that have supported my reporting</h3>
-        <ul class="name-list">
-          {% for item in site.data.portfolio.supporters %}
-            <li>{{ item.name }}{% if item.short %} <span>({{ item.short }})</span>{% endif %}</li>
-          {% endfor %}
-        </ul>
-      </div>
+      <div class="credentials__overview">
+        <div class="credentials__group credentials__group--supported">
+          <h3>Organizations that have supported my reporting</h3>
+          <ul class="name-list">
+            {% for item in site.data.portfolio.supporters %}
+              <li>{{ item.name }}{% if item.short %} <span>({{ item.short }})</span>{% endif %}</li>
+            {% endfor %}
+          </ul>
+        </div>
 
-      <div class="credentials__group credentials__group--training">
-        <h3>Journalism training</h3>
-        <ul class="name-list name-list--single">
-          {% for item in site.data.portfolio.training %}<li>{{ item }}</li>{% endfor %}
-        </ul>
+        <div class="credentials__group credentials__group--training">
+          <h3>Journalism training</h3>
+          <ul class="name-list name-list--single">
+            {% for item in site.data.portfolio.training %}<li>{{ item }}</li>{% endfor %}
+          </ul>
+        </div>
       </div>
 
       <div class="credentials__group credentials__group--published">
@@ -113,7 +115,7 @@ recaptcha: true
 
             <figure class="credential-memory credential-memory--npr">
               <div class="credential-memory__photo">
-                <img src="/assets/photos/npr-tiny-desk-crop.jpg" width="900" height="600" loading="lazy" decoding="async" alt="Michal Ruprecht standing in front of NPR’s Tiny Desk holding yellow maracas">
+                <img src="/assets/photos/npr-tiny-desk.jpg" width="1400" height="1050" loading="lazy" decoding="async" alt="Michal Ruprecht standing in front of NPR’s Tiny Desk holding yellow maracas">
               </div>
               <figcaption>
                 <strong>NPR’s Tiny Desk</strong>

@@ -1050,8 +1050,9 @@ mark {
   gap: 3px;
   max-width: 290px;
   padding: 15px 19px 16px;
-  background: var(--ink);
-  box-shadow: 8px 8px 0 var(--highlight);
+  color: var(--ink);
+  background: var(--highlight);
+  box-shadow: 8px 8px 0 var(--ink);
   transform: rotate(1.5deg);
 }
 

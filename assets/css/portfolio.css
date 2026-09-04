@@ -205,8 +205,8 @@ a {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.35fr);
-  gap: clamp(46px, 6vw, 86px);
+  grid-template-columns: minmax(260px, 0.68fr) minmax(0, 1.42fr);
+  gap: clamp(42px, 5vw, 72px);
   align-items: center;
 }
 
@@ -317,6 +317,7 @@ a {
   font-family: var(--serif);
   font-size: clamp(20px, 2vw, 28px);
   line-height: 1.42;
+  text-wrap: pretty;
 }
 
 mark {

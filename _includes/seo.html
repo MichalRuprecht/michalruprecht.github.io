@@ -1,5 +1,33 @@
-{% assign seo_title = page.title | default: site.title %}
-{% assign seo_description = page.description | default: page.caption_html | default: page.teaser_html | default: site.description | strip_html | strip_newlines | strip %}
+{% assign seo_title = page.title | default: site.title | strip_html | strip_newlines | strip %}
+
+{% assign seo_description = page.description %}
+{% if seo_description == nil or seo_description == false or seo_description == empty %}
+  {% assign seo_description = page.caption_html %}
+{% endif %}
+{% if seo_description == nil or seo_description == false or seo_description == empty %}
+  {% assign seo_description = page.teaser_html %}
+{% endif %}
+{% if page.clip %}
+  {% if seo_description == nil or seo_description == false or seo_description == empty %}
+    {% assign seo_description = content | strip_html | normalize_whitespace | truncate: 200 %}
+  {% endif %}
+{% endif %}
+{% if seo_description == nil or seo_description == false or seo_description == empty %}
+  {% assign seo_description = site.description %}
+{% endif %}
+{% assign seo_description = seo_description | strip_html | normalize_whitespace | strip %}
+
+{% assign seo_image_path = '/assets/profile.jpg' %}
+{% assign seo_image_alt = 'Portrait of Michal Ruprecht' %}
+{% if page.clip and page.clip_id %}
+  {% assign seo_image_path = '/pages/clips/assets/photo/' | append: page.clip_id | append: '.jpg' %}
+  {% assign seo_image_alt = page.caption_html | strip_html | normalize_whitespace | strip %}
+  {% if seo_image_alt == nil or seo_image_alt == false or seo_image_alt == empty %}
+    {% assign seo_image_alt = 'Story image for ' | append: seo_title %}
+  {% endif %}
+{% endif %}
+{% assign seo_image_url = seo_image_path | absolute_url %}
+
 <title>{{ seo_title | escape }}</title>
 <meta name="description" content="{{ seo_description | escape }}">
 <link rel="canonical" href="{{ page.url | absolute_url }}">
@@ -14,15 +42,18 @@
 <meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta property="og:site_name" content="Michal Ruprecht">
 <meta property="og:type" content="{% if page.clip %}article{% else %}website{% endif %}">
-<meta property="og:image" content="{{ '/assets/profile.jpg' | absolute_url }}">
+<meta property="og:image" content="{{ seo_image_url }}">
+<meta property="og:image:secure_url" content="{{ seo_image_url }}">
+{% unless page.clip %}
 <meta property="og:image:width" content="1641">
 <meta property="og:image:height" content="2048">
-<meta property="og:image:alt" content="Portrait of Michal Ruprecht">
-<meta name="twitter:card" content="summary">
+{% endunless %}
+<meta property="og:image:alt" content="{{ seo_image_alt | escape }}">
+<meta name="twitter:card" content="{% if page.clip %}summary_large_image{% else %}summary{% endif %}">
 <meta name="twitter:title" content="{{ seo_title | escape }}">
 <meta name="twitter:description" content="{{ seo_description | escape }}">
-<meta name="twitter:image" content="{{ '/assets/profile.jpg' | absolute_url }}">
-<meta name="twitter:image:alt" content="Portrait of Michal Ruprecht">
+<meta name="twitter:image" content="{{ seo_image_url }}">
+<meta name="twitter:image:alt" content="{{ seo_image_alt | escape }}">
 <link rel="alternate" type="text/plain" href="{{ '/llms.txt' | absolute_url }}" title="About Michal Ruprecht for language models">
 
 {% if page.url == '/' %}

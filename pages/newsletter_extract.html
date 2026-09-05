@@ -1,18 +1,640 @@
-<!DOCTYPE html>
+---
+layout: null
+sitemap: false
+---
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Newsletter Content Collector</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#070c18">
+    <title>Newsletter Content Collector</title>
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        color-scheme: dark;
+        --background: #070c18;
+        --surface: #0d1528;
+        --surface-raised: #121d34;
+        --text: #f7f6f1;
+        --muted: #aeb7c7;
+        --line: #35415a;
+        --input: #f7f6f1;
+        --input-text: #102925;
+        --accent: #dfff70;
+        --accent-text: #102925;
+        --error: #ffb8af;
+        --error-background: #321a21;
+        --success: #dfff70;
+        --sans: "DM Sans", Arial, sans-serif;
+        --serif: "Newsreader", Georgia, serif;
+      }
 
-  <!-- Instant redirect -->
-  <meta http-equiv="refresh" content="0; url=https://npr-newsletter-extractor-c53pvx7qdhmfcu392qxsc9.streamlit.app/">
+      * {
+        box-sizing: border-box;
+      }
 
-  <!-- Fallback JS redirect -->
-  <script>
-    window.location.replace("https://npr-newsletter-extractor-c53pvx7qdhmfcu392qxsc9.streamlit.app/");
-  </script>
-</head>
-<body>
-  <p>Redirecting to Newsletter Content Collector…</p>
-</body>
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--text);
+        background:
+          radial-gradient(circle at 12% 8%, rgba(223, 255, 112, 0.09), transparent 26rem),
+          var(--background);
+        font-family: var(--sans);
+        font-size: 17px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      button,
+      input,
+      textarea {
+        font: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      ::selection {
+        color: var(--accent-text);
+        background: var(--accent);
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      .skip-link {
+        position: fixed;
+        z-index: 10;
+        top: 12px;
+        left: 12px;
+        padding: 9px 13px;
+        color: var(--accent-text);
+        background: var(--accent);
+        transform: translateY(-170%);
+      }
+
+      .skip-link:focus {
+        transform: translateY(0);
+      }
+
+      .tool-shell {
+        width: min(980px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: clamp(38px, 7vw, 76px) 0 44px;
+      }
+
+      .tool-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 28px;
+        align-items: flex-start;
+        margin-bottom: 30px;
+      }
+
+      .eyebrow {
+        margin: 0 0 9px;
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2 {
+        font-family: var(--serif);
+        font-weight: 600;
+        letter-spacing: -0.025em;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: clamp(42px, 7vw, 72px);
+        line-height: 0.98;
+      }
+
+      .intro {
+        max-width: 610px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .back-link {
+        flex: none;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 15px;
+        font-weight: 600;
+        text-underline-offset: 4px;
+      }
+
+      .collector {
+        padding: clamp(20px, 4vw, 32px);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: rgba(13, 21, 40, 0.92);
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.24);
+      }
+
+      .url-label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .url-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+      }
+
+      .url-input,
+      .content-field {
+        width: 100%;
+        border: 1px solid transparent;
+        color: var(--input-text);
+        background: var(--input);
+      }
+
+      .url-input {
+        min-height: 58px;
+        padding: 14px 17px;
+        border-radius: 15px;
+      }
+
+      .url-input::placeholder,
+      .content-field::placeholder {
+        color: #6b736f;
+        opacity: 1;
+      }
+
+      .primary-button,
+      .copy-button,
+      .clear-button {
+        min-height: 54px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease;
+      }
+
+      .primary-button {
+        min-width: 174px;
+        padding: 12px 20px;
+        border-color: var(--accent);
+        color: var(--accent-text);
+        background: var(--accent);
+      }
+
+      .primary-button:hover,
+      .copy-button:hover,
+      .clear-button:hover {
+        transform: translateY(-1px);
+      }
+
+      .primary-button:disabled {
+        cursor: wait;
+        opacity: 0.72;
+        transform: none;
+      }
+
+      .status {
+        min-height: 27px;
+        margin: 13px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      .status[data-state="error"] {
+        margin-top: 16px;
+        padding: 11px 13px;
+        border: 1px solid rgba(255, 184, 175, 0.5);
+        border-radius: 12px;
+        color: var(--error);
+        background: var(--error-background);
+      }
+
+      .status[data-state="success"] {
+        color: var(--success);
+      }
+
+      .results {
+        margin-top: 38px;
+      }
+
+      .results[hidden] {
+        display: none;
+      }
+
+      .results-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: end;
+        margin-bottom: 18px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(30px, 5vw, 42px);
+        line-height: 1;
+      }
+
+      .clear-button {
+        min-height: 42px;
+        padding: 8px 15px;
+        color: var(--text);
+        background: transparent;
+      }
+
+      .result-list {
+        display: grid;
+        gap: 18px;
+      }
+
+      .result-field label {
+        display: block;
+        margin: 0 0 8px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .field-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 112px;
+        gap: 11px;
+        align-items: stretch;
+      }
+
+      .content-field {
+        min-height: 88px;
+        resize: vertical;
+        padding: 15px 17px;
+        border-radius: 14px;
+        line-height: 1.45;
+      }
+
+      .content-field[data-field="teaser"],
+      .content-field[data-field="teaser-author"] {
+        min-height: 128px;
+      }
+
+      .copy-button {
+        padding: 10px 16px;
+        color: var(--text);
+        background: var(--surface-raised);
+      }
+
+      .copy-button.is-copied {
+        border-color: var(--accent);
+        color: var(--accent-text);
+        background: var(--accent);
+      }
+
+      .tool-footer {
+        margin-top: 34px;
+        padding-top: 27px;
+        border-top: 1px solid var(--line);
+        text-align: center;
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      .tool-footer p {
+        margin: 0;
+      }
+
+      .tool-footer p + p {
+        margin-top: 13px;
+      }
+
+      .tool-footer strong {
+        color: var(--text);
+      }
+
+      .tool-footer a {
+        color: inherit;
+        text-underline-offset: 3px;
+      }
+
+      @media (max-width: 680px) {
+        .tool-shell {
+          width: min(100% - 22px, 980px);
+          padding-top: 26px;
+        }
+
+        .tool-header,
+        .results-header {
+          display: block;
+        }
+
+        .back-link {
+          display: inline-block;
+          margin-top: 20px;
+        }
+
+        .url-row,
+        .field-row {
+          grid-template-columns: 1fr;
+        }
+
+        .primary-button,
+        .copy-button {
+          width: 100%;
+        }
+
+        .copy-button {
+          min-height: 48px;
+        }
+
+        .clear-button {
+          margin-top: 14px;
+        }
+
+        .collector {
+          border-radius: 18px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#collector">Skip to collector</a>
+
+    <main class="tool-shell">
+      <header class="tool-header">
+        <div>
+          <p class="eyebrow">NPR newsletter tool</p>
+          <h1>Newsletter Content Collector</h1>
+          <p class="intro">Paste an NPR story link to collect its headline, URL, photo, teaser and newsletter-ready byline.</p>
+        </div>
+        <a class="back-link" href="/">Back to portfolio</a>
+      </header>
+
+      <section class="collector" id="collector" aria-label="Newsletter collector">
+        <form id="collector-form" novalidate>
+          <label class="url-label" id="collector-label" for="story-url">NPR story link</label>
+          <div class="url-row">
+            <input class="url-input" id="story-url" name="story-url" type="url" inputmode="url" autocomplete="url" placeholder="https://www.npr.org/…" required>
+            <button class="primary-button" id="collect-button" type="submit">Collect content</button>
+          </div>
+          <p class="status" id="status" role="status" aria-live="polite"></p>
+        </form>
+
+        <section class="results" id="results" aria-labelledby="results-title" hidden>
+          <div class="results-header">
+            <h2 id="results-title">Collected content</h2>
+            <button class="clear-button" id="clear-button" type="button">Start over</button>
+          </div>
+
+          <div class="result-list">
+            <div class="result-field">
+              <label for="headline">Headline</label>
+              <div class="field-row">
+                <textarea class="content-field" id="headline" data-field="headline" rows="2" spellcheck="true"></textarea>
+                <button class="copy-button" type="button" data-copy="headline">Copy</button>
+              </div>
+            </div>
+
+            <div class="result-field">
+              <label for="link">Link</label>
+              <div class="field-row">
+                <textarea class="content-field" id="link" data-field="link" rows="2" spellcheck="false"></textarea>
+                <button class="copy-button" type="button" data-copy="link">Copy</button>
+              </div>
+            </div>
+
+            <div class="result-field">
+              <label for="photo-url">Photo URL</label>
+              <div class="field-row">
+                <textarea class="content-field" id="photo-url" data-field="photo" rows="2" spellcheck="false"></textarea>
+                <button class="copy-button" type="button" data-copy="photo-url">Copy</button>
+              </div>
+            </div>
+
+            <div class="result-field">
+              <label for="teaser">Teaser</label>
+              <div class="field-row">
+                <textarea class="content-field" id="teaser" data-field="teaser" rows="4" spellcheck="true"></textarea>
+                <button class="copy-button" type="button" data-copy="teaser">Copy</button>
+              </div>
+            </div>
+
+            <div class="result-field">
+              <label for="teaser-author">Teaser with author</label>
+              <div class="field-row">
+                <textarea class="content-field" id="teaser-author" data-field="teaser-author" rows="4" spellcheck="true"></textarea>
+                <button class="copy-button" type="button" data-copy="teaser-author">Copy</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <footer class="tool-footer">
+        <p>Questions? <a href="tel:+17074128684">+1 (707) 412-8684</a></p>
+        <p><strong>Dig up the gold for your newsletter.</strong><br>❤️ Michal Ruprecht from the Science Desk</p>
+      </footer>
+    </main>
+
+    <script>
+      (() => {
+        const form = document.querySelector("#collector-form");
+        const urlInput = document.querySelector("#story-url");
+        const collectButton = document.querySelector("#collect-button");
+        const clearButton = document.querySelector("#clear-button");
+        const status = document.querySelector("#status");
+        const results = document.querySelector("#results");
+
+        const fields = {
+          headline: document.querySelector("#headline"),
+          link: document.querySelector("#link"),
+          photo: document.querySelector("#photo-url"),
+          teaser: document.querySelector("#teaser"),
+          teaserAuthor: document.querySelector("#teaser-author")
+        };
+
+        function setStatus(message = "", state = "") {
+          status.textContent = message;
+          status.dataset.state = state;
+        }
+
+        function parseNprUrl(rawUrl) {
+          let parsed;
+
+          try {
+            parsed = new URL(rawUrl.trim());
+          } catch (error) {
+            throw new Error("Please paste a complete NPR story link.");
+          }
+
+          const host = parsed.hostname.toLowerCase();
+          const isNpr = host === "npr.org" || host.endsWith(".npr.org");
+
+          if (!isNpr || !["http:", "https:"].includes(parsed.protocol)) {
+            throw new Error("Please paste a valid NPR story link.");
+          }
+
+          parsed.protocol = "https:";
+          return parsed.href;
+        }
+
+        function meta(documentNode, selector) {
+          const tag = documentNode.querySelector(selector);
+          return tag?.getAttribute("content")?.trim() || "";
+        }
+
+        function endSentence(text) {
+          const cleanText = text.trim();
+          if (!cleanText) return "";
+          return /[.!?]$/.test(cleanText) ? cleanText : `${cleanText}.`;
+        }
+
+        function buildTeaserWithAuthor(teaser, authors) {
+          if (!authors.length) return teaser;
+
+          const intro = endSentence(teaser);
+          const authorText = authors.length === 1
+            ? `${authors[0]} reports for NPR.`
+            : `${authors.join(" and ")} report for NPR.`;
+
+          return [intro, authorText].filter(Boolean).join(" ");
+        }
+
+        function extractStory(html, submittedUrl) {
+          const documentNode = new DOMParser().parseFromString(html, "text/html");
+          const authorValues = [...documentNode.querySelectorAll('meta[name="cXenseParse:author" i]')]
+            .flatMap((tag) => (tag.getAttribute("content") || "").split("|"))
+            .map((author) => author.trim())
+            .filter(Boolean);
+          const authors = [...new Set(authorValues)];
+          const teaser = meta(documentNode, 'meta[name="description" i]')
+            || meta(documentNode, 'meta[property="og:description" i]');
+
+          return {
+            headline: meta(documentNode, 'meta[property="og:title" i]')
+              || documentNode.querySelector("title")?.textContent?.trim()
+              || "",
+            link: meta(documentNode, 'meta[property="og:url" i]')
+              || documentNode.querySelector('link[rel="canonical" i]')?.getAttribute("href")?.trim()
+              || submittedUrl,
+            photo: meta(documentNode, 'meta[property="og:image" i]'),
+            teaser,
+            teaserAuthor: buildTeaserWithAuthor(teaser, authors)
+          };
+        }
+
+        function populateFields(data) {
+          Object.entries(fields).forEach(([key, field]) => {
+            field.value = data[key] || "";
+          });
+
+          results.hidden = false;
+          results.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+
+        async function collectStory(rawUrl) {
+          const storyUrl = parseNprUrl(rawUrl);
+          const response = await fetch(storyUrl, {
+            method: "GET",
+            credentials: "omit",
+            redirect: "follow",
+            headers: { Accept: "text/html" }
+          });
+
+          if (!response.ok) {
+            throw new Error(`NPR returned an error (${response.status}). Please check the link and try again.`);
+          }
+
+          const html = await response.text();
+          const data = extractStory(html, storyUrl);
+
+          if (!data.headline && !data.teaser) {
+            throw new Error("The story loaded, but its newsletter details could not be found.");
+          }
+
+          return data;
+        }
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          setStatus("Collecting story details…");
+          collectButton.disabled = true;
+          collectButton.textContent = "Collecting…";
+
+          try {
+            const data = await collectStory(urlInput.value);
+            populateFields(data);
+            setStatus("Story details collected. You can edit any field before copying it.", "success");
+          } catch (error) {
+            results.hidden = true;
+            setStatus(error.message || "Something went wrong. Please try again.", "error");
+          } finally {
+            collectButton.disabled = false;
+            collectButton.textContent = "Collect content";
+          }
+        });
+
+        document.querySelectorAll("[data-copy]").forEach((button) => {
+          button.addEventListener("click", async () => {
+            const field = document.getElementById(button.dataset.copy);
+            const originalLabel = button.textContent;
+
+            try {
+              await navigator.clipboard.writeText(field.value);
+              button.textContent = "Copied";
+              button.classList.add("is-copied");
+            } catch (error) {
+              field.focus();
+              field.select();
+              const copied = document.execCommand("copy");
+              button.textContent = copied ? "Copied" : "Select text";
+              button.classList.toggle("is-copied", copied);
+            }
+
+            window.setTimeout(() => {
+              button.textContent = originalLabel;
+              button.classList.remove("is-copied");
+            }, 1200);
+          });
+        });
+
+        clearButton.addEventListener("click", () => {
+          form.reset();
+          Object.values(fields).forEach((field) => {
+            field.value = "";
+          });
+          results.hidden = true;
+          setStatus();
+          urlInput.focus();
+        });
+      })();
+    </script>
+  </body>
 </html>

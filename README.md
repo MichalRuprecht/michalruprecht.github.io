@@ -14,7 +14,7 @@ This repository builds Michal Ruprecht’s journalism and ceramics portfolio wit
 - `pages/ceramics.html` — ceramics portfolio content
 - `pages/md_file.html` — clip-file generator
 - `pages/email_generator.html` — source-email generator
-- `pages/newsletter_extract.html` — newsletter tool redirect; leave unchanged unless the external tool’s address changes
+- `pages/newsletter_extract.html` — browser-based NPR newsletter content collector
 
 Every published clip remains in `pages/clips/`. The story text in those files is publication copy and should not be rewritten. See `PUBLISHING.md` for the publishing checklist.
 

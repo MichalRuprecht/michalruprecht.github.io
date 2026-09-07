@@ -1938,27 +1938,214 @@ mark {
   border-color: var(--line);
 }
 
-.clip-page .clip-actions .clip-action-btn,
-.clip-page .clip-inline-button {
-  border-color: var(--ink);
-  border-radius: 999px;
-  color: var(--ink);
-  background: transparent;
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 700;
+.clip-page .clip-meta {
+  margin: 0 0 20px;
 }
 
-.clip-page .clip-actions .clip-action-btn:hover,
-.clip-page .clip-actions .clip-action-btn:focus,
-.clip-page .clip-inline-button:hover,
-.clip-page .clip-inline-button:focus {
-  color: var(--white);
+.clip-page article.clip-article p.nyt-publish-date {
+  margin-bottom: 0;
+}
+
+.clip-page .clip-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin: 0 0 34px;
+}
+
+.clip-page .clip-action-btn {
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 12px 18px;
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-decoration: none;
+  transition: color 160ms ease, background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.clip-page .clip-action-btn--primary {
+  color: var(--ink);
+  background: var(--highlight);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.clip-page .clip-action-btn--secondary {
+  color: var(--ink);
+  background: var(--white);
+}
+
+.clip-page .clip-action-btn:hover,
+.clip-page .clip-action-btn:focus {
+  color: var(--highlight);
   background: var(--ink);
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.clip-page .clip-action-btn__arrow {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
 }
 
 .clip-page .nyt-image.clip-image {
   border-radius: 2px;
+}
+
+.clip-page .clip-story-note {
+  margin: 30px 0 34px;
+  padding: clamp(22px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-left: 7px solid var(--highlight);
+  background: var(--paper-light);
+}
+
+.clip-page .clip-story-note__label {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.clip-page article.clip-article p.clip-reporting {
+  max-width: none;
+  margin: 0;
+  color: var(--ink-soft);
+  font-family: var(--serif);
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.5;
+}
+
+.clip-page .clip-companion-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.clip-page .clip-companion-link {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  background: var(--highlight);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.clip-page .clip-companion-link:hover,
+.clip-page .clip-companion-link:focus {
+  color: var(--highlight);
+  background: var(--ink);
+}
+
+.clip-page .clip-companion-link__icon {
+  width: 25px;
+  height: 25px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--highlight);
+  background: var(--ink);
+  font-size: 10px;
+}
+
+.clip-page .clip-companion-link:hover .clip-companion-link__icon,
+.clip-page .clip-companion-link:focus .clip-companion-link__icon {
+  color: var(--ink);
+  background: var(--highlight);
+}
+
+.clip-page .clip-media-card {
+  margin: 32px 0 38px;
+  padding: clamp(20px, 3vw, 30px);
+  color: var(--white);
+  background: var(--ink);
+}
+
+.clip-page .clip-media-card__heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.clip-page .clip-media-card__heading h2 {
+  margin: 0;
+  color: var(--white);
+  font-family: var(--serif);
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.clip-page .clip-media-card__icon {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ink);
+  background: var(--highlight);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.clip-page .clip-embed {
+  margin: 0;
+}
+
+.clip-page .clip-embed iframe {
+  max-width: 100%;
+  display: block;
+  border: 0 !important;
+  border-radius: 2px !important;
+  background: var(--paper-light);
+}
+
+.clip-page .clip-media-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 18px;
+  padding-top: 17px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--sans);
+  font-size: 15px;
+}
+
+.clip-page .clip-media-card__article-link {
+  flex: 0 0 auto;
+  color: var(--highlight);
+  font-size: 17px;
+  font-weight: 800;
+  text-underline-offset: 4px;
+}
+
+.clip-page .clip-media-card__article-link:hover,
+.clip-page .clip-media-card__article-link:focus {
+  color: var(--white);
 }
 
 .clip-page .clip-body p {
@@ -1995,6 +2182,112 @@ mark {
 .clip-page .clip-return:focus {
   color: var(--cobalt);
   background: transparent;
+}
+
+.clip-page .clip-related {
+  margin-top: clamp(42px, 6vw, 68px);
+  padding-top: clamp(30px, 5vw, 46px);
+  border-top: 1px solid var(--line);
+}
+
+.clip-page .clip-related__heading {
+  margin-bottom: 22px;
+}
+
+.clip-page .clip-related__heading p {
+  margin: 0 0 3px;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.clip-page .clip-related__heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.clip-page .clip-related__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clip-page .clip-related-card {
+  min-width: 0;
+  margin: 0;
+}
+
+.clip-page .clip-related-card__image {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.clip-page .clip-related-card__image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform 220ms ease;
+}
+
+.clip-page .clip-related-card:hover .clip-related-card__image img {
+  transform: scale(1.025);
+}
+
+.clip-page .clip-related-card__copy {
+  padding-top: 12px;
+}
+
+.clip-page .clip-related-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0 0 7px;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.clip-page .clip-related-card__meta span:first-child {
+  color: var(--ink);
+}
+
+.clip-page .clip-related-card h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(19px, 2vw, 24px);
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.clip-page .clip-related-card h3 a {
+  text-decoration: none;
+}
+
+.clip-page .clip-related-card h3 a:hover,
+.clip-page .clip-related-card h3 a:focus {
+  text-decoration: underline;
+  text-decoration-color: var(--highlight);
+  text-decoration-thickness: 0.22em;
+  text-underline-offset: 0.08em;
 }
 
 @media (max-width: 980px) {
@@ -2325,6 +2618,40 @@ mark {
     width: calc(100vw - 30px);
     margin-top: 30px;
     padding: 28px 20px 34px;
+  }
+
+  .clip-page .clip-actions {
+    align-items: stretch;
+  }
+
+  .clip-page .clip-action-btn {
+    flex: 1 1 auto;
+  }
+
+  .clip-page .clip-media-card__footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .clip-page .clip-related__grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .clip-page .clip-related-card {
+    display: grid;
+    grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr);
+    gap: 14px;
+    align-items: start;
+  }
+
+  .clip-page .clip-related-card__copy {
+    padding-top: 0;
+  }
+
+  .clip-page .clip-related-card h3 {
+    font-size: clamp(18px, 5.1vw, 22px);
   }
 
   .ceramics-hero__portrait {

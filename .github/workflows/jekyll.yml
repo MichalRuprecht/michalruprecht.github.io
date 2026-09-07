@@ -32,6 +32,11 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
 
+      - name: Build performance assets
+        run: |
+          python3 -m pip install --disable-pip-version-check --no-cache-dir Pillow==11.3.0
+          python3 scripts/build_performance_assets.py
+
       - name: Build related-story recommendations
         run: python3 scripts/build_related_stories.py
 

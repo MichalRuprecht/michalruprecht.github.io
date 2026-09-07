@@ -286,6 +286,17 @@ def build_rankings(clips: list[dict]) -> dict[str, list[str]]:
         overrides = EDITORIAL_OVERRIDES.get(current["display_id"], [])
         combined = overrides + [clip_id for clip_id in automatic if clip_id not in overrides]
         rankings[current["display_id"]] = combined[:3]
+
+    # Companion videos and podcasts often contain little body text. Their
+    # written parent is a much stronger semantic signal than their format, so
+    # give both versions of the same reporting the same recommendations.
+    clips_by_id = {clip["id"]: clip for clip in clips}
+    for clip in clips:
+        if not clip["is_companion"] or not clip["relations"]:
+            continue
+        parent = clips_by_id.get(next(iter(clip["relations"])))
+        if parent:
+            rankings[clip["display_id"]] = rankings[parent["display_id"]].copy()
     return rankings
 
 

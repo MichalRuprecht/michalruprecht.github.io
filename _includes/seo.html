@@ -74,9 +74,24 @@
       "inLanguage": "en-US",
       "publisher": { "@id": "https://michalruprecht.com/#person" },
       "hasPart": [
-        { "@id": "https://michalruprecht.com/about/#webpage" },
-        { "@id": "https://michalruprecht.com/reporting/#webpage" },
-        { "@id": "https://michalruprecht.com/contact/#webpage" }
+        {
+          "@type": "WebPageElement",
+          "@id": "https://michalruprecht.com/#about",
+          "url": "https://michalruprecht.com/#about",
+          "name": "About"
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://michalruprecht.com/#reporting",
+          "url": "https://michalruprecht.com/#reporting",
+          "name": "Reporting"
+        },
+        {
+          "@type": "WebPageElement",
+          "@id": "https://michalruprecht.com/#contact",
+          "url": "https://michalruprecht.com/#contact",
+          "name": "Contact"
+        }
       ]
     },
     {
@@ -144,68 +159,6 @@
           "@type": "EducationalOccupationalCredential",
           "name": "Hostile Environment and First Aid Training (HEFAT)",
           "credentialCategory": "Training"
-        }
-      ]
-    },
-    {
-      "@type": "AboutPage",
-      "@id": "https://michalruprecht.com/about/#webpage",
-      "url": "https://michalruprecht.com/about/",
-      "name": "About Michal Ruprecht",
-      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
-      "mainEntity": { "@id": "https://michalruprecht.com/#person" }
-    },
-    {
-      "@type": "CollectionPage",
-      "@id": "https://michalruprecht.com/reporting/#webpage",
-      "url": "https://michalruprecht.com/reporting/",
-      "name": "Reporting by Michal Ruprecht",
-      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
-      "creator": { "@id": "https://michalruprecht.com/#person" }
-    },
-    {
-      "@type": "ContactPage",
-      "@id": "https://michalruprecht.com/contact/#webpage",
-      "url": "https://michalruprecht.com/contact/",
-      "name": "Contact Michal Ruprecht",
-      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
-      "about": { "@id": "https://michalruprecht.com/#person" }
-    }
-  ]
-}
-</script>
-{% elsif page.nav_section %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": {{ page.schema_type | default: 'WebPage' | jsonify }},
-      "@id": "{{ page.url | absolute_url }}#webpage",
-      "url": "{{ page.url | absolute_url }}",
-      "name": {{ seo_title | jsonify }},
-      "description": {{ seo_description | jsonify }},
-      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
-      "about": { "@id": "https://michalruprecht.com/#person" },
-      "primaryImageOfPage": {
-        "@type": "ImageObject",
-        "url": "{{ seo_image_url }}"
-      }
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://michalruprecht.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": {{ page.breadcrumb_title | default: page.nav_section | capitalize | jsonify }},
-          "item": "{{ page.url | absolute_url }}"
         }
       ]
     }

@@ -1,0 +1,29 @@
+---
+layout: portfolio
+permalink: /reporting/
+title: Reporting by Michal Ruprecht | NPR, CNN, ABC News & MedPage Today
+description: Browse selected health reporting by Michal Ruprecht from NPR, CNN, ABC News and MedPage Today.
+body_class: section-page reporting-index-page
+nav_section: reporting
+breadcrumb_title: Reporting
+schema_type: CollectionPage
+---
+{% assign clip_pages = site.pages | where_exp: "p", "p.clip == true" | where_exp: "p", "p.clip_id" %}
+{% assign reporting_topic_order = "global health|domestic health|multimedia|profiles and human stories|inequity, gender and structural discrimination|research" | split: "|" %}
+
+<section class="search-landing search-landing--reporting">
+  <div class="site-shell">
+    <p class="search-landing__eyebrow">Portfolio</p>
+    <h1>Reporting</h1>
+    <p class="search-landing__lede search-landing__lede--short">Health reporting by Michal Ruprecht.</p>
+
+    <ul class="clip-grid search-landing__stories">
+      {% for featured_id in site.data.portfolio.featured_ids %}
+        {% assign p = clip_pages | where: "clip_id", featured_id | first %}
+        {% if p %}{% include reporting-card.html clip=p order=forloop.index0 topic_order=reporting_topic_order %}{% endif %}
+      {% endfor %}
+    </ul>
+
+    <p class="search-landing__action"><a class="button button--secondary" href="/#reporting">Browse all reporting</a></p>
+  </div>
+</section>

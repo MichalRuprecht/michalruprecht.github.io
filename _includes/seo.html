@@ -17,8 +17,10 @@
 {% endif %}
 {% assign seo_description = seo_description | strip_html | normalize_whitespace | strip %}
 
-{% assign seo_image_path = '/assets/profile.jpg' %}
+{% assign seo_image_path = page.seo_image | default: '/assets/images/michal-ruprecht-16x9.webp' %}
 {% assign seo_image_alt = 'Portrait of Michal Ruprecht' %}
+{% assign seo_image_width = page.seo_image_width | default: 1200 %}
+{% assign seo_image_height = page.seo_image_height | default: 675 %}
 {% if page.clip and page.clip_id %}
   {% assign seo_image_path = '/pages/clips/assets/photo/' | append: page.clip_id | append: '.jpg' %}
   {% assign seo_image_alt = page.caption_html | strip_html | normalize_whitespace | strip %}
@@ -45,15 +47,16 @@
 <meta property="og:image" content="{{ seo_image_url }}">
 <meta property="og:image:secure_url" content="{{ seo_image_url }}">
 {% unless page.clip %}
-<meta property="og:image:width" content="1641">
-<meta property="og:image:height" content="2048">
+<meta property="og:image:width" content="{{ seo_image_width }}">
+<meta property="og:image:height" content="{{ seo_image_height }}">
 {% endunless %}
 <meta property="og:image:alt" content="{{ seo_image_alt | escape }}">
-<meta name="twitter:card" content="{% if page.clip %}summary_large_image{% else %}summary{% endif %}">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ seo_title | escape }}">
 <meta name="twitter:description" content="{{ seo_description | escape }}">
 <meta name="twitter:image" content="{{ seo_image_url }}">
 <meta name="twitter:image:alt" content="{{ seo_image_alt | escape }}">
+<link rel="image_src" href="{{ seo_image_url }}">
 <link rel="alternate" type="text/plain" href="{{ '/llms.txt' | absolute_url }}" title="About Michal Ruprecht for language models">
 
 {% if page.url == '/' %}
@@ -66,17 +69,36 @@
       "@id": "https://michalruprecht.com/#website",
       "url": "https://michalruprecht.com/",
       "name": "Michal Ruprecht",
-      "description": "{{ site.description | escape }}",
-      "inLanguage": "en-US"
+      "alternateName": "Michal Ruprecht | Medical Student & Health Journalist",
+      "description": {{ site.description | jsonify }},
+      "inLanguage": "en-US",
+      "publisher": { "@id": "https://michalruprecht.com/#person" },
+      "hasPart": [
+        { "@id": "https://michalruprecht.com/about/#webpage" },
+        { "@id": "https://michalruprecht.com/reporting/#webpage" },
+        { "@id": "https://michalruprecht.com/contact/#webpage" }
+      ]
     },
     {
       "@type": "ProfilePage",
       "@id": "https://michalruprecht.com/#profilepage",
       "url": "https://michalruprecht.com/",
       "name": "Michal Ruprecht — Medical Student & Health Journalist",
-      "description": "{{ site.description | escape }}",
+      "description": {{ site.description | jsonify }},
       "isPartOf": { "@id": "https://michalruprecht.com/#website" },
-      "mainEntity": { "@id": "https://michalruprecht.com/#person" }
+      "mainEntity": { "@id": "https://michalruprecht.com/#person" },
+      "primaryImageOfPage": { "@id": "https://michalruprecht.com/#primaryimage" }
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://michalruprecht.com/#primaryimage",
+      "contentUrl": "https://michalruprecht.com/assets/images/michal-ruprecht-4x3.webp",
+      "url": "https://michalruprecht.com/assets/images/michal-ruprecht-4x3.webp",
+      "width": 1200,
+      "height": 900,
+      "caption": "Michal Ruprecht",
+      "creditText": "Maansi Srivastava",
+      "representativeOfPage": true
     },
     {
       "@type": "Person",
@@ -85,9 +107,14 @@
       "alternateName": "Michal Ruprecht",
       "url": "https://michalruprecht.com/",
       "mainEntityOfPage": { "@id": "https://michalruprecht.com/#profilepage" },
-      "image": "https://michalruprecht.com/assets/profile.jpg",
-      "description": "{{ site.description | escape }}",
+      "image": [
+        "https://michalruprecht.com/assets/images/michal-ruprecht-1x1.webp",
+        "https://michalruprecht.com/assets/images/michal-ruprecht-4x3.webp",
+        "https://michalruprecht.com/assets/images/michal-ruprecht-16x9.webp"
+      ],
+      "description": {{ site.description | jsonify }},
       "jobTitle": ["Medical student", "Health journalist"],
+      "email": "mailto:michal.ruprecht.public@gmail.com",
       "sameAs": [
         "https://www.linkedin.com/in/michalruprecht",
         "https://instagram.com/mrup.01",
@@ -117,6 +144,68 @@
           "@type": "EducationalOccupationalCredential",
           "name": "Hostile Environment and First Aid Training (HEFAT)",
           "credentialCategory": "Training"
+        }
+      ]
+    },
+    {
+      "@type": "AboutPage",
+      "@id": "https://michalruprecht.com/about/#webpage",
+      "url": "https://michalruprecht.com/about/",
+      "name": "About Michal Ruprecht",
+      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
+      "mainEntity": { "@id": "https://michalruprecht.com/#person" }
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://michalruprecht.com/reporting/#webpage",
+      "url": "https://michalruprecht.com/reporting/",
+      "name": "Reporting by Michal Ruprecht",
+      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
+      "creator": { "@id": "https://michalruprecht.com/#person" }
+    },
+    {
+      "@type": "ContactPage",
+      "@id": "https://michalruprecht.com/contact/#webpage",
+      "url": "https://michalruprecht.com/contact/",
+      "name": "Contact Michal Ruprecht",
+      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
+      "about": { "@id": "https://michalruprecht.com/#person" }
+    }
+  ]
+}
+</script>
+{% elsif page.nav_section %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": {{ page.schema_type | default: 'WebPage' | jsonify }},
+      "@id": "{{ page.url | absolute_url }}#webpage",
+      "url": "{{ page.url | absolute_url }}",
+      "name": {{ seo_title | jsonify }},
+      "description": {{ seo_description | jsonify }},
+      "isPartOf": { "@id": "https://michalruprecht.com/#website" },
+      "about": { "@id": "https://michalruprecht.com/#person" },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "{{ seo_image_url }}"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://michalruprecht.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ page.breadcrumb_title | default: page.nav_section | capitalize | jsonify }},
+          "item": "{{ page.url | absolute_url }}"
         }
       ]
     }

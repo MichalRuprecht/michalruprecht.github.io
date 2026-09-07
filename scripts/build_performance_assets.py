@@ -60,6 +60,19 @@ def build_images() -> None:
     profile = open_image("assets/profile.jpg").crop((0, 252, 1641, 2048))
     save_webp(resize_width(profile, 720), "assets/images/profile-hero.webp", 78)
 
+    # Give search engines a choice of high-resolution portrait crops in the
+    # aspect ratios Google recommends for profile imagery. These are separate
+    # from the visible hero asset so search/social metadata never changes the
+    # homepage design.
+    profile_search_crops = (
+        ((1200, 1200), (0.5, 0.45), "assets/images/michal-ruprecht-1x1.webp"),
+        ((1200, 900), (0.5, 0.40), "assets/images/michal-ruprecht-4x3.webp"),
+        ((1200, 675), (0.5, 0.21), "assets/images/michal-ruprecht-16x9.webp"),
+    )
+    for dimensions, centering, destination in profile_search_crops:
+        crop = ImageOps.fit(profile, dimensions, Image.Resampling.LANCZOS, centering=centering)
+        save_webp(crop, destination, 82)
+
     supporting_images = (
         ("assets/photos/cnn-sanjay-gupta-crop.jpg", "assets/photos/cnn-sanjay-gupta.webp", 480),
         ("assets/photos/npr-tiny-desk.jpg", "assets/photos/npr-tiny-desk.webp", 600),

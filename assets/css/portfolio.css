@@ -2069,6 +2069,10 @@ mark {
   margin-top: 20px;
 }
 
+.clip-page .clip-companion-links--standalone {
+  margin: 26px 0 30px;
+}
+
 .clip-page .clip-companion-link {
   min-height: 46px;
   display: inline-flex;

@@ -2152,16 +2152,22 @@ mark {
   position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  grid-template-areas: "toggle content";
-  gap: 16px;
+  grid-template-areas: "transport content";
+  gap: 20px;
   align-items: center;
   padding: 18px 20px;
   border: 1px solid var(--ink);
   background: var(--paper-light);
 }
 
+.clip-page .clip-audio-player__transport {
+  grid-area: transport;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .clip-page .clip-audio-player__toggle {
-  grid-area: toggle;
   width: 54px;
   height: 54px;
   display: inline-grid;
@@ -2176,14 +2182,35 @@ mark {
   transition: color 150ms ease, background-color 150ms ease, transform 150ms ease;
 }
 
+.clip-page .clip-audio-player__skip {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  color: var(--ink);
+  background: transparent;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
 .clip-page .clip-audio-player__toggle:not(:disabled):hover,
-.clip-page .clip-audio-player__toggle:not(:disabled):focus-visible {
+.clip-page .clip-audio-player__toggle:not(:disabled):focus-visible,
+.clip-page .clip-audio-player__skip:not(:disabled):hover,
+.clip-page .clip-audio-player__skip:not(:disabled):focus-visible {
   color: var(--ink);
   background: var(--highlight);
   transform: scale(1.04);
 }
 
-.clip-page .clip-audio-player__toggle:disabled {
+.clip-page .clip-audio-player__toggle:disabled,
+.clip-page .clip-audio-player__skip:disabled {
   cursor: wait;
   opacity: 0.5;
 }
@@ -2277,32 +2304,6 @@ mark {
   clip-path: inset(50%) !important;
   pointer-events: none !important;
   white-space: nowrap !important;
-}
-
-.clip-page .clip-media-card__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  margin-top: 18px;
-  padding-top: 17px;
-  border-top: 1px solid var(--line);
-  color: var(--ink-soft);
-  font-family: var(--sans);
-  font-size: 15px;
-}
-
-.clip-page .clip-media-card__article-link {
-  flex: 0 0 auto;
-  color: var(--ink);
-  font-size: 17px;
-  font-weight: 800;
-  text-underline-offset: 4px;
-}
-
-.clip-page .clip-media-card__article-link:hover,
-.clip-page .clip-media-card__article-link:focus {
-  color: var(--cobalt);
 }
 
 .clip-page .clip-body p {
@@ -2779,16 +2780,16 @@ mark {
   }
 
   .clip-page .clip-audio-player {
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas: "toggle content";
-    gap: 11px 14px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "transport"
+      "content";
+    gap: 15px;
     padding: 16px;
   }
 
-  .clip-page .clip-media-card__footer {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 7px;
+  .clip-page .clip-audio-player__transport {
+    justify-content: center;
   }
 
   .clip-page .clip-related__grid {

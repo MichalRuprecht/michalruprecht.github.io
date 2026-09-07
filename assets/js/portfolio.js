@@ -77,8 +77,8 @@
 
         IFrameAPI.createController(engine, {
           uri: player.dataset.spotifyUri,
-          width: '100%',
-          height: 152,
+          width: 1,
+          height: 1,
         }, (controller) => {
           let durationMs = 0;
 
@@ -125,7 +125,7 @@
     spotifyApi.addEventListener('error', () => {
       spotifyPlayers.forEach((player) => {
         const status = player.querySelector('[data-spotify-status]');
-        if (status) status.textContent = 'The audio player could not load. Use the Spotify link instead.';
+        if (status) status.textContent = 'The audio player could not load. Please reload the page.';
       });
     }, { once: true });
     document.head.appendChild(spotifyApi);

@@ -108,6 +108,7 @@
           {% assign has_companion = false %}
           {% if page.video_element == true and page.video_clip_number %}{% assign has_companion = true %}{% endif %}
           {% if page.podcast_element == true and page.podcast_clip_number %}{% assign has_companion = true %}{% endif %}
+          {% if page.story_element == true and page.story_clip_number %}{% assign has_companion = true %}{% endif %}
 
           {% if page.reporting or has_companion %}
             {% assign about_label = 'About this story' %}
@@ -145,6 +146,15 @@
                       <span>Watch the companion video</span>
                     </a>
                   {% endif %}
+
+                  {% if page.story_element == true and page.story_clip_number %}
+                    {% assign story_id = page.story_clip_number | to_s %}
+                    {% assign story_url = '/pages/clips/' | append: story_id | append: '.html' %}
+                    <a class="clip-companion-link" href="{{ story_url }}">
+                      <span class="clip-companion-link__icon" aria-hidden="true">↗</span>
+                      <span>Read the companion article</span>
+                    </a>
+                  {% endif %}
                 </div>
               {% endif %}
             </aside>
@@ -156,13 +166,21 @@
               {% if page.spotify_id %}
                 {% assign spotify_label = page.show | default: page.publisher | strip_html %}
                 <div class="clip-audio-player" data-spotify-player data-spotify-uri="spotify:episode:{{ page.spotify_id }}" aria-label="Audio player: {{ spotify_label }}">
-                  <button class="clip-audio-player__toggle" type="button" data-spotify-toggle aria-label="Play audio" disabled>
-                    <span data-spotify-icon aria-hidden="true">▶</span>
-                  </button>
+                  <div class="clip-audio-player__transport" aria-label="Playback controls">
+                    <button class="clip-audio-player__skip" type="button" data-spotify-skip="-15" aria-label="Rewind 15 seconds" disabled>
+                      <span aria-hidden="true">−15</span>
+                    </button>
+                    <button class="clip-audio-player__toggle" type="button" data-spotify-toggle aria-label="Play audio" disabled>
+                      <span data-spotify-icon aria-hidden="true">▶</span>
+                    </button>
+                    <button class="clip-audio-player__skip" type="button" data-spotify-skip="15" aria-label="Forward 15 seconds" disabled>
+                      <span aria-hidden="true">+15</span>
+                    </button>
+                  </div>
                   <div class="clip-audio-player__content">
                     <div class="clip-audio-player__meta">
                       <strong>{{ spotify_label }}</strong>
-                      <span>{% if page.show %}On-air interview{% else %}Audio{% endif %}</span>
+                      <span>{% if page.podcast %}Podcast episode{% elsif page.show %}On-air interview{% else %}Audio{% endif %}</span>
                     </div>
                     <div class="clip-audio-player__timeline">
                       <time data-spotify-current datetime="PT0S">0:00</time>
@@ -176,17 +194,6 @@
               {% else %}
                 <div class="clip-embed{% if page.video %} clip-embed--video{% elsif page.podcast or page.audio %} clip-embed--audio{% endif %}">
                   {{ page.embed_html }}
-                </div>
-              {% endif %}
-
-              {% if page.story_element == true and page.story_clip_number %}
-                {% assign sid = page.story_clip_number | to_s %}
-                {% assign story_url = '/pages/clips/' | append: sid | append: '.html' %}
-                <div class="clip-media-card__footer">
-                  <span>{% if page.video %}This video accompanies a written story.{% elsif page.podcast %}This episode accompanies a written story.{% elsif page.show %}This interview accompanies a written story.{% else %}This audio accompanies a written story.{% endif %}</span>
-                  <a class="clip-media-card__article-link" href="{{ story_url }}">
-                    Read the companion article <span aria-hidden="true">→</span>
-                  </a>
                 </div>
               {% endif %}
             </section>

@@ -38,47 +38,65 @@
       <article class="clip-article">
         <section class="nyt-body">
 
-          <!-- Top utility row -->
+          <!-- Publication -->
           <div class="clip-topbar">
             <div class="clip-published">
               {% if page.publisher %}
                 Published by <span class="clip-publisher">{{ page.publisher }}</span>
               {% endif %}
             </div>
-
-            <div class="clip-actions">
-  {% if page.publisher_url %}
-    <a class="filter-btn clip-action-btn"
-       href="{{ page.publisher_url }}"
-       target="_blank"
-       rel="noopener">
-      {% if page.podcast %}
-        Link to podcast
-      {% elsif page.video %}
-        Link to video
-      {% else %}
-        Link to article
-      {% endif %}
-    </a>
-  {% endif %}
-
-  {% if page.pdf != false and page.clip_id %}
-    {% assign cid = page.clip_id | to_s %}
-    {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
-    <a class="filter-btn clip-action-btn"
-       href="{{ pdf_path }}"
-       target="_blank"
-       rel="noopener">
-      PDF
-    </a>
-  {% endif %}
-</div>
           </div>
 
           <hr class="clip-divider">
 
           <!-- Headline -->
           <h1 class="nyt-title">{{ page.title }}</h1>
+
+          <!-- Byline + date -->
+          <div class="clip-meta">
+            {% if page.byline %}
+              <p class="nyt-byline">By {{ page.byline }}</p>
+            {% endif %}
+
+            {% if page.date_display %}
+              <p class="nyt-publish-date">{{ page.date_display }}</p>
+            {% endif %}
+          </div>
+
+          <!-- Primary links are deliberately close to the headline. -->
+          {% if page.publisher_url or page.clip_id %}
+            <div class="clip-actions" aria-label="Story links">
+              {% if page.publisher_url %}
+                <a class="clip-action-btn clip-action-btn--primary"
+                   href="{{ page.publisher_url }}"
+                   target="_blank"
+                   rel="noopener">
+                  <span>
+                    {% if page.podcast %}
+                      Link to podcast
+                    {% elsif page.video %}
+                      Link to video
+                    {% else %}
+                      Link to article
+                    {% endif %}
+                  </span>
+                  <span class="clip-action-btn__arrow" aria-hidden="true">↗</span>
+                </a>
+              {% endif %}
+
+              {% if page.pdf != false and page.clip_id %}
+                {% assign cid = page.clip_id | to_s %}
+                {% assign pdf_path = 'https://michalruprecht.com/pages/clips/assets/pdf/' | append: cid | append: '.pdf' %}
+                <a class="clip-action-btn clip-action-btn--secondary"
+                   href="{{ pdf_path }}"
+                   target="_blank"
+                   rel="noopener">
+                  <span>PDF</span>
+                  <span class="clip-action-btn__arrow" aria-hidden="true">↗</span>
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
 
 <!-- MEDIA (single image for non–photo stories) -->
 {% unless page.photo_story %}
@@ -102,65 +120,81 @@
   {% endunless %}
 {% endunless %}
 
-          <!-- Byline + reporting blurb + date -->
-          <div class="clip-meta">
-            {% if page.byline %}
-              <p class="nyt-byline">By {{ page.byline }}</p>
-            {% endif %}
+          {% assign has_companion = false %}
+          {% if page.video_element == true and page.video_clip_number %}{% assign has_companion = true %}{% endif %}
+          {% if page.podcast_element == true and page.podcast_clip_number %}{% assign has_companion = true %}{% endif %}
 
-            {% if page.reporting %}
-              <p class="clip-reporting">{{ page.reporting }}</p>
-            {% endif %}
+          {% if page.reporting or has_companion %}
+            <aside class="clip-story-note" aria-label="About this story">
+              <p class="clip-story-note__label">About this story</p>
+              {% if page.reporting %}
+                <p class="clip-reporting">{{ page.reporting }}</p>
+              {% endif %}
 
-            {% if page.date_display %}
-              <p class="nyt-publish-date">{{ page.date_display }}</p>
-            {% endif %}
-          </div>
+              {% if has_companion %}
+                <div class="clip-companion-links" aria-label="More from this story">
+                  {% if page.podcast_element == true and page.podcast_clip_number %}
+                    {% assign podcast_id = page.podcast_clip_number | to_s %}
+                    {% assign podcast_url = '/pages/clips/' | append: podcast_id | append: '.html' %}
+                    <a class="clip-companion-link" href="{{ podcast_url }}">
+                      <span class="clip-companion-link__icon" aria-hidden="true">▶</span>
+                      <span>Listen to the podcast</span>
+                    </a>
+                  {% endif %}
+
+                  {% if page.video_element == true and page.video_clip_number %}
+                    {% assign video_id = page.video_clip_number | to_s %}
+                    {% assign video_url = '/pages/clips/' | append: video_id | append: '.html' %}
+                    <a class="clip-companion-link" href="{{ video_url }}">
+                      <span class="clip-companion-link__icon" aria-hidden="true">▶</span>
+                      <span>Video from this story</span>
+                    </a>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </aside>
+          {% endif %}
 
           <!-- Embed (if present) ALWAYS goes here: after date, before story -->
           {% if page.embed_html %}
-  {% if page.story_element == true and page.story_clip_number %}
-    {% assign sid = page.story_clip_number | to_s %}
-    {% assign story_url = 'https://michalruprecht.com/pages/clips/' | append: sid | append: '.html' %}
+            <section class="clip-media-card" aria-label="Story media">
+              <div class="clip-media-card__heading">
+                <span class="clip-media-card__icon" aria-hidden="true">
+                  {% if page.video %}▶{% else %}♪{% endif %}
+                </span>
+                <h2>
+                  {% if page.video %}
+                    Watch the video
+                  {% elsif page.podcast %}
+                    Listen to the podcast
+                  {% elsif page.audio %}
+                    Listen to this story
+                  {% else %}
+                    Story media
+                  {% endif %}
+                </h2>
+              </div>
 
-    <div class="clip-inline-button-row clip-story-button-row">
-      <a class="filter-btn clip-action-btn clip-inline-button"
-         href="{{ story_url }}"
-         target="_blank"
-         rel="noopener">
-        Read the article
-      </a>
-    </div>
-  {% endif %}
+              <div class="clip-embed">
+                {{ page.embed_html }}
+              </div>
 
-  <div class="clip-embed">
-    {{ page.embed_html }}
-  </div>
-{% endif %}
+              {% if page.story_element == true and page.story_clip_number %}
+                {% assign sid = page.story_clip_number | to_s %}
+                {% assign story_url = '/pages/clips/' | append: sid | append: '.html' %}
+                <div class="clip-media-card__footer">
+                  <span>Prefer the written version?</span>
+                  <a class="clip-media-card__article-link" href="{{ story_url }}">
+                    Read the article <span aria-hidden="true">→</span>
+                  </a>
+                </div>
+              {% endif %}
+            </section>
+          {% endif %}
 
           <div class="clip-body">
-  {% assign paragraphs = content | split: '</p>' %}
-
-  {% for p in paragraphs %}
-    {% if p != '' %}
-      {{ p }}</p>
-    {% endif %}
-
-    {% if forloop.index == 2 and page.video_element == true and page.video_clip_number %}
-      {% assign vid = page.video_clip_number | to_s %}
-      {% assign video_url = 'https://michalruprecht.com/pages/clips/' | append: vid | append: '.html' %}
-
-      <div class="clip-inline-button-row">
-        <a class="filter-btn clip-action-btn clip-inline-button"
-           href="{{ video_url }}"
-           target="_blank"
-           rel="noopener">
-          Video from this story
-        </a>
-      </div>
-    {% endif %}
-  {% endfor %}
-</div>
+            {{ content }}
+          </div>
 
 			{% if page.photo_story == true %}
   {% assign cid = page.clip_id | to_s %}
@@ -203,6 +237,50 @@
           <nav class="clip-bottom" aria-label="Return to portfolio">
             <a href="/#reporting" class="clip-return"><span aria-hidden="true">←</span> All reporting</a>
           </nav>
+
+          {% assign current_clip_number = page.clip_id | plus: 0 %}
+          {% capture current_clip_key %}{% if current_clip_number < 10 %}0{{ current_clip_number }}{% else %}{{ current_clip_number }}{% endif %}{% endcapture %}
+          {% assign current_clip_key = current_clip_key | strip %}
+          {% assign related_ids = site.data.related_stories[current_clip_key] %}
+          {% if related_ids and related_ids.size > 0 %}
+            <section class="clip-related" aria-labelledby="clip-related-title">
+              <div class="clip-related__heading">
+                <p>Keep reading</p>
+                <h2 id="clip-related-title">Related reporting</h2>
+              </div>
+              <ul class="clip-related__grid">
+                {% for related_id in related_ids limit: 3 %}
+                  {% assign requested_id = related_id | plus: 0 %}
+                  {% assign related_page = nil %}
+                  {% for candidate in site.pages %}
+                    {% if candidate.clip == true and candidate.clip_id %}
+                      {% assign candidate_id = candidate.clip_id | plus: 0 %}
+                      {% if candidate_id == requested_id %}
+                        {% assign related_page = candidate %}
+                        {% break %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+
+                  {% if related_page %}
+                    {% capture related_image_id %}{% if requested_id < 10 %}0{{ requested_id }}{% else %}{{ requested_id }}{% endif %}{% endcapture %}
+                    <li class="clip-related-card">
+                      <a class="clip-related-card__image" href="{{ related_page.url | relative_url }}" tabindex="-1" aria-hidden="true">
+                        <img src="/pages/clips/assets/photo/{{ related_image_id | strip }}.jpg" alt="" loading="lazy">
+                      </a>
+                      <div class="clip-related-card__copy">
+                        <p class="clip-related-card__meta">
+                          <span>{{ related_page.publisher }}</span>
+                          {% if related_page.date_display %}<span aria-hidden="true">·</span><span>{{ related_page.date_display }}</span>{% endif %}
+                        </p>
+                        <h3><a href="{{ related_page.url | relative_url }}">{{ related_page.title }}</a></h3>
+                      </div>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </section>
+          {% endif %}
 
         </section>
       </article>

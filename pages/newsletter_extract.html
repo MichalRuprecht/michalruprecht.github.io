@@ -11,10 +11,25 @@ sitemap: false
     <meta name="theme-color" content="#070c18">
     <title>Newsletter Content Collector</title>
     <link rel="icon" href="/assets/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+    <link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
     <style>
+      @font-face {
+        font-family: "DM Sans";
+        font-style: normal;
+        font-weight: 400 700;
+        font-display: optional;
+        src: url("/assets/fonts/dm-sans-latin.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Newsreader";
+        font-style: normal;
+        font-weight: 500 600;
+        font-display: optional;
+        src: url("/assets/fonts/newsreader-latin.woff2") format("woff2");
+      }
+
       :root {
         color-scheme: dark;
         --background: #070c18;

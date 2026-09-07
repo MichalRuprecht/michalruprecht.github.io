@@ -1,2 +1,9 @@
 _site/
 .DS_Store
+/assets/fonts/
+/assets/images/
+/assets/photos/cnn-sanjay-gupta.webp
+/assets/photos/npr-tiny-desk.webp
+/assets/photos/reporting-uganda-lake-victoria.webp
+/assets/ceramics/cutouts-v2/fluc_b-720.webp
+/_data/image_derivatives.yml

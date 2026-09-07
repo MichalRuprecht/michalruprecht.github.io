@@ -155,7 +155,7 @@
             <section class="clip-media-card{% if page.video %} clip-media-card--video{% elsif page.podcast or page.audio %} clip-media-card--audio{% endif %}" aria-label="Story media">
               {% if page.spotify_id %}
                 {% assign spotify_label = page.show | default: page.publisher | strip_html %}
-                <div class="clip-audio-player" data-spotify-player data-spotify-uri="spotify:episode:{{ page.spotify_id }}" aria-label="Spotify audio player: {{ spotify_label }}">
+                <div class="clip-audio-player" data-spotify-player data-spotify-uri="spotify:episode:{{ page.spotify_id }}" aria-label="Audio player: {{ spotify_label }}">
                   <button class="clip-audio-player__toggle" type="button" data-spotify-toggle aria-label="Play audio" disabled>
                     <span data-spotify-icon aria-hidden="true">▶</span>
                   </button>
@@ -170,11 +170,9 @@
                       <time data-spotify-duration>–:––</time>
                     </div>
                   </div>
-                  <a class="clip-audio-player__spotify" href="https://open.spotify.com/episode/{{ page.spotify_id }}" target="_blank" rel="noopener">Spotify <span aria-hidden="true">↗</span></a>
                   <div class="clip-audio-player__engine" data-spotify-engine aria-hidden="true"></div>
                   <p class="visually-hidden" data-spotify-status aria-live="polite">Loading audio player.</p>
                 </div>
-                <noscript><div class="clip-embed clip-embed--audio">{{ page.embed_html }}</div></noscript>
               {% else %}
                 <div class="clip-embed{% if page.video %} clip-embed--video{% elsif page.podcast or page.audio %} clip-embed--audio{% endif %}">
                   {{ page.embed_html }}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="clip-page-root">
   <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -10,10 +10,10 @@
 
     <link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="/med.css">
-    <link rel="stylesheet" href="/assets/css/portfolio.css">
+    <link rel="stylesheet" href="/med.css?v={{ site.asset_version }}">
+    <link rel="stylesheet" href="/assets/css/portfolio.css?v={{ site.asset_version }}">
     <link rel="icon" href="/assets/favicon.ico">
-    <script defer src="/assets/js/portfolio.js"></script>
+    <script defer src="/assets/js/portfolio.js?v={{ site.asset_version }}"></script>
   </head>
 
   <body class="clip-page">
@@ -151,25 +151,35 @@
           {% endif %}
 
           <!-- Embed (if present) ALWAYS goes here: after date, before story -->
-          {% if page.embed_html %}
+          {% if page.embed_html or page.spotify_id %}
             <section class="clip-media-card{% if page.video %} clip-media-card--video{% elsif page.podcast or page.audio %} clip-media-card--audio{% endif %}" aria-label="Story media">
-              <div class="clip-media-card__heading">
-                <span class="clip-media-card__icon" aria-hidden="true">
-                  {% if page.video %}▶{% else %}♪{% endif %}
-                </span>
-                <div class="clip-media-card__heading-copy">
-                  <p class="clip-media-card__eyebrow">
-                    {% if page.show %}{{ page.show }}{% elsif page.podcast %}Podcast{% elsif page.video %}Video{% else %}Audio{% endif %}
-                  </p>
-                  <h2>
-                    {% if page.show %}Listen to the interview{% elsif page.podcast %}Listen to the episode{% elsif page.video %}Watch here{% elsif page.audio %}Listen here{% else %}Story media{% endif %}
-                  </h2>
+              {% if page.spotify_id %}
+                {% assign spotify_label = page.show | default: page.publisher | strip_html %}
+                <div class="clip-audio-player" data-spotify-player data-spotify-uri="spotify:episode:{{ page.spotify_id }}" aria-label="Spotify audio player: {{ spotify_label }}">
+                  <button class="clip-audio-player__toggle" type="button" data-spotify-toggle aria-label="Play audio" disabled>
+                    <span data-spotify-icon aria-hidden="true">▶</span>
+                  </button>
+                  <div class="clip-audio-player__content">
+                    <div class="clip-audio-player__meta">
+                      <strong>{{ spotify_label }}</strong>
+                      <span>{% if page.show %}On-air interview{% else %}Audio{% endif %}</span>
+                    </div>
+                    <div class="clip-audio-player__timeline">
+                      <time data-spotify-current datetime="PT0S">0:00</time>
+                      <input data-spotify-progress type="range" min="0" max="1" value="0" step="1" aria-label="Audio progress" disabled>
+                      <time data-spotify-duration>–:––</time>
+                    </div>
+                  </div>
+                  <a class="clip-audio-player__spotify" href="https://open.spotify.com/episode/{{ page.spotify_id }}" target="_blank" rel="noopener">Spotify <span aria-hidden="true">↗</span></a>
+                  <div class="clip-audio-player__engine" data-spotify-engine aria-hidden="true"></div>
+                  <p class="visually-hidden" data-spotify-status aria-live="polite">Loading audio player.</p>
                 </div>
-              </div>
-
-              <div class="clip-embed{% if page.video %} clip-embed--video{% elsif page.podcast or page.audio %} clip-embed--audio{% endif %}">
-                {{ page.embed_html }}
-              </div>
+                <noscript><div class="clip-embed clip-embed--audio">{{ page.embed_html }}</div></noscript>
+              {% else %}
+                <div class="clip-embed{% if page.video %} clip-embed--video{% elsif page.podcast or page.audio %} clip-embed--audio{% endif %}">
+                  {{ page.embed_html }}
+                </div>
+              {% endif %}
 
               {% if page.story_element == true and page.story_clip_number %}
                 {% assign sid = page.story_clip_number | to_s %}

@@ -178,7 +178,7 @@
                 <div class="clip-audio-player" data-spotify-player data-spotify-uri="spotify:episode:{{ page.spotify_id }}" aria-label="Audio player: {{ spotify_label }}">
                   <div class="clip-audio-player__meta">
                     <strong>{{ spotify_label }}</strong>
-                    {% if page.podcast %}<span>Podcast episode</span>{% endif %}
+                    {% if page.podcast and page.hide_audio_descriptor != true %}<span>Podcast episode</span>{% endif %}
                   </div>
                   <div class="clip-audio-player__transport" aria-label="Playback controls">
                     <button class="clip-audio-player__skip" type="button" data-spotify-skip="-15" aria-label="Rewind 15 seconds" disabled>

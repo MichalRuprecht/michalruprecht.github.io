@@ -113,8 +113,9 @@
           {% if page.video_element == true and page.video_clip_number %}{% assign has_companion = true %}{% endif %}
           {% if page.podcast_element == true and page.podcast_clip_number %}{% assign has_companion = true %}{% endif %}
           {% if page.story_element == true and page.story_clip_number %}{% assign has_companion = true %}{% endif %}
+          {% assign reporting_text = page.reporting | strip %}
 
-          {% if page.reporting or has_companion %}
+          {% if reporting_text != '' %}
             {% assign about_label = 'About this story' %}
             {% if page.podcast %}
               {% assign about_label = 'About this episode' %}
@@ -127,9 +128,7 @@
             {% endif %}
             <aside class="clip-story-note" aria-label="{{ about_label }}">
               <p class="clip-story-note__label">{{ about_label }}</p>
-              {% if page.reporting %}
-                <p class="clip-reporting">{{ page.reporting }}</p>
-              {% endif %}
+              <p class="clip-reporting">{{ reporting_text }}</p>
 
               {% if has_companion %}
                 <div class="clip-companion-links" aria-label="More from this story">

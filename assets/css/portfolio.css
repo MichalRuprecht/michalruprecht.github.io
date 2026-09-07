@@ -1084,11 +1084,20 @@ mark {
 }
 
 .personal-notes__ceramics-copy small {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.35;
   text-transform: uppercase;
+}
+
+.personal-notes__link-arrow {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
 }
 
 .personal-notes__ceramics-copy strong {
@@ -2016,9 +2025,9 @@ mark {
 }
 
 .clip-page .clip-action-btn__arrow {
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
 }
 
 .clip-page .nyt-image.clip-image {
@@ -2090,7 +2099,12 @@ mark {
   border-radius: 50%;
   color: var(--highlight);
   background: var(--ink);
-  font-size: 10px;
+}
+
+.clip-page .clip-companion-link__icon svg {
+  width: 12px;
+  height: 12px;
+  display: block;
 }
 
 .clip-page .clip-companion-link:hover .clip-companion-link__icon,
@@ -2152,8 +2166,11 @@ mark {
   position: relative;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  grid-template-areas: "transport content";
-  gap: 20px;
+  grid-template-areas:
+    "transport meta"
+    "transport timeline";
+  column-gap: 20px;
+  row-gap: 9px;
   align-items: center;
   padding: 18px 20px;
   border: 1px solid var(--ink);
@@ -2180,6 +2197,22 @@ mark {
   font-size: 17px;
   cursor: pointer;
   transition: color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
+.clip-page .clip-audio-player__state-icon,
+.clip-page .clip-audio-player__state-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.clip-page .clip-audio-player__pause-icon,
+.clip-page .clip-audio-player.is-playing .clip-audio-player__play-icon {
+  display: none;
+}
+
+.clip-page .clip-audio-player.is-playing .clip-audio-player__pause-icon {
+  display: block;
 }
 
 .clip-page .clip-audio-player__skip {
@@ -2215,17 +2248,14 @@ mark {
   opacity: 0.5;
 }
 
-.clip-page .clip-audio-player__content {
-  grid-area: content;
-  min-width: 0;
-}
-
 .clip-page .clip-audio-player__meta {
+  grid-area: meta;
+  min-width: 0;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 5px 10px;
-  margin-bottom: 9px;
+  margin: 0;
 }
 
 .clip-page .clip-audio-player__meta strong {
@@ -2244,6 +2274,7 @@ mark {
 }
 
 .clip-page .clip-audio-player__timeline {
+  grid-area: timeline;
   display: grid;
   grid-template-columns: 38px minmax(90px, 1fr) 42px;
   gap: 9px;
@@ -2304,6 +2335,12 @@ mark {
   clip-path: inset(50%) !important;
   pointer-events: none !important;
   white-space: nowrap !important;
+}
+
+.clip-page .clip-return__arrow {
+  width: 18px;
+  height: 16px;
+  flex: 0 0 auto;
 }
 
 .clip-page .clip-body p {
@@ -2782,14 +2819,15 @@ mark {
   .clip-page .clip-audio-player {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
+      "meta"
       "transport"
-      "content";
-    gap: 15px;
+      "timeline";
+    gap: 14px;
     padding: 16px;
   }
 
   .clip-page .clip-audio-player__transport {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .clip-page .clip-related__grid {

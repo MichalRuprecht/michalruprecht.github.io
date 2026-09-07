@@ -129,9 +129,10 @@
             <aside class="clip-story-note" aria-label="{{ about_label }}">
               <p class="clip-story-note__label">{{ about_label }}</p>
               <p class="clip-reporting">{{ reporting_text }}</p>
+          {% endif %}
 
-              {% if has_companion %}
-                <div class="clip-companion-links" aria-label="More from this story">
+          {% if has_companion %}
+                <div class="clip-companion-links{% if reporting_text == '' %} clip-companion-links--standalone{% endif %}" aria-label="More from this story">
                   {% if page.podcast_element == true and page.podcast_clip_number %}
                     {% assign podcast_id = page.podcast_clip_number | to_s %}
                     {% assign podcast_url = '/pages/clips/' | append: podcast_id | append: '.html' %}
@@ -165,7 +166,9 @@
                     </a>
                   {% endif %}
                 </div>
-              {% endif %}
+          {% endif %}
+
+          {% if reporting_text != '' %}
             </aside>
           {% endif %}
 

@@ -2206,12 +2206,12 @@ mark {
   display: block;
 }
 
-.clip-page .clip-audio-player__pause-icon,
+.clip-page .clip-audio-player__state-icon .clip-audio-player__pause-icon,
 .clip-page .clip-audio-player.is-playing .clip-audio-player__play-icon {
   display: none;
 }
 
-.clip-page .clip-audio-player.is-playing .clip-audio-player__pause-icon {
+.clip-page .clip-audio-player.is-playing .clip-audio-player__state-icon .clip-audio-player__pause-icon {
   display: block;
 }
 

@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: optional;
+  src: url("/assets/fonts/dm-sans-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: optional;
+  src: url("/assets/fonts/newsreader-latin.woff2") format("woff2");
+}
+
 :root {
   --ink: #102925;
   --ink-soft: #29433e;
@@ -681,7 +697,7 @@ mark {
 }
 
 .credential-memory figcaption small {
-  color: var(--muted);
+  color: var(--ink-soft);
   font-size: 12px;
   line-height: 1.4;
 }

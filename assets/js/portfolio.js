@@ -56,18 +56,19 @@
   const reporting = document.querySelector('[data-reporting-browser]');
 
   if (reporting) {
-    const cards = Array.from(reporting.querySelectorAll('[data-clip-card]'));
+    let cards = Array.from(reporting.querySelectorAll('[data-clip-card]'));
     const buttons = Array.from(reporting.querySelectorAll('[data-filter-kind]'));
     const search = reporting.querySelector('[data-reporting-search]');
     const count = reporting.querySelector('[data-reporting-count]');
     const grid = reporting.querySelector('[data-clip-grid]');
+    const cardTemplate = reporting.querySelector('[data-reporting-cards]');
     const empty = reporting.querySelector('[data-reporting-empty]');
     const loadMore = reporting.querySelector('[data-load-more]');
     const clear = reporting.querySelector('[data-clear-filters]');
     const advancedFilters = Array.from(reporting.querySelectorAll('[data-advanced-filters]'));
     const params = new URLSearchParams(window.location.search);
     const searchIndex = new Map();
-    const originalOrder = new Map(cards.map((card, index) => [card, index]));
+    const originalOrder = new Map();
     const sourceLabels = new Map(
       buttons
         .filter((button) => button.dataset.filterKind === 'source')
@@ -86,6 +87,7 @@
         .map((button) => [button.dataset.filterValue, button.textContent.trim()])
     );
     let searchIndexPromise;
+    let allCardsLoaded = !cardTemplate;
 
     const state = {
       collection: params.get('view') || (params.toString() ? 'all' : 'featured'),
@@ -96,6 +98,29 @@
     };
 
     const normalize = (value) => (value || '').toLowerCase().trim();
+
+    function registerCards() {
+      cards = Array.from(reporting.querySelectorAll('[data-clip-card]'));
+      cards.forEach((card, index) => {
+        originalOrder.set(card, Number(card.dataset.order || index));
+      });
+    }
+
+    function loadAllCards() {
+      if (allCardsLoaded || !cardTemplate) return;
+      grid.appendChild(cardTemplate.content.cloneNode(true));
+      allCardsLoaded = true;
+      registerCards();
+    }
+
+    function hydrateCardImage(card) {
+      const image = card.querySelector('img[data-src]');
+      if (!image) return;
+      image.src = image.dataset.src;
+      image.removeAttribute('data-src');
+    }
+
+    registerCards();
 
     function loadSearchIndex() {
       if (!searchIndexPromise) {
@@ -198,6 +223,7 @@
 
     function render({ updateHistory = true } = {}) {
       const query = normalize(state.query);
+      if (state.collection === 'all' || query) loadAllCards();
       const terms = query.split(/\s+/).filter(Boolean);
       const showAdvancedFilters = state.collection === 'all';
       advancedFilters.forEach((group) => { group.hidden = !showAdvancedFilters; });
@@ -234,7 +260,10 @@
       if (largeCard) largeCard.classList.add('is-large');
       const initialLimit = largeCard ? 5 : 6;
       const limit = initialLimit + state.extra;
-      matches.slice(0, limit).forEach((card) => { card.hidden = false; });
+      matches.slice(0, limit).forEach((card) => {
+        card.hidden = false;
+        hydrateCardImage(card);
+      });
 
       const visibleCount = Math.min(matches.length, limit);
       count.textContent = resultLabel(matches.length, visibleCount, query);
@@ -297,12 +326,34 @@
   const newsletterForm = document.querySelector('[data-newsletter-form]');
 
   if (newsletterForm) {
+    const recaptchaSiteKey = '6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt';
     const iframe = document.getElementById('hidden_iframe');
     const tokenField = document.getElementById('recaptchaResponse');
     const status = document.querySelector('[data-form-status]');
     const success = document.querySelector('[data-newsletter-success]');
     const reset = document.querySelector('[data-newsletter-reset]');
     let submitted = false;
+    let recaptchaPromise;
+
+    function loadRecaptcha() {
+      if (window.grecaptcha) return Promise.resolve(window.grecaptcha);
+      if (recaptchaPromise) return recaptchaPromise;
+
+      recaptchaPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = `https://www.google.com/recaptcha/api.js?render=${recaptchaSiteKey}`;
+        script.async = true;
+        script.defer = true;
+        script.addEventListener('load', () => resolve(window.grecaptcha), { once: true });
+        script.addEventListener('error', reject, { once: true });
+        document.head.appendChild(script);
+      });
+      return recaptchaPromise;
+    }
+
+    newsletterForm.addEventListener('focusin', () => {
+      loadRecaptcha().catch(() => {});
+    }, { once: true });
 
     newsletterForm.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -315,17 +366,19 @@
         newsletterForm.submit();
       };
 
-      if (window.grecaptcha) {
-        window.grecaptcha.ready(() => {
-          window.grecaptcha.execute('6LdU-iorAAAAANTATiiq-Iv3yMk8T5AgUun7cXlt', { action: 'newsletter' })
-            .then(submitForm)
-            .catch(() => {
-              status.textContent = 'Please try again.';
-            });
+      loadRecaptcha()
+        .then((grecaptcha) => {
+          grecaptcha.ready(() => {
+            grecaptcha.execute(recaptchaSiteKey, { action: 'newsletter' })
+              .then(submitForm)
+              .catch(() => {
+                status.textContent = 'Please try again.';
+              });
+          });
+        })
+        .catch(() => {
+          status.textContent = 'Please try again.';
         });
-      } else {
-        submitForm();
-      }
     });
 
     iframe.addEventListener('load', () => {

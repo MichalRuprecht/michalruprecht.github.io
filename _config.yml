@@ -14,9 +14,6 @@ author:
 
 url-pretty: "michalruprecht.com"
 
-gtag: "'config', 'UA-141229929-1'"
-google_analytics: "UA-141229929-1"
-
 # Make sure Jekyll looks in your _layouts folder
 layouts_dir: _layouts
 

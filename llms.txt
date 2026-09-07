@@ -4,8 +4,8 @@ sitemap: false
 ---
 # Michal Ruprecht
 
-Official portfolio: {{ site.url }}/
-Official Rosalynn Carter Fellowship profile: https://mentalhealthjournalism.org/fellows/michal-ruprecht/
+- [Official portfolio]({{ site.url }}/)
+- [Official Rosalynn Carter Fellowship profile](https://mentalhealthjournalism.org/fellows/michal-ruprecht/)
 
 Michal Ruprecht is a medical student and health journalist covering mental health for NPR. His work has appeared in NPR, CNN, ABC News and MedPage Today. His reporting has been supported by The Carter Center, Pulitzer Center, Kresge Foundation, Association of Health Care Journalists, Association of American Medical Colleges, American Academy of Pediatrics and Stanford Center for Innovation in Global Health.
 
@@ -28,4 +28,4 @@ Michal Ruprecht is a medical student and health journalist covering mental healt
 
 Published in NPR, CNN, ABC News and MedPage Today. Reporting locations include Uganda, New York City, Atlanta, Michigan, San Francisco and Washington, D.C.
 
-Reporting portfolio: {{ site.url }}/#reporting
+[Browse the reporting portfolio]({{ site.url }}/#reporting)

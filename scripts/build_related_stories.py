@@ -50,6 +50,19 @@ TAG_RE = re.compile(r"<[^>]+>")
 URL_RE = re.compile(r"https?://\S+")
 MARKDOWN_LINK_RE = re.compile(r"\[([^\]]+)\]\([^\)]+\)")
 
+TOKEN_ALIASES = {
+    "immunization": "vaccine",
+    "immunizations": "vaccine",
+    "immunized": "vaccine",
+    "unimmunized": "vaccine",
+    "vaccinated": "vaccine",
+    "vaccination": "vaccine",
+    "vaccinations": "vaccine",
+    "unvaccinated": "vaccine",
+    "unvaxxed": "vaccine",
+    "vaxxed": "vaccine",
+}
+
 
 def scalar(value: str):
     value = value.strip()
@@ -135,7 +148,7 @@ def normalize_token(token: str) -> str:
         token = token[:-2]
     if len(token) > 5 and token.endswith("s") and not token.endswith("ss"):
         token = token[:-1]
-    return token
+    return TOKEN_ALIASES.get(token, token)
 
 
 def tokens(value) -> list[str]:
@@ -227,7 +240,10 @@ def pair_score(current: dict, candidate: dict, idf: dict[str, float]) -> float:
 
     shared_categories = current["categories"] & candidate["categories"]
     substantive_categories = shared_categories - {"multimedia"}
-    score += len(substantive_categories) * 52
+    # Categories come directly from each clip's front matter. They are a strong
+    # editorial signal, especially for research stories whose vocabulary can
+    # differ even when the format and subject matter are closely related.
+    score += len(substantive_categories) * 60
     if "multimedia" in shared_categories:
         score += 7
 
@@ -237,14 +253,14 @@ def pair_score(current: dict, candidate: dict, idf: dict[str, float]) -> float:
     # Editorial preference: surface the strongest recent body of work when it is
     # genuinely related, without allowing outlet prestige to overwhelm topic fit.
     if candidate["tier"] == 2:
-        score += 18
+        score += 24
     elif candidate["tier"] == 1:
         score += 2
 
     if current["tier"] == 2:
-        score += {2: 20, 1: -7, 0: -22}[candidate["tier"]]
+        score += {2: 28, 1: -16, 0: -36}[candidate["tier"]]
     elif candidate["tier"] == 2:
-        score += 14
+        score += 24
 
     if current["publisher"] == candidate["publisher"]:
         score += 5
@@ -287,16 +303,17 @@ def build_rankings(clips: list[dict]) -> dict[str, list[str]]:
         combined = overrides + [clip_id for clip_id in automatic if clip_id not in overrides]
         rankings[current["display_id"]] = combined[:3]
 
-    # Companion videos and podcasts often contain little body text. Their
-    # written parent is a much stronger semantic signal than their format, so
-    # give both versions of the same reporting the same recommendations.
+    # Companion videos and podcasts often contain little body text. Lead with
+    # their written parent, then inherit that article's fluid recommendations.
     clips_by_id = {clip["id"]: clip for clip in clips}
     for clip in clips:
         if not clip["is_companion"] or not clip["relations"]:
             continue
         parent = clips_by_id.get(next(iter(clip["relations"])))
         if parent:
-            rankings[clip["display_id"]] = rankings[parent["display_id"]].copy()
+            parent_id = parent["display_id"]
+            inherited = [parent_id, *rankings[parent_id]]
+            rankings[clip["display_id"]] = list(dict.fromkeys(inherited))[:3]
     return rankings
 
 

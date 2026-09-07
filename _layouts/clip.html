@@ -65,7 +65,9 @@
                       Read the article
                     {% endif %}
                   </span>
-                  <span class="clip-action-btn__arrow" aria-hidden="true">↗</span>
+                  <svg class="clip-action-btn__arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </a>
               {% endif %}
 
@@ -77,7 +79,9 @@
                    target="_blank"
                    rel="noopener">
                   <span>PDF</span>
-                  <span class="clip-action-btn__arrow" aria-hidden="true">↗</span>
+                  <svg class="clip-action-btn__arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
                 </a>
               {% endif %}
             </div>
@@ -133,7 +137,9 @@
                     {% assign podcast_id = page.podcast_clip_number | to_s %}
                     {% assign podcast_url = '/pages/clips/' | append: podcast_id | append: '.html' %}
                     <a class="clip-companion-link" href="{{ podcast_url }}">
-                      <span class="clip-companion-link__icon" aria-hidden="true">▶</span>
+                      <span class="clip-companion-link__icon" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" focusable="false"><path d="m5 3.5 7 4.5-7 4.5Z" fill="currentColor"/></svg>
+                      </span>
                       <span>Listen to the companion episode</span>
                     </a>
                   {% endif %}
@@ -142,7 +148,9 @@
                     {% assign video_id = page.video_clip_number | to_s %}
                     {% assign video_url = '/pages/clips/' | append: video_id | append: '.html' %}
                     <a class="clip-companion-link" href="{{ video_url }}">
-                      <span class="clip-companion-link__icon" aria-hidden="true">▶</span>
+                      <span class="clip-companion-link__icon" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" focusable="false"><path d="m5 3.5 7 4.5-7 4.5Z" fill="currentColor"/></svg>
+                      </span>
                       <span>Watch the companion video</span>
                     </a>
                   {% endif %}
@@ -151,7 +159,9 @@
                     {% assign story_id = page.story_clip_number | to_s %}
                     {% assign story_url = '/pages/clips/' | append: story_id | append: '.html' %}
                     <a class="clip-companion-link" href="{{ story_url }}">
-                      <span class="clip-companion-link__icon" aria-hidden="true">↗</span>
+                      <span class="clip-companion-link__icon" aria-hidden="true">
+                        <svg viewBox="0 0 16 16" focusable="false"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                      </span>
                       <span>Read the companion article</span>
                     </a>
                   {% endif %}
@@ -166,27 +176,28 @@
               {% if page.spotify_id %}
                 {% assign spotify_label = page.show | default: page.publisher | strip_html %}
                 <div class="clip-audio-player" data-spotify-player data-spotify-uri="spotify:episode:{{ page.spotify_id }}" aria-label="Audio player: {{ spotify_label }}">
+                  <div class="clip-audio-player__meta">
+                    <strong>{{ spotify_label }}</strong>
+                    {% if page.podcast %}<span>Podcast episode</span>{% endif %}
+                  </div>
                   <div class="clip-audio-player__transport" aria-label="Playback controls">
                     <button class="clip-audio-player__skip" type="button" data-spotify-skip="-15" aria-label="Rewind 15 seconds" disabled>
                       <span aria-hidden="true">−15</span>
                     </button>
                     <button class="clip-audio-player__toggle" type="button" data-spotify-toggle aria-label="Play audio" disabled>
-                      <span data-spotify-icon aria-hidden="true">▶</span>
+                      <span class="clip-audio-player__state-icon" aria-hidden="true">
+                        <svg class="clip-audio-player__play-icon" viewBox="0 0 18 18" focusable="false"><path d="m6 3.5 8 5.5-8 5.5Z" fill="currentColor"/></svg>
+                        <svg class="clip-audio-player__pause-icon" viewBox="0 0 18 18" focusable="false"><path d="M5.5 4h2.7v10H5.5zm4.3 0h2.7v10H9.8z" fill="currentColor"/></svg>
+                      </span>
                     </button>
                     <button class="clip-audio-player__skip" type="button" data-spotify-skip="15" aria-label="Forward 15 seconds" disabled>
                       <span aria-hidden="true">+15</span>
                     </button>
                   </div>
-                  <div class="clip-audio-player__content">
-                    <div class="clip-audio-player__meta">
-                      <strong>{{ spotify_label }}</strong>
-                      <span>{% if page.podcast %}Podcast episode{% elsif page.show %}On-air interview{% else %}Audio{% endif %}</span>
-                    </div>
-                    <div class="clip-audio-player__timeline">
-                      <time data-spotify-current datetime="PT0S">0:00</time>
-                      <input data-spotify-progress type="range" min="0" max="1" value="0" step="1" aria-label="Audio progress" disabled>
-                      <time data-spotify-duration>–:––</time>
-                    </div>
+                  <div class="clip-audio-player__timeline">
+                    <time data-spotify-current datetime="PT0S">0:00</time>
+                    <input data-spotify-progress type="range" min="0" max="1" value="0" step="1" aria-label="Audio progress" disabled>
+                    <time data-spotify-duration>–:––</time>
                   </div>
                   <div class="clip-audio-player__engine" data-spotify-engine aria-hidden="true"></div>
                   <p class="visually-hidden" data-spotify-status aria-live="polite">Loading audio player.</p>
@@ -285,7 +296,12 @@
           {% endif %}
 
           <nav class="clip-bottom" aria-label="Return to portfolio">
-            <a href="/#reporting" class="clip-return"><span aria-hidden="true">←</span> All reporting</a>
+            <a href="/#reporting" class="clip-return">
+              <svg class="clip-return__arrow" viewBox="0 0 18 16" aria-hidden="true" focusable="false">
+                <path d="m7 3-5 5 5 5M2 8h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              All reporting
+            </a>
           </nav>
 
         </section>

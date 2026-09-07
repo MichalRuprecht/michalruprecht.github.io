@@ -68,7 +68,6 @@
       spotifyPlayers.forEach((player) => {
         const engine = player.querySelector('[data-spotify-engine]');
         const toggle = player.querySelector('[data-spotify-toggle]');
-        const icon = player.querySelector('[data-spotify-icon]');
         const progress = player.querySelector('[data-spotify-progress]');
         const current = player.querySelector('[data-spotify-current]');
         const duration = player.querySelector('[data-spotify-duration]');
@@ -83,6 +82,37 @@
         }, (controller) => {
           let durationMs = 0;
           let positionMs = 0;
+          let isPlaying = false;
+
+          const renderTimeline = () => {
+            if (durationMs <= 0) return;
+            const boundedPosition = Math.max(0, Math.min(positionMs, durationMs));
+            progress.disabled = false;
+            skipButtons.forEach((button) => { button.disabled = false; });
+            progress.max = String(durationMs);
+            progress.value = String(boundedPosition);
+            progress.style.setProperty('--audio-progress', `${(boundedPosition / durationMs) * 100}%`);
+            current.textContent = formatAudioTime(boundedPosition);
+            current.setAttribute('datetime', `PT${Math.floor(boundedPosition / 1000)}S`);
+            duration.textContent = formatAudioTime(durationMs);
+          };
+
+          const seekTo = (targetMs) => {
+            if (durationMs <= 0) return;
+            const wasPlaying = isPlaying;
+            positionMs = Math.max(0, Math.min(targetMs, durationMs));
+            renderTimeline();
+
+            if (positionMs === 0 && typeof controller.restart === 'function') {
+              controller.restart();
+              if (!wasPlaying) {
+                window.setTimeout(() => controller.pause(), 80);
+              }
+              return;
+            }
+
+            controller.seek(Math.round(positionMs / 1000));
+          };
 
           controller.addListener('ready', () => {
             toggle.disabled = false;
@@ -93,22 +123,12 @@
             const playback = event.data || {};
             durationMs = Number(playback.duration) || durationMs;
             positionMs = Number(playback.position) || 0;
-            const isPlaying = playback.isPaused === false;
+            isPlaying = playback.isPaused === false;
 
-            icon.textContent = isPlaying ? 'Ⅱ' : '▶';
             toggle.setAttribute('aria-label', isPlaying ? 'Pause audio' : 'Play audio');
             player.classList.toggle('is-playing', isPlaying);
 
-            if (durationMs > 0) {
-              progress.disabled = false;
-              skipButtons.forEach((button) => { button.disabled = false; });
-              progress.max = String(durationMs);
-              progress.value = String(Math.min(positionMs, durationMs));
-              progress.style.setProperty('--audio-progress', `${(positionMs / durationMs) * 100}%`);
-              current.textContent = formatAudioTime(positionMs);
-              current.setAttribute('datetime', `PT${Math.floor(positionMs / 1000)}S`);
-              duration.textContent = formatAudioTime(durationMs);
-            }
+            renderTimeline();
           });
 
           toggle.addEventListener('click', () => {
@@ -116,15 +136,14 @@
           });
 
           progress.addEventListener('change', () => {
-            controller.seek(Number(progress.value) / 1000);
+            seekTo(Number(progress.value));
           });
 
           skipButtons.forEach((button) => {
             button.addEventListener('click', () => {
               const offsetMs = Number(button.dataset.spotifySkip) * 1000;
               if (!Number.isFinite(offsetMs)) return;
-              const targetMs = Math.max(0, Math.min(positionMs + offsetMs, durationMs || positionMs + offsetMs));
-              controller.seek(Math.round(targetMs / 1000));
+              seekTo(positionMs + offsetMs);
             });
           });
         });

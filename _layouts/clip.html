@@ -58,9 +58,9 @@
                    rel="noopener">
                   <span>
                     {% if page.podcast %}
-                      Listen to the original podcast
+                      {% if page.publisher_url contains 'npr.org' %}Listen on NPR{% else %}Open the episode{% endif %}
                     {% elsif page.video %}
-                      View the original video
+                      {% if page.publisher_url contains 'instagram.com' %}Watch on Instagram{% elsif page.publisher_url contains 'tiktok.com' %}Watch on TikTok{% elsif page.publisher_url contains 'youtu' %}Watch on YouTube{% else %}Watch on the publisher’s site{% endif %}
                     {% else %}
                       Read the article
                     {% endif %}
@@ -110,8 +110,18 @@
           {% if page.podcast_element == true and page.podcast_clip_number %}{% assign has_companion = true %}{% endif %}
 
           {% if page.reporting or has_companion %}
-            <aside class="clip-story-note" aria-label="About this story">
-              <p class="clip-story-note__label">About this story</p>
+            {% assign about_label = 'About this story' %}
+            {% if page.podcast %}
+              {% assign about_label = 'About this episode' %}
+            {% elsif page.video %}
+              {% assign about_label = 'About this video' %}
+            {% elsif page.show %}
+              {% assign about_label = 'About this interview' %}
+            {% elsif page.audio %}
+              {% assign about_label = 'About this audio' %}
+            {% endif %}
+            <aside class="clip-story-note" aria-label="{{ about_label }}">
+              <p class="clip-story-note__label">{{ about_label }}</p>
               {% if page.reporting %}
                 <p class="clip-reporting">{{ page.reporting }}</p>
               {% endif %}
@@ -123,7 +133,7 @@
                     {% assign podcast_url = '/pages/clips/' | append: podcast_id | append: '.html' %}
                     <a class="clip-companion-link" href="{{ podcast_url }}">
                       <span class="clip-companion-link__icon" aria-hidden="true">▶</span>
-                      <span>Listen to the companion podcast</span>
+                      <span>Listen to the companion episode</span>
                     </a>
                   {% endif %}
 
@@ -142,31 +152,20 @@
 
           <!-- Embed (if present) ALWAYS goes here: after date, before story -->
           {% if page.embed_html %}
-            <section class="clip-media-card" aria-label="Story media">
+            <section class="clip-media-card{% if page.video %} clip-media-card--video{% elsif page.podcast or page.audio %} clip-media-card--audio{% endif %}" aria-label="Story media">
               <div class="clip-media-card__heading">
                 <span class="clip-media-card__icon" aria-hidden="true">
                   {% if page.video %}▶{% else %}♪{% endif %}
                 </span>
-                <h2>
-                  {% if page.video %}
-                    Watch the archived copy
-                  {% elsif page.show %}
-                    Hear the {{ page.show }} interview
-                  {% elsif page.podcast %}
-                    Listen to the podcast
-                  {% elsif page.audio %}
-                    Hear the broadcast
-                  {% else %}
-                    Story media
-                  {% endif %}
-                </h2>
+                <div class="clip-media-card__heading-copy">
+                  <p class="clip-media-card__eyebrow">
+                    {% if page.show %}{{ page.show }}{% elsif page.podcast %}Podcast{% elsif page.video %}Video{% else %}Audio{% endif %}
+                  </p>
+                  <h2>
+                    {% if page.show %}Listen to the interview{% elsif page.podcast %}Listen to the episode{% elsif page.video %}Watch here{% elsif page.audio %}Listen here{% else %}Story media{% endif %}
+                  </h2>
+                </div>
               </div>
-
-              {% if page.video %}
-                <p class="clip-media-card__deck">A backup is preserved here in case the original post becomes unavailable.</p>
-              {% elsif page.show %}
-                <p class="clip-media-card__deck">This interview accompanied the written story.</p>
-              {% endif %}
 
               <div class="clip-embed{% if page.video %} clip-embed--video{% elsif page.podcast or page.audio %} clip-embed--audio{% endif %}">
                 {{ page.embed_html }}
@@ -176,7 +175,7 @@
                 {% assign sid = page.story_clip_number | to_s %}
                 {% assign story_url = '/pages/clips/' | append: sid | append: '.html' %}
                 <div class="clip-media-card__footer">
-                  <span>{% if page.video %}This video accompanies a written story.{% else %}This audio accompanies a written story.{% endif %}</span>
+                  <span>{% if page.video %}This video accompanies a written story.{% elsif page.podcast %}This episode accompanies a written story.{% elsif page.show %}This interview accompanies a written story.{% else %}This audio accompanies a written story.{% endif %}</span>
                   <a class="clip-media-card__article-link" href="{{ story_url }}">
                     Read the companion article <span aria-hidden="true">→</span>
                   </a>
@@ -234,7 +233,7 @@
           {% if related_ids and related_ids.size > 0 %}
             <section class="clip-related" aria-labelledby="clip-related-title">
               <div class="clip-related__heading">
-                <h2 id="clip-related-title">More reporting</h2>
+                <h2 id="clip-related-title">Related reporting</h2>
               </div>
               <ul class="clip-related__grid">
                 {% for related_id in related_ids limit: 3 %}

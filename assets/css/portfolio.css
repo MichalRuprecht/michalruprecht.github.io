@@ -2108,20 +2108,26 @@ mark {
   margin-bottom: 18px;
 }
 
-.clip-page .clip-media-card__deck {
-  max-width: 680px;
-  margin: -7px 0 18px;
-  color: rgba(255, 255, 255, 0.78);
+.clip-page .clip-media-card__heading-copy {
+  min-width: 0;
+}
+
+.clip-page .clip-media-card__eyebrow {
+  margin: 0 0 2px;
+  color: var(--highlight);
   font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.45;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .clip-page .clip-media-card__heading h2 {
   margin: 0;
   color: var(--white);
   font-family: var(--serif);
-  font-size: clamp(25px, 3vw, 34px);
+  font-size: clamp(24px, 2.4vw, 31px);
   font-weight: 500;
   line-height: 1.05;
 }
@@ -2145,15 +2151,16 @@ mark {
 }
 
 .clip-page .clip-embed--audio {
-  padding: 9px;
-  border: 1px solid var(--highlight);
-  background: var(--paper-light);
-  box-shadow: 6px 6px 0 var(--highlight);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: #1f1f1f;
 }
 
 .clip-page .clip-embed--audio iframe {
   width: 100%;
   min-height: 152px;
+  border-radius: 11px !important;
 }
 
 .clip-page .clip-embed iframe {
@@ -2227,8 +2234,8 @@ mark {
 }
 
 .clip-page .clip-related {
-  margin-top: clamp(42px, 6vw, 68px);
-  padding-top: clamp(30px, 5vw, 46px);
+  margin-top: clamp(26px, 3.5vw, 40px);
+  padding-top: clamp(22px, 3vw, 30px);
   border-top: 1px solid var(--line);
 }
 

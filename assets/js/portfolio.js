@@ -53,6 +53,84 @@
     }, { passive: true });
   }
 
+  const spotifyPlayers = Array.from(document.querySelectorAll('[data-spotify-player]'));
+
+  if (spotifyPlayers.length) {
+    const formatAudioTime = (milliseconds) => {
+      if (!Number.isFinite(milliseconds) || milliseconds < 0) return '–:––';
+      const totalSeconds = Math.floor(milliseconds / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = String(totalSeconds % 60).padStart(2, '0');
+      return `${minutes}:${seconds}`;
+    };
+
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      spotifyPlayers.forEach((player) => {
+        const engine = player.querySelector('[data-spotify-engine]');
+        const toggle = player.querySelector('[data-spotify-toggle]');
+        const icon = player.querySelector('[data-spotify-icon]');
+        const progress = player.querySelector('[data-spotify-progress]');
+        const current = player.querySelector('[data-spotify-current]');
+        const duration = player.querySelector('[data-spotify-duration]');
+        const status = player.querySelector('[data-spotify-status]');
+        if (!engine || !toggle || !progress) return;
+
+        IFrameAPI.createController(engine, {
+          uri: player.dataset.spotifyUri,
+          width: '100%',
+          height: 152,
+        }, (controller) => {
+          let durationMs = 0;
+
+          controller.addListener('ready', () => {
+            toggle.disabled = false;
+            status.textContent = 'Audio ready.';
+          });
+
+          controller.addListener('playback_update', (event) => {
+            const playback = event.data || {};
+            durationMs = Number(playback.duration) || durationMs;
+            const positionMs = Number(playback.position) || 0;
+            const isPlaying = playback.isPaused === false;
+
+            icon.textContent = isPlaying ? 'Ⅱ' : '▶';
+            toggle.setAttribute('aria-label', isPlaying ? 'Pause audio' : 'Play audio');
+            player.classList.toggle('is-playing', isPlaying);
+
+            if (durationMs > 0) {
+              progress.disabled = false;
+              progress.max = String(durationMs);
+              progress.value = String(Math.min(positionMs, durationMs));
+              progress.style.setProperty('--audio-progress', `${(positionMs / durationMs) * 100}%`);
+              current.textContent = formatAudioTime(positionMs);
+              current.setAttribute('datetime', `PT${Math.floor(positionMs / 1000)}S`);
+              duration.textContent = formatAudioTime(durationMs);
+            }
+          });
+
+          toggle.addEventListener('click', () => {
+            controller.togglePlay();
+          });
+
+          progress.addEventListener('change', () => {
+            controller.seek(Number(progress.value) / 1000);
+          });
+        });
+      });
+    };
+
+    const spotifyApi = document.createElement('script');
+    spotifyApi.src = 'https://open.spotify.com/embed/iframe-api/v1';
+    spotifyApi.async = true;
+    spotifyApi.addEventListener('error', () => {
+      spotifyPlayers.forEach((player) => {
+        const status = player.querySelector('[data-spotify-status]');
+        if (status) status.textContent = 'The audio player could not load. Use the Spotify link instead.';
+      });
+    }, { once: true });
+    document.head.appendChild(spotifyApi);
+  }
+
   const reporting = document.querySelector('[data-reporting-browser]');
 
   if (reporting) {

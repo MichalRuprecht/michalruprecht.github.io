@@ -8,9 +8,9 @@
       </nav>
     {% else %}
       <nav class="journalism-header-nav" aria-label="Primary navigation">
-        <a href="{% if page.url == '/' %}/#about{% else %}/about/{% endif %}"{% if page.nav_section == 'about' %} aria-current="page"{% endif %}>About</a>
-        <a href="{% if page.url == '/' %}/#reporting{% else %}/reporting/{% endif %}"{% if page.nav_section == 'reporting' %} aria-current="page"{% endif %}>Reporting</a>
-        <a href="{% if page.url == '/' %}/#contact{% else %}/contact/{% endif %}"{% if page.nav_section == 'contact' %} aria-current="page"{% endif %}>Contact</a>
+        <a href="/#about">About</a>
+        <a href="/#reporting">Reporting</a>
+        <a href="/#contact">Contact</a>
       </nav>
     {% endif %}
   </div>

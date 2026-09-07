@@ -14,25 +14,6 @@ layout: null
     </image:image>
   </url>
   <url>
-    <loc>{{ '/about/' | absolute_url }}</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>{{ '/assets/images/michal-ruprecht-4x3.webp' | absolute_url }}</image:loc>
-      <image:caption>Portrait of Michal Ruprecht</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>{{ '/reporting/' | absolute_url }}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>{{ '/contact/' | absolute_url }}</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://mentalhealthjournalism.org/fellows/michal-ruprecht/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

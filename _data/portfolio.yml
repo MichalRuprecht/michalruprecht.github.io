@@ -42,21 +42,22 @@ training:
   - Hostile Environment and First Aid Training (HEFAT)
 
 reported_from:
-  - Uganda
-  - New York City
   - Atlanta
   - Michigan
+  - New York City
   - San Francisco
+  - Uganda
   - Washington, D.C.
 
 supporters:
-  - name: The Carter Center
-  - name: Pulitzer Center
-  - name: The Kresge Foundation
-  - name: Association of Health Care Journalists
-  - name: Association of American Medical Colleges
   - name: American Academy of Pediatrics
+  - name: Association of American Medical Colleges
+  - name: Association of Health Care Journalists
+  - name: Bloomberg Philanthropies
+  - name: Pulitzer Center
   - name: Stanford Center for Innovation in Global Health
+  - name: The Carter Center
+  - name: The Kresge Foundation
 
 published:
   - name: NPR

@@ -73,6 +73,7 @@
         const current = player.querySelector('[data-spotify-current]');
         const duration = player.querySelector('[data-spotify-duration]');
         const status = player.querySelector('[data-spotify-status]');
+        const skipButtons = Array.from(player.querySelectorAll('[data-spotify-skip]'));
         if (!engine || !toggle || !progress) return;
 
         IFrameAPI.createController(engine, {
@@ -81,6 +82,7 @@
           height: 1,
         }, (controller) => {
           let durationMs = 0;
+          let positionMs = 0;
 
           controller.addListener('ready', () => {
             toggle.disabled = false;
@@ -90,7 +92,7 @@
           controller.addListener('playback_update', (event) => {
             const playback = event.data || {};
             durationMs = Number(playback.duration) || durationMs;
-            const positionMs = Number(playback.position) || 0;
+            positionMs = Number(playback.position) || 0;
             const isPlaying = playback.isPaused === false;
 
             icon.textContent = isPlaying ? 'Ⅱ' : '▶';
@@ -99,6 +101,7 @@
 
             if (durationMs > 0) {
               progress.disabled = false;
+              skipButtons.forEach((button) => { button.disabled = false; });
               progress.max = String(durationMs);
               progress.value = String(Math.min(positionMs, durationMs));
               progress.style.setProperty('--audio-progress', `${(positionMs / durationMs) * 100}%`);
@@ -114,6 +117,15 @@
 
           progress.addEventListener('change', () => {
             controller.seek(Number(progress.value) / 1000);
+          });
+
+          skipButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+              const offsetMs = Number(button.dataset.spotifySkip) * 1000;
+              if (!Number.isFinite(offsetMs)) return;
+              const targetMs = Math.max(0, Math.min(positionMs + offsetMs, durationMs || positionMs + offsetMs));
+              controller.seek(Math.round(targetMs / 1000));
+            });
           });
         });
       });

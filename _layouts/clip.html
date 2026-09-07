@@ -58,11 +58,11 @@
                    rel="noopener">
                   <span>
                     {% if page.podcast %}
-                      Link to podcast
+                      Listen to the original podcast
                     {% elsif page.video %}
-                      Link to video
+                      View the original video
                     {% else %}
-                      Link to article
+                      Read the article
                     {% endif %}
                   </span>
                   <span class="clip-action-btn__arrow" aria-hidden="true">↗</span>
@@ -123,7 +123,7 @@
                     {% assign podcast_url = '/pages/clips/' | append: podcast_id | append: '.html' %}
                     <a class="clip-companion-link" href="{{ podcast_url }}">
                       <span class="clip-companion-link__icon" aria-hidden="true">▶</span>
-                      <span>Listen to the podcast</span>
+                      <span>Listen to the companion podcast</span>
                     </a>
                   {% endif %}
 
@@ -132,7 +132,7 @@
                     {% assign video_url = '/pages/clips/' | append: video_id | append: '.html' %}
                     <a class="clip-companion-link" href="{{ video_url }}">
                       <span class="clip-companion-link__icon" aria-hidden="true">▶</span>
-                      <span>Video from this story</span>
+                      <span>Watch the companion video</span>
                     </a>
                   {% endif %}
                 </div>
@@ -149,18 +149,26 @@
                 </span>
                 <h2>
                   {% if page.video %}
-                    Watch the video
+                    Watch the archived copy
+                  {% elsif page.show %}
+                    Hear the {{ page.show }} interview
                   {% elsif page.podcast %}
                     Listen to the podcast
                   {% elsif page.audio %}
-                    Listen to this story
+                    Hear the broadcast
                   {% else %}
                     Story media
                   {% endif %}
                 </h2>
               </div>
 
-              <div class="clip-embed">
+              {% if page.video %}
+                <p class="clip-media-card__deck">A backup is preserved here in case the original post becomes unavailable.</p>
+              {% elsif page.show %}
+                <p class="clip-media-card__deck">This interview accompanied the written story.</p>
+              {% endif %}
+
+              <div class="clip-embed{% if page.video %} clip-embed--video{% elsif page.podcast or page.audio %} clip-embed--audio{% endif %}">
                 {{ page.embed_html }}
               </div>
 
@@ -168,9 +176,9 @@
                 {% assign sid = page.story_clip_number | to_s %}
                 {% assign story_url = '/pages/clips/' | append: sid | append: '.html' %}
                 <div class="clip-media-card__footer">
-                  <span>Prefer the written version?</span>
+                  <span>{% if page.video %}This video accompanies a written story.{% else %}This audio accompanies a written story.{% endif %}</span>
                   <a class="clip-media-card__article-link" href="{{ story_url }}">
-                    Read the article <span aria-hidden="true">→</span>
+                    Read the companion article <span aria-hidden="true">→</span>
                   </a>
                 </div>
               {% endif %}
@@ -219,10 +227,6 @@
   </div>
 {% endif %}
 
-          <nav class="clip-bottom" aria-label="Return to portfolio">
-            <a href="/#reporting" class="clip-return"><span aria-hidden="true">←</span> All reporting</a>
-          </nav>
-
           {% assign current_clip_number = page.clip_id | plus: 0 %}
           {% capture current_clip_key %}{% if current_clip_number < 10 %}0{{ current_clip_number }}{% else %}{{ current_clip_number }}{% endif %}{% endcapture %}
           {% assign current_clip_key = current_clip_key | strip %}
@@ -230,8 +234,7 @@
           {% if related_ids and related_ids.size > 0 %}
             <section class="clip-related" aria-labelledby="clip-related-title">
               <div class="clip-related__heading">
-                <p>Keep reading</p>
-                <h2 id="clip-related-title">Related reporting</h2>
+                <h2 id="clip-related-title">More reporting</h2>
               </div>
               <ul class="clip-related__grid">
                 {% for related_id in related_ids limit: 3 %}
@@ -266,6 +269,10 @@
               </ul>
             </section>
           {% endif %}
+
+          <nav class="clip-bottom" aria-label="Return to portfolio">
+            <a href="/#reporting" class="clip-return"><span aria-hidden="true">←</span> All reporting</a>
+          </nav>
 
         </section>
       </article>

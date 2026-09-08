@@ -10,10 +10,17 @@
 
     <link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
+    {% if page.spotify_id %}
+      <link rel="dns-prefetch" href="//open.spotify.com">
+      <link rel="preconnect" href="https://open.spotify.com" crossorigin>
+    {% endif %}
     <link rel="stylesheet" href="/med.css?v={{ site.asset_version }}">
     <link rel="stylesheet" href="/assets/css/portfolio.css?v={{ site.asset_version }}">
     <link rel="icon" href="/assets/favicon.ico">
     <script defer src="/assets/js/portfolio.js?v={{ site.asset_version }}"></script>
+    {% if page.spotify_id %}
+      <script defer data-spotify-iframe-api src="https://open.spotify.com/embed/iframe-api/v1"></script>
+    {% endif %}
   </head>
 
   <body class="clip-page">
@@ -181,6 +188,7 @@
                   <div class="clip-audio-player__meta">
                     <strong>{{ spotify_label }}</strong>
                     {% if page.podcast and page.hide_audio_descriptor != true %}<span>Podcast episode</span>{% endif %}
+                    <span data-spotify-listen-length hidden></span>
                   </div>
                   <div class="clip-audio-player__transport" aria-label="Playback controls">
                     <button class="clip-audio-player__skip" type="button" data-spotify-skip="-15" aria-label="Rewind 15 seconds" disabled>

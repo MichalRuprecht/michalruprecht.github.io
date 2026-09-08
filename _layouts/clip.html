@@ -188,11 +188,16 @@
                   <div class="clip-audio-player__meta">
                     <strong>{{ spotify_label }}</strong>
                     {% if page.podcast and page.hide_audio_descriptor != true %}<span>Podcast episode</span>{% endif %}
-                    <span data-spotify-listen-length hidden></span>
                   </div>
                   <div class="clip-audio-player__transport" aria-label="Playback controls">
-                    <button class="clip-audio-player__skip" type="button" data-spotify-skip="-15" aria-label="Rewind 15 seconds" disabled>
-                      <span aria-hidden="true">−15</span>
+                    <button class="clip-audio-player__skip clip-audio-player__skip--back" type="button" data-spotify-skip="-15" aria-label="Rewind 15 seconds" disabled>
+                      <span class="clip-audio-player__skip-icon" aria-hidden="true">
+                        <svg viewBox="0 0 32 32" focusable="false">
+                          <path d="M8.2 9.1A11.5 11.5 0 1 1 5 17"/>
+                          <path d="M8.2 4.8v4.3H3.9"/>
+                        </svg>
+                        <span>15</span>
+                      </span>
                     </button>
                     <button class="clip-audio-player__toggle" type="button" data-spotify-toggle aria-label="Play audio" disabled>
                       <span class="clip-audio-player__state-icon" aria-hidden="true">
@@ -200,8 +205,14 @@
                         <svg class="clip-audio-player__pause-icon" viewBox="0 0 18 18" focusable="false"><path d="M5.5 4h2.7v10H5.5zm4.3 0h2.7v10H9.8z" fill="currentColor"/></svg>
                       </span>
                     </button>
-                    <button class="clip-audio-player__skip" type="button" data-spotify-skip="15" aria-label="Forward 15 seconds" disabled>
-                      <span aria-hidden="true">+15</span>
+                    <button class="clip-audio-player__skip clip-audio-player__skip--forward" type="button" data-spotify-skip="15" aria-label="Forward 15 seconds" disabled>
+                      <span class="clip-audio-player__skip-icon" aria-hidden="true">
+                        <svg viewBox="0 0 32 32" focusable="false">
+                          <path d="M8.2 9.1A11.5 11.5 0 1 1 5 17"/>
+                          <path d="M8.2 4.8v4.3H3.9"/>
+                        </svg>
+                        <span>15</span>
+                      </span>
                     </button>
                   </div>
                   <div class="clip-audio-player__timeline">

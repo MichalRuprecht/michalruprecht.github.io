@@ -2221,31 +2221,78 @@ mark {
   display: block;
 }
 
-.clip-page .clip-audio-player__state-icon .clip-audio-player__pause-icon,
-.clip-page .clip-audio-player.is-playing .clip-audio-player__play-icon {
-  display: none;
+.clip-page .clip-audio-player__state-icon {
+  position: relative;
 }
 
-.clip-page .clip-audio-player.is-playing .clip-audio-player__state-icon .clip-audio-player__pause-icon {
-  display: block;
+.clip-page .clip-audio-player__state-icon svg {
+  position: absolute;
+  inset: 0;
+  transition: opacity 140ms ease, transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.clip-page .clip-audio-player__pause-icon {
+  opacity: 0;
+  transform: scale(0.72);
+}
+
+.clip-page .clip-audio-player.is-playing .clip-audio-player__play-icon {
+  opacity: 0;
+  transform: scale(0.72);
+}
+
+.clip-page .clip-audio-player.is-playing .clip-audio-player__pause-icon {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .clip-page .clip-audio-player__skip {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   display: inline-grid;
   place-items: center;
-  padding: 0;
-  border: 1px solid var(--ink);
+  padding: 2px;
+  border: 0;
   border-radius: 50%;
   color: var(--ink);
   background: transparent;
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
   cursor: pointer;
   transition: color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
+.clip-page .clip-audio-player__skip-icon {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+}
+
+.clip-page .clip-audio-player__skip-icon svg {
+  position: absolute;
+  inset: 0;
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.clip-page .clip-audio-player__skip-icon > span {
+  position: relative;
+  z-index: 1;
+  margin-top: 2px;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.clip-page .clip-audio-player__skip--forward .clip-audio-player__skip-icon svg {
+  transform: scaleX(-1);
 }
 
 .clip-page .clip-audio-player__toggle:not(:disabled):hover,
@@ -2255,6 +2302,11 @@ mark {
   color: var(--ink);
   background: var(--highlight);
   transform: scale(1.04);
+}
+
+.clip-page .clip-audio-player__toggle:not(:disabled):active,
+.clip-page .clip-audio-player__skip:not(:disabled):active {
+  transform: scale(0.94);
 }
 
 .clip-page .clip-audio-player__toggle:disabled,

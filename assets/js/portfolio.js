@@ -83,6 +83,14 @@
           let durationMs = 0;
           let positionMs = 0;
           let isPlaying = false;
+          let isScrubbing = false;
+          let pendingSeek = null;
+
+          const finishPendingSeek = () => {
+            pendingSeek = null;
+            player.classList.remove('is-seeking');
+            player.removeAttribute('aria-busy');
+          };
 
           const renderTimeline = () => {
             if (durationMs <= 0) return;
@@ -92,6 +100,7 @@
             progress.max = String(durationMs);
             progress.value = String(boundedPosition);
             progress.style.setProperty('--audio-progress', `${(boundedPosition / durationMs) * 100}%`);
+            progress.setAttribute('aria-valuetext', `${formatAudioTime(boundedPosition)} of ${formatAudioTime(durationMs)}`);
             current.textContent = formatAudioTime(boundedPosition);
             current.setAttribute('datetime', `PT${Math.floor(boundedPosition / 1000)}S`);
             duration.textContent = formatAudioTime(durationMs);
@@ -101,6 +110,12 @@
             if (durationMs <= 0) return;
             const wasPlaying = isPlaying;
             positionMs = Math.max(0, Math.min(targetMs, durationMs));
+            pendingSeek = {
+              targetMs: positionMs,
+              expiresAt: Date.now() + 2500,
+            };
+            player.classList.add('is-seeking');
+            player.setAttribute('aria-busy', 'true');
             renderTimeline();
 
             if (positionMs === 0 && typeof controller.restart === 'function') {
@@ -122,7 +137,19 @@
           controller.addListener('playback_update', (event) => {
             const playback = event.data || {};
             durationMs = Number(playback.duration) || durationMs;
-            positionMs = Number(playback.position) || 0;
+            const reportedPosition = Number(playback.position) || 0;
+            if (!isScrubbing) {
+              if (pendingSeek) {
+                const hasReachedTarget = Math.abs(reportedPosition - pendingSeek.targetMs) <= 2000;
+                const hasTimedOut = Date.now() >= pendingSeek.expiresAt;
+                if (hasReachedTarget || hasTimedOut) {
+                  positionMs = reportedPosition;
+                  finishPendingSeek();
+                }
+              } else {
+                positionMs = reportedPosition;
+              }
+            }
             isPlaying = playback.isPaused === false;
 
             toggle.setAttribute('aria-label', isPlaying ? 'Pause audio' : 'Play audio');
@@ -135,8 +162,16 @@
             controller.togglePlay();
           });
 
+          progress.addEventListener('input', () => {
+            isScrubbing = true;
+            positionMs = Number(progress.value);
+            renderTimeline();
+          });
+
           progress.addEventListener('change', () => {
-            seekTo(Number(progress.value));
+            const targetMs = Number(progress.value);
+            isScrubbing = false;
+            seekTo(targetMs);
           });
 
           skipButtons.forEach((button) => {

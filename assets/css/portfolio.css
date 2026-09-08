@@ -2259,7 +2259,7 @@ mark {
 
 .clip-page .clip-audio-player__toggle:disabled,
 .clip-page .clip-audio-player__skip:disabled {
-  cursor: wait;
+  cursor: default;
   opacity: 0.5;
 }
 

@@ -474,7 +474,7 @@ sitemap: false
 
       <footer class="tool-footer">
         <p>Questions? <a href="tel:+17074128684">+1 (707) 412-8684</a></p>
-        <p><strong>Dig up the gold for your newsletter.</strong><br>❤️ Michal Ruprecht from the Science Desk</p>
+        <p><strong>Dig up the gold for your newsletter.</strong><br>❤️ Michal Ruprecht</p>
       </footer>
     </main>
 
@@ -525,6 +525,27 @@ sitemap: false
           return tag?.getAttribute("content")?.trim() || "";
         }
 
+        function storyRequestUrl(storyUrl, cacheKey = "1") {
+          const requestUrl = new URL(storyUrl);
+          requestUrl.searchParams.set("newsletter_collector", cacheKey);
+          return requestUrl.href;
+        }
+
+        async function fetchStoryResponse(storyUrl) {
+          const options = {
+            method: "GET",
+            credentials: "omit",
+            redirect: "follow",
+            headers: { Accept: "text/html" }
+          };
+
+          try {
+            return await fetch(storyRequestUrl(storyUrl), options);
+          } catch (error) {
+            return fetch(storyRequestUrl(storyUrl, String(Date.now())), options);
+          }
+        }
+
         function endSentence(text) {
           const cleanText = text.trim();
           if (!cleanText) return "";
@@ -544,22 +565,30 @@ sitemap: false
 
         function extractStory(html, submittedUrl) {
           const documentNode = new DOMParser().parseFromString(html, "text/html");
-          const authorValues = [...documentNode.querySelectorAll('meta[name="cXenseParse:author" i]')]
+          const authorSelectors = [
+            'meta[name="cXenseParse:author" i]',
+            'meta[name="parsely-author" i]',
+            'meta[name="author" i]'
+          ];
+          const authorValues = [...documentNode.querySelectorAll(authorSelectors.join(","))]
             .flatMap((tag) => (tag.getAttribute("content") || "").split("|"))
             .map((author) => author.trim())
-            .filter(Boolean);
+            .filter((author) => author && !/^https?:\/\//i.test(author));
           const authors = [...new Set(authorValues)];
           const teaser = meta(documentNode, 'meta[name="description" i]')
-            || meta(documentNode, 'meta[property="og:description" i]');
+            || meta(documentNode, 'meta[property="og:description" i]')
+            || meta(documentNode, 'meta[name="twitter:description" i]');
 
           return {
             headline: meta(documentNode, 'meta[property="og:title" i]')
+              || meta(documentNode, 'meta[name="twitter:title" i]')
               || documentNode.querySelector("title")?.textContent?.trim()
               || "",
             link: meta(documentNode, 'meta[property="og:url" i]')
               || documentNode.querySelector('link[rel="canonical" i]')?.getAttribute("href")?.trim()
               || submittedUrl,
-            photo: meta(documentNode, 'meta[property="og:image" i]'),
+            photo: meta(documentNode, 'meta[property="og:image" i]')
+              || meta(documentNode, 'meta[name="twitter:image" i]'),
             teaser,
             teaserAuthor: buildTeaserWithAuthor(teaser, authors)
           };
@@ -576,12 +605,7 @@ sitemap: false
 
         async function collectStory(rawUrl) {
           const storyUrl = parseNprUrl(rawUrl);
-          const response = await fetch(storyUrl, {
-            method: "GET",
-            credentials: "omit",
-            redirect: "follow",
-            headers: { Accept: "text/html" }
-          });
+          const response = await fetchStoryResponse(storyUrl);
 
           if (!response.ok) {
             throw new Error(`NPR returned an error (${response.status}). Please check the link and try again.`);

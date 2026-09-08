@@ -183,7 +183,11 @@
             status.textContent = isPlaying ? 'Starting audio.' : 'Pausing audio.';
             renderPlaybackState();
             if (isPlaying) {
-              controller.play();
+              if (typeof controller.resume === 'function') {
+                controller.resume();
+              } else {
+                controller.play();
+              }
             } else {
               controller.pause();
             }

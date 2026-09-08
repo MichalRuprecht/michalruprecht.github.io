@@ -142,7 +142,7 @@
                 <div class="clip-companion-links{% if reporting_text == '' %} clip-companion-links--standalone{% endif %}" aria-label="More from this story">
                   {% if page.podcast_element == true and page.podcast_clip_number %}
                     {% assign podcast_id = page.podcast_clip_number | to_s %}
-                    {% assign podcast_url = '/pages/clips/' | append: podcast_id | append: '.html' %}
+                    {% assign podcast_url = '/pages/clips/' | append: podcast_id %}
                     <a class="clip-companion-link" href="{{ podcast_url }}">
                       <span class="clip-companion-link__icon" aria-hidden="true">
                         <svg viewBox="0 0 16 16" focusable="false"><path d="m5 3.5 7 4.5-7 4.5Z" fill="currentColor"/></svg>
@@ -153,7 +153,7 @@
 
                   {% if page.video_element == true and page.video_clip_number %}
                     {% assign video_id = page.video_clip_number | to_s %}
-                    {% assign video_url = '/pages/clips/' | append: video_id | append: '.html' %}
+                    {% assign video_url = '/pages/clips/' | append: video_id %}
                     <a class="clip-companion-link" href="{{ video_url }}">
                       <span class="clip-companion-link__icon" aria-hidden="true">
                         <svg viewBox="0 0 16 16" focusable="false"><path d="m5 3.5 7 4.5-7 4.5Z" fill="currentColor"/></svg>
@@ -164,7 +164,7 @@
 
                   {% if page.story_element == true and page.story_clip_number %}
                     {% assign story_id = page.story_clip_number | to_s %}
-                    {% assign story_url = '/pages/clips/' | append: story_id | append: '.html' %}
+                    {% assign story_url = '/pages/clips/' | append: story_id %}
                     <a class="clip-companion-link" href="{{ story_url }}">
                       <span class="clip-companion-link__icon" aria-hidden="true">
                         <svg viewBox="0 0 16 16" focusable="false"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -298,8 +298,9 @@
 
                   {% if related_page %}
                     {% capture related_image_id %}{% if requested_id < 10 %}0{{ requested_id }}{% else %}{{ requested_id }}{% endif %}{% endcapture %}
+                    {% assign related_url = '/pages/clips/' | append: related_image_id | strip %}
                     <li class="clip-related-card">
-                      <a class="clip-related-card__image" href="{{ related_page.url | relative_url }}" tabindex="-1" aria-hidden="true">
+                      <a class="clip-related-card__image" href="{{ related_url | relative_url }}" tabindex="-1" aria-hidden="true">
                         <img src="/pages/clips/assets/photo/{{ related_image_id | strip }}.jpg" alt="" loading="lazy">
                       </a>
                       <div class="clip-related-card__copy">
@@ -307,7 +308,7 @@
                           <span>{{ related_page.publisher }}</span>
                           {% if related_page.date_display %}<span aria-hidden="true">·</span><span>{{ related_page.date_display }}</span>{% endif %}
                         </p>
-                        <h3><a href="{{ related_page.url | relative_url }}">{{ related_page.title }}</a></h3>
+                        <h3><a href="{{ related_url | relative_url }}">{{ related_page.title }}</a></h3>
                       </div>
                     </li>
                   {% endif %}

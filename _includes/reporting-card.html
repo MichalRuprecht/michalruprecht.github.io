@@ -2,6 +2,7 @@
 {% assign cid_num = p.clip_id | plus: 0 %}
 {% capture cid %}{% if cid_num < 10 %}0{{ cid_num }}{% else %}{{ cid_num }}{% endif %}{% endcapture %}
 {% assign cid = cid | strip %}
+{% assign clip_url = '/pages/clips/' | append: cid %}
 {% assign is_featured = false %}
 {% assign featured_rank = 999 %}
 {% for featured_id in site.data.portfolio.featured_ids %}
@@ -25,7 +26,7 @@
 {% endif %}
 
 <li class="clip-card" data-clip-card data-order="{{ include.order }}" data-clip-id="{{ cid }}" data-featured="{{ is_featured }}" data-featured-rank="{{ featured_rank }}" data-large="{{ is_large }}" data-source="{{ source_slug }}" data-topics="{{ topic_values | strip }}" data-title="{{ p.title | strip_html | downcase | escape }}" data-search="{{ p.title | strip_html | downcase | escape }} {{ p.publisher | strip_html | downcase | escape }} {{ p.date_display | downcase | escape }}">
-  <a class="clip-card__image-link" href="{{ p.url | relative_url }}" tabindex="-1" aria-hidden="true">
+  <a class="clip-card__image-link" href="{{ clip_url | relative_url }}" tabindex="-1" aria-hidden="true">
     <img {% if include.defer_image %}data-src="{{ image_src }}"{% else %}src="{{ image_src }}"{% endif %}{% if derivative %} width="{{ derivative.width }}" height="{{ derivative.height }}"{% endif %} alt="" loading="lazy" decoding="async">
   </a>
   <div class="clip-card__body">
@@ -34,7 +35,7 @@
       <span aria-hidden="true">·</span>
       <span>{{ p.date_display }}</span>
     </div>
-    <h3><a href="{{ p.url | relative_url }}">{{ p.title }}</a></h3>
+    <h3><a href="{{ clip_url | relative_url }}">{{ p.title }}</a></h3>
     {% unless visible_topic_badges == "" %}<div class="clip-card__topics" aria-label="Topics">{{ visible_topic_badges }}</div>{% endunless %}
   </div>
 </li>

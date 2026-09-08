@@ -2262,8 +2262,8 @@ mark {
 
 .clip-page .clip-audio-player__skip-icon {
   position: relative;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   display: grid;
   place-items: center;
 }
@@ -2271,11 +2271,11 @@ mark {
 .clip-page .clip-audio-player__skip-icon svg {
   position: absolute;
   inset: 0;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.7;
+  stroke-width: 2.1;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -2289,10 +2289,6 @@ mark {
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   line-height: 1;
-}
-
-.clip-page .clip-audio-player__skip--forward .clip-audio-player__skip-icon svg {
-  transform: scaleX(-1);
 }
 
 .clip-page .clip-audio-player__toggle:not(:disabled):hover,

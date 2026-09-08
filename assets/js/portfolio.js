@@ -64,16 +64,6 @@
       return `${minutes}:${seconds}`;
     };
 
-    const formatListenLength = (milliseconds) => {
-      const numberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
-      const totalSeconds = Math.max(1, Math.floor(milliseconds / 1000));
-      const formatNumber = (value) => (value < 10 ? numberWords[value] : String(value));
-
-      if (totalSeconds < 60) return `${formatNumber(totalSeconds)}-second listen`;
-      const roundedMinutes = Math.max(1, Math.round(totalSeconds / 60));
-      return `${formatNumber(roundedMinutes)}-minute listen`;
-    };
-
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
       spotifyPlayers.forEach((player) => {
         const engine = player.querySelector('[data-spotify-engine]');
@@ -81,7 +71,6 @@
         const progress = player.querySelector('[data-spotify-progress]');
         const current = player.querySelector('[data-spotify-current]');
         const duration = player.querySelector('[data-spotify-duration]');
-        const listenLength = player.querySelector('[data-spotify-listen-length]');
         const status = player.querySelector('[data-spotify-status]');
         const skipButtons = Array.from(player.querySelectorAll('[data-spotify-skip]'));
         if (!engine || !toggle || !progress) return;
@@ -121,10 +110,6 @@
             current.textContent = formatAudioTime(boundedPosition);
             current.setAttribute('datetime', `PT${Math.floor(boundedPosition / 1000)}S`);
             duration.textContent = formatAudioTime(durationMs);
-            if (listenLength) {
-              listenLength.textContent = formatListenLength(durationMs);
-              listenLength.hidden = false;
-            }
           };
 
           const seekTo = (targetMs) => {
@@ -197,7 +182,11 @@
             };
             status.textContent = isPlaying ? 'Starting audio.' : 'Pausing audio.';
             renderPlaybackState();
-            controller.togglePlay();
+            if (isPlaying) {
+              controller.play();
+            } else {
+              controller.pause();
+            }
           });
 
           progress.addEventListener('input', () => {

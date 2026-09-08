@@ -13,7 +13,7 @@ author:
   name: Michal T. Ruprecht
 
 url-pretty: "michalruprecht.com"
-asset_version: "20260907-16"
+asset_version: "20260907-17"
 
 # Make sure Jekyll looks in your _layouts folder
 layouts_dir: _layouts

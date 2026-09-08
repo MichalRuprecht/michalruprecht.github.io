@@ -24,14 +24,15 @@ layout: null
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>{{ '/pages/ceramics.html' | absolute_url }}</loc>
+    <loc>{{ '/pages/ceramics' | absolute_url }}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
   {% assign clip_pages = site.pages | where_exp: "p", "p.clip == true" | where_exp: "p", "p.clip_id" %}
   {% for p in clip_pages %}
+  {% assign clip_url = '/pages/clips/' | append: p.clip_id %}
   <url>
-    <loc>{{ p.url | absolute_url }}</loc>
+    <loc>{{ clip_url | absolute_url }}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

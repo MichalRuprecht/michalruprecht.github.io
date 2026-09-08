@@ -64,6 +64,16 @@
       return `${minutes}:${seconds}`;
     };
 
+    const formatListenLength = (milliseconds) => {
+      const numberWords = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+      const totalSeconds = Math.max(1, Math.floor(milliseconds / 1000));
+      const formatNumber = (value) => (value < 10 ? numberWords[value] : String(value));
+
+      if (totalSeconds < 60) return `${formatNumber(totalSeconds)}-second listen`;
+      const roundedMinutes = Math.max(1, Math.round(totalSeconds / 60));
+      return `${formatNumber(roundedMinutes)}-minute listen`;
+    };
+
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
       spotifyPlayers.forEach((player) => {
         const engine = player.querySelector('[data-spotify-engine]');
@@ -71,6 +81,7 @@
         const progress = player.querySelector('[data-spotify-progress]');
         const current = player.querySelector('[data-spotify-current]');
         const duration = player.querySelector('[data-spotify-duration]');
+        const listenLength = player.querySelector('[data-spotify-listen-length]');
         const status = player.querySelector('[data-spotify-status]');
         const skipButtons = Array.from(player.querySelectorAll('[data-spotify-skip]'));
         if (!engine || !toggle || !progress) return;
@@ -85,6 +96,12 @@
           let isPlaying = false;
           let isScrubbing = false;
           let pendingSeek = null;
+          let pendingPlayback = null;
+
+          const renderPlaybackState = () => {
+            toggle.setAttribute('aria-label', isPlaying ? 'Pause audio' : 'Play audio');
+            player.classList.toggle('is-playing', isPlaying);
+          };
 
           const finishPendingSeek = () => {
             pendingSeek = null;
@@ -104,6 +121,10 @@
             current.textContent = formatAudioTime(boundedPosition);
             current.setAttribute('datetime', `PT${Math.floor(boundedPosition / 1000)}S`);
             duration.textContent = formatAudioTime(durationMs);
+            if (listenLength) {
+              listenLength.textContent = formatListenLength(durationMs);
+              listenLength.hidden = false;
+            }
           };
 
           const seekTo = (targetMs) => {
@@ -150,15 +171,32 @@
                 positionMs = reportedPosition;
               }
             }
-            isPlaying = playback.isPaused === false;
+            const reportedIsPlaying = playback.isPaused === false;
+            if (pendingPlayback) {
+              const hasReachedRequestedState = reportedIsPlaying === pendingPlayback.targetIsPlaying;
+              const hasTimedOut = Date.now() >= pendingPlayback.expiresAt;
+              if (hasReachedRequestedState || hasTimedOut) {
+                isPlaying = reportedIsPlaying;
+                pendingPlayback = null;
+                status.textContent = isPlaying ? 'Audio playing.' : 'Audio paused.';
+              }
+            } else {
+              isPlaying = reportedIsPlaying;
+            }
 
-            toggle.setAttribute('aria-label', isPlaying ? 'Pause audio' : 'Play audio');
-            player.classList.toggle('is-playing', isPlaying);
+            renderPlaybackState();
 
             renderTimeline();
           });
 
           toggle.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            pendingPlayback = {
+              targetIsPlaying: isPlaying,
+              expiresAt: Date.now() + 2500,
+            };
+            status.textContent = isPlaying ? 'Starting audio.' : 'Pausing audio.';
+            renderPlaybackState();
             controller.togglePlay();
           });
 
@@ -185,16 +223,13 @@
       });
     };
 
-    const spotifyApi = document.createElement('script');
-    spotifyApi.src = 'https://open.spotify.com/embed/iframe-api/v1';
-    spotifyApi.async = true;
-    spotifyApi.addEventListener('error', () => {
+    const spotifyApi = document.querySelector('[data-spotify-iframe-api]');
+    spotifyApi?.addEventListener('error', () => {
       spotifyPlayers.forEach((player) => {
         const status = player.querySelector('[data-spotify-status]');
         if (status) status.textContent = 'The audio player could not load. Please reload the page.';
       });
     }, { once: true });
-    document.head.appendChild(spotifyApi);
   }
 
   const reporting = document.querySelector('[data-reporting-browser]');

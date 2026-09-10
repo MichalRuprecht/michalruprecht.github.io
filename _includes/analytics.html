@@ -20,10 +20,50 @@
     }
   }());
 
+  // Queue the pageview and any early events immediately, then let the critical
+  // page finish painting before downloading GA4. Real interaction starts GA4
+  // at once; an idle visitor starts it shortly after load.
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', '{{ site.google_analytics }}');
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  window.gtag('js', new Date());
+  window.gtag('config', '{{ site.google_analytics }}');
+
+  (function () {
+    var analyticsLoaded = false;
+    var fallbackTimer;
+    var interactionEvents = ['pointerdown', 'keydown', 'scroll'];
+
+    function removeInteractionListeners() {
+      interactionEvents.forEach(function (eventName) {
+        window.removeEventListener(eventName, loadAnalytics);
+      });
+    }
+
+    function loadAnalytics() {
+      if (analyticsLoaded) return;
+      analyticsLoaded = true;
+      window.clearTimeout(fallbackTimer);
+      removeInteractionListeners();
+
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}';
+      document.head.appendChild(script);
+    }
+
+    interactionEvents.forEach(function (eventName) {
+      window.addEventListener(eventName, loadAnalytics, { passive: true });
+    });
+
+    window.addEventListener('load', function () {
+      fallbackTimer = window.setTimeout(loadAnalytics, 5000);
+    }, { once: true });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') loadAnalytics();
+    });
+
+    window.__loadPortfolioAnalytics = loadAnalytics;
+  }());
 </script>
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
 {% endif %}

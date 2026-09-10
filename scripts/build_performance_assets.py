@@ -86,13 +86,16 @@ def build_images() -> None:
         save_webp(crop, destination, 82)
 
     supporting_images = (
-        ("assets/photos/cnn-sanjay-gupta-crop.jpg", "assets/photos/cnn-sanjay-gupta.webp", 480),
-        ("assets/photos/npr-tiny-desk.jpg", "assets/photos/npr-tiny-desk.webp", 600),
-        ("assets/photos/reporting-uganda-lake-victoria.jpg", "assets/photos/reporting-uganda-lake-victoria.webp", 720),
-        ("assets/ceramics/cutouts-v2/fluc_b.webp", "assets/ceramics/cutouts-v2/fluc_b-720.webp", 720),
+        ("assets/photos/cnn-sanjay-gupta-crop.jpg", "assets/photos/cnn-sanjay-gupta-320.webp", 320, 72),
+        ("assets/photos/cnn-sanjay-gupta-crop.jpg", "assets/photos/cnn-sanjay-gupta.webp", 480, 72),
+        ("assets/photos/npr-tiny-desk.jpg", "assets/photos/npr-tiny-desk-320.webp", 320, 70),
+        ("assets/photos/npr-tiny-desk.jpg", "assets/photos/npr-tiny-desk.webp", 600, 70),
+        ("assets/photos/reporting-uganda-lake-victoria.jpg", "assets/photos/reporting-uganda-lake-victoria-520.webp", 520, 72),
+        ("assets/photos/reporting-uganda-lake-victoria.jpg", "assets/photos/reporting-uganda-lake-victoria.webp", 720, 72),
+        ("assets/ceramics/cutouts-v2/fluc_b.webp", "assets/ceramics/cutouts-v2/fluc_b-720.webp", 720, 76),
     )
-    for source, destination, width in supporting_images:
-        save_webp(resize_width(open_image(source), width), destination)
+    for source, destination, width, quality in supporting_images:
+        save_webp(resize_width(open_image(source), width), destination, quality)
 
     derivatives = []
     for clip_id in all_clip_ids():

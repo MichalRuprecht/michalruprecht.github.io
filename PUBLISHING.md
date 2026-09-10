@@ -42,3 +42,10 @@ Audio, video, podcast, and photo-story clips are placed in the Multimedia filter
 GitHub Pages is a static host, so it cannot safely validate a password or keep a GitHub access token secret. Do not add a password or personal access token to HTML or JavaScript in this public repository.
 
 A true browser-based editor is possible as a later project by adding a CMS and a small authentication service. That would add another service to maintain, so the current generator-and-upload workflow is the safer low-maintenance option for occasional publishing.
+
+## Automatic publishing checks
+
+Every pull request and deployment now verifies the portfolio before it can publish. The check confirms that clip IDs are unique and match their filenames, required metadata is present, each clip has its assigned social image, companion-story references point to real clips, Featured IDs are valid, and public internal links, canonical tags, and sitemap entries use extensionless URLs.
+
+The generated-site check also confirms that every clip has a description and its own social-preview image. If a required item is missing, the GitHub build explains the exact file and field to correct.
+

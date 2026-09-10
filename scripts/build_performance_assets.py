@@ -25,6 +25,17 @@ def featured_clips() -> list[int]:
     return [int(value) for value in re.findall(r"\d+", match.group("items"))]
 
 
+def all_clip_ids() -> list[str]:
+    return sorted(
+        (
+            path.stem
+            for path in (ROOT / "pages" / "clips").glob("*.md")
+            if path.stem.isdigit()
+        ),
+        key=int,
+    )
+
+
 def download_fonts() -> None:
     destination = ROOT / "assets" / "fonts"
     destination.mkdir(parents=True, exist_ok=True)
@@ -58,6 +69,7 @@ def save_webp(image: Image.Image, path: str, quality: int = 76) -> None:
 
 def build_images() -> None:
     profile = open_image("assets/profile.jpg").crop((0, 252, 1641, 2048))
+    save_webp(resize_width(profile, 480), "assets/images/profile-hero-480.webp", 76)
     save_webp(resize_width(profile, 720), "assets/images/profile-hero.webp", 78)
 
     # Give search engines a choice of high-resolution portrait crops in the
@@ -83,15 +95,20 @@ def build_images() -> None:
         save_webp(resize_width(open_image(source), width), destination)
 
     derivatives = []
-    for clip_id in featured_clips():
+    for clip_id in all_clip_ids():
         image = open_image(f"pages/clips/assets/photo/{clip_id}.jpg")
-        resized = resize_width(image, 720)
-        save_webp(resized, f"assets/images/reporting/{clip_id}.webp", 74)
+        mobile = resize_width(image, 480)
+        standard = resize_width(image, 720)
+        save_webp(mobile, f"assets/images/reporting/{clip_id}-480.webp", 72)
+        save_webp(standard, f"assets/images/reporting/{clip_id}.webp", 74)
         derivatives.extend((
             f'  "{clip_id}":',
+            f'    path_480: /assets/images/reporting/{clip_id}-480.webp',
+            f'    width_480: {mobile.width}',
+            f'    height_480: {mobile.height}',
             f'    path: /assets/images/reporting/{clip_id}.webp',
-            f'    width: {resized.width}',
-            f'    height: {resized.height}',
+            f'    width: {standard.width}',
+            f'    height: {standard.height}',
         ))
 
     data_path = ROOT / "_data" / "image_derivatives.yml"

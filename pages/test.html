@@ -191,7 +191,7 @@ noindex: true
                     </div>
 
                     <h3 class="homepage-card-title">
-                      <a href="{{ p.url | relative_url }}" style="color:#000;text-decoration:none;">{{ p.title }}</a>
+                      <a href="{{ '/pages/clips/' | append: p.clip_id | relative_url }}" style="color:#000;text-decoration:none;">{{ p.title }}</a>
                     </h3>
 
                     {% if p.reporting %}
@@ -201,7 +201,7 @@ noindex: true
                 </div>
 
               {% elsif card_type == "photo" %}
-                <a class="homepage-card-link" href="{{ p.url | relative_url }}">
+                <a class="homepage-card-link" href="{{ '/pages/clips/' | append: p.clip_id | relative_url }}">
                   <div class="homepage-card-inner">
                     <div class="homepage-card-media-wrap">
                       {% if category_text != "" %}
@@ -243,7 +243,7 @@ noindex: true
                 </a>
 
               {% elsif card_type == "podcast" %}
-                <a class="homepage-card-link" href="{{ p.url | relative_url }}">
+                <a class="homepage-card-link" href="{{ '/pages/clips/' | append: p.clip_id | relative_url }}">
                   <div class="homepage-card-inner">
                     <div class="homepage-card-media-wrap">
                       {% if category_text != "" %}
@@ -284,7 +284,7 @@ noindex: true
                 </a>
 
               {% else %}
-                <a class="homepage-card-link" href="{{ p.url | relative_url }}">
+                <a class="homepage-card-link" href="{{ '/pages/clips/' | append: p.clip_id | relative_url }}">
                   <div class="homepage-card-inner">
                     <div class="homepage-card-media-wrap homepage-card-gradient">
                       {% if category_text != "" %}

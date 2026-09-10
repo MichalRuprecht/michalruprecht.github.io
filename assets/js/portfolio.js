@@ -290,6 +290,14 @@
       if (!image) return;
       image.src = image.dataset.src;
       image.removeAttribute('data-src');
+      if (image.dataset.srcset) {
+        image.srcset = image.dataset.srcset;
+        image.removeAttribute('data-srcset');
+      }
+      if (image.dataset.sizes) {
+        image.sizes = image.dataset.sizes;
+        image.removeAttribute('data-sizes');
+      }
     }
 
     registerCards();
@@ -327,7 +335,8 @@
       if (state.query) next.set('q', state.query);
       const queryString = next.toString();
       const url = `${window.location.pathname}${queryString ? `?${queryString}` : ''}#reporting`;
-      window.history.replaceState(null, '', url);
+      const replaceState = window.__portfolioReplaceState || window.history.replaceState.bind(window.history);
+      replaceState(null, '', url);
     }
 
     function occurrences(text, term) {

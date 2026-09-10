@@ -10,10 +10,11 @@
     <link rel="icon" href="/assets/favicon.ico">
     <link rel="preload" href="/assets/fonts/dm-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
-    {% if page.url == '/' %}<link rel="preload" href="/assets/images/profile-hero.webp" as="image" type="image/webp" fetchpriority="high">{% endif %}
+    {% if page.url == '/' %}<link rel="preload" href="/assets/images/profile-hero-480.webp" as="image" type="image/webp" imagesrcset="/assets/images/profile-hero-480.webp 480w, /assets/images/profile-hero.webp 720w" imagesizes="(max-width: 760px) calc(100vw - 48px), 390px" fetchpriority="high">{% endif %}
     <link rel="stylesheet" href="/assets/css/portfolio.css?v={{ site.asset_version }}">
     <script>document.documentElement.classList.add('has-js');</script>
     <script defer src="/assets/js/portfolio.js?v={{ site.asset_version }}"></script>
+    <script defer src="/assets/js/measurement.js?v={{ site.asset_version }}"></script>
   </head>
   <body class="{{ page.body_class }}">
     {% include site-header.html %}

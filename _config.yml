@@ -16,7 +16,7 @@ url-pretty: "michalruprecht.com"
 
 # Google Analytics 4 web stream for the public portfolio.
 google_analytics: "G-FZP2Y1GBB7"
-asset_version: "20260908-22"
+asset_version: "20260910-01"
 
 # Make sure Jekyll looks in your _layouts folder
 layouts_dir: _layouts

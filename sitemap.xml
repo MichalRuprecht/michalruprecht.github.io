@@ -14,7 +14,7 @@ layout: null
     </image:image>
   </url>
   <url>
-    <loc>{{ '/pages/social_ig.html' | absolute_url }}</loc>
+    <loc>{{ '/pages/social_ig' | absolute_url }}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

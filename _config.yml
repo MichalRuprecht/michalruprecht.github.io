@@ -13,6 +13,9 @@ author:
   name: Michal T. Ruprecht
 
 url-pretty: "michalruprecht.com"
+
+# Google Analytics 4 web stream for the public portfolio.
+google_analytics: "G-FZP2Y1GBB7"
 asset_version: "20260908-22"
 
 # Make sure Jekyll looks in your _layouts folder

@@ -36,7 +36,21 @@ if sitemap_path.file?
   sitemap = sitemap_path.read
   locations = sitemap.scan(%r{<loc>([^<]+)</loc>}).flatten
   errors << "sitemap.xml: contains duplicate URLs" unless locations.uniq.length == locations.length
-  locations.each { |url| errors << "sitemap.xml: URL must be extensionless: #{url}" if url.end_with?(".html") }
+  locations.each do |url|
+    errors << "sitemap.xml: URL must be extensionless: #{url}" if url.end_with?(".html")
+
+    relative = url.sub(%r{\\Ahttps://michalruprecht\\.com/?}, "")
+    candidates = if relative.empty?
+                   [SITE.join("index.html")]
+                 else
+                   [SITE.join("#{relative}.html"), SITE.join(relative, "index.html")]
+                 end
+    page_path = candidates.find(&:file?)
+    next unless page_path
+
+    canonical = page_path.read[/<link\\s+rel=["']canonical["']\\s+href=["']([^"']+)/i, 1]
+    errors << "sitemap.xml: #{url} does not match the page canonical #{canonical.inspect}" unless canonical == url
+  end
   clip_urls.each { |url| errors << "sitemap.xml: missing #{url}" unless locations.include?(url) }
 else
   errors << "sitemap.xml was not generated"

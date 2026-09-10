@@ -34,6 +34,8 @@
   {% assign seo_page_url = '/pages/clips/' | append: page.clip_id %}
 {% elsif page.body_class == 'ceramics-page' %}
   {% assign seo_page_url = '/pages/ceramics' %}
+{% elsif page.url contains '/pages/social_ig' %}
+  {% assign seo_page_url = '/pages/social_ig' %}
 {% endif %}
 
 <title>{{ seo_title | escape }}</title>

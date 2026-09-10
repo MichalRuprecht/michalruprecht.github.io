@@ -25,11 +25,14 @@ def featured_clips() -> list[int]:
     return [int(value) for value in re.findall(r"\d+", match.group("items"))]
 
 
-def all_clip_ids() -> list[int]:
+def all_clip_ids() -> list[str]:
     return sorted(
-        int(path.stem)
-        for path in (ROOT / "pages" / "clips").glob("*.md")
-        if path.stem.isdigit()
+        (
+            path.stem
+            for path in (ROOT / "pages" / "clips").glob("*.md")
+            if path.stem.isdigit()
+        ),
+        key=int,
     )
 
 

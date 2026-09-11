@@ -39,6 +39,12 @@ html {
   scroll-behavior: smooth;
 }
 
+#about,
+#reporting,
+#contact {
+  scroll-margin-top: 24px;
+}
+
 html.clip-page-root,
 body.clip-page {
   overflow-x: clip;
@@ -3193,14 +3199,3 @@ mark {
   }
 }
 
-/* Skip layout and paint work for sections that begin below the first viewport. */
-@supports (content-visibility: auto) {
-  .credentials,
-  .credibility-strip,
-  .reporting,
-  .personal-notes,
-  .site-footer {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 900px;
-  }
-}

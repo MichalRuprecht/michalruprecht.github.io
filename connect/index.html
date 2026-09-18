@@ -146,6 +146,27 @@ sitemap: false
       padding: clamp(30px, 5vw, 56px);
     }
 
+    .contact-card__conference {
+      padding: 18px;
+      border: 1px solid var(--ink);
+      background: rgba(223, 255, 112, 0.34);
+    }
+
+    .contact-card__conference strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .contact-card__conference p {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
     .contact-card__save {
       display: flex;
       align-items: center;
@@ -366,7 +387,7 @@ sitemap: false
   <main class="conference-contact">
     <div class="contact-card__topline">
       <a href="/">michalruprecht.com</a>
-      <span>Contact card</span>
+      <span data-mode-label>Contact card</span>
     </div>
 
     <article class="contact-card">
@@ -384,6 +405,11 @@ sitemap: false
       </div>
 
       <div class="contact-card__details">
+        <aside class="contact-card__conference" data-aap-banner hidden>
+          <strong>AAP · Oct. 1–6, 2026</strong>
+          <p>Great meeting you at the AAP conference. Save my contact, or send a quick follow-up before your next session.</p>
+        </aside>
+
         <a class="contact-card__save" href="/assets/contact/michal-ruprecht.vcf" download="Michal-Ruprecht.vcf">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 3v12m0 0 5-5m-5 5-5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -394,7 +420,7 @@ sitemap: false
         <dl class="contact-card__contact-list">
           <div class="contact-card__contact-row">
             <dt>Email</dt>
-            <dd><a href="mailto:michal.ruprecht.public@gmail.com">michal.ruprecht.public@gmail.com</a></dd>
+            <dd><a href="mailto:michal.ruprecht.public@gmail.com" data-email-link>michal.ruprecht.public@gmail.com</a></dd>
           </div>
           <div class="contact-card__contact-row">
             <dt>Phone</dt>
@@ -438,5 +464,27 @@ sitemap: false
 
     <p class="contact-card__note">Headshot by Maansi Srivastava</p>
   </main>
+
+  <script>
+    (() => {
+      const today = new Date();
+      const previewAAP = new URLSearchParams(window.location.search).get("preview") === "aap";
+      const duringAAP = today.getFullYear() === 2026
+        && today.getMonth() === 9
+        && today.getDate() >= 1
+        && today.getDate() <= 6;
+
+      if (!duringAAP && !previewAAP) return;
+
+      const banner = document.querySelector("[data-aap-banner]");
+      const modeLabel = document.querySelector("[data-mode-label]");
+      if (banner) banner.hidden = false;
+      if (modeLabel) modeLabel.textContent = "AAP contact card";
+
+      document.querySelectorAll("[data-email-link]").forEach((link) => {
+        link.href = "mailto:michal.ruprecht.public@gmail.com?subject=AAP%20follow-up";
+      });
+    })();
+  </script>
 </body>
 </html>

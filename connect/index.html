@@ -209,8 +209,8 @@ sitemap: false
 
     .contact-card__social-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 0 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
     }
 
     .contact-card__social-grid a {
@@ -219,16 +219,20 @@ sitemap: false
       justify-content: space-between;
       gap: 8px;
       min-width: 0;
-      padding: 10px 0;
-      border-top: 1px solid var(--line);
+      min-height: 52px;
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      background: var(--white);
       font-size: 14px;
       font-weight: 700;
       text-decoration: none;
+      transition: border-color 150ms ease, background-color 150ms ease;
     }
 
     .contact-card__social-grid a:hover,
     .contact-card__social-grid a:focus-visible {
       border-color: var(--ink);
+      background: rgba(223, 255, 112, 0.18);
     }
 
     .contact-card__social-grid svg {
@@ -310,7 +314,12 @@ sitemap: false
 
       .contact-card__social-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        column-gap: 20px;
+        gap: 10px;
+      }
+
+      .contact-card__social-grid a {
+        min-height: 50px;
+        padding: 12px 13px;
       }
     }
 

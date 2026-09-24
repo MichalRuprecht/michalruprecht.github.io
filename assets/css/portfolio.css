@@ -659,6 +659,10 @@ mark {
   transform: rotate(1.4deg);
 }
 
+.credential-memory--fauci .credential-memory__photo {
+  transform: rotate(1.2deg);
+}
+
 .credential-memory__photo img {
   width: 100%;
   height: auto;
@@ -675,8 +679,8 @@ mark {
 
 .places-reporting {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
-  gap: clamp(20px, 3vw, 38px);
+  grid-template-columns: minmax(300px, 0.88fr) minmax(500px, 1.12fr);
+  gap: clamp(28px, 3.5vw, 44px);
   align-items: start;
 }
 
@@ -684,9 +688,38 @@ mark {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.credential-memory--uganda {
-  width: min(100%, 300px);
-  justify-self: end;
+.place-name--nowrap {
+  white-space: nowrap;
+}
+
+.credential-memories--places {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+  align-items: start;
+}
+
+.credential-memory--uganda,
+.credential-memory--fauci {
+  width: auto;
+  min-width: 0;
+}
+
+.credential-memory--uganda .credential-memory__photo,
+.credential-memory--fauci .credential-memory__photo {
+  width: calc(100% - 8px);
+  margin-inline: 4px;
+  aspect-ratio: 3 / 2;
+}
+
+.credential-memory--uganda .credential-memory__photo img,
+.credential-memory--fauci .credential-memory__photo img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.credential-memory--fauci .credential-memory__photo img {
+  object-position: center top;
 }
 
 .credential-memory figcaption {
@@ -755,19 +788,8 @@ mark {
   }
 
   .places-reporting {
-    grid-template-columns: minmax(0, 1fr) minmax(410px, 460px);
-  }
-
-  .credential-memory--uganda {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 260px minmax(0, 1fr);
-    gap: 16px;
-    align-items: center;
-  }
-
-  .credential-memory--uganda figcaption {
-    padding-top: 0;
+    grid-template-columns: minmax(340px, 0.9fr) minmax(500px, 1.1fr);
+    gap: 40px;
   }
 }
 
@@ -2560,6 +2582,15 @@ mark {
     --shell: min(100% - 36px, 860px);
   }
 
+  .places-reporting {
+    grid-template-columns: minmax(275px, 0.85fr) minmax(415px, 1.15fr);
+    gap: 28px;
+  }
+
+  .credential-memories--places {
+    gap: 20px;
+  }
+
   .hero__grid,
   .ceramics-hero__grid {
     grid-template-columns: 0.68fr 1.32fr;
@@ -2797,7 +2828,13 @@ mark {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .credential-memory--uganda {
+  .credential-memories--places {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .credential-memory--uganda,
+  .credential-memory--fauci {
     width: min(82vw, 280px);
     justify-self: start;
   }
